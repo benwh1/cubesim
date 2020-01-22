@@ -96,6 +96,16 @@ void Cube::move(Axis axis, int layer, int amount){
     emit moveDone(axis, layer, amount);
 }
 
+void Cube::rotate(Cube::Axis axis, int amount){
+    for(int i=0; i<size; i++){
+        for(int n=0; n<amount; n++){
+            move(axis, i);
+        }
+    }
+
+    emit rotationDone(axis, amount);
+}
+
 int Cube::sticker(Face f, int x, int y){
     return stickers[f][y][x];
 }

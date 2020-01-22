@@ -5,6 +5,7 @@ CubeGraphicsObject::CubeGraphicsObject(Cube *c, QGraphicsObject *parent) :
 {
     cube = c;
     connect(cube, SIGNAL(moveDone(Cube::Axis,int)), this, SLOT(updateLayer(Cube::Axis,int)));
+    connect(cube, SIGNAL(rotationDone(Cube::Axis,int)), this, SLOT(updateAll()));
     connect(cube, SIGNAL(cubeReset()), this, SLOT(updateAll()));
     connect(cube, SIGNAL(cubeScrambled()), this, SLOT(updateAll()));
 
@@ -325,7 +326,16 @@ void CubeGraphicsObject::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
         }
     }
 
-    cube->move(axis, layer, clockwise ? 1 : 3);
+    bool ctrl = event->modifiers() & Qt::ControlModifier;
+    bool shift = event->modifiers() & Qt::ShiftModifier;
+
+    int amount;
+    if(shift) amount = 2;
+    else if(clockwise) amount = 1;
+    else amount = 3;
+
+    if(ctrl) cube->rotate(axis, amount);
+    else cube->move(axis, layer, amount);
 }
 
 void CubeGraphicsObject::updateSticker(Cube::Face face, int x, int y){

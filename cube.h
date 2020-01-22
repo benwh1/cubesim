@@ -18,9 +18,13 @@ public:
     };
 
     explicit Cube(QObject *parent = nullptr);
+
     int getSize();
     void setSize(int s);
+
     void move(Axis axis, int layer, int amount);
+    void rotate(Axis axis, int amount);
+
     int sticker(Face f, int x, int y);
 
     void reset();
@@ -40,6 +44,8 @@ private:
 signals:
     void moveDone(Cube::Axis axis, int layer);
     void moveDone(Cube::Axis axis, int layer, int amount);
+
+    void rotationDone(Cube::Axis axis, int amount);
 
     void cubeReset();
     void cubeScrambled();
