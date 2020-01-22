@@ -13,11 +13,12 @@ public:
     void initialize(Cube *cube);
 
 protected:
-    void keyPressEvent(QKeyEvent *event);
+    void keyReleaseEvent(QKeyEvent *event);
 
 private:
     QGraphicsScene *scene;
 
+    Cube *cube;
     CubeGraphicsObject *cubeGraphicsObject;
 
 };

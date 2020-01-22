@@ -5,6 +5,8 @@ CubeGraphicsObject::CubeGraphicsObject(Cube *c, QGraphicsObject *parent) :
 {
     cube = c;
     connect(cube, SIGNAL(moveDone(Cube::Axis,int)), this, SLOT(updateLayer(Cube::Axis,int)));
+    connect(cube, SIGNAL(cubeReset()), this, SLOT(updateAll()));
+    connect(cube, SIGNAL(cubeScrambled()), this, SLOT(updateAll()));
 
     float mat[6] = {1/sqrt(2), 1/sqrt(2), 0, -1/sqrt(6), 1/sqrt(6), sqrt(2./3)};
     proj = Projection(QMatrix3x2(mat));
@@ -16,7 +18,7 @@ CubeGraphicsObject::CubeGraphicsObject(Cube *c, QGraphicsObject *parent) :
             << QColor(255,165,0)
             << QColor(Qt::yellow);
 
-    setEdgeLength(500);
+    setEdgeLength(400);
     setGapSize(0);
 
     reset();

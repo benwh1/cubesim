@@ -23,11 +23,12 @@ public:
     void move(Axis axis, int layer, int amount);
     int sticker(Face f, int x, int y);
 
+    void reset();
+    void scramble();
+
 private:
     QList<QList<QList<int>>> stickers;
     int size;
-
-    void reset();
 
     //this should only be used internally - doesn't emit moveDone signal
     void move(Axis axis, int layer);
@@ -39,6 +40,9 @@ private:
 signals:
     void moveDone(Cube::Axis axis, int layer);
     void moveDone(Cube::Axis axis, int layer, int amount);
+
+    void cubeReset();
+    void cubeScrambled();
 
 };
 
