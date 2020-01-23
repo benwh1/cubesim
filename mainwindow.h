@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "cube.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -17,5 +18,13 @@ public:
 
 private:
     Ui::MainWindow *ui;
+
+    Cube *cube;
+
+    void updateTitleText();
+
+private slots:
+    void onCubeSizeChanged();
+
 };
 #endif // MAINWINDOW_H
