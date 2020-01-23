@@ -83,6 +83,18 @@ void CubeGraphicsView::keyReleaseEvent(QKeyEvent *event){
     else if(event->key() == Qt::Key_Equal){
         cube->setSize(cube->getSize()+1);
     }
+    else if(event->key() == Qt::Key_Plus){ //+ is shift and =
+        if(shiftPressed){
+            bool ok;
+            QString str = QInputDialog::getText(this, "Cube size", "New cube size:", QLineEdit::Normal, QString(), &ok);
+            if(!ok) return;
+
+            int newSize = str.toInt(&ok);
+            if(!ok) return;
+
+            cube->setSize(newSize);
+        }
+    }
     else if(event->key() == Qt::Key_Minus){
         cube->setSize(cube->getSize()-1);
     }
