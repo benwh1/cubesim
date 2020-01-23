@@ -34,6 +34,8 @@ void CubeGraphicsView::keyPressEvent(QKeyEvent *event){
         return;
     }
 
+    event->accept();
+
     if(event->key() == Qt::Key_CapsLock){
         multislice = !multislice;
     }
