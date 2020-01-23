@@ -58,6 +58,11 @@ void CubeGraphicsView::keyReleaseEvent(QKeyEvent *event){
     else if(event->key() == Qt::Key_Escape){
         cube->reset();
     }
+    else if(event->key() == Qt::Key_D){
+        //reset to the default projection
+        float mat[6] = {1/sqrt(2), 1/sqrt(2), 0, -1/sqrt(6), 1/sqrt(6), sqrt(2./3)};
+        cubeGraphicsObject->setProjection(mat);
+    }
     else if(event->key() == Qt::Key_P){
         bool ok;
         QString str = QInputDialog::getText(this, "Projection", "Projection:", QLineEdit::Normal, QString(), &ok);
