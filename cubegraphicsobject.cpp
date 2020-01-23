@@ -170,6 +170,11 @@ void CubeGraphicsObject::setGapSize(qreal gapSize){
     this->gapSize = gapSize;
 }
 
+void CubeGraphicsObject::setProjection(float *mat){
+    proj = Projection(QMatrix3x2(mat));
+    reset();
+}
+
 void CubeGraphicsObject::mousePressEvent(QGraphicsSceneMouseEvent *event){
     lastMousePress = event->pos();
     event->accept();

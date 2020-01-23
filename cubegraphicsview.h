@@ -3,6 +3,7 @@
 
 #include <QGraphicsView>
 #include <QKeyEvent>
+#include <QInputDialog>
 #include "cubegraphicsobject.h"
 
 class CubeGraphicsView : public QGraphicsView

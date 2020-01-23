@@ -29,6 +29,8 @@ public:
     void setEdgeLength(qreal edgeLength);
     void setGapSize(qreal gapSize);
 
+    void setProjection(float *mat);
+
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
