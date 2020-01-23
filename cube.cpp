@@ -3,7 +3,7 @@
 Cube::Cube(QObject *parent) :
     QObject(parent)
 {
-    setSize(10);
+    setSize(3);
 }
 
 int Cube::getSize(){
@@ -12,7 +12,13 @@ int Cube::getSize(){
 
 void Cube::setSize(int s){
     size = s;
+    if(size < 2) size = 2;
+
+    blockSignals(true);
     reset();
+    blockSignals(false);
+
+    emit cubeSizeChanged();
 }
 
 void Cube::move(Axis axis, int layer){
@@ -111,7 +117,7 @@ int Cube::sticker(Face f, int x, int y){
 }
 
 void Cube::scramble(){
-    int moves = 1000 + 100*size*size + qrand()%size;
+    int moves = 1000 + 10*size*size + qrand()%size;
 
     for(int i=0; i<moves; i++){
         move((Cube::Axis)(qrand()%3), rand()%size);

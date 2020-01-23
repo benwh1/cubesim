@@ -8,6 +8,7 @@ CubeGraphicsObject::CubeGraphicsObject(Cube *c, QGraphicsObject *parent) :
     connect(cube, SIGNAL(rotationDone(Cube::Axis,int)), this, SLOT(updateAll()));
     connect(cube, SIGNAL(cubeReset()), this, SLOT(updateAll()));
     connect(cube, SIGNAL(cubeScrambled()), this, SLOT(updateAll()));
+    connect(cube, SIGNAL(cubeSizeChanged()), this, SLOT(reset()));
 
     float mat[6] = {1/sqrt(2), 1/sqrt(2), 0, -1/sqrt(6), 1/sqrt(6), sqrt(2./3)};
     proj = Projection(QMatrix3x2(mat));

@@ -26,7 +26,6 @@ public:
     QRectF boundingRect() const;
     void paint(QPainter *, const QStyleOptionGraphicsItem *, QWidget *);
 
-    void reset();
     void setEdgeLength(qreal edgeLength);
     void setGapSize(qreal gapSize);
 
@@ -48,6 +47,7 @@ private:
     QPointF lastMouseRelease;
 
 private slots:
+    void reset();
     void updateSticker(Cube::Face face, int x, int y);
     void updateFace(Cube::Face face);
     void updateLayer(Cube::Axis axis, int layer);

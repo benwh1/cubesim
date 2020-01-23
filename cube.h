@@ -50,6 +50,8 @@ signals:
     void cubeReset();
     void cubeScrambled();
 
+    void cubeSizeChanged();
+
 };
 
 #endif // CUBE_H

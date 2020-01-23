@@ -31,6 +31,12 @@ void CubeGraphicsView::keyReleaseEvent(QKeyEvent *event){
     else if(event->key() == Qt::Key_Escape){
         cube->reset();
     }
+    else if(event->key() == Qt::Key_Equal){
+        cube->setSize(cube->getSize()+1);
+    }
+    else if(event->key() == Qt::Key_Minus){
+        cube->setSize(cube->getSize()-1);
+    }
     else if(event->key() == Qt::Key_PageUp){
         scale(1.25, 1.25);
     }
