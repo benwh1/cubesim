@@ -23,6 +23,7 @@ public:
     void setSize(int s);
 
     void move(Axis axis, int layer, int amount);
+    void multisliceMove(Axis axis, int layer, int amount);
     void rotate(Axis axis, int amount);
 
     int sticker(Face f, int x, int y);

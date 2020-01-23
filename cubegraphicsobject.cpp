@@ -332,16 +332,7 @@ void CubeGraphicsObject::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
         }
     }
 
-    bool ctrl = event->modifiers() & Qt::ControlModifier;
-    bool shift = event->modifiers() & Qt::ShiftModifier;
-
-    int amount;
-    if(shift) amount = 2;
-    else if(clockwise) amount = 1;
-    else amount = 3;
-
-    if(ctrl) cube->rotate(axis, amount);
-    else cube->move(axis, layer, amount);
+    emit moveDrag(axis, layer, clockwise);
 }
 
 void CubeGraphicsObject::updateSticker(Cube::Face face, int x, int y){

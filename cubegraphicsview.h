@@ -14,6 +14,7 @@ public:
     void initialize(Cube *cube);
 
 protected:
+    void keyPressEvent(QKeyEvent *event);
     void keyReleaseEvent(QKeyEvent *event);
 
 private:
@@ -21,6 +22,13 @@ private:
 
     Cube *cube;
     CubeGraphicsObject *cubeGraphicsObject;
+
+    bool ctrlPressed;
+    bool shiftPressed;
+    bool multislice;
+
+private slots:
+    void onMoveDrag(Cube::Axis axis, int layer, bool clockwise);
 
 };
 

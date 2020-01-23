@@ -55,6 +55,9 @@ private slots:
     void updateLayer(Cube::Axis axis, int layer);
     void updateAll();
 
+signals:
+    void moveDrag(Cube::Axis axis, int layer, bool clockwise);
+
 };
 
 #endif // CUBEGRAPHICSOBJECT_H
