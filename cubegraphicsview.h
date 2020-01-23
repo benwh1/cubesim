@@ -2,6 +2,7 @@
 #define CUBEGRAPHICSVIEW_H
 
 #include <QGraphicsView>
+#include <QGuiApplication>
 #include <QKeyEvent>
 #include <QInputDialog>
 #include "cubegraphicsobject.h"
@@ -23,8 +24,6 @@ private:
     Cube *cube;
     CubeGraphicsObject *cubeGraphicsObject;
 
-    bool ctrlPressed;
-    bool shiftPressed;
     bool multislice;
 
 private slots:

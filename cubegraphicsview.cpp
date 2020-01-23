@@ -12,9 +12,7 @@ CubeGraphicsView::CubeGraphicsView(QWidget *parent) :
     //flip the graphicsview vertically so that upwards = positive instead of negative
     scale(1, -1);
 
-    //initialize a few variables
-    ctrlPressed = false;
-    shiftPressed = false;
+    //initialize variables
     multislice = false;
 }
 
@@ -36,13 +34,7 @@ void CubeGraphicsView::keyPressEvent(QKeyEvent *event){
         return;
     }
 
-    if(event->key() == Qt::Key_Control){
-        ctrlPressed = true;
-    }
-    else if(event->key() == Qt::Key_Shift){
-        shiftPressed = true;
-    }
-    else if(event->key() == Qt::Key_CapsLock){
+    if(event->key() == Qt::Key_CapsLock){
         multislice = !multislice;
     }
 }
@@ -55,17 +47,14 @@ void CubeGraphicsView::keyReleaseEvent(QKeyEvent *event){
 
     event->accept();
 
+    Qt::KeyboardModifiers modifiers = event->modifiers();
+    bool shift = modifiers & Qt::ShiftModifier;
+
     if(event->key() == Qt::Key_Space){
         cube->scramble();
     }
     else if(event->key() == Qt::Key_Escape){
         cube->reset();
-    }
-    else if(event->key() == Qt::Key_Control){
-        ctrlPressed = false;
-    }
-    else if(event->key() == Qt::Key_Shift){
-        shiftPressed = false;
     }
     else if(event->key() == Qt::Key_P){
         bool ok;
@@ -87,7 +76,7 @@ void CubeGraphicsView::keyReleaseEvent(QKeyEvent *event){
         cube->setSize(cube->getSize()+1);
     }
     else if(event->key() == Qt::Key_Plus){ //+ is shift and =
-        if(shiftPressed){
+        if(shift){
             bool ok;
             QString str = QInputDialog::getText(this, "Cube size", "New cube size:", QLineEdit::Normal, QString(), &ok);
             if(!ok) return;
@@ -115,13 +104,18 @@ void CubeGraphicsView::onProjectionChanged(){
 }
 
 void CubeGraphicsView::onMoveDrag(Cube::Axis axis, int layer, bool clockwise){
+    Qt::KeyboardModifiers modifiers = QGuiApplication::queryKeyboardModifiers();
+
+    bool ctrl = modifiers & Qt::ControlModifier;
+    bool shift = modifiers & Qt::ShiftModifier;
+
     int amount;
 
-    if(shiftPressed) amount = 2;
+    if(shift) amount = 2;
     else if(clockwise) amount = 1;
     else amount = 3;
 
-    if(ctrlPressed) cube->rotate(axis, amount);
+    if(ctrl) cube->rotate(axis, amount);
     else if(multislice) cube->multisliceMove(axis, layer, amount);
     else cube->move(axis, layer, amount);
 }
