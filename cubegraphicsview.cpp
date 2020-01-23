@@ -25,6 +25,9 @@ void CubeGraphicsView::initialize(Cube *cube){
 
     //detect drags and do the corresponding move
     connect(cubeGraphicsObject, SIGNAL(moveDrag(Cube::Axis,int,bool)), this, SLOT(onMoveDrag(Cube::Axis,int,bool)));
+
+    //reset the scene rect when the projection is changed
+    connect(cubeGraphicsObject, SIGNAL(projectionChanged()), this, SLOT(onProjectionChanged()));
 }
 
 void CubeGraphicsView::keyPressEvent(QKeyEvent *event){
@@ -104,6 +107,11 @@ void CubeGraphicsView::keyReleaseEvent(QKeyEvent *event){
     else if(event->key() == Qt::Key_PageDown){
         scale(1/1.25, 1/1.25);
     }
+}
+
+void CubeGraphicsView::onProjectionChanged(){
+    //set the scene rect to the smallest rect that contains everything
+    scene->setSceneRect(scene->itemsBoundingRect());
 }
 
 void CubeGraphicsView::onMoveDrag(Cube::Axis axis, int layer, bool clockwise){

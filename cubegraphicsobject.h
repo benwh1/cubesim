@@ -56,6 +56,7 @@ private slots:
     void updateAll();
 
 signals:
+    void projectionChanged();
     void moveDrag(Cube::Axis axis, int layer, bool clockwise);
 
 };

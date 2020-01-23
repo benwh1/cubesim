@@ -28,6 +28,7 @@ private:
     bool multislice;
 
 private slots:
+    void onProjectionChanged();
     void onMoveDrag(Cube::Axis axis, int layer, bool clockwise);
 
 };
