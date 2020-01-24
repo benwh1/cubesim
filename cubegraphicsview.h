@@ -14,9 +14,11 @@ public:
     explicit CubeGraphicsView(QWidget *parent = nullptr);
     void initialize(Cube *cube);
 
-protected:
-    void keyPressEvent(QKeyEvent *event);
-    void keyReleaseEvent(QKeyEvent *event);
+    void zoom(qreal factor);
+
+    void setCubeProjection(QString matrix);
+    void setCubeProjection(float *matrix);
+    void resetCubeProjection();
 
 private:
     QGraphicsScene *scene;
@@ -24,11 +26,13 @@ private:
     Cube *cube;
     CubeGraphicsObject *cubeGraphicsObject;
 
-    bool multislice;
+    qreal zoomFactor;
 
 private slots:
     void onProjectionChanged();
-    void onMoveDrag(Cube::Axis axis, int layer, bool clockwise);
+
+signals:
+    void moveDrag(Cube::Axis axis, int layer, bool clockwise);
 
 };
 

@@ -28,16 +28,17 @@
      <number>0</number>
     </property>
     <item>
-     <widget class="CubeGraphicsView" name="graphicsView"/>
+     <widget class="CubeWidget" name="cubeWidget" native="true"/>
     </item>
    </layout>
   </widget>
  </widget>
  <customwidgets>
   <customwidget>
-   <class>CubeGraphicsView</class>
-   <extends>QGraphicsView</extends>
-   <header>cubegraphicsview.h</header>
+   <class>CubeWidget</class>
+   <extends>QWidget</extends>
+   <header>cubewidget.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>

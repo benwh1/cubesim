@@ -9,7 +9,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     //create the cube and give it to the CubeGraphicsView
     cube = new Cube();
-    ui->graphicsView->initialize(cube);
+    ui->cubeWidget->initialize(cube);
 
     //set the window title
     updateTitleText();

@@ -19,6 +19,7 @@ SOURCES += \
     cube.cpp \
     cubegraphicsobject.cpp \
     cubegraphicsview.cpp \
+    cubewidget.cpp \
     main.cpp \
     mainwindow.cpp \
     projection.cpp
@@ -27,10 +28,12 @@ HEADERS += \
     cube.h \
     cubegraphicsobject.h \
     cubegraphicsview.h \
+    cubewidget.h \
     mainwindow.h \
     projection.h
 
 FORMS += \
+    cubewidget.ui \
     mainwindow.ui
 
 TRANSLATIONS += \
