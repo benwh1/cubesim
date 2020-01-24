@@ -26,6 +26,8 @@ public:
     void multisliceMove(Axis axis, int layer, int amount);
     void rotate(Axis axis, int amount);
 
+    bool isSolved();
+
     int sticker(Face f, int x, int y);
 
     void reset();
@@ -50,6 +52,9 @@ signals:
 
     void cubeReset();
     void cubeScrambled();
+
+    //only emitted when the cube is solved by a move, not e.g. by a reset
+    void cubeSolved();
 
     void cubeSizeChanged();
 

@@ -100,6 +100,10 @@ void Cube::move(Axis axis, int layer, int amount){
 
     emit moveDone(axis, layer);
     emit moveDone(axis, layer, amount);
+
+    if(isSolved()){
+        emit cubeSolved();
+    }
 }
 
 void Cube::multisliceMove(Cube::Axis axis, int layer, int amount){
@@ -130,6 +134,21 @@ void Cube::rotate(Cube::Axis axis, int amount){
     }
 
     emit rotationDone(axis, amount);
+}
+
+bool Cube::isSolved(){
+    for(int face=0; face<6; face++){
+        int faceColour = stickers[face][0][0];
+        for(int y=0; y<size; y++){
+            for(int x=0; x<size; x++){
+                if(stickers[face][y][x] != faceColour){
+                    return false;
+                }
+            }
+        }
+    }
+
+    return true;
 }
 
 int Cube::sticker(Face f, int x, int y){

@@ -13,7 +13,10 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <layout class="QHBoxLayout" name="horizontalLayout">
+   <property name="spacing">
+    <number>0</number>
+   </property>
    <property name="leftMargin">
     <number>0</number>
    </property>
@@ -27,6 +30,22 @@
     <number>0</number>
    </property>
    <item>
+    <widget class="StatisticsWidget" name="statisticsWidget" native="true">
+     <property name="minimumSize">
+      <size>
+       <width>120</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>120</width>
+       <height>16777215</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="CubeGraphicsView" name="graphicsView"/>
    </item>
   </layout>
@@ -36,6 +55,12 @@
    <class>CubeGraphicsView</class>
    <extends>QGraphicsView</extends>
    <header>cubegraphicsview.h</header>
+  </customwidget>
+  <customwidget>
+   <class>StatisticsWidget</class>
+   <extends>QWidget</extends>
+   <header>statisticswidget.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>

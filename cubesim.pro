@@ -22,7 +22,9 @@ SOURCES += \
     cubewidget.cpp \
     main.cpp \
     mainwindow.cpp \
-    projection.cpp
+    projection.cpp \
+    statistics.cpp \
+    statisticswidget.cpp
 
 HEADERS += \
     cube.h \
@@ -30,11 +32,14 @@ HEADERS += \
     cubegraphicsview.h \
     cubewidget.h \
     mainwindow.h \
-    projection.h
+    projection.h \
+    statistics.h \
+    statisticswidget.h
 
 FORMS += \
     cubewidget.ui \
-    mainwindow.ui
+    mainwindow.ui \
+    statisticswidget.ui
 
 TRANSLATIONS += \
     cubesim_en_GB.ts
