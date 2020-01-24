@@ -41,6 +41,8 @@ private:
 
     State state;
 
+    bool swapCtrlShift;
+
 private slots:
     void onMoveDrag(Cube::Axis axis, int layer, bool clockwise);
     void onMoveDone(Cube::Axis axis, int layer);

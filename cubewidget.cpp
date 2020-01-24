@@ -13,6 +13,8 @@ CubeWidget::CubeWidget(QWidget *parent) :
 
     statistics = new Statistics(this);
     ui->statisticsWidget->initialize(statistics);
+
+    swapCtrlShift = false;
 }
 
 CubeWidget::~CubeWidget()
@@ -79,6 +81,9 @@ void CubeWidget::keyReleaseEvent(QKeyEvent *event){
 
         ui->graphicsView->setCubeProjection(str);
     }
+    else if(event->key() == Qt::Key_T){
+        swapCtrlShift = !swapCtrlShift;
+    }
     else if(event->key() == Qt::Key_Equal){
         if(state == State::Neutral){
             cube->setSize(cube->getSize()+1);
@@ -117,15 +122,25 @@ void CubeWidget::onMoveDrag(Cube::Axis axis, int layer, bool clockwise){
     bool ctrl = modifiers & Qt::ControlModifier;
     bool shift = modifiers & Qt::ShiftModifier;
 
+    bool halfTurn, rotation;
+    if(swapCtrlShift){
+        halfTurn = ctrl;
+        rotation = shift;
+    }
+    else{
+        halfTurn = shift;
+        rotation = ctrl;
+    }
+
     int amount;
 
-    if(shift) amount = 2;
+    if(halfTurn) amount = 2;
     else if(clockwise) amount = 1;
     else amount = 3;
 
     //don't allow moves if the solve is finished
     if(state != State::Finished){
-        if(ctrl) cube->rotate(axis, amount);
+        if(rotation) cube->rotate(axis, amount);
         else if(multislice) cube->multisliceMove(axis, layer, amount);
         else cube->move(axis, layer, amount);
     }
