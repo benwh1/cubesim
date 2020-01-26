@@ -3,6 +3,7 @@
 
 #include <QDebug>
 #include <QElapsedTimer>
+#include <QJsonObject>
 #include <QObject>
 #include <QTime>
 
@@ -28,6 +29,9 @@ public:
     QString movesString();
     QString tpsString();
 
+    QJsonObject toJSON();
+    void fromJSON(QJsonObject data);
+
 private:
     QElapsedTimer timer;
     qint64 additionalTime;
@@ -40,6 +44,8 @@ signals:
     void timerStarted();
     void timerStopped();
     void timerReset();
+
+    void moveDone();
 
 };
 

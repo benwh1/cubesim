@@ -2,6 +2,8 @@
 #define PROJECTION_H
 
 #include <QGenericMatrix>
+#include <QJsonArray>
+#include <QJsonObject>
 #include <QVector3D>
 
 class Projection
@@ -38,6 +40,9 @@ public:
     //inverse of project, assuming the original v was on either the
     //U F or R face of the cube [-1,1]^3
     QVector3D unproject(QPointF p, bool *ok = nullptr);
+
+    QJsonObject toJSON();
+    void fromJSON(QJsonObject data);
 
 private:
     QMatrix3x2 matrix;

@@ -59,6 +59,10 @@ void CubeGraphicsView::resetCubeProjection(){
     cubeGraphicsObject->setProjection(m);
 }
 
+CubeGraphicsObject *CubeGraphicsView::getCubeGraphicsObject(){
+    return cubeGraphicsObject;
+}
+
 void CubeGraphicsView::onProjectionChanged(){
     //set the scene rect to the smallest rect that contains everything
     scene->setSceneRect(scene->itemsBoundingRect());

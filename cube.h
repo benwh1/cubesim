@@ -2,6 +2,8 @@
 #define CUBE_H
 
 #include <QDebug>
+#include <QJsonArray>
+#include <QJsonObject>
 #include <QObject>
 #include <QSize>
 
@@ -32,6 +34,9 @@ public:
 
     void reset();
     void scramble();
+
+    QJsonObject toJSON();
+    void fromJSON(QJsonObject data);
 
 private:
     QList<QList<QList<int>>> stickers;

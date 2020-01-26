@@ -47,6 +47,8 @@ void Statistics::reset(){
 
 void Statistics::doMove(){
     moves++;
+
+    emit moveDone();
 }
 
 bool Statistics::timerRunning(){
@@ -78,4 +80,20 @@ QString Statistics::tpsString(){
 
     if(tps == 2147483647) return QChar(0x221E);
     else return QString::number((float)tps/1000, 'f', 3);
+}
+
+QJsonObject Statistics::toJSON(){
+    QJsonObject data;
+
+    data["time"] = getTime();
+    data["moves"] = moves;
+
+    return data;
+}
+
+void Statistics::fromJSON(QJsonObject data){
+    additionalTime = data["time"].toInt();
+    moves = data["moves"].toInt();
+
+    startTimer();
 }

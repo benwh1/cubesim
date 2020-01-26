@@ -177,6 +177,24 @@ void CubeGraphicsObject::setProjection(float *mat){
     emit projectionChanged();
 }
 
+QJsonObject CubeGraphicsObject::toJSON(){
+    QJsonObject data;
+
+    data["edgeLength"] = edgeLength;
+    data["gapSize"] = gapSize;
+    data["projection"] = proj.toJSON();
+
+    return data;
+}
+
+void CubeGraphicsObject::fromJSON(QJsonObject data){
+    edgeLength = data["edgeLength"].toInt();
+    gapSize = data["gapSize"].toInt();
+    proj.fromJSON(data["projection"].toObject());
+
+    updateAll();
+}
+
 void CubeGraphicsObject::mousePressEvent(QGraphicsSceneMouseEvent *event){
     lastMousePress = event->pos();
     event->accept();

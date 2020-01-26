@@ -31,6 +31,9 @@ public:
 
     void setProjection(float *mat);
 
+    QJsonObject toJSON();
+    void fromJSON(QJsonObject data);
+
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);

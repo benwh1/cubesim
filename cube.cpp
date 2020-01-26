@@ -165,6 +165,46 @@ void Cube::scramble(){
     emit cubeScrambled();
 }
 
+QJsonObject Cube::toJSON(){
+    QJsonObject data;
+
+    QJsonArray stickerArray;
+    for(int face=0; face<6; face++){
+        for(int y=0; y<size; y++){
+            for(int x=0; x<size; x++){
+                stickerArray.append(stickers[face][y][x]);
+            }
+        }
+    }
+
+    data["size"] = size;
+    data["stickers"] = stickerArray;
+
+    return data;
+}
+
+void Cube::fromJSON(QJsonObject data){
+    QJsonArray stickerArray;
+
+    size = data["size"].toInt();
+    stickerArray = data["stickers"].toArray();
+
+    blockSignals(true);
+    reset();
+    blockSignals(false);
+
+    for(int face=0; face<6; face++){
+        for(int y=0; y<size; y++){
+            for(int x=0; x<size; x++){
+                int index = (face*size+y)*size+x;
+                int sticker = stickerArray[index].toInt(-1);
+                if(sticker == -1) return;
+                stickers[face][y][x] = sticker;
+            }
+        }
+    }
+}
+
 void Cube::reset(){
     stickers.clear();
 

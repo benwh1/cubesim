@@ -2,6 +2,9 @@
 #define CUBEWIDGET_H
 
 #include <QElapsedTimer>
+#include <QFileDialog>
+#include <QJsonDocument>
+#include <QMessageBox>
 #include <QWidget>
 #include "cube.h"
 #include "statistics.h"
@@ -42,6 +45,12 @@ private:
     State state;
 
     bool swapCtrlShift;
+
+    QJsonObject toJSON();
+    void fromJSON(QJsonObject data);
+
+    void save();
+    void load();
 
 private slots:
     void onMoveDrag(Cube::Axis axis, int layer, bool clockwise);

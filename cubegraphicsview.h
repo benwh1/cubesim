@@ -20,6 +20,8 @@ public:
     void setCubeProjection(float *matrix);
     void resetCubeProjection();
 
+    CubeGraphicsObject *getCubeGraphicsObject();
+
 private:
     QGraphicsScene *scene;
 

@@ -110,3 +110,30 @@ QVector3D Projection::unproject(QPointF p, bool *ok){
     *ok = false;
     return QVector3D(0, 0, 0);
 }
+
+QJsonObject Projection::toJSON(){
+    QJsonObject data;
+
+    QJsonArray jsonMatrix;
+    jsonMatrix.append(matrix(0,0));
+    jsonMatrix.append(matrix(0,1));
+    jsonMatrix.append(matrix(0,2));
+    jsonMatrix.append(matrix(1,0));
+    jsonMatrix.append(matrix(1,1));
+    jsonMatrix.append(matrix(1,2));
+
+    data["matrix"] = jsonMatrix;
+
+    return data;
+}
+
+void Projection::fromJSON(QJsonObject data){
+    float m[6];
+
+    QJsonArray jsonMatrix = data["matrix"].toArray();
+    for(int i=0; i<6; i++){
+        m[i] = jsonMatrix[i].toDouble();
+    }
+
+    matrix = QMatrix3x2(m);
+}

@@ -58,6 +58,7 @@ void CubeWidget::keyReleaseEvent(QKeyEvent *event){
     event->accept();
 
     Qt::KeyboardModifiers modifiers = event->modifiers();
+    bool ctrl = modifiers & Qt::ControlModifier;
     bool shift = modifiers & Qt::ShiftModifier;
 
     if(event->key() == Qt::Key_Space){
@@ -74,6 +75,11 @@ void CubeWidget::keyReleaseEvent(QKeyEvent *event){
     else if(event->key() == Qt::Key_D){
         ui->graphicsView->resetCubeProjection();
     }
+    else if(event->key() == Qt::Key_O){
+        if(ctrl){
+            load();
+        }
+    }
     else if(event->key() == Qt::Key_P){
         bool ok;
         QString str = QInputDialog::getText(this, "Projection", "Projection:", QLineEdit::Normal, QString(), &ok);
@@ -83,6 +89,11 @@ void CubeWidget::keyReleaseEvent(QKeyEvent *event){
     }
     else if(event->key() == Qt::Key_T){
         swapCtrlShift = !swapCtrlShift;
+    }
+    else if(event->key() == Qt::Key_S){
+        if(ctrl){
+            save();
+        }
     }
     else if(event->key() == Qt::Key_Equal){
         if(state == State::Neutral){
@@ -114,6 +125,69 @@ void CubeWidget::keyReleaseEvent(QKeyEvent *event){
     else if(event->key() == Qt::Key_PageDown){
         ui->graphicsView->zoom(1/1.25);
     }
+}
+
+QJsonObject CubeWidget::toJSON(){
+    QJsonObject data;
+
+    data["statistics"] = statistics->toJSON();
+    data["cube"] = cube->toJSON();
+    data["cubeGraphicsObject"] = ui->graphicsView->getCubeGraphicsObject()->toJSON();
+
+    return data;
+}
+
+void CubeWidget::fromJSON(QJsonObject data){
+    statistics->fromJSON(data["statistics"].toObject());
+    cube->fromJSON(data["cube"].toObject());
+    ui->graphicsView->getCubeGraphicsObject()->fromJSON(data["cubeGraphicsObject"].toObject());
+
+    qDebug() << statistics->timerRunning();
+}
+
+void CubeWidget::save(){
+    if(state != State::Solving) return;
+
+    QJsonDocument document(toJSON());
+
+    //make save directory if it doesn't already exist
+    QDir dir("save");
+    dir.mkdir(".");
+
+    //get the save file name
+    QString path = dir.absolutePath();
+    QString name = QFileDialog::getSaveFileName(this, "Save", path, "*.json");
+    if(name == "") return;
+
+    //write the file
+    QFile f(name);
+    f.open(QFile::WriteOnly);
+    f.write(document.toJson());
+    f.close();
+}
+
+void CubeWidget::load(){
+    //only load when we aren't doing a solve
+    if(state != State::Neutral) return;
+
+    //get the save file name
+    QDir dir("save");
+    QString path = dir.absolutePath();
+    QString name = QFileDialog::getOpenFileName(this, "Open", path, "*.json");
+    if(name == "") return;
+
+    //read the file
+    QFile f(name);
+    f.open(QFile::ReadOnly);
+    QByteArray data = f.readAll();
+    f.close();
+
+    //load the save data
+    QJsonDocument document = QJsonDocument::fromJson(data);
+    fromJSON(document.object());
+
+    //set the state to solving
+    state = State::Solving;
 }
 
 void CubeWidget::onMoveDrag(Cube::Axis axis, int layer, bool clockwise){
