@@ -163,11 +163,10 @@ void CubeWidget::save(){
     QJsonDocument document(toJSON());
 
     //make save directory if it doesn't already exist
-    QDir dir("save");
-    dir.mkdir(".");
+    QDir::current().mkdir("save");
 
     //get the save file name
-    QString path = dir.absolutePath();
+    QString path = QDir("save").absolutePath();
     QString name = QFileDialog::getSaveFileName(this, "Save", path, "*.dat");
     if(name == "") return;
 
