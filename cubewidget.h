@@ -30,8 +30,6 @@ public:
 
     void initialize(Cube *cube);
 
-    bool multislice;
-
 protected:
     void keyPressEvent(QKeyEvent *event);
     void keyReleaseEvent(QKeyEvent *event);
@@ -44,6 +42,7 @@ private:
 
     State state;
 
+    bool multislice;
     bool swapCtrlShift;
 
     QJsonObject toJSON();
