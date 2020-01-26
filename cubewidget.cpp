@@ -72,6 +72,16 @@ void CubeWidget::keyReleaseEvent(QKeyEvent *event){
         statistics->reset();
         state = State::Neutral;
     }
+    else if(Qt::Key_0 <= event->key() && event->key() <= Qt::Key_9){
+        QFile f("projections.txt");
+        f.open(QFile::ReadOnly);
+        QList<QByteArray> arr = f.readAll().split('\n');
+        f.close();
+
+        int n = event->key() - Qt::Key_0;
+        if(arr.length() <= n) return;
+        ui->graphicsView->setCubeProjection(arr[n]);
+    }
     else if(event->key() == Qt::Key_D){
         ui->graphicsView->resetCubeProjection();
     }
