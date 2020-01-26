@@ -143,6 +143,8 @@ QJsonObject CubeWidget::toJSON(){
     data["statistics"] = statistics->toJSON();
     data["cube"] = cube->toJSON();
     data["cubeGraphicsObject"] = ui->graphicsView->getCubeGraphicsObject()->toJSON();
+    data["multislice"] = multislice;
+    data["swapCtrlShift"] = swapCtrlShift;
 
     return data;
 }
@@ -151,8 +153,8 @@ void CubeWidget::fromJSON(QJsonObject data){
     statistics->fromJSON(data["statistics"].toObject());
     cube->fromJSON(data["cube"].toObject());
     ui->graphicsView->getCubeGraphicsObject()->fromJSON(data["cubeGraphicsObject"].toObject());
-
-    qDebug() << statistics->timerRunning();
+    multislice = data["multislice"].toBool();
+    swapCtrlShift = data["swapCtrlShift"].toBool();
 }
 
 void CubeWidget::save(){
