@@ -193,7 +193,7 @@ void CubeGraphicsObject::fromJSON(QJsonObject data){
     gapSize = data["gapSize"].toInt();
     proj.fromJSON(data["projection"].toObject());
 
-    updateAll();
+    reset();
 }
 
 void CubeGraphicsObject::mousePressEvent(QGraphicsSceneMouseEvent *event){
