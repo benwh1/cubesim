@@ -7,6 +7,7 @@
 #include <QMessageBox>
 #include <QWidget>
 #include "cube.h"
+#include "global.h"
 #include "statistics.h"
 
 namespace Ui {

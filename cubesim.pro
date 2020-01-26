@@ -31,6 +31,7 @@ HEADERS += \
     cubegraphicsobject.h \
     cubegraphicsview.h \
     cubewidget.h \
+    global.h \
     mainwindow.h \
     projection.h \
     statistics.h \

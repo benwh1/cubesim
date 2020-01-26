@@ -140,6 +140,7 @@ void CubeWidget::keyReleaseEvent(QKeyEvent *event){
 QJsonObject CubeWidget::toJSON(){
     QJsonObject data;
 
+    data["version"] = Global::saveFormatVersion();
     data["statistics"] = statistics->toJSON();
     data["cube"] = cube->toJSON();
     data["cubeGraphicsObject"] = ui->graphicsView->getCubeGraphicsObject()->toJSON();
