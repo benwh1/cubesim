@@ -4,7 +4,8 @@ CubeGraphicsObject::CubeGraphicsObject(Cube *c, QGraphicsObject *parent) :
     QGraphicsObject(parent)
 {
     cube = c;
-    connect(cube, SIGNAL(moveDone(Cube::Axis,int)), this, SLOT(updateLayer(Cube::Axis,int)));
+
+    connect(cube, SIGNAL(moveDone(Cube::Axis,int,int,int)), this, SLOT(onMoveDone(Cube::Axis,int,int,int)));
     connect(cube, SIGNAL(rotationDone(Cube::Axis,int)), this, SLOT(updateAll()));
     connect(cube, SIGNAL(cubeReset()), this, SLOT(updateAll()));
     connect(cube, SIGNAL(cubeScrambled()), this, SLOT(updateAll()));
@@ -353,6 +354,12 @@ void CubeGraphicsObject::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
     }
 
     emit moveDrag(axis, layer, clockwise);
+}
+
+void CubeGraphicsObject::onMoveDone(Cube::Axis axis, int layerStart, int layerEnd, int){
+    for(int i=layerStart; i<=layerEnd; i++){
+        updateLayer(axis, i);
+    }
 }
 
 void CubeGraphicsObject::updateSticker(Cube::Face face, int x, int y){

@@ -52,6 +52,8 @@ private:
     QPointF lastMouseRelease;
 
 private slots:
+    void onMoveDone(Cube::Axis axis, int layerStart, int layerEnd, int amount);
+
     void reset();
     void updateSticker(Cube::Face face, int x, int y);
     void updateFace(Cube::Face face);

@@ -53,7 +53,7 @@ private:
 
 private slots:
     void onMoveDrag(Cube::Axis axis, int layer, bool clockwise);
-    void onMoveDone(Cube::Axis axis, int layer);
+    void onMoveDone(Cube::Axis axis, int layerStart, int layerEnd, int amount);
     void onCubeSolved();
 
 };

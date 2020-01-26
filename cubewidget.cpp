@@ -30,7 +30,7 @@ void CubeWidget::initialize(Cube *cube){
     connect(ui->graphicsView, SIGNAL(moveDrag(Cube::Axis,int,bool)), this, SLOT(onMoveDrag(Cube::Axis,int,bool)));
 
     //detect cube moves
-    connect(cube, SIGNAL(moveDone(Cube::Axis,int)), this, SLOT(onMoveDone(Cube::Axis,int)));
+    connect(cube, SIGNAL(moveDone(Cube::Axis,int,int,int)), this, SLOT(onMoveDone(Cube::Axis,int,int,int)));
 
     //detect when the cube is solved
     connect(cube, SIGNAL(cubeSolved()), this, SLOT(onCubeSolved()));
@@ -232,7 +232,7 @@ void CubeWidget::onMoveDrag(Cube::Axis axis, int layer, bool clockwise){
     }
 }
 
-void CubeWidget::onMoveDone(Cube::Axis, int){
+void CubeWidget::onMoveDone(Cube::Axis, int, int, int){
     //if we are in inspection, start the timer
     if(state == State::Inspecting){
         statistics->reset();

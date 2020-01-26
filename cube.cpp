@@ -98,8 +98,7 @@ void Cube::move(Axis axis, int layer, int amount){
         move(axis, layer);
     }
 
-    emit moveDone(axis, layer);
-    emit moveDone(axis, layer, amount);
+    emit moveDone(axis, layer, layer, amount);
 
     if(isSolved()){
         emit cubeSolved();
@@ -107,23 +106,35 @@ void Cube::move(Axis axis, int layer, int amount){
 }
 
 void Cube::multisliceMove(Cube::Axis axis, int layer, int amount){
-    //blockSignals(true);
-
     if(layer < size/2){
+        blockSignals(true);
         for(int i=0; i<=layer; i++){
             move(axis, i, amount);
         }
+        blockSignals(false);
+
+        emit moveDone(axis, 0, layer, amount);
     }
     else if(size%2 == 1 && layer == (size-1)/2){
+        blockSignals(true);
         move(axis, layer, amount);
+        blockSignals(false);
+
+        emit moveDone(axis, layer, layer, amount);
     }
     else{
+        blockSignals(true);
         for(int i=layer; i<size; i++){
             move(axis, i, amount);
         }
+        blockSignals(false);
+
+        emit moveDone(axis, layer, size-1, amount);
     }
 
-    //blockSignals(false);
+    if(isSolved()){
+        emit cubeSolved();
+    }
 }
 
 void Cube::rotate(Cube::Axis axis, int amount){

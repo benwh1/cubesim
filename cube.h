@@ -50,8 +50,7 @@ private:
     void rotateFace(Face f, int amount);
 
 signals:
-    void moveDone(Cube::Axis axis, int layer);
-    void moveDone(Cube::Axis axis, int layer, int amount);
+    void moveDone(Cube::Axis axis, int layerStart, int layerEnd, int amount);
 
     void rotationDone(Cube::Axis axis, int amount);
 
