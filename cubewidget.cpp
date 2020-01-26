@@ -168,13 +168,13 @@ void CubeWidget::save(){
 
     //get the save file name
     QString path = dir.absolutePath();
-    QString name = QFileDialog::getSaveFileName(this, "Save", path, "*.json");
+    QString name = QFileDialog::getSaveFileName(this, "Save", path, "*.dat");
     if(name == "") return;
 
     //write the file
     QFile f(name);
     f.open(QFile::WriteOnly);
-    f.write(document.toJson());
+    f.write(document.toBinaryData());
     f.close();
 }
 
@@ -185,7 +185,7 @@ void CubeWidget::load(){
     //get the save file name
     QDir dir("save");
     QString path = dir.absolutePath();
-    QString name = QFileDialog::getOpenFileName(this, "Open", path, "*.json");
+    QString name = QFileDialog::getOpenFileName(this, "Open", path, "*.dat");
     if(name == "") return;
 
     //read the file
@@ -195,7 +195,7 @@ void CubeWidget::load(){
     f.close();
 
     //load the save data
-    QJsonDocument document = QJsonDocument::fromJson(data);
+    QJsonDocument document = QJsonDocument::fromBinaryData(data);
     fromJSON(document.object());
 
     //set the state to solving
