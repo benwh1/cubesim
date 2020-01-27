@@ -2,6 +2,7 @@
 #define STATISTICSWIDGET_H
 
 #include <QDebug>
+#include <QPainter>
 #include <QTimer>
 #include <QWidget>
 #include "statistics.h"
@@ -19,6 +20,9 @@ public:
     ~StatisticsWidget();
 
     void initialize(Statistics *statistics);
+
+protected:
+    void paintEvent(QPaintEvent *event);
 
 private:
     Ui::StatisticsWidget *ui;

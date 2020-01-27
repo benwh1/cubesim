@@ -32,6 +32,12 @@ void StatisticsWidget::initialize(Statistics *statistics){
     initialized = true;
 }
 
+void StatisticsWidget::paintEvent(QPaintEvent *event){
+    QPainter painter(this);
+    painter.drawRect(0, 0, width()-1, height()-1);
+    QWidget::paintEvent(event);
+}
+
 void StatisticsWidget::updateStatistics(){
     //make sure we actually have a statistics object to work with
     if(!initialized) return;
