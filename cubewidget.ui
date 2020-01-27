@@ -13,42 +13,40 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QHBoxLayout" name="horizontalLayout">
-   <property name="spacing">
-    <number>0</number>
+  <widget class="StatisticsWidget" name="statisticsWidget" native="true">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>100</width>
+     <height>100</height>
+    </rect>
    </property>
-   <property name="leftMargin">
-    <number>0</number>
+   <property name="minimumSize">
+    <size>
+     <width>0</width>
+     <height>0</height>
+    </size>
    </property>
-   <property name="topMargin">
-    <number>0</number>
+   <property name="maximumSize">
+    <size>
+     <width>16777215</width>
+     <height>16777215</height>
+    </size>
    </property>
-   <property name="rightMargin">
-    <number>0</number>
+  </widget>
+  <widget class="CubeGraphicsView" name="graphicsView">
+   <property name="geometry">
+    <rect>
+     <x>120</x>
+     <y>10</y>
+     <width>256</width>
+     <height>192</height>
+    </rect>
    </property>
-   <property name="bottomMargin">
-    <number>0</number>
-   </property>
-   <item>
-    <widget class="StatisticsWidget" name="statisticsWidget" native="true">
-     <property name="minimumSize">
-      <size>
-       <width>120</width>
-       <height>0</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>120</width>
-       <height>16777215</height>
-      </size>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="CubeGraphicsView" name="graphicsView"/>
-   </item>
-  </layout>
+  </widget>
+  <zorder>graphicsView</zorder>
+  <zorder>statisticsWidget</zorder>
  </widget>
  <customwidgets>
   <customwidget>

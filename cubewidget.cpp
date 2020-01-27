@@ -137,6 +137,11 @@ void CubeWidget::keyReleaseEvent(QKeyEvent *event){
     }
 }
 
+void CubeWidget::resizeEvent(QResizeEvent *event){
+    ui->graphicsView->setGeometry(0, 0, event->size().width(), event->size().height());
+    ui->statisticsWidget->setGeometry(0, 0, 120, 120);
+}
+
 QJsonObject CubeWidget::toJSON(){
     QJsonObject data;
 

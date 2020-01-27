@@ -35,6 +35,8 @@ protected:
     void keyPressEvent(QKeyEvent *event);
     void keyReleaseEvent(QKeyEvent *event);
 
+    void resizeEvent(QResizeEvent *event);
+
 private:
     Ui::CubeWidget *ui;
 
