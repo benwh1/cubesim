@@ -62,7 +62,7 @@ void CubeWidget::keyReleaseEvent(QKeyEvent *event){
     bool shift = modifiers & Qt::ShiftModifier;
 
     if(event->key() == Qt::Key_Space){
-        if(state == State::Neutral){
+        if(state == State::Neutral || state == State::Finished){
             cube->scramble();
             state = State::Inspecting;
         }
