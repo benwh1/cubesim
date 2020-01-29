@@ -34,6 +34,7 @@ void StatisticsWidget::initialize(Statistics *statistics){
 
 void StatisticsWidget::paintEvent(QPaintEvent *event){
     QPainter painter(this);
+    painter.setBrush(QBrush(QColor(255, 228, 196)));
     painter.drawRect(0, 0, width()-1, height()-1);
     QWidget::paintEvent(event);
 }
