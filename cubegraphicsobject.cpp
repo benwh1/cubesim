@@ -274,7 +274,7 @@ void CubeGraphicsObject::reset(){
             //scale the point to be in [-1,1]^3 instead of [0,1]^3
             v = 2 * v - QVector3D(1, 1, 1);
 
-            //compute the isometric projection of the corner of the sticker
+            //compute the projection of the corner of the sticker
             //and scale it up so the cube has the required edge length
             QPointF point = edgeLength/2 * proj.project(v);
 
@@ -304,9 +304,9 @@ void CubeGraphicsObject::reset(){
             //scale the point to be in [-1,1]^3 instead of [0,1]^3
             v = 2 * v - QVector3D(1, 1, 1);
 
-            //compute the isometric projection of the corner of the sticker
+            //compute the projection of the corner of the sticker
             //and scale it up so the cube has the required edge length
-            QPointF point = proj.project(edgeLength/2 * v);
+            QPointF point = edgeLength/2 * proj.project(v);
 
             QPolygonF poly;
             poly << point
@@ -334,7 +334,7 @@ void CubeGraphicsObject::reset(){
             //scale the point to be in [-1,1]^3 instead of [0,1]^3
             v = 2 * v - QVector3D(1, 1, 1);
 
-            //compute the isometric projection of the corner of the sticker
+            //compute the projection of the corner of the sticker
             //and scale it up so the cube has the required edge length
             QPointF point = edgeLength/2 * proj.project(v);
 
