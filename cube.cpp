@@ -197,12 +197,8 @@ QJsonObject Cube::toJSON(){
 void Cube::fromJSON(QJsonObject data){
     QJsonArray stickerArray;
 
-    size = data["size"].toInt();
+    setSize(data["size"].toInt());
     stickerArray = data["stickers"].toArray();
-
-    blockSignals(true);
-    reset();
-    blockSignals(false);
 
     for(int face=0; face<6; face++){
         for(int y=0; y<size; y++){
