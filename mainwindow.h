@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "cube.h"
+#include "settingswindow.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -20,6 +21,8 @@ private:
     Ui::MainWindow *ui;
 
     Cube *cube;
+
+    SettingsWindow *settingsWindow;
 
     void updateTitleText();
 

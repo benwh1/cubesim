@@ -24,6 +24,7 @@ SOURCES += \
     mainwindow.cpp \
     projection.cpp \
     settings.cpp \
+    settingswindow.cpp \
     statistics.cpp \
     statisticswidget.cpp
 
@@ -36,12 +37,14 @@ HEADERS += \
     mainwindow.h \
     projection.h \
     settings.h \
+    settingswindow.h \
     statistics.h \
     statisticswidget.h
 
 FORMS += \
     cubewidget.ui \
     mainwindow.ui \
+    settingswindow.ui \
     statisticswidget.ui
 
 TRANSLATIONS += \

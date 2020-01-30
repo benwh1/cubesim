@@ -16,11 +16,15 @@ MainWindow::MainWindow(QWidget *parent)
 
     //detect when the cube size changes so we can update the window title
     connect(cube, SIGNAL(cubeSizeChanged()), this, SLOT(onCubeSizeChanged()));
+
+    //create the settings window and give it the cubeWidget's settings object
+    settingsWindow = new SettingsWindow(ui->cubeWidget->getSettings());
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+    delete settingsWindow;
 }
 
 void MainWindow::updateTitleText(){

@@ -36,6 +36,10 @@ void CubeWidget::initialize(Cube *cube){
     connect(cube, SIGNAL(cubeSolved()), this, SLOT(onCubeSolved()));
 }
 
+Settings *CubeWidget::getSettings(){
+    return settings;
+}
+
 void CubeWidget::keyPressEvent(QKeyEvent *event){
     if(event->isAutoRepeat()){
         event->ignore();

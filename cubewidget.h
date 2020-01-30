@@ -32,6 +32,8 @@ public:
 
     void initialize(Cube *cube);
 
+    Settings *getSettings();
+
 protected:
     void keyPressEvent(QKeyEvent *event);
     void keyReleaseEvent(QKeyEvent *event);
