@@ -159,6 +159,11 @@ QJsonObject CubeWidget::toJSON(){
 }
 
 void CubeWidget::fromJSON(QJsonObject data){
+    if(data["version"].toString() != Global::saveFormatVersion()){
+        QMessageBox::warning(this, "Open", "Incompatible save format version");
+        return;
+    }
+
     statistics->fromJSON(data["statistics"].toObject());
     cube->fromJSON(data["cube"].toObject());
     ui->graphicsView->getCubeGraphicsObject()->fromJSON(data["cubeGraphicsObject"].toObject());
