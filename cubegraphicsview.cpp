@@ -7,9 +7,6 @@ CubeGraphicsView::CubeGraphicsView(QWidget *parent) :
     scene = new QGraphicsScene(this);
     setScene(scene);
 
-    //setRenderHint(QPainter::Antialiasing);
-    setBackgroundBrush(QBrush(QColor(255, 228, 196)));
-
     //flip the graphicsview vertically so that upwards = positive instead of negative
     scale(1, -1);
 
@@ -17,10 +14,22 @@ CubeGraphicsView::CubeGraphicsView(QWidget *parent) :
     zoomFactor = 1;
 }
 
-void CubeGraphicsView::initialize(Cube *cube){
+void CubeGraphicsView::initialize(Cube *cube, Settings *settings){
     this->cube = cube;
-    cubeGraphicsObject = new CubeGraphicsObject(cube);
+
+    //create the cube graphics object and add it to the scene
+    cubeGraphicsObject = new CubeGraphicsObject(cube, settings);
     scene->addItem(cubeGraphicsObject);
+
+    this->settings = settings;
+
+    //read whatever settings we need from the settings object
+    setBackgroundBrush(settings->getBackgroundColour());
+    setRenderHint(QPainter::Antialiasing, settings->getAntialiasing());
+
+    //connect to signals that are emitted from settings being changed
+    connect(settings, SIGNAL(backgroundColourChanged()), this, SLOT(onBackgroundColourSettingChanged()));
+    connect(settings, SIGNAL(antialiasingChanged()), this, SLOT(onAntialiasingSettingChanged()));
 
     //propogate the moveDrag signal
     connect(cubeGraphicsObject, SIGNAL(moveDrag(Cube::Axis,int,bool,Qt::MouseButton)), this, SIGNAL(moveDrag(Cube::Axis,int,bool,Qt::MouseButton)));
@@ -66,4 +75,12 @@ CubeGraphicsObject *CubeGraphicsView::getCubeGraphicsObject(){
 void CubeGraphicsView::onProjectionChanged(){
     //set the scene rect to the smallest rect that contains everything
     scene->setSceneRect(scene->itemsBoundingRect());
+}
+
+void CubeGraphicsView::onAntialiasingSettingChanged(){
+    setRenderHint(QPainter::Antialiasing, settings->getAntialiasing());
+}
+
+void CubeGraphicsView::onBackgroundColourSettingChanged(){
+    setBackgroundBrush(QBrush(settings->getBackgroundColour()));
 }

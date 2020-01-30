@@ -23,6 +23,7 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     projection.cpp \
+    settings.cpp \
     statistics.cpp \
     statisticswidget.cpp
 
@@ -34,6 +35,7 @@ HEADERS += \
     global.h \
     mainwindow.h \
     projection.h \
+    settings.h \
     statistics.h \
     statisticswidget.h
 

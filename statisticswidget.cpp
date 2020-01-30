@@ -17,7 +17,7 @@ StatisticsWidget::~StatisticsWidget()
     delete ui;
 }
 
-void StatisticsWidget::initialize(Statistics *statistics){
+void StatisticsWidget::initialize(Statistics *statistics, Settings *settings){
     this->statistics = statistics;
 
     connect(statistics, SIGNAL(timerStarted()), this, SLOT(onTimerStarted()));
@@ -29,12 +29,17 @@ void StatisticsWidget::initialize(Statistics *statistics){
     connect(statistics, SIGNAL(moveDone()), this, SLOT(onMoveDone()));
     connect(statistics, SIGNAL(timerReset()), this, SLOT(onTimerReset()));
 
+    this->settings = settings;
+
+    //connect to signals that are emitted from settings being changed
+    connect(settings, SIGNAL(backgroundColourChanged()), this, SLOT(onBackgroundColourSettingChanged()));
+
     initialized = true;
 }
 
 void StatisticsWidget::paintEvent(QPaintEvent *event){
     QPainter painter(this);
-    painter.setBrush(QBrush(QColor(255, 228, 196)));
+    painter.setBrush(QBrush(settings->getBackgroundColour()));
     painter.drawRect(0, 0, width()-1, height()-1);
     QWidget::paintEvent(event);
 }
@@ -76,4 +81,9 @@ void StatisticsWidget::onTimerReset(){
 
 void StatisticsWidget::onMoveDone(){
     updateStatistics();
+}
+
+void StatisticsWidget::onBackgroundColourSettingChanged(){
+    //generate a paintEvent to repaint the widget with the new background colour
+    update();
 }

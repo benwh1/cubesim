@@ -10,6 +10,7 @@
 #include <cmath>
 #include "cube.h"
 #include "projection.h"
+#include "settings.h"
 
 #define pi (4*atan(1))
 
@@ -21,7 +22,7 @@ public:
         Up, Left, Down, Right
     };
 
-    explicit CubeGraphicsObject(Cube *c = nullptr, QGraphicsObject *parent = nullptr);
+    explicit CubeGraphicsObject(Cube *c = nullptr, Settings *s = nullptr, QGraphicsObject *parent = nullptr);
 
     QRectF boundingRect() const;
     void paint(QPainter *, const QStyleOptionGraphicsItem *, QWidget *);
@@ -42,6 +43,8 @@ private:
     Cube *cube;
     QList<QList<QList<QGraphicsPolygonItem*>>> stickers;
     QList<QColor> colours;
+
+    Settings *settings;
 
     qreal edgeLength;
     qreal gapSize;

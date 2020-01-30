@@ -1,9 +1,10 @@
 #include "cubegraphicsobject.h"
 
-CubeGraphicsObject::CubeGraphicsObject(Cube *c, QGraphicsObject *parent) :
+CubeGraphicsObject::CubeGraphicsObject(Cube *c, Settings *s, QGraphicsObject *parent) :
     QGraphicsObject(parent)
 {
     cube = c;
+    settings = s;
 
     connect(cube, SIGNAL(moveDone(Cube::Axis,int,int,int)), this, SLOT(onMoveDone(Cube::Axis,int,int,int)));
     connect(cube, SIGNAL(rotationDone(Cube::Axis,int)), this, SLOT(onRotationDone()));
@@ -291,7 +292,7 @@ void CubeGraphicsObject::reset(){
             QColor colour = colours[cube->sticker(Cube::U, x, y)];
 
             sticker->setBrush(QBrush(colour));
-            sticker->setPen(QPen(Qt::black, 0));
+            sticker->setPen(QPen(settings->getLineColour(), settings->getLineWidth()));
         }
     }
 
@@ -321,7 +322,7 @@ void CubeGraphicsObject::reset(){
             QColor colour = colours[cube->sticker(Cube::F, x, y)];
 
             sticker->setBrush(QBrush(colour));
-            sticker->setPen(QPen(Qt::black, 0));
+            sticker->setPen(QPen(settings->getLineColour(), settings->getLineWidth()));
         }
     }
 
@@ -351,7 +352,7 @@ void CubeGraphicsObject::reset(){
             QColor colour = colours[cube->sticker(Cube::R, x, y)];
 
             sticker->setBrush(QBrush(colour));
-            sticker->setPen(QPen(Qt::black, 0));
+            sticker->setPen(QPen(settings->getLineColour(), settings->getLineWidth()));
         }
     }
 }

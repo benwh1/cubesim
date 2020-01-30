@@ -8,6 +8,7 @@
 #include <QWidget>
 #include "cube.h"
 #include "global.h"
+#include "settings.h"
 #include "statistics.h"
 
 namespace Ui {
@@ -42,6 +43,7 @@ private:
 
     Cube *cube;
     Statistics *statistics;
+    Settings *settings;
 
     State state;
 

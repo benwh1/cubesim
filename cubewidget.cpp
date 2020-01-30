@@ -10,11 +10,9 @@ CubeWidget::CubeWidget(QWidget *parent) :
     //initialize variables
     multislice = false;
     state = State::Neutral;
-
-    statistics = new Statistics(this);
-    ui->statisticsWidget->initialize(statistics);
-
     swapCtrlShift = false;
+    settings = new Settings(this);
+    statistics = new Statistics(this);
 }
 
 CubeWidget::~CubeWidget()
@@ -24,7 +22,9 @@ CubeWidget::~CubeWidget()
 
 void CubeWidget::initialize(Cube *cube){
     this->cube = cube;
-    ui->graphicsView->initialize(cube);
+
+    ui->graphicsView->initialize(cube, settings);
+    ui->statisticsWidget->initialize(statistics, settings);
 
     //detect drags so we can pass the move to the cube
     connect(ui->graphicsView, SIGNAL(moveDrag(Cube::Axis,int,bool,Qt::MouseButton)), this, SLOT(onMoveDrag(Cube::Axis,int,bool,Qt::MouseButton)));

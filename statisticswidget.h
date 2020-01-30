@@ -5,6 +5,7 @@
 #include <QPainter>
 #include <QTimer>
 #include <QWidget>
+#include "settings.h"
 #include "statistics.h"
 
 namespace Ui {
@@ -19,7 +20,7 @@ public:
     explicit StatisticsWidget(QWidget *parent = nullptr);
     ~StatisticsWidget();
 
-    void initialize(Statistics *statistics);
+    void initialize(Statistics *statistics, Settings *settings);
 
 protected:
     void paintEvent(QPaintEvent *event);
@@ -30,6 +31,8 @@ private:
     bool initialized;
 
     Statistics *statistics;
+    Settings *settings;
+
     QTimer updateTimer;
 
     void updateStatistics();
@@ -41,6 +44,9 @@ private slots:
     void onTimerStopped();
     void onTimerReset();
     void onMoveDone();
+
+    //slots from settings being changed
+    void onBackgroundColourSettingChanged();
 
 };
 

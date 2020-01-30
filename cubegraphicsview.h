@@ -6,13 +6,14 @@
 #include <QKeyEvent>
 #include <QInputDialog>
 #include "cubegraphicsobject.h"
+#include "settings.h"
 
 class CubeGraphicsView : public QGraphicsView
 {
     Q_OBJECT
 public:
     explicit CubeGraphicsView(QWidget *parent = nullptr);
-    void initialize(Cube *cube);
+    void initialize(Cube *cube, Settings *settings);
 
     void zoom(qreal factor);
 
@@ -27,11 +28,16 @@ private:
 
     Cube *cube;
     CubeGraphicsObject *cubeGraphicsObject;
+    Settings *settings;
 
     qreal zoomFactor;
 
 private slots:
     void onProjectionChanged();
+
+    //slots from settings being changed
+    void onBackgroundColourSettingChanged();
+    void onAntialiasingSettingChanged();
 
 signals:
     void moveDrag(Cube::Axis axis, int layer, bool clockwise, Qt::MouseButton button);
