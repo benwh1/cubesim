@@ -12,6 +12,9 @@ CubeGraphicsObject::CubeGraphicsObject(Cube *c, Settings *s, QGraphicsObject *pa
     connect(cube, SIGNAL(cubeScrambled()), this, SLOT(onCubeScrambled()));
     connect(cube, SIGNAL(cubeSizeChanged()), this, SLOT(onCubeSizeChanged()));
 
+    connect(settings, SIGNAL(lineColourChanged()), this, SLOT(onLineColourSettingChanged()));
+    connect(settings, SIGNAL(lineWidthChanged()), this, SLOT(onLineWidthSettingChanged()));
+
     float mat[6] = {1/sqrt(2), 1/sqrt(2), 0, -1/sqrt(6), 1/sqrt(6), sqrt(2./3)};
     proj = Projection(QMatrix3x2(mat));
 
@@ -439,4 +442,32 @@ void CubeGraphicsObject::onCubeScrambled(){
 
 void CubeGraphicsObject::onCubeSizeChanged(){
     reset();
+}
+
+void CubeGraphicsObject::onLineColourSettingChanged(){
+    int s = cube->getSize();
+    for(int face=0; face<3; face++){
+        for(int y=0; y<s; y++){
+            for(int x=0; x<s; x++){
+                QGraphicsPolygonItem *sticker = stickers[face][y][x];
+                QPen pen = sticker->pen();
+                pen.setColor(settings->getLineColour());
+                stickers[face][y][x]->setPen(pen);
+            }
+        }
+    }
+}
+
+void CubeGraphicsObject::onLineWidthSettingChanged(){
+    int s = cube->getSize();
+    for(int face=0; face<3; face++){
+        for(int y=0; y<s; y++){
+            for(int x=0; x<s; x++){
+                QGraphicsPolygonItem *sticker = stickers[face][y][x];
+                QPen pen = sticker->pen();
+                pen.setWidth(settings->getLineWidth());
+                stickers[face][y][x]->setPen(pen);
+            }
+        }
+    }
 }

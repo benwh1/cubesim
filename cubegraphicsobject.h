@@ -67,6 +67,10 @@ private slots:
     void onCubeScrambled();
     void onCubeSizeChanged();
 
+    //slots from settings being changed
+    void onLineColourSettingChanged();
+    void onLineWidthSettingChanged();
+
 signals:
     void projectionChanged();
     void moveDrag(Cube::Axis axis, int layer, bool clockwise, Qt::MouseButton button);
