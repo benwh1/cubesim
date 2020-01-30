@@ -66,7 +66,7 @@ private slots:
 
 signals:
     void projectionChanged();
-    void moveDrag(Cube::Axis axis, int layer, bool clockwise);
+    void moveDrag(Cube::Axis axis, int layer, bool clockwise, Qt::MouseButton button);
 
 };
 

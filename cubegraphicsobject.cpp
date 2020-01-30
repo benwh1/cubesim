@@ -225,7 +225,7 @@ void CubeGraphicsObject::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
         }
     }
 
-    emit moveDrag(axis, layer, clockwise);
+    emit moveDrag(axis, layer, clockwise, event->button());
 }
 
 void CubeGraphicsObject::reset(){

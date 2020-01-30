@@ -27,7 +27,7 @@ void CubeWidget::initialize(Cube *cube){
     ui->graphicsView->initialize(cube);
 
     //detect drags so we can pass the move to the cube
-    connect(ui->graphicsView, SIGNAL(moveDrag(Cube::Axis,int,bool)), this, SLOT(onMoveDrag(Cube::Axis,int,bool)));
+    connect(ui->graphicsView, SIGNAL(moveDrag(Cube::Axis,int,bool,Qt::MouseButton)), this, SLOT(onMoveDrag(Cube::Axis,int,bool,Qt::MouseButton)));
 
     //detect cube moves
     connect(cube, SIGNAL(moveDone(Cube::Axis,int,int,int)), this, SLOT(onMoveDone(Cube::Axis,int,int,int)));
@@ -210,7 +210,7 @@ void CubeWidget::load(){
     state = State::Solving;
 }
 
-void CubeWidget::onMoveDrag(Cube::Axis axis, int layer, bool clockwise){
+void CubeWidget::onMoveDrag(Cube::Axis axis, int layer, bool clockwise, Qt::MouseButton button){
     Qt::KeyboardModifiers modifiers = QGuiApplication::queryKeyboardModifiers();
 
     bool ctrl = modifiers & Qt::ControlModifier;
@@ -228,7 +228,8 @@ void CubeWidget::onMoveDrag(Cube::Axis axis, int layer, bool clockwise){
 
     int amount;
 
-    if(halfTurn) amount = 2;
+    //use right mouse button for half turns
+    if(halfTurn || button == Qt::RightButton) amount = 2;
     else if(clockwise) amount = 1;
     else amount = 3;
 
