@@ -30,6 +30,8 @@ private slots:
     void onLineColourWidgetChanged();
     void onLineWidthSpinBoxChanged();
 
+    void onSettingChanged();
+
 };
 
 #endif // SETTINGSWINDOW_H

@@ -28,21 +28,25 @@ int Settings::getLineWidth(){
 void Settings::setAntialiasing(bool b){
     antialiasing = b;
     emit antialiasingChanged();
+    emit settingChanged();
 }
 
 void Settings::setBackgroundColour(QColor c){
     backgroundColour = c;
     emit backgroundColourChanged();
+    emit settingChanged();
 }
 
 void Settings::setLineColour(QColor c){
     lineColour = c;
     emit lineColourChanged();
+    emit settingChanged();
 }
 
 void Settings::setLineWidth(int n){
     lineWidth = n;
     emit lineWidthChanged();
+    emit settingChanged();
 }
 
 QJsonObject Settings::toJSON(){

@@ -14,6 +14,8 @@ SettingsWindow::SettingsWindow(Settings *settings, QDialog *parent) :
     connect(ui->lineColourWidget, SIGNAL(colorChanged()), this, SLOT(onLineColourWidgetChanged()));
     connect(ui->lineWidthSpinBox, SIGNAL(valueChanged(int)), this, SLOT(onLineWidthSpinBoxChanged()));
 
+    connect(settings, SIGNAL(settingChanged()), this, SLOT(onSettingChanged()));
+
     synchronizeFromSettings();
 }
 
@@ -23,14 +25,28 @@ SettingsWindow::~SettingsWindow()
 }
 
 void SettingsWindow::synchronizeFromSettings(){
-    blockSignals(true);
+    //we need to block all the signals here so that changing the widgets
+    //in the UI doesn't cause a signal to get emitted, causing the setting
+    //to change, causing settingChanged to be emitted, causing
+    //synchronizeFromSettings to be called, and creating an infinite loop
+
+    QList<QWidget*> widgets = {ui->antialiasingCheckBox,
+                              ui->backgroundColourWidget,
+                              ui->lineColourWidget,
+                              ui->lineWidthSpinBox};
+
+    foreach(QWidget *w, widgets){
+        w->blockSignals(true);
+    }
 
     ui->antialiasingCheckBox->setChecked(settings->getAntialiasing());
     ui->backgroundColourWidget->setColor(settings->getBackgroundColour());
     ui->lineColourWidget->setColor(settings->getLineColour());
     ui->lineWidthSpinBox->setValue(settings->getLineWidth());
 
-    blockSignals(false);
+    foreach(QWidget *w, widgets){
+        w->blockSignals(false);
+    }
 }
 
 void SettingsWindow::onAntialiasingCheckBoxChanged(){
@@ -47,4 +63,8 @@ void SettingsWindow::onLineColourWidgetChanged(){
 
 void SettingsWindow::onLineWidthSpinBoxChanged(){
     settings->setLineWidth(ui->lineWidthSpinBox->value());
+}
+
+void SettingsWindow::onSettingChanged(){
+    synchronizeFromSettings();
 }

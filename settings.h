@@ -36,6 +36,9 @@ signals:
     void lineColourChanged();
     void lineWidthChanged();
 
+    //emitted when any setting is changed
+    void settingChanged();
+
 };
 
 #endif // SETTINGS_H
