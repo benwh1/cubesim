@@ -81,6 +81,10 @@ void CubeGraphicsView::keyPressEvent(QKeyEvent *event){
     else if(event->key() == Qt::Key_PageDown){
         zoom(1/1.25);
     }
+    else if(event->key() == Qt::Key_Home){
+        //reset zoom
+        zoom(1/zoomFactor);
+    }
     else{
         event->ignore();
     }
