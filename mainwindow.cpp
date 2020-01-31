@@ -31,7 +31,10 @@ void MainWindow::keyPressEvent(QKeyEvent *event){
     event->accept();
 
     if(event->key() == Qt::Key_W){
-        settingsWindow->exec();
+        if(ui->cubeWidget->getState() == CubeWidget::State::Neutral ||
+           ui->cubeWidget->getState() == CubeWidget::State::Finished){
+            settingsWindow->exec();
+        }
     }
     else{
         event->ignore();

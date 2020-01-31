@@ -33,6 +33,7 @@ public:
     void initialize(Cube *cube);
 
     Settings *getSettings();
+    State getState();
 
 protected:
     void keyPressEvent(QKeyEvent *event);

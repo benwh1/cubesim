@@ -40,6 +40,10 @@ Settings *CubeWidget::getSettings(){
     return settings;
 }
 
+CubeWidget::State CubeWidget::getState(){
+    return state;
+}
+
 void CubeWidget::keyPressEvent(QKeyEvent *event){
     if(event->isAutoRepeat()){
         event->ignore();
