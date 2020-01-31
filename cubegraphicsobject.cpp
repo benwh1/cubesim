@@ -25,7 +25,7 @@ CubeGraphicsObject::CubeGraphicsObject(Cube *c, Settings *s, QGraphicsObject *pa
             << QColor(255,165,0)
             << QColor(Qt::yellow);
 
-    setEdgeLength(400);
+    setEdgeLength(350);
     setGapSize(0);
 
     reset();
