@@ -51,6 +51,13 @@ void CubeWidget::keyPressEvent(QKeyEvent *event){
     if(event->key() == Qt::Key_CapsLock){
         multislice = !multislice;
     }
+    else{
+        event->ignore();
+    }
+
+    if(!event->isAccepted()){
+        QWidget::keyPressEvent(event);
+    }
 }
 
 void CubeWidget::keyReleaseEvent(QKeyEvent *event){
@@ -139,6 +146,13 @@ void CubeWidget::keyReleaseEvent(QKeyEvent *event){
     else if(event->key() == Qt::Key_PageDown){
         ui->graphicsView->zoom(1/1.25);
     }
+    else{
+        event->ignore();
+    }
+
+    if(!event->isAccepted()){
+        QWidget::keyReleaseEvent(event);
+    }
 }
 
 void CubeWidget::resizeEvent(QResizeEvent *event){
@@ -147,6 +161,8 @@ void CubeWidget::resizeEvent(QResizeEvent *event){
     //the statistics widget is not in a layout, which means the sizePolicy is
     //ignored. we want the widget to be the minimum height, so we set it here
     ui->statisticsWidget->setGeometry(0, 0, 120, ui->statisticsWidget->sizeHint().height());
+
+    event->accept();
 }
 
 QJsonObject CubeWidget::toJSON(){

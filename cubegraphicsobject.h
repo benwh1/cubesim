@@ -5,6 +5,7 @@
 #include <QDebug>
 #include <QGraphicsObject>
 #include <QGraphicsSceneDragDropEvent>
+#include <QKeyEvent>
 #include <QPen>
 #include <QVector3D>
 #include <cmath>
