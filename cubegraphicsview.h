@@ -23,6 +23,9 @@ public:
 
     CubeGraphicsObject *getCubeGraphicsObject();
 
+protected:
+    void keyPressEvent(QKeyEvent *event);
+
 private:
     QGraphicsScene *scene;
 

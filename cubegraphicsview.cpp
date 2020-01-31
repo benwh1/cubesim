@@ -72,6 +72,24 @@ CubeGraphicsObject *CubeGraphicsView::getCubeGraphicsObject(){
     return cubeGraphicsObject;
 }
 
+void CubeGraphicsView::keyPressEvent(QKeyEvent *event){
+    event->accept();
+
+    if(event->key() == Qt::Key_PageUp){
+        zoom(1.25);
+    }
+    else if(event->key() == Qt::Key_PageDown){
+        zoom(1/1.25);
+    }
+    else{
+        event->ignore();
+    }
+
+    if(!event->isAccepted()){
+        QGraphicsView::keyPressEvent(event);
+    }
+}
+
 void CubeGraphicsView::onProjectionChanged(){
     //set the scene rect to the smallest rect that contains everything
     scene->setSceneRect(scene->itemsBoundingRect());

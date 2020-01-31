@@ -120,12 +120,6 @@ void CubeWidget::keyPressEvent(QKeyEvent *event){
             cube->setSize(cube->getSize()-1);
         }
     }
-    else if(event->key() == Qt::Key_PageUp){
-        ui->graphicsView->zoom(1.25);
-    }
-    else if(event->key() == Qt::Key_PageDown){
-        ui->graphicsView->zoom(1/1.25);
-    }
     else if(event->key() == Qt::Key_CapsLock){
         multislice = !multislice;
     }
