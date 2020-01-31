@@ -23,6 +23,8 @@ private:
 
 private slots:
     void onAntialiasingCheckBoxChanged();
+    void onBackgroundColourWidgetChanged();
+    void onLineColourWidgetChanged();
     void onLineWidthSpinBoxChanged();
 
 };

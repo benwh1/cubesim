@@ -16,6 +16,10 @@ ColorSettingWidget::~ColorSettingWidget()
     delete ui;
 }
 
+QColor ColorSettingWidget::getColor(){
+    return color;
+}
+
 void ColorSettingWidget::mousePressEvent(QMouseEvent *event){
     QColor c = QColorDialog::getColor(color, this, "Select colour", QColorDialog::ShowAlphaChannel | QColorDialog::DontUseNativeDialog);
     if(!c.isValid()) return;

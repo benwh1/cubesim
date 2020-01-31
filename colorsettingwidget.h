@@ -17,6 +17,8 @@ public:
     explicit ColorSettingWidget(QWidget *parent = nullptr);
     ~ColorSettingWidget();
 
+    QColor getColor();
+
 protected:
     void mousePressEvent(QMouseEvent *event);
 
