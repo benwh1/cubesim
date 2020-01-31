@@ -44,3 +44,21 @@ void Settings::setLineWidth(int n){
     lineWidth = n;
     emit lineWidthChanged();
 }
+
+QJsonObject Settings::toJSON(){
+    QJsonObject data;
+
+    data["antialiasing"] = antialiasing;
+    data["backgroundColour"] = backgroundColour.name(QColor::HexArgb);
+    data["lineColour"] = lineColour.name(QColor::HexArgb);
+    data["lineWidth"] = lineWidth;
+
+    return data;
+}
+
+void Settings::fromJSON(QJsonObject data){
+    setAntialiasing(data["antialiasing"].toBool());
+    setBackgroundColour(QColor(data["backgroundColour"].toString()));
+    setLineColour(QColor(data["lineColour"].toString()));
+    setLineWidth(data["lineWidth"].toInt());
+}

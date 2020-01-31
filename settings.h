@@ -2,6 +2,7 @@
 #define SETTINGS_H
 
 #include <QColor>
+#include <QJsonObject>
 #include <QObject>
 
 class Settings : public QObject
@@ -19,6 +20,9 @@ public:
     void setBackgroundColour(QColor c);
     void setLineColour(QColor c);
     void setLineWidth(int n);
+
+    QJsonObject toJSON();
+    void fromJSON(QJsonObject data);
 
 private:
     QColor backgroundColour;

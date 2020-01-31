@@ -174,6 +174,7 @@ QJsonObject CubeWidget::toJSON(){
     data["cubeGraphicsObject"] = ui->graphicsView->getCubeGraphicsObject()->toJSON();
     data["multislice"] = multislice;
     data["swapCtrlShift"] = swapCtrlShift;
+    data["settings"] = settings->toJSON();
 
     return data;
 }
@@ -184,11 +185,15 @@ void CubeWidget::fromJSON(QJsonObject data){
         return;
     }
 
+    //TODO: make sure that the cube graphics object is only redrawn once
+    //after everything has been loaded
+
     statistics->fromJSON(data["statistics"].toObject());
     cube->fromJSON(data["cube"].toObject());
     ui->graphicsView->getCubeGraphicsObject()->fromJSON(data["cubeGraphicsObject"].toObject());
     multislice = data["multislice"].toBool();
     swapCtrlShift = data["swapCtrlShift"].toBool();
+    settings->fromJSON(data["settings"].toObject());
 }
 
 void CubeWidget::save(){
