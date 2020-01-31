@@ -48,26 +48,6 @@ void CubeWidget::keyPressEvent(QKeyEvent *event){
 
     event->accept();
 
-    if(event->key() == Qt::Key_CapsLock){
-        multislice = !multislice;
-    }
-    else{
-        event->ignore();
-    }
-
-    if(!event->isAccepted()){
-        QWidget::keyPressEvent(event);
-    }
-}
-
-void CubeWidget::keyReleaseEvent(QKeyEvent *event){
-    if(event->isAutoRepeat()){
-        event->ignore();
-        return;
-    }
-
-    event->accept();
-
     Qt::KeyboardModifiers modifiers = event->modifiers();
     bool ctrl = modifiers & Qt::ControlModifier;
     bool shift = modifiers & Qt::ShiftModifier;
@@ -146,12 +126,15 @@ void CubeWidget::keyReleaseEvent(QKeyEvent *event){
     else if(event->key() == Qt::Key_PageDown){
         ui->graphicsView->zoom(1/1.25);
     }
+    else if(event->key() == Qt::Key_CapsLock){
+        multislice = !multislice;
+    }
     else{
         event->ignore();
     }
 
     if(!event->isAccepted()){
-        QWidget::keyReleaseEvent(event);
+        QWidget::keyPressEvent(event);
     }
 }
 
