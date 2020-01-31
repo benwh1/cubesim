@@ -16,6 +16,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    colorsettingwidget.cpp \
     cube.cpp \
     cubegraphicsobject.cpp \
     cubegraphicsview.cpp \
@@ -29,6 +30,7 @@ SOURCES += \
     statisticswidget.cpp
 
 HEADERS += \
+    colorsettingwidget.h \
     cube.h \
     cubegraphicsobject.h \
     cubegraphicsview.h \
@@ -42,6 +44,7 @@ HEADERS += \
     statisticswidget.h
 
 FORMS += \
+    colorsettingwidget.ui \
     cubewidget.ui \
     mainwindow.ui \
     settingswindow.ui \
