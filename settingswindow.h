@@ -1,19 +1,19 @@
 #ifndef SETTINGSWINDOW_H
 #define SETTINGSWINDOW_H
 
-#include <QWidget>
+#include <QDialog>
 #include "settings.h"
 
 namespace Ui {
 class SettingsWindow;
 }
 
-class SettingsWindow : public QWidget
+class SettingsWindow : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit SettingsWindow(Settings *settings, QWidget *parent = nullptr);
+    explicit SettingsWindow(Settings *settings, QDialog *parent = nullptr);
     ~SettingsWindow();
 
 private:

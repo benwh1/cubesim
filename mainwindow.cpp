@@ -19,9 +19,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     //create the settings window and give it the cubeWidget's settings object
     settingsWindow = new SettingsWindow(ui->cubeWidget->getSettings());
-
-    //block inputs to all other windows while the settings window is open
-    settingsWindow->setWindowModality(Qt::ApplicationModal);
 }
 
 MainWindow::~MainWindow()
@@ -34,7 +31,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event){
     event->accept();
 
     if(event->key() == Qt::Key_W){
-        settingsWindow->show();
+        settingsWindow->exec();
     }
     else{
         event->ignore();
