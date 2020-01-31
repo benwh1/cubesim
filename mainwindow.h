@@ -1,6 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <QKeyEvent>
 #include <QMainWindow>
 #include "cube.h"
 #include "settingswindow.h"
@@ -16,6 +17,9 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+
+protected:
+    void keyPressEvent(QKeyEvent *event);
 
 private:
     Ui::MainWindow *ui;
