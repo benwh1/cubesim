@@ -20,14 +20,18 @@ QColor ColorSettingWidget::getColor(){
     return color;
 }
 
-void ColorSettingWidget::mousePressEvent(QMouseEvent *event){
-    QColor c = QColorDialog::getColor(color, this, "Select colour", QColorDialog::ShowAlphaChannel | QColorDialog::DontUseNativeDialog);
-    if(!c.isValid()) return;
-
+void ColorSettingWidget::setColor(QColor c){
     color = c;
 
     ui->colorLabel->setText(color.name(QColor::HexArgb));
     ui->colorLabel->setStyleSheet("background-color: " + color.name(QColor::HexArgb));
 
     emit colorChanged();
+}
+
+void ColorSettingWidget::mousePressEvent(QMouseEvent *event){
+    QColor c = QColorDialog::getColor(color, this, "Select colour", QColorDialog::ShowAlphaChannel | QColorDialog::DontUseNativeDialog);
+    if(!c.isValid()) return;
+
+    setColor(c);
 }

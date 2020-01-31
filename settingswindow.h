@@ -21,6 +21,9 @@ private:
 
     Settings *settings;
 
+    //make the UI match the settings in the settings object
+    void synchronizeFromSettings();
+
 private slots:
     void onAntialiasingCheckBoxChanged();
     void onBackgroundColourWidgetChanged();

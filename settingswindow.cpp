@@ -13,11 +13,24 @@ SettingsWindow::SettingsWindow(Settings *settings, QDialog *parent) :
     connect(ui->backgroundColourWidget, SIGNAL(colorChanged()), this, SLOT(onBackgroundColourWidgetChanged()));
     connect(ui->lineColourWidget, SIGNAL(colorChanged()), this, SLOT(onLineColourWidgetChanged()));
     connect(ui->lineWidthSpinBox, SIGNAL(valueChanged(int)), this, SLOT(onLineWidthSpinBoxChanged()));
+
+    synchronizeFromSettings();
 }
 
 SettingsWindow::~SettingsWindow()
 {
     delete ui;
+}
+
+void SettingsWindow::synchronizeFromSettings(){
+    blockSignals(true);
+
+    ui->antialiasingCheckBox->setChecked(settings->getAntialiasing());
+    ui->backgroundColourWidget->setColor(settings->getBackgroundColour());
+    ui->lineColourWidget->setColor(settings->getLineColour());
+    ui->lineWidthSpinBox->setValue(settings->getLineWidth());
+
+    blockSignals(false);
 }
 
 void SettingsWindow::onAntialiasingCheckBoxChanged(){

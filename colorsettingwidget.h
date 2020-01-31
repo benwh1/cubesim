@@ -19,6 +19,8 @@ public:
 
     QColor getColor();
 
+    void setColor(QColor c);
+
 protected:
     void mousePressEvent(QMouseEvent *event);
 
