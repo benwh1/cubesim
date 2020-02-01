@@ -59,6 +59,8 @@ void StatisticsWidget::clear(){
     ui->timeLabel->setText("");
     ui->movesLabel->setText("");
     ui->tpsLabel->setText("");
+
+    ui->timeLabel->setStyleSheet("");
 }
 
 void StatisticsWidget::onTimeout(){
@@ -81,6 +83,10 @@ void StatisticsWidget::onTimerReset(){
 
 void StatisticsWidget::onMoveDone(){
     updateStatistics();
+}
+
+void StatisticsWidget::onCubeSolved(){
+    ui->timeLabel->setStyleSheet("font: bold; color: #008800");
 }
 
 void StatisticsWidget::onBackgroundColourSettingChanged(){

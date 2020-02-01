@@ -45,6 +45,8 @@ private slots:
     void onTimerReset();
     void onMoveDone();
 
+    void onCubeSolved();
+
     //slots from settings being changed
     void onBackgroundColourSettingChanged();
 

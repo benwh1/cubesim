@@ -34,6 +34,7 @@ void CubeWidget::initialize(Cube *cube){
 
     //detect when the cube is solved
     connect(cube, SIGNAL(cubeSolved()), this, SLOT(onCubeSolved()));
+    connect(cube, SIGNAL(cubeSolved()), ui->statisticsWidget, SLOT(onCubeSolved()));
 }
 
 Settings *CubeWidget::getSettings(){
