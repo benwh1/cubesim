@@ -25,6 +25,10 @@ int Settings::getLineWidth(){
     return lineWidth;
 }
 
+bool Settings::getMultislice(){
+    return multislice;
+}
+
 void Settings::setAntialiasing(bool b){
     antialiasing = b;
     emit antialiasingChanged();
@@ -49,6 +53,12 @@ void Settings::setLineWidth(int n){
     emit settingChanged();
 }
 
+void Settings::setMultislice(bool b){
+    multislice = b;
+    emit multisliceChanged();
+    emit settingChanged();
+}
+
 QJsonObject Settings::toJSON(){
     QJsonObject data;
 
@@ -56,6 +66,7 @@ QJsonObject Settings::toJSON(){
     data["backgroundColour"] = backgroundColour.name(QColor::HexArgb);
     data["lineColour"] = lineColour.name(QColor::HexArgb);
     data["lineWidth"] = lineWidth;
+    data["multislice"] = multislice;
 
     return data;
 }
@@ -65,4 +76,5 @@ void Settings::fromJSON(QJsonObject data){
     setBackgroundColour(QColor(data["backgroundColour"].toString()));
     setLineColour(QColor(data["lineColour"].toString()));
     setLineWidth(data["lineWidth"].toInt());
+    setMultislice(data["multislice"].toBool());
 }

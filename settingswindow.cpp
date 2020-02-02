@@ -13,6 +13,7 @@ SettingsWindow::SettingsWindow(Settings *settings, QDialog *parent) :
     connect(ui->backgroundColourWidget, SIGNAL(colorChanged()), this, SLOT(onBackgroundColourWidgetChanged()));
     connect(ui->lineColourWidget, SIGNAL(colorChanged()), this, SLOT(onLineColourWidgetChanged()));
     connect(ui->lineWidthSpinBox, SIGNAL(valueChanged(int)), this, SLOT(onLineWidthSpinBoxChanged()));
+    connect(ui->multisliceCheckBox, SIGNAL(toggled(bool)), this, SLOT(onMultisliceCheckBoxChanged()));
 
     connect(settings, SIGNAL(settingChanged()), this, SLOT(onSettingChanged()));
 
@@ -33,7 +34,8 @@ void SettingsWindow::synchronizeFromSettings(){
     QList<QWidget*> widgets = {ui->antialiasingCheckBox,
                               ui->backgroundColourWidget,
                               ui->lineColourWidget,
-                              ui->lineWidthSpinBox};
+                              ui->lineWidthSpinBox,
+                              ui->multisliceCheckBox};
 
     foreach(QWidget *w, widgets){
         w->blockSignals(true);
@@ -43,6 +45,7 @@ void SettingsWindow::synchronizeFromSettings(){
     ui->backgroundColourWidget->setColor(settings->getBackgroundColour());
     ui->lineColourWidget->setColor(settings->getLineColour());
     ui->lineWidthSpinBox->setValue(settings->getLineWidth());
+    ui->multisliceCheckBox->setChecked(settings->getMultislice());
 
     foreach(QWidget *w, widgets){
         w->blockSignals(false);
@@ -63,6 +66,10 @@ void SettingsWindow::onLineColourWidgetChanged(){
 
 void SettingsWindow::onLineWidthSpinBoxChanged(){
     settings->setLineWidth(ui->lineWidthSpinBox->value());
+}
+
+void SettingsWindow::onMultisliceCheckBoxChanged(){
+    settings->setMultislice(ui->multisliceCheckBox->isChecked());
 }
 
 void SettingsWindow::onSettingChanged(){

@@ -49,7 +49,6 @@ private:
 
     State state;
 
-    bool multislice;
     bool swapCtrlShift;
 
     QJsonObject toJSON();

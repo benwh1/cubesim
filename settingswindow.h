@@ -29,6 +29,7 @@ private slots:
     void onBackgroundColourWidgetChanged();
     void onLineColourWidgetChanged();
     void onLineWidthSpinBoxChanged();
+    void onMultisliceCheckBoxChanged();
 
     void onSettingChanged();
 

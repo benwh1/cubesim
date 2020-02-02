@@ -8,7 +8,6 @@ CubeWidget::CubeWidget(QWidget *parent) :
     ui->setupUi(this);
 
     //initialize variables
-    multislice = false;
     state = State::Neutral;
     swapCtrlShift = false;
     settings = new Settings(this);
@@ -126,7 +125,7 @@ void CubeWidget::keyPressEvent(QKeyEvent *event){
         }
     }
     else if(event->key() == Qt::Key_CapsLock){
-        multislice = !multislice;
+        settings->setMultislice(!settings->getMultislice());
     }
     else{
         event->ignore();
@@ -154,7 +153,6 @@ QJsonObject CubeWidget::toJSON(){
     data["statistics"] = statistics->toJSON();
     data["cube"] = cube->toJSON();
     data["cubeGraphicsObject"] = ui->graphicsView->getCubeGraphicsObject()->toJSON();
-    data["multislice"] = multislice;
     data["swapCtrlShift"] = swapCtrlShift;
     data["settings"] = settings->toJSON();
 
@@ -173,7 +171,6 @@ void CubeWidget::fromJSON(QJsonObject data){
     statistics->fromJSON(data["statistics"].toObject());
     cube->fromJSON(data["cube"].toObject());
     ui->graphicsView->getCubeGraphicsObject()->fromJSON(data["cubeGraphicsObject"].toObject());
-    multislice = data["multislice"].toBool();
     swapCtrlShift = data["swapCtrlShift"].toBool();
     settings->fromJSON(data["settings"].toObject());
 }
@@ -248,7 +245,7 @@ void CubeWidget::onMoveDrag(Cube::Axis axis, int layer, bool clockwise, Qt::Mous
     //don't allow moves if the solve is finished
     if(state != State::Finished){
         if(rotation) cube->rotate(axis, amount);
-        else if(multislice) cube->multisliceMove(axis, layer, amount);
+        else if(settings->getMultislice()) cube->multisliceMove(axis, layer, amount);
         else cube->move(axis, layer, amount);
     }
 }

@@ -15,11 +15,13 @@ public:
     QColor getBackgroundColour();
     QColor getLineColour();
     int getLineWidth();
+    bool getMultislice();
 
     void setAntialiasing(bool b);
     void setBackgroundColour(QColor c);
     void setLineColour(QColor c);
     void setLineWidth(int n);
+    void setMultislice(bool b);
 
     QJsonObject toJSON();
     void fromJSON(QJsonObject data);
@@ -29,12 +31,14 @@ private:
     QColor lineColour;
     bool antialiasing;
     int lineWidth;
+    bool multislice;
 
 signals:
     void antialiasingChanged();
     void backgroundColourChanged();
     void lineColourChanged();
     void lineWidthChanged();
+    void multisliceChanged();
 
     //emitted when any setting is changed
     void settingChanged();
