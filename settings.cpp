@@ -7,6 +7,7 @@ Settings::Settings(QObject *parent) :
     backgroundColour = QColor(255, 228, 196);
     lineColour = Qt::black;
     lineWidth = 0;
+    guideLines = false;
 }
 
 bool Settings::getAntialiasing(){
@@ -27,6 +28,10 @@ int Settings::getLineWidth(){
 
 bool Settings::getMultislice(){
     return multislice;
+}
+
+bool Settings::getGuideLines(){
+    return guideLines;
 }
 
 void Settings::setAntialiasing(bool b){
@@ -59,6 +64,12 @@ void Settings::setMultislice(bool b){
     emit settingChanged();
 }
 
+void Settings::setGuideLines(bool b){
+    guideLines = b;
+    emit guideLinesChanged();
+    emit settingChanged();
+}
+
 QJsonObject Settings::toJSON(){
     QJsonObject data;
 
@@ -67,6 +78,7 @@ QJsonObject Settings::toJSON(){
     data["lineColour"] = lineColour.name(QColor::HexArgb);
     data["lineWidth"] = lineWidth;
     data["multislice"] = multislice;
+    data["guideLines"] = guideLines;
 
     return data;
 }
@@ -77,4 +89,5 @@ void Settings::fromJSON(QJsonObject data){
     setLineColour(QColor(data["lineColour"].toString()));
     setLineWidth(data["lineWidth"].toInt());
     setMultislice(data["multislice"].toBool());
+    setGuideLines(data["guideLines"].toBool());
 }

@@ -30,6 +30,7 @@ private slots:
     void onLineColourWidgetChanged();
     void onLineWidthSpinBoxChanged();
     void onMultisliceCheckBoxChanged();
+    void onGuideLinesCheckBoxChanged();
 
     void onSettingChanged();
 

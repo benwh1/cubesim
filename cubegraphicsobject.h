@@ -42,13 +42,15 @@ protected:
 
 private:
     Cube *cube;
-    QList<QList<QList<QGraphicsPolygonItem*>>> stickers;
-    QList<QColor> colours;
-
     Settings *settings;
+
+    QList<QColor> colours;
 
     qreal edgeLength;
     qreal gapSize;
+
+    QList<QList<QList<QGraphicsPolygonItem*>>> stickers;
+    QList<QGraphicsLineItem*> guideLines;
 
     Projection proj;
 
@@ -71,6 +73,7 @@ private slots:
     //slots from settings being changed
     void onLineColourSettingChanged();
     void onLineWidthSettingChanged();
+    void onGuideLinesSettingChanged();
 
 signals:
     void projectionChanged();
