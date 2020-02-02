@@ -11,7 +11,26 @@ public:
         QString fromVersion = data["version"].toString();
         QString toVersion;
 
-        if(fromVersion == "0.1"){
+        if(fromVersion == "0.0"){
+            /* differences:
+             * added settings object containing:
+             * antialiasing, backgroundColour, lineColour, lineWidth
+             */
+
+            toVersion = "0.1";
+
+            //create the settings json object with the default values
+            //that were used in save format version 0.1
+            QJsonObject settings;
+            settings["antialiasing"] = false;
+            settings["backgroundColour"] = "#ffffe4c4";
+            settings["lineColour"] = "#ff000000";
+            settings["lineWidth"] = 0;
+
+            //add it to the save file
+            data["settings"] = settings;
+        }
+        else if(fromVersion == "0.1"){
             /* differences:
              * multislice moved into the Settings object
              */
@@ -26,14 +45,17 @@ public:
             QJsonObject settings = data["settings"].toObject();
             settings["multislice"] = multislice;
             data["settings"] = settings;
-
-            //update the version number
-            data["version"] = toVersion;
         }
         else if(fromVersion == Global::saveFormatVersion()){
             return data;
         }
 
+        //update the version number
+        data["version"] = toVersion;
+
+        //keep converting the data forward one version at a time until
+        //fromVersion == Global::saveFormatVersion() is true and the save is
+        //fully updated
         return convert(data);
     }
 
