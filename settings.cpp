@@ -7,6 +7,7 @@ Settings::Settings(QObject *parent) :
     backgroundColour = QColor(255, 228, 196);
     lineColour = Qt::black;
     lineWidth = 0;
+    multislice = false;
     guideLines = false;
 }
 
