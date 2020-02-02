@@ -8,6 +8,7 @@
 #include <QWidget>
 #include "cube.h"
 #include "global.h"
+#include "saveconverter.h"
 #include "settings.h"
 #include "statistics.h"
 

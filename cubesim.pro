@@ -38,6 +38,7 @@ HEADERS += \
     global.h \
     mainwindow.h \
     projection.h \
+    saveconverter.h \
     settings.h \
     settingswindow.h \
     statistics.h \
