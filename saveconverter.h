@@ -39,6 +39,7 @@ public:
         else if(fromVersion == "0.1"){
             /* differences:
              * multislice moved into the Settings object
+             * added guide lines to Settings
              */
 
             toVersion = "0.2";
@@ -47,9 +48,12 @@ public:
             bool multislice = data["multislice"].toBool();
             data.remove("multislice");
 
-            //add the multislice variable into settings
+            //add the new variables into settings
             QJsonObject settings = data["settings"].toObject();
             settings["multislice"] = multislice;
+            settings["guideLines"] = true;
+
+            //add the new settings to the save file
             data["settings"] = settings;
         }
 
