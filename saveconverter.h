@@ -11,6 +11,12 @@ public:
         QString fromVersion = data["version"].toString();
         QString toVersion;
 
+        //if we're already using the latest version, then we don't need
+        //to change anything
+        if(fromVersion == Global::saveFormatVersion()){
+            return data;
+        }
+
         if(fromVersion == "0.0"){
             /* differences:
              * added settings object containing:
@@ -45,9 +51,6 @@ public:
             QJsonObject settings = data["settings"].toObject();
             settings["multislice"] = multislice;
             data["settings"] = settings;
-        }
-        else if(fromVersion == Global::saveFormatVersion()){
-            return data;
         }
 
         //update the version number

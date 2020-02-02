@@ -160,9 +160,8 @@ QJsonObject CubeWidget::toJSON(){
 }
 
 void CubeWidget::fromJSON(QJsonObject data){
-    if(data["version"].toString() != Global::saveFormatVersion()){
-        data = SaveConverter::convert(data);
-    }
+    //make sure the save file is compatible with the latest format
+    data = SaveConverter::convert(data);
 
     //TODO: make sure that the cube graphics object is only redrawn once
     //after everything has been loaded
