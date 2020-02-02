@@ -14,7 +14,7 @@ CubeGraphicsObject::CubeGraphicsObject(Cube *c, Settings *s, QGraphicsObject *pa
 
     connect(settings, SIGNAL(lineColourChanged()), this, SLOT(onLineColourSettingChanged()));
     connect(settings, SIGNAL(lineWidthChanged()), this, SLOT(onLineWidthSettingChanged()));
-    connect(settings, SIGNAL(guideLinesChanged()), this, SLOT(onGuideLinesSettingChanged()));
+    connect(settings, SIGNAL(guideLinesCrossChanged()), this, SLOT(onGuideLinesCrossSettingChanged()));
 
     float mat[6] = {1/sqrt(2), 1/sqrt(2), 0, -1/sqrt(6), 1/sqrt(6), sqrt(2./3)};
     proj = Projection(QMatrix3x2(mat));
@@ -361,60 +361,61 @@ void CubeGraphicsObject::reset(){
     }
 
     //guide lines
-    for(int i=0; i<guideLines.size(); i++){
-        delete guideLines[i];
-    }
-
-    guideLines.clear();
-
     QGraphicsLineItem *line;
     QPointF p1, p2;
+
+    //X
+    for(int i=0; i<guideLinesCross.size(); i++){
+        delete guideLinesCross[i];
+    }
+
+    guideLinesCross.clear();
 
     //U face
     line = new QGraphicsLineItem(this);
     p1 = edgeLength/2 * proj.project(QVector3D(-1, -1, 1));
     p2 = edgeLength/2 * proj.project(QVector3D(1, 1, 1));
     line->setLine(QLineF(p1, p2));
-    guideLines.append(line);
+    guideLinesCross.append(line);
 
     line = new QGraphicsLineItem(this);
     p1 = edgeLength/2 * proj.project(QVector3D(-1, 1, 1));
     p2 = edgeLength/2 * proj.project(QVector3D(1, -1, 1));
     line->setLine(QLineF(p1, p2));
-    guideLines.append(line);
+    guideLinesCross.append(line);
 
     //F face
     line = new QGraphicsLineItem(this);
     p1 = edgeLength/2 * proj.project(QVector3D(-1, -1, -1));
     p2 = edgeLength/2 * proj.project(QVector3D(1, -1, 1));
     line->setLine(QLineF(p1, p2));
-    guideLines.append(line);
+    guideLinesCross.append(line);
 
     line = new QGraphicsLineItem(this);
     p1 = edgeLength/2 * proj.project(QVector3D(-1, -1, 1));
     p2 = edgeLength/2 * proj.project(QVector3D(1, -1, -1));
     line->setLine(QLineF(p1, p2));
-    guideLines.append(line);
+    guideLinesCross.append(line);
 
     //R face
     line = new QGraphicsLineItem(this);
     p1 = edgeLength/2 * proj.project(QVector3D(1, -1, -1));
     p2 = edgeLength/2 * proj.project(QVector3D(1, 1, 1));
     line->setLine(QLineF(p1, p2));
-    guideLines.append(line);
+    guideLinesCross.append(line);
 
     line = new QGraphicsLineItem(this);
     p1 = edgeLength/2 * proj.project(QVector3D(1, -1, 1));
     p2 = edgeLength/2 * proj.project(QVector3D(1, 1, -1));
     line->setLine(QLineF(p1, p2));
-    guideLines.append(line);
+    guideLinesCross.append(line);
 
-    foreach(QGraphicsLineItem *l, guideLines){
+    foreach(QGraphicsLineItem *l, guideLinesCross){
         //set the colour of the guide lines
         l->setPen(QPen(settings->getLineColour(), settings->getLineWidth()));
 
         //make the guide lines invisible if they are disabled in settings
-        l->setVisible(settings->getGuideLines());
+        l->setVisible(settings->getGuideLinesCross());
     }
 }
 
@@ -517,7 +518,7 @@ void CubeGraphicsObject::onLineColourSettingChanged(){
     }
 
     //guide lines
-    foreach(QGraphicsLineItem *l, guideLines){
+    foreach(QGraphicsLineItem *l, guideLinesCross){
         QPen pen = l->pen();
         pen.setColor(settings->getLineColour());
         l->setPen(pen);
@@ -539,15 +540,15 @@ void CubeGraphicsObject::onLineWidthSettingChanged(){
     }
 
     //guide lines
-    foreach(QGraphicsLineItem *l, guideLines){
+    foreach(QGraphicsLineItem *l, guideLinesCross){
         QPen pen = l->pen();
         pen.setWidth(settings->getLineWidth());
         l->setPen(pen);
     }
 }
 
-void CubeGraphicsObject::onGuideLinesSettingChanged(){
-    foreach(QGraphicsLineItem *l, guideLines){
-        l->setVisible(settings->getGuideLines());
+void CubeGraphicsObject::onGuideLinesCrossSettingChanged(){
+    foreach(QGraphicsLineItem *l, guideLinesCross){
+        l->setVisible(settings->getGuideLinesCross());
     }
 }

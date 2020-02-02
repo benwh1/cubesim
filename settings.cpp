@@ -8,7 +8,7 @@ Settings::Settings(QObject *parent) :
     lineColour = Qt::black;
     lineWidth = 0;
     multislice = false;
-    guideLines = false;
+    guideLinesCross = false;
 }
 
 bool Settings::getAntialiasing(){
@@ -31,8 +31,8 @@ bool Settings::getMultislice(){
     return multislice;
 }
 
-bool Settings::getGuideLines(){
-    return guideLines;
+bool Settings::getGuideLinesCross(){
+    return guideLinesCross;
 }
 
 void Settings::setAntialiasing(bool b){
@@ -65,9 +65,9 @@ void Settings::setMultislice(bool b){
     emit settingChanged();
 }
 
-void Settings::setGuideLines(bool b){
-    guideLines = b;
-    emit guideLinesChanged();
+void Settings::setGuideLinesCross(bool b){
+    guideLinesCross = b;
+    emit guideLinesCrossChanged();
     emit settingChanged();
 }
 
@@ -79,7 +79,7 @@ QJsonObject Settings::toJSON(){
     data["lineColour"] = lineColour.name(QColor::HexArgb);
     data["lineWidth"] = lineWidth;
     data["multislice"] = multislice;
-    data["guideLines"] = guideLines;
+    data["guideLinesCross"] = guideLinesCross;
 
     return data;
 }
@@ -90,5 +90,5 @@ void Settings::fromJSON(QJsonObject data){
     setLineColour(QColor(data["lineColour"].toString()));
     setLineWidth(data["lineWidth"].toInt());
     setMultislice(data["multislice"].toBool());
-    setGuideLines(data["guideLines"].toBool());
+    setGuideLinesCross(data["guideLinesCross"].toBool());
 }

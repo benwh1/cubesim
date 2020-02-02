@@ -50,7 +50,7 @@ private:
     qreal gapSize;
 
     QList<QList<QList<QGraphicsPolygonItem*>>> stickers;
-    QList<QGraphicsLineItem*> guideLines;
+    QList<QGraphicsLineItem*> guideLinesCross;
 
     Projection proj;
 
@@ -73,7 +73,7 @@ private slots:
     //slots from settings being changed
     void onLineColourSettingChanged();
     void onLineWidthSettingChanged();
-    void onGuideLinesSettingChanged();
+    void onGuideLinesCrossSettingChanged();
 
 signals:
     void projectionChanged();
