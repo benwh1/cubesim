@@ -11,6 +11,8 @@ Settings::Settings(QObject *parent) :
     guideLinesCross = false;
     guideLinesPlus = false;
     guideLinesBox = false;
+    guideLineColour = Qt::black;
+    guideLineWidth = 2;
 }
 
 bool Settings::getAntialiasing(){
@@ -43,6 +45,14 @@ bool Settings::getGuideLinesPlus(){
 
 bool Settings::getGuideLinesBox(){
     return guideLinesBox;
+}
+
+QColor Settings::getGuideLineColour(){
+    return guideLineColour;
+}
+
+int Settings::getGuideLineWidth(){
+    return guideLineWidth;
 }
 
 void Settings::setAntialiasing(bool b){
@@ -93,6 +103,18 @@ void Settings::setGuideLinesBox(bool b){
     emit settingChanged();
 }
 
+void Settings::setGuideLineColour(QColor c){
+    guideLineColour = c;
+    emit guideLineColourChanged();
+    emit settingChanged();
+}
+
+void Settings::setGuideLineWidth(int n){
+    guideLineWidth = n;
+    emit guideLineWidthChanged();
+    emit settingChanged();
+}
+
 QJsonObject Settings::toJSON(){
     QJsonObject data;
 
@@ -104,6 +126,8 @@ QJsonObject Settings::toJSON(){
     data["guideLinesCross"] = guideLinesCross;
     data["guideLinesPlus"] = guideLinesPlus;
     data["guideLinesBox"] = guideLinesBox;
+    data["guideLineColour"] = guideLineColour.name(QColor::HexArgb);
+    data["guideLineWidth"] = guideLineWidth;
 
     return data;
 }
@@ -117,4 +141,6 @@ void Settings::fromJSON(QJsonObject data){
     setGuideLinesCross(data["guideLinesCross"].toBool());
     setGuideLinesPlus(data["guideLinesPlus"].toBool());
     setGuideLinesBox(data["guideLinesBox"].toBool());
+    setGuideLineColour(QColor(data["guideLineColour"].toString()));
+    setGuideLineWidth(data["guideLineWidth"].toInt());
 }

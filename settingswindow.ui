@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>240</width>
-    <height>253</height>
+    <height>308</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -103,6 +103,26 @@
             <string>[]</string>
            </property>
           </widget>
+         </item>
+         <item row="7" column="1">
+          <widget class="ColorSettingWidget" name="guideLineColourWidget" native="true"/>
+         </item>
+         <item row="7" column="0">
+          <widget class="QLabel" name="label_7">
+           <property name="text">
+            <string>Guide line colour:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="8" column="0">
+          <widget class="QLabel" name="label_8">
+           <property name="text">
+            <string>Guide line width:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="8" column="1">
+          <widget class="QSpinBox" name="guideLineWidthSpinBox"/>
          </item>
         </layout>
        </item>

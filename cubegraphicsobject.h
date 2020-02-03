@@ -78,6 +78,8 @@ private slots:
     void onGuideLinesCrossSettingChanged();
     void onGuideLinesPlusSettingChanged();
     void onGuideLinesBoxSettingChanged();
+    void onGuideLineColourSettingChanged();
+    void onGuideLineWidthSettingChanged();
 
 signals:
     void projectionChanged();

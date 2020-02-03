@@ -17,6 +17,8 @@ CubeGraphicsObject::CubeGraphicsObject(Cube *c, Settings *s, QGraphicsObject *pa
     connect(settings, SIGNAL(guideLinesCrossChanged()), this, SLOT(onGuideLinesCrossSettingChanged()));
     connect(settings, SIGNAL(guideLinesPlusChanged()), this, SLOT(onGuideLinesPlusSettingChanged()));
     connect(settings, SIGNAL(guideLinesBoxChanged()), this, SLOT(onGuideLinesBoxSettingChanged()));
+    connect(settings, SIGNAL(guideLineColourChanged()), this, SLOT(onGuideLineColourSettingChanged()));
+    connect(settings, SIGNAL(guideLineWidthChanged()), this, SLOT(onGuideLineWidthSettingChanged()));
 
     float mat[6] = {1/sqrt(2), 1/sqrt(2), 0, -1/sqrt(6), 1/sqrt(6), sqrt(2./3)};
     proj = Projection(QMatrix3x2(mat));
@@ -414,7 +416,7 @@ void CubeGraphicsObject::reset(){
 
     foreach(QGraphicsLineItem *l, guideLinesCross){
         //set the colour of the guide lines
-        l->setPen(QPen(settings->getLineColour(), settings->getLineWidth()));
+        l->setPen(QPen(settings->getGuideLineColour(), settings->getGuideLineWidth()));
 
         //make the guide lines invisible if they are disabled in settings
         l->setVisible(settings->getGuideLinesCross());
@@ -468,7 +470,7 @@ void CubeGraphicsObject::reset(){
 
     foreach(QGraphicsLineItem *l, guideLinesPlus){
         //set the colour of the guide lines
-        l->setPen(QPen(settings->getLineColour(), settings->getLineWidth()));
+        l->setPen(QPen(settings->getGuideLineColour(), settings->getGuideLineWidth()));
 
         //make the guide lines invisible if they are disabled in settings
         l->setVisible(settings->getGuideLinesPlus());
@@ -516,7 +518,7 @@ void CubeGraphicsObject::reset(){
 
     foreach(QGraphicsPolygonItem *b, guideLinesBox){
         //set the colour of the guide lines
-        b->setPen(QPen(settings->getLineColour(), settings->getLineWidth()));
+        b->setPen(QPen(settings->getGuideLineColour(), settings->getGuideLineWidth()));
 
         //set the brush to be transparent (not filled in)
         b->setBrush(QBrush(Qt::transparent));
@@ -611,7 +613,6 @@ void CubeGraphicsObject::onCubeSizeChanged(){
 }
 
 void CubeGraphicsObject::onLineColourSettingChanged(){
-    //stickers
     int s = cube->getSize();
     for(int face=0; face<3; face++){
         for(int y=0; y<s; y++){
@@ -623,27 +624,9 @@ void CubeGraphicsObject::onLineColourSettingChanged(){
             }
         }
     }
-
-    //guide lines
-    foreach(QGraphicsLineItem *l, guideLinesCross){
-        QPen pen = l->pen();
-        pen.setColor(settings->getLineColour());
-        l->setPen(pen);
-    }
-    foreach(QGraphicsLineItem *l, guideLinesPlus){
-        QPen pen = l->pen();
-        pen.setColor(settings->getLineColour());
-        l->setPen(pen);
-    }
-    foreach(QGraphicsPolygonItem *b, guideLinesBox){
-        QPen pen = b->pen();
-        pen.setColor(settings->getLineColour());
-        b->setPen(pen);
-    }
 }
 
 void CubeGraphicsObject::onLineWidthSettingChanged(){
-    //stickers
     int s = cube->getSize();
     for(int face=0; face<3; face++){
         for(int y=0; y<s; y++){
@@ -654,23 +637,6 @@ void CubeGraphicsObject::onLineWidthSettingChanged(){
                 stickers[face][y][x]->setPen(pen);
             }
         }
-    }
-
-    //guide lines
-    foreach(QGraphicsLineItem *l, guideLinesCross){
-        QPen pen = l->pen();
-        pen.setWidth(settings->getLineWidth());
-        l->setPen(pen);
-    }
-    foreach(QGraphicsLineItem *l, guideLinesPlus){
-        QPen pen = l->pen();
-        pen.setWidth(settings->getLineWidth());
-        l->setPen(pen);
-    }
-    foreach(QGraphicsPolygonItem *b, guideLinesBox){
-        QPen pen = b->pen();
-        pen.setWidth(settings->getLineWidth());
-        b->setPen(pen);
     }
 }
 
@@ -689,5 +655,41 @@ void CubeGraphicsObject::onGuideLinesPlusSettingChanged(){
 void CubeGraphicsObject::onGuideLinesBoxSettingChanged(){
     foreach(QGraphicsPolygonItem *b, guideLinesBox){
         b->setVisible(settings->getGuideLinesBox());
+    }
+}
+
+void CubeGraphicsObject::onGuideLineColourSettingChanged(){
+    foreach(QGraphicsLineItem *l, guideLinesCross){
+        QPen pen = l->pen();
+        pen.setColor(settings->getGuideLineColour());
+        l->setPen(pen);
+    }
+    foreach(QGraphicsLineItem *l, guideLinesPlus){
+        QPen pen = l->pen();
+        pen.setColor(settings->getGuideLineColour());
+        l->setPen(pen);
+    }
+    foreach(QGraphicsPolygonItem *b, guideLinesBox){
+        QPen pen = b->pen();
+        pen.setColor(settings->getGuideLineColour());
+        b->setPen(pen);
+    }
+}
+
+void CubeGraphicsObject::onGuideLineWidthSettingChanged(){
+    foreach(QGraphicsLineItem *l, guideLinesCross){
+        QPen pen = l->pen();
+        pen.setWidth(settings->getGuideLineWidth());
+        l->setPen(pen);
+    }
+    foreach(QGraphicsLineItem *l, guideLinesPlus){
+        QPen pen = l->pen();
+        pen.setWidth(settings->getGuideLineWidth());
+        l->setPen(pen);
+    }
+    foreach(QGraphicsPolygonItem *b, guideLinesBox){
+        QPen pen = b->pen();
+        pen.setWidth(settings->getGuideLineWidth());
+        b->setPen(pen);
     }
 }

@@ -54,6 +54,8 @@ public:
             settings["guideLinesCross"] = false;
             settings["guideLinesPlus"] = false;
             settings["guideLinesBox"] = false;
+            settings["guideLineColour"] = "#ff000000";
+            settings["guideLineWidth"] = 2;
 
             //add the new settings to the save file
             data["settings"] = settings;

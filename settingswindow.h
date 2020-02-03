@@ -33,6 +33,8 @@ private slots:
     void onGuideLinesCrossCheckBoxChanged();
     void onGuideLinesPlusCheckBoxChanged();
     void onGuideLinesBoxCheckBoxChanged();
+    void onGuideLineColourWidgetChanged();
+    void onGuideLineWidthSpinBoxChanged();
 
     void onSettingChanged();
 

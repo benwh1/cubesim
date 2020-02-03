@@ -19,6 +19,8 @@ public:
     bool getGuideLinesCross();
     bool getGuideLinesPlus();
     bool getGuideLinesBox();
+    QColor getGuideLineColour();
+    int getGuideLineWidth();
 
     void setAntialiasing(bool b);
     void setBackgroundColour(QColor c);
@@ -28,6 +30,8 @@ public:
     void setGuideLinesCross(bool b);
     void setGuideLinesPlus(bool b);
     void setGuideLinesBox(bool b);
+    void setGuideLineColour(QColor c);
+    void setGuideLineWidth(int n);
 
     QJsonObject toJSON();
     void fromJSON(QJsonObject data);
@@ -41,6 +45,8 @@ private:
     bool guideLinesCross;
     bool guideLinesPlus;
     bool guideLinesBox;
+    QColor guideLineColour;
+    int guideLineWidth;
 
 signals:
     void antialiasingChanged();
@@ -51,6 +57,8 @@ signals:
     void guideLinesCrossChanged();
     void guideLinesPlusChanged();
     void guideLinesBoxChanged();
+    void guideLineColourChanged();
+    void guideLineWidthChanged();
 
     //emitted when any setting is changed
     void settingChanged();

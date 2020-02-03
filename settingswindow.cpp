@@ -17,6 +17,8 @@ SettingsWindow::SettingsWindow(Settings *settings, QDialog *parent) :
     connect(ui->guideLinesCrossCheckBox, SIGNAL(toggled(bool)), this, SLOT(onGuideLinesCrossCheckBoxChanged()));
     connect(ui->guideLinesPlusCheckBox, SIGNAL(toggled(bool)), this, SLOT(onGuideLinesPlusCheckBoxChanged()));
     connect(ui->guideLinesBoxCheckBox, SIGNAL(toggled(bool)), this, SLOT(onGuideLinesBoxCheckBoxChanged()));
+    connect(ui->guideLineColourWidget, SIGNAL(colorChanged()), this, SLOT(onGuideLineColourWidgetChanged()));
+    connect(ui->guideLineWidthSpinBox, SIGNAL(valueChanged(int)), this, SLOT(onGuideLineWidthSpinBoxChanged()));
 
     connect(settings, SIGNAL(settingChanged()), this, SLOT(onSettingChanged()));
 
@@ -41,7 +43,9 @@ void SettingsWindow::synchronizeFromSettings(){
                               ui->multisliceCheckBox,
                               ui->guideLinesCrossCheckBox,
                               ui->guideLinesPlusCheckBox,
-                              ui->guideLinesBoxCheckBox};
+                              ui->guideLinesBoxCheckBox,
+                              ui->guideLineColourWidget,
+                              ui->guideLineWidthSpinBox};
 
     foreach(QWidget *w, widgets){
         w->blockSignals(true);
@@ -55,6 +59,8 @@ void SettingsWindow::synchronizeFromSettings(){
     ui->guideLinesCrossCheckBox->setChecked(settings->getGuideLinesCross());
     ui->guideLinesPlusCheckBox->setChecked(settings->getGuideLinesPlus());
     ui->guideLinesBoxCheckBox->setChecked(settings->getGuideLinesBox());
+    ui->guideLineColourWidget->setColor(settings->getGuideLineColour());
+    ui->guideLineWidthSpinBox->setValue(settings->getGuideLineWidth());
 
     foreach(QWidget *w, widgets){
         w->blockSignals(false);
@@ -91,6 +97,14 @@ void SettingsWindow::onGuideLinesPlusCheckBoxChanged(){
 
 void SettingsWindow::onGuideLinesBoxCheckBoxChanged(){
     settings->setGuideLinesBox(ui->guideLinesBoxCheckBox->isChecked());
+}
+
+void SettingsWindow::onGuideLineColourWidgetChanged(){
+    settings->setGuideLineColour(ui->guideLineColourWidget->getColor());
+}
+
+void SettingsWindow::onGuideLineWidthSpinBoxChanged(){
+    settings->setGuideLineWidth(ui->guideLineWidthSpinBox->value());
 }
 
 void SettingsWindow::onSettingChanged(){
