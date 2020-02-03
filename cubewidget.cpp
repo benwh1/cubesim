@@ -12,6 +12,17 @@ CubeWidget::CubeWidget(QWidget *parent) :
     swapCtrlShift = false;
     settings = new Settings(this);
     statistics = new Statistics(this);
+
+    //load the settings file if it exists
+    QFile f("settings.dat");
+    if(f.exists()){
+        f.open(QFile::ReadOnly);
+        QJsonDocument document = QJsonDocument::fromBinaryData(f.readAll());
+        f.close();
+
+        QJsonObject data = document.object();
+        settings->fromJSON(data);
+    }
 }
 
 CubeWidget::~CubeWidget()
