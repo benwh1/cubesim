@@ -68,6 +68,8 @@ void StatisticsWidget::onTimeout(){
 }
 
 void StatisticsWidget::onTimerStarted(){
+    ui->timeLabel->setStyleSheet("");
+
     updateTimer.start(30);
     updateStatistics();
 }
