@@ -31,6 +31,8 @@ private slots:
     void onLineWidthSpinBoxChanged();
     void onMultisliceCheckBoxChanged();
     void onGuideLinesCrossCheckBoxChanged();
+    void onGuideLinesPlusCheckBoxChanged();
+    void onGuideLinesBoxCheckBoxChanged();
 
     void onSettingChanged();
 

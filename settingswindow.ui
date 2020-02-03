@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>240</width>
-    <height>195</height>
+    <height>253</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -87,6 +87,20 @@
           <widget class="QCheckBox" name="guideLinesCrossCheckBox">
            <property name="text">
             <string>X</string>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="1">
+          <widget class="QCheckBox" name="guideLinesPlusCheckBox">
+           <property name="text">
+            <string>+</string>
+           </property>
+          </widget>
+         </item>
+         <item row="6" column="1">
+          <widget class="QCheckBox" name="guideLinesBoxCheckBox">
+           <property name="text">
+            <string>[]</string>
            </property>
           </widget>
          </item>

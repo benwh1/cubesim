@@ -51,6 +51,8 @@ private:
 
     QList<QList<QList<QGraphicsPolygonItem*>>> stickers;
     QList<QGraphicsLineItem*> guideLinesCross;
+    QList<QGraphicsLineItem*> guideLinesPlus;
+    QList<QGraphicsPolygonItem*> guideLinesBox;
 
     Projection proj;
 
@@ -74,6 +76,8 @@ private slots:
     void onLineColourSettingChanged();
     void onLineWidthSettingChanged();
     void onGuideLinesCrossSettingChanged();
+    void onGuideLinesPlusSettingChanged();
+    void onGuideLinesBoxSettingChanged();
 
 signals:
     void projectionChanged();

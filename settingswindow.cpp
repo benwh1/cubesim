@@ -15,6 +15,8 @@ SettingsWindow::SettingsWindow(Settings *settings, QDialog *parent) :
     connect(ui->lineWidthSpinBox, SIGNAL(valueChanged(int)), this, SLOT(onLineWidthSpinBoxChanged()));
     connect(ui->multisliceCheckBox, SIGNAL(toggled(bool)), this, SLOT(onMultisliceCheckBoxChanged()));
     connect(ui->guideLinesCrossCheckBox, SIGNAL(toggled(bool)), this, SLOT(onGuideLinesCrossCheckBoxChanged()));
+    connect(ui->guideLinesPlusCheckBox, SIGNAL(toggled(bool)), this, SLOT(onGuideLinesPlusCheckBoxChanged()));
+    connect(ui->guideLinesBoxCheckBox, SIGNAL(toggled(bool)), this, SLOT(onGuideLinesBoxCheckBoxChanged()));
 
     connect(settings, SIGNAL(settingChanged()), this, SLOT(onSettingChanged()));
 
@@ -37,7 +39,9 @@ void SettingsWindow::synchronizeFromSettings(){
                               ui->lineColourWidget,
                               ui->lineWidthSpinBox,
                               ui->multisliceCheckBox,
-                              ui->guideLinesCrossCheckBox};
+                              ui->guideLinesCrossCheckBox,
+                              ui->guideLinesPlusCheckBox,
+                              ui->guideLinesBoxCheckBox};
 
     foreach(QWidget *w, widgets){
         w->blockSignals(true);
@@ -49,6 +53,8 @@ void SettingsWindow::synchronizeFromSettings(){
     ui->lineWidthSpinBox->setValue(settings->getLineWidth());
     ui->multisliceCheckBox->setChecked(settings->getMultislice());
     ui->guideLinesCrossCheckBox->setChecked(settings->getGuideLinesCross());
+    ui->guideLinesPlusCheckBox->setChecked(settings->getGuideLinesPlus());
+    ui->guideLinesBoxCheckBox->setChecked(settings->getGuideLinesBox());
 
     foreach(QWidget *w, widgets){
         w->blockSignals(false);
@@ -77,6 +83,14 @@ void SettingsWindow::onMultisliceCheckBoxChanged(){
 
 void SettingsWindow::onGuideLinesCrossCheckBoxChanged(){
     settings->setGuideLinesCross(ui->guideLinesCrossCheckBox->isChecked());
+}
+
+void SettingsWindow::onGuideLinesPlusCheckBoxChanged(){
+    settings->setGuideLinesPlus(ui->guideLinesPlusCheckBox->isChecked());
+}
+
+void SettingsWindow::onGuideLinesBoxCheckBoxChanged(){
+    settings->setGuideLinesBox(ui->guideLinesBoxCheckBox->isChecked());
 }
 
 void SettingsWindow::onSettingChanged(){

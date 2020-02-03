@@ -9,6 +9,8 @@ Settings::Settings(QObject *parent) :
     lineWidth = 0;
     multislice = false;
     guideLinesCross = false;
+    guideLinesPlus = false;
+    guideLinesBox = false;
 }
 
 bool Settings::getAntialiasing(){
@@ -33,6 +35,14 @@ bool Settings::getMultislice(){
 
 bool Settings::getGuideLinesCross(){
     return guideLinesCross;
+}
+
+bool Settings::getGuideLinesPlus(){
+    return guideLinesPlus;
+}
+
+bool Settings::getGuideLinesBox(){
+    return guideLinesBox;
 }
 
 void Settings::setAntialiasing(bool b){
@@ -71,6 +81,18 @@ void Settings::setGuideLinesCross(bool b){
     emit settingChanged();
 }
 
+void Settings::setGuideLinesPlus(bool b){
+    guideLinesPlus = b;
+    emit guideLinesPlusChanged();
+    emit settingChanged();
+}
+
+void Settings::setGuideLinesBox(bool b){
+    guideLinesBox = b;
+    emit guideLinesBoxChanged();
+    emit settingChanged();
+}
+
 QJsonObject Settings::toJSON(){
     QJsonObject data;
 
@@ -80,6 +102,8 @@ QJsonObject Settings::toJSON(){
     data["lineWidth"] = lineWidth;
     data["multislice"] = multislice;
     data["guideLinesCross"] = guideLinesCross;
+    data["guideLinesPlus"] = guideLinesPlus;
+    data["guideLinesBox"] = guideLinesBox;
 
     return data;
 }
@@ -91,4 +115,6 @@ void Settings::fromJSON(QJsonObject data){
     setLineWidth(data["lineWidth"].toInt());
     setMultislice(data["multislice"].toBool());
     setGuideLinesCross(data["guideLinesCross"].toBool());
+    setGuideLinesPlus(data["guideLinesPlus"].toBool());
+    setGuideLinesBox(data["guideLinesBox"].toBool());
 }

@@ -17,6 +17,8 @@ public:
     int getLineWidth();
     bool getMultislice();
     bool getGuideLinesCross();
+    bool getGuideLinesPlus();
+    bool getGuideLinesBox();
 
     void setAntialiasing(bool b);
     void setBackgroundColour(QColor c);
@@ -24,6 +26,8 @@ public:
     void setLineWidth(int n);
     void setMultislice(bool b);
     void setGuideLinesCross(bool b);
+    void setGuideLinesPlus(bool b);
+    void setGuideLinesBox(bool b);
 
     QJsonObject toJSON();
     void fromJSON(QJsonObject data);
@@ -35,6 +39,8 @@ private:
     int lineWidth;
     bool multislice;
     bool guideLinesCross;
+    bool guideLinesPlus;
+    bool guideLinesBox;
 
 signals:
     void antialiasingChanged();
@@ -43,6 +49,8 @@ signals:
     void lineWidthChanged();
     void multisliceChanged();
     void guideLinesCrossChanged();
+    void guideLinesPlusChanged();
+    void guideLinesBoxChanged();
 
     //emitted when any setting is changed
     void settingChanged();

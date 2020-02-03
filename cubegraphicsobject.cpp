@@ -15,6 +15,8 @@ CubeGraphicsObject::CubeGraphicsObject(Cube *c, Settings *s, QGraphicsObject *pa
     connect(settings, SIGNAL(lineColourChanged()), this, SLOT(onLineColourSettingChanged()));
     connect(settings, SIGNAL(lineWidthChanged()), this, SLOT(onLineWidthSettingChanged()));
     connect(settings, SIGNAL(guideLinesCrossChanged()), this, SLOT(onGuideLinesCrossSettingChanged()));
+    connect(settings, SIGNAL(guideLinesPlusChanged()), this, SLOT(onGuideLinesPlusSettingChanged()));
+    connect(settings, SIGNAL(guideLinesBoxChanged()), this, SLOT(onGuideLinesBoxSettingChanged()));
 
     float mat[6] = {1/sqrt(2), 1/sqrt(2), 0, -1/sqrt(6), 1/sqrt(6), sqrt(2./3)};
     proj = Projection(QMatrix3x2(mat));
@@ -417,6 +419,111 @@ void CubeGraphicsObject::reset(){
         //make the guide lines invisible if they are disabled in settings
         l->setVisible(settings->getGuideLinesCross());
     }
+
+    //+
+    for(int i=0; i<guideLinesPlus.size(); i++){
+        delete guideLinesPlus[i];
+    }
+
+    guideLinesPlus.clear();
+
+    //U face
+    line = new QGraphicsLineItem(this);
+    p1 = edgeLength/2 * proj.project(QVector3D(0, -1, 1));
+    p2 = edgeLength/2 * proj.project(QVector3D(0, 1, 1));
+    line->setLine(QLineF(p1, p2));
+    guideLinesPlus.append(line);
+
+    line = new QGraphicsLineItem(this);
+    p1 = edgeLength/2 * proj.project(QVector3D(-1, 0, 1));
+    p2 = edgeLength/2 * proj.project(QVector3D(1, 0, 1));
+    line->setLine(QLineF(p1, p2));
+    guideLinesPlus.append(line);
+
+    //F face
+    line = new QGraphicsLineItem(this);
+    p1 = edgeLength/2 * proj.project(QVector3D(0, -1, -1));
+    p2 = edgeLength/2 * proj.project(QVector3D(0, -1, 1));
+    line->setLine(QLineF(p1, p2));
+    guideLinesPlus.append(line);
+
+    line = new QGraphicsLineItem(this);
+    p1 = edgeLength/2 * proj.project(QVector3D(-1, -1, 0));
+    p2 = edgeLength/2 * proj.project(QVector3D(1, -1, 0));
+    line->setLine(QLineF(p1, p2));
+    guideLinesPlus.append(line);
+
+    //R face
+    line = new QGraphicsLineItem(this);
+    p1 = edgeLength/2 * proj.project(QVector3D(1, 0, -1));
+    p2 = edgeLength/2 * proj.project(QVector3D(1, 0, 1));
+    line->setLine(QLineF(p1, p2));
+    guideLinesPlus.append(line);
+
+    line = new QGraphicsLineItem(this);
+    p1 = edgeLength/2 * proj.project(QVector3D(1, -1, 0));
+    p2 = edgeLength/2 * proj.project(QVector3D(1, 1, 0));
+    line->setLine(QLineF(p1, p2));
+    guideLinesPlus.append(line);
+
+    foreach(QGraphicsLineItem *l, guideLinesPlus){
+        //set the colour of the guide lines
+        l->setPen(QPen(settings->getLineColour(), settings->getLineWidth()));
+
+        //make the guide lines invisible if they are disabled in settings
+        l->setVisible(settings->getGuideLinesPlus());
+    }
+
+    //box
+    for(int i=0; i<guideLinesBox.size(); i++){
+        delete guideLinesBox[i];
+    }
+
+    guideLinesBox.clear();
+
+    //if odd cube, draw a box around the center sticker
+    if(s%2 == 1){
+        for(int face=0; face<3; face++){
+            QGraphicsPolygonItem *b = new QGraphicsPolygonItem(this);
+            QGraphicsPolygonItem *centerSticker = stickers[face][s/2][s/2];
+            b->setPolygon(centerSticker->polygon());
+
+            guideLinesBox.append(b);
+        }
+    }
+    //if even cube except 2x2, draw a box around the center 4 stickers
+    else if(s != 2){
+        for(int face=0; face<3; face++){
+            QGraphicsPolygonItem *b = new QGraphicsPolygonItem(this);
+
+            //the polygon we want is formed of:
+            //the bottom left corner of stickers[face][s/2][s/2-1]
+            //the top left corner of stickers[face][s/2-1][s/2-1]
+            //the top right corner of stickers[face][s/2-1][s/2]
+            //the bottom right corner of stickers[face][s/2][s/2]
+
+            QPolygonF poly;
+            poly << stickers[face][s/2][s/2-1]->polygon().at(0)
+                 << stickers[face][s/2-1][s/2-1]->polygon().at(3)
+                 << stickers[face][s/2-1][s/2]->polygon().at(2)
+                 << stickers[face][s/2][s/2]->polygon().at(1);
+
+            b->setPolygon(poly);
+
+            guideLinesBox.append(b);
+        }
+    }
+
+    foreach(QGraphicsPolygonItem *b, guideLinesBox){
+        //set the colour of the guide lines
+        b->setPen(QPen(settings->getLineColour(), settings->getLineWidth()));
+
+        //set the brush to be transparent (not filled in)
+        b->setBrush(QBrush(Qt::transparent));
+
+        //make the guide lines invisible if they are disabled in settings
+        b->setVisible(settings->getGuideLinesBox());
+    }
 }
 
 void CubeGraphicsObject::updateSticker(Cube::Face face, int x, int y){
@@ -523,6 +630,16 @@ void CubeGraphicsObject::onLineColourSettingChanged(){
         pen.setColor(settings->getLineColour());
         l->setPen(pen);
     }
+    foreach(QGraphicsLineItem *l, guideLinesPlus){
+        QPen pen = l->pen();
+        pen.setColor(settings->getLineColour());
+        l->setPen(pen);
+    }
+    foreach(QGraphicsPolygonItem *b, guideLinesBox){
+        QPen pen = b->pen();
+        pen.setColor(settings->getLineColour());
+        b->setPen(pen);
+    }
 }
 
 void CubeGraphicsObject::onLineWidthSettingChanged(){
@@ -545,10 +662,32 @@ void CubeGraphicsObject::onLineWidthSettingChanged(){
         pen.setWidth(settings->getLineWidth());
         l->setPen(pen);
     }
+    foreach(QGraphicsLineItem *l, guideLinesPlus){
+        QPen pen = l->pen();
+        pen.setWidth(settings->getLineWidth());
+        l->setPen(pen);
+    }
+    foreach(QGraphicsPolygonItem *b, guideLinesBox){
+        QPen pen = b->pen();
+        pen.setWidth(settings->getLineWidth());
+        b->setPen(pen);
+    }
 }
 
 void CubeGraphicsObject::onGuideLinesCrossSettingChanged(){
     foreach(QGraphicsLineItem *l, guideLinesCross){
         l->setVisible(settings->getGuideLinesCross());
+    }
+}
+
+void CubeGraphicsObject::onGuideLinesPlusSettingChanged(){
+    foreach(QGraphicsLineItem *l, guideLinesPlus){
+        l->setVisible(settings->getGuideLinesPlus());
+    }
+}
+
+void CubeGraphicsObject::onGuideLinesBoxSettingChanged(){
+    foreach(QGraphicsPolygonItem *b, guideLinesBox){
+        b->setVisible(settings->getGuideLinesBox());
     }
 }

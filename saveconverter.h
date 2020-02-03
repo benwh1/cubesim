@@ -52,6 +52,8 @@ public:
             QJsonObject settings = data["settings"].toObject();
             settings["multislice"] = multislice;
             settings["guideLinesCross"] = false;
+            settings["guideLinesPlus"] = false;
+            settings["guideLinesBox"] = false;
 
             //add the new settings to the save file
             data["settings"] = settings;
