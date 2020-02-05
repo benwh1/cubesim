@@ -12,6 +12,7 @@
 #include "cube.h"
 #include "projection.h"
 #include "settings.h"
+#include "sticker.h"
 
 #define pi (4*atan(1))
 
@@ -49,7 +50,7 @@ private:
     qreal edgeLength;
     qreal gapSize;
 
-    QList<QList<QList<QGraphicsPolygonItem*>>> stickers;
+    QList<QList<QList<Sticker*>>> stickers;
     QList<QGraphicsLineItem*> guideLinesCross;
     QList<QGraphicsLineItem*> guideLinesPlus;
     QList<QGraphicsPolygonItem*> guideLinesBox;

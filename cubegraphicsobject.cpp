@@ -248,17 +248,6 @@ void CubeGraphicsObject::reset(){
 
     stickers.clear();
 
-    for(int face=0; face<3; face++){
-        stickers.append(QList<QList<QGraphicsPolygonItem*>>());
-        for(int y=0; y<cube->getSize(); y++){
-            stickers[face].append(QList<QGraphicsPolygonItem*>());
-            for(int x=0; x<cube->getSize(); x++){
-                QGraphicsPolygonItem *sticker = new QGraphicsPolygonItem(this);
-                stickers[face][y].append(sticker);
-            }
-        }
-    }
-
     //some constants
     int s = cube->getSize();
     //float stickerSize = (edgeLength - (s-1) * gapSize)/s;
@@ -267,100 +256,61 @@ void CubeGraphicsObject::reset(){
     float stickerSize = (edgeLength+gapSize)/s - gapSize;
     float delta = 1.0f/s + gapSize/(edgeLength*s);
 
-    QVector<QVector3D> basis = {QVector3D(1,0,0), QVector3D(0,1,0), QVector3D(0,0,1)};
-    QVector<QPointF> basisImage;
-
-    for(int i=0; i<3; i++){
-        basisImage.append(proj.project(basis[i]));
-    }
-
-    //U face
-    for(int y=0; y<s; y++){
-        for(int x=0; x<s; x++){
-            //the bottom left corner of the sticker on the cube [0,1]^3
-            QVector3D v(x*delta, (s-1-y)*delta, 1);
-
-            //scale the point to be in [-1,1]^3 instead of [0,1]^3
-            v = 2 * v - QVector3D(1, 1, 1);
-
-            //compute the projection of the corner of the sticker
-            //and scale it up so the cube has the required edge length
-            QPointF point = edgeLength/2 * proj.project(v);
-
-            QPolygonF poly;
-            poly << point
-                 << point + stickerSize * (basisImage[0])
-                 << point + stickerSize * (basisImage[0] + basisImage[1])
-                 << point + stickerSize * (basisImage[1])
-                 << point;
-
-            QGraphicsPolygonItem *sticker = stickers[Cube::Face::U][y][x];
-            sticker->setPolygon(poly);
-
-            QColor colour = colours[cube->sticker(Cube::U, x, y)];
-
-            sticker->setBrush(QBrush(colour));
-            sticker->setPen(QPen(settings->getLineColour(), settings->getLineWidth()));
+    for(int face=0; face<3; face++){
+        stickers.append(QList<QList<Sticker*>>());
+        for(int y=0; y<cube->getSize(); y++){
+            stickers[face].append(QList<Sticker*>());
+            for(int x=0; x<cube->getSize(); x++){
+                //todo: make proj a pointer
+                Sticker *sticker = new Sticker((Cube::Face)face, &proj, stickerSize, this);
+                stickers[face][y].append(sticker);
+            }
         }
     }
 
-    //F face
+    //move the stickers into place
     for(int y=0; y<s; y++){
         for(int x=0; x<s; x++){
-            //the bottom left corner of the sticker on the cube [0,1]^3
-            QVector3D v(x*delta, 0, (s-1-y)*delta);
+            Sticker *sticker;
 
-            //scale the point to be in [-1,1]^3 instead of [0,1]^3
+            //the coordinates of the bottom left corner of the sticker
+            //in 3d space on the cube [0,1]^3 (then scaled to [-1,1]^3)
+            QVector3D v;
+
+            //the projected coordinates
+            QPointF point;
+
+            sticker = stickers[Cube::Face::U][y][x];
+            v = QVector3D(x*delta, (s-1-y)*delta, 1);
             v = 2 * v - QVector3D(1, 1, 1);
+            point = edgeLength/2 * proj.project(v);
+            sticker->setPos(point);
 
-            //compute the projection of the corner of the sticker
-            //and scale it up so the cube has the required edge length
-            QPointF point = edgeLength/2 * proj.project(v);
+            sticker = stickers[Cube::Face::F][y][x];
+            v = QVector3D(x*delta, 0, (s-1-y)*delta);
+            v = 2 * v - QVector3D(1, 1, 1);
+            point = edgeLength/2 * proj.project(v);
+            sticker->setPos(point);
 
-            QPolygonF poly;
-            poly << point
-                 << point + stickerSize * (basisImage[0])
-                 << point + stickerSize * (basisImage[0] + basisImage[2])
-                 << point + stickerSize * (basisImage[2])
-                 << point;
-
-            QGraphicsPolygonItem *sticker = stickers[Cube::Face::F][y][x];
-            sticker->setPolygon(poly);
-
-            QColor colour = colours[cube->sticker(Cube::F, x, y)];
-
-            sticker->setBrush(QBrush(colour));
-            sticker->setPen(QPen(settings->getLineColour(), settings->getLineWidth()));
+            sticker = stickers[Cube::Face::R][y][x];
+            v = QVector3D(1, x*delta, (s-1-y)*delta);
+            v = 2 * v - QVector3D(1, 1, 1);
+            point = edgeLength/2 * proj.project(v);
+            sticker->setPos(point);
         }
     }
 
-    //R face
-    for(int y=0; y<s; y++){
-        for(int x=0; x<s; x++){
-            //the bottom left corner of the sticker on the cube [0,1]^3
-            QVector3D v(1, x*delta, (s-1-y)*delta);
+    //set the brush and pen of each sticker
+    for(int face=0; face<3; face++){
+        for(int y=0; y<s; y++){
+            for(int x=0; x<s; x++){
+                Sticker *sticker = stickers[face][y][x];
 
-            //scale the point to be in [-1,1]^3 instead of [0,1]^3
-            v = 2 * v - QVector3D(1, 1, 1);
+                QColor colour = colours[cube->sticker((Cube::Face)face, x, y)];
 
-            //compute the projection of the corner of the sticker
-            //and scale it up so the cube has the required edge length
-            QPointF point = edgeLength/2 * proj.project(v);
-
-            QPolygonF poly;
-            poly << point
-                 << point + stickerSize * (basisImage[1])
-                 << point + stickerSize * (basisImage[1] + basisImage[2])
-                 << point + stickerSize * (basisImage[2])
-                 << point;
-
-            QGraphicsPolygonItem *sticker = stickers[Cube::Face::R][y][x];
-            sticker->setPolygon(poly);
-
-            QColor colour = colours[cube->sticker(Cube::R, x, y)];
-
-            sticker->setBrush(QBrush(colour));
-            sticker->setPen(QPen(settings->getLineColour(), settings->getLineWidth()));
+                sticker->setBrush(QBrush(colour));
+                sticker->setPen(QPen(settings->getLineColour(), settings->getLineWidth()));
+            }
         }
     }
 
@@ -487,7 +437,7 @@ void CubeGraphicsObject::reset(){
     if(s%2 == 1){
         for(int face=0; face<3; face++){
             QGraphicsPolygonItem *b = new QGraphicsPolygonItem(this);
-            QGraphicsPolygonItem *centerSticker = stickers[face][s/2][s/2];
+            Sticker *centerSticker = stickers[face][s/2][s/2];
             b->setPolygon(centerSticker->polygon());
 
             guideLinesBox.append(b);

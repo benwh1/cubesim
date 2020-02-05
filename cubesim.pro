@@ -27,7 +27,8 @@ SOURCES += \
     settings.cpp \
     settingswindow.cpp \
     statistics.cpp \
-    statisticswidget.cpp
+    statisticswidget.cpp \
+    sticker.cpp
 
 HEADERS += \
     colorsettingwidget.h \
@@ -42,7 +43,8 @@ HEADERS += \
     settings.h \
     settingswindow.h \
     statistics.h \
-    statisticswidget.h
+    statisticswidget.h \
+    sticker.h
 
 FORMS += \
     colorsettingwidget.ui \
