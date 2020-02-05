@@ -3,10 +3,6 @@
 Sticker::Sticker(Cube::Face face, Projection *proj, qreal size, QGraphicsItem *parent) :
     QGraphicsPolygonItem(parent)
 {
-    this->face = face;
-    this->proj = proj;
-    this->size = size;
-
     //unit vectors pointing right/up when looking at the
     //face containing this sticker
     //e.g. if face is U, then upwards is from the F face to the B face
