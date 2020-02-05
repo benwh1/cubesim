@@ -437,8 +437,9 @@ void CubeGraphicsObject::reset(){
     if(s%2 == 1){
         for(int face=0; face<3; face++){
             QGraphicsPolygonItem *b = new QGraphicsPolygonItem(this);
+
             Sticker *centerSticker = stickers[face][s/2][s/2];
-            b->setPolygon(centerSticker->polygon());
+            b->setPolygon(QGraphicsItem::mapFromItem(centerSticker, centerSticker->polygon()));
 
             guideLinesBox.append(b);
         }
@@ -455,10 +456,10 @@ void CubeGraphicsObject::reset(){
             //the bottom right corner of stickers[face][s/2][s/2]
 
             QPolygonF poly;
-            poly << stickers[face][s/2][s/2-1]->polygon().at(0)
-                 << stickers[face][s/2-1][s/2-1]->polygon().at(3)
-                 << stickers[face][s/2-1][s/2]->polygon().at(2)
-                 << stickers[face][s/2][s/2]->polygon().at(1);
+            poly << stickers[face][s/2  ][s/2-1]->mapToParent(stickers[face][s/2  ][s/2-1]->polygon().at(0))
+                 << stickers[face][s/2-1][s/2-1]->mapToParent(stickers[face][s/2-1][s/2-1]->polygon().at(1))
+                 << stickers[face][s/2-1][s/2  ]->mapToParent(stickers[face][s/2-1][s/2  ]->polygon().at(2))
+                 << stickers[face][s/2  ][s/2  ]->mapToParent(stickers[face][s/2  ][s/2  ]->polygon().at(3));
 
             b->setPolygon(poly);
 
