@@ -531,11 +531,7 @@ void CubeGraphicsObject::updateAll(){
     for(int face=0; face<3; face++){
         for(int y=0; y<s; y++){
             for(int x=0; x<s; x++){
-                int piece = cube->sticker((Cube::Face)face, x, y);
-                QGraphicsPolygonItem *sticker = stickers[face][y][x];
-                if(sticker->brush().color() != colours[piece]){
-                    sticker->setBrush(QBrush(colours[piece]));
-                }
+                updateSticker((Cube::Face)face, x, y);
             }
         }
     }
