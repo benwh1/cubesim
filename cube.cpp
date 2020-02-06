@@ -198,9 +198,10 @@ bool Cube::isSolved(){
     //check if all stickers are oriented correctly if this is a supercube
     if(supercube){
         for(int face=0; face<6; face++){
+            int faceOrientation = orientations[face][0][0];
             for(int y=0; y<size; y++){
                 for(int x=0; x<size; x++){
-                    if(orientations[face][y][x] != 0){
+                    if(orientations[face][y][x] != faceOrientation){
                         return false;
                     }
                 }
