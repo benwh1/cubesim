@@ -256,7 +256,7 @@ void CubeGraphicsObject::reset(){
             stickers[face].append(QList<Sticker*>());
             for(int x=0; x<cube->getSize(); x++){
                 //todo: make proj a pointer
-                Sticker *sticker = new Sticker((Cube::Face)face, &proj, stickerSize, this);
+                Sticker *sticker = new Sticker((Cube::Face)face, QPoint(x, y), cube, &proj, stickerSize, this);
                 stickers[face][y].append(sticker);
             }
         }
@@ -304,18 +304,6 @@ void CubeGraphicsObject::reset(){
 
                 sticker->setBrush(QBrush(colour));
                 sticker->setPen(QPen(settings->getLineColour(), settings->getLineWidth()));
-            }
-        }
-    }
-
-    //if we're using a supercube, set the orientation of each sticker
-    if(cube->isSupercube()){
-        for(int face=0; face<3; face++){
-            for(int y=0; y<s; y++){
-                for(int x=0; x<s; x++){
-                    Sticker *sticker = stickers[face][y][x];
-                    sticker->setOrientation(cube->stickerOrientation((Cube::Face)face, x, y));
-                }
             }
         }
     }
@@ -492,12 +480,6 @@ void CubeGraphicsObject::updateSticker(Cube::Face face, int x, int y){
     Sticker *sticker = stickers[face][y][x];
 
     sticker->setBrush(QBrush(colour));
-
-    if(cube->isSupercube()){
-        int orientation = cube->stickerOrientation(face, x, y);
-        sticker->setOrientation(orientation);
-    }
-
     sticker->update();
 }
 

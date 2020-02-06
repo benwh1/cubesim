@@ -10,16 +10,16 @@
 class Sticker : public QGraphicsPolygonItem
 {
 public:
-    Sticker(Cube::Face face, Projection *proj, qreal size, QGraphicsItem *parent = nullptr);
+    Sticker(Cube::Face face, QPoint piecePos, Cube *cube, Projection *proj, qreal size, QGraphicsItem *parent = nullptr);
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 
-    void setOrientation(int orientation);
-
 private:
-    qreal size;
+    Cube::Face face;
+    QPoint piecePos;
+    Cube *cube;
 
-    int orientation;
+    qreal size;
 
     QPointF projRight;
     QPointF projUp;

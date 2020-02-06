@@ -1,8 +1,11 @@
 #include "sticker.h"
 
-Sticker::Sticker(Cube::Face face, Projection *proj, qreal size, QGraphicsItem *parent) :
+Sticker::Sticker(Cube::Face face, QPoint piecePos, Cube *cube, Projection *proj, qreal size, QGraphicsItem *parent) :
     QGraphicsPolygonItem(parent)
 {
+    this->face = face;
+    this->piecePos = piecePos;
+    this->cube = cube;
     this->size = size;
 
     //unit vectors pointing right/up when looking at the
@@ -46,31 +49,30 @@ Sticker::Sticker(Cube::Face face, Projection *proj, qreal size, QGraphicsItem *p
     //compute the center of the sticker
     //by linearity, we can just average two diagonally opposite corners
     center = (poly[0] + poly[2])/2;
-
-    //by default, don't draw supercube stickers
-    orientation = -1;
 }
 
 void Sticker::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
     //draw the basic polygon
     QGraphicsPolygonItem::paint(painter, option, widget);
 
-    painter->scale(size, size);
+    //if we're using a supercube, draw supercube stickers
+    if(cube->isSupercube()){
+        int orientation = cube->stickerOrientation(face, piecePos.x(), piecePos.y());
 
-    QList<QPointF> arrowPoints;
-    arrowPoints << QPointF(0.4, 0.1) << QPointF(0.4, 0.6) << QPointF(0.2, 0.6) << QPointF(0.5, 0.9) << QPointF(0.8, 0.6) << QPointF(0.6, 0.6) << QPointF(0.6, 0.1);
+        //scale the painter up so we can use coordinates in [0,1]^2
+        painter->scale(size, size);
 
-    QPolygonF arrow;
-    for(int i=0; i<arrowPoints.size(); i++){
-             if(orientation == 0) arrow <<    arrowPoints[i].x()  * projRight +    arrowPoints[i].y()  * projUp;
-        else if(orientation == 1) arrow <<    arrowPoints[i].y()  * projRight + (1-arrowPoints[i].x()) * projUp;
-        else if(orientation == 2) arrow << (1-arrowPoints[i].x()) * projRight + (1-arrowPoints[i].y()) * projUp;
-        else if(orientation == 3) arrow << (1-arrowPoints[i].y()) * projRight +    arrowPoints[i].x()  * projUp;
+        QList<QPointF> arrowPoints;
+        arrowPoints << QPointF(0.4, 0.1) << QPointF(0.4, 0.6) << QPointF(0.2, 0.6) << QPointF(0.5, 0.9) << QPointF(0.8, 0.6) << QPointF(0.6, 0.6) << QPointF(0.6, 0.1);
+
+        QPolygonF arrow;
+        for(int i=0; i<arrowPoints.size(); i++){
+                 if(orientation == 0) arrow <<    arrowPoints[i].x()  * projRight +    arrowPoints[i].y()  * projUp;
+            else if(orientation == 1) arrow <<    arrowPoints[i].y()  * projRight + (1-arrowPoints[i].x()) * projUp;
+            else if(orientation == 2) arrow << (1-arrowPoints[i].x()) * projRight + (1-arrowPoints[i].y()) * projUp;
+            else if(orientation == 3) arrow << (1-arrowPoints[i].y()) * projRight +    arrowPoints[i].x()  * projUp;
+        }
+
+        painter->drawPolygon(arrow);
     }
-
-    painter->drawPolygon(arrow);
-}
-
-void Sticker::setOrientation(int orientation){
-    this->orientation = orientation;
 }
