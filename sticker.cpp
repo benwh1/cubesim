@@ -41,3 +41,8 @@ Sticker::Sticker(Cube::Face face, Projection *proj, qreal size, QGraphicsItem *p
 
     setPolygon(poly);
 }
+
+void Sticker::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
+    //draw the basic polygon
+    QGraphicsPolygonItem::paint(painter, option, widget);
+}
