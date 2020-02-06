@@ -148,6 +148,13 @@ QJsonObject Settings::toJSON(){
     data["backgroundColour"] = backgroundColour.name(QColor::HexArgb);
     data["lineColour"] = lineColour.name(QColor::HexArgb);
     data["lineWidth"] = lineWidth;
+
+    QJsonArray coloursArray;
+    for(int i=0; i<6; i++){
+        coloursArray.append(colours[i].name(QColor::HexArgb));
+    }
+    data["colours"] = coloursArray;
+
     data["multislice"] = multislice;
     data["guideLinesCross"] = guideLinesCross;
     data["guideLinesPlus"] = guideLinesPlus;
@@ -163,6 +170,14 @@ void Settings::fromJSON(QJsonObject data){
     setBackgroundColour(QColor(data["backgroundColour"].toString()));
     setLineColour(QColor(data["lineColour"].toString()));
     setLineWidth(data["lineWidth"].toInt());
+
+    QJsonArray coloursArray = data["colours"].toArray();
+    QList<QColor> c;
+    for(int i=0; i<6; i++){
+        c.append(QColor(coloursArray[i].toString()));
+    }
+    setColours(c);
+
     setMultislice(data["multislice"].toBool());
     setGuideLinesCross(data["guideLinesCross"].toBool());
     setGuideLinesPlus(data["guideLinesPlus"].toBool());
