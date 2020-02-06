@@ -308,6 +308,18 @@ void CubeGraphicsObject::reset(){
         }
     }
 
+    //if we're using a supercube, set the orientation of each sticker
+    if(cube->isSupercube()){
+        for(int face=0; face<3; face++){
+            for(int y=0; y<s; y++){
+                for(int x=0; x<s; x++){
+                    Sticker *sticker = stickers[face][y][x];
+                    sticker->setOrientation(cube->stickerOrientation((Cube::Face)face, x, y));
+                }
+            }
+        }
+    }
+
     //guide lines
     QGraphicsLineItem *line;
     QPointF p1, p2;
@@ -475,10 +487,17 @@ void CubeGraphicsObject::reset(){
 
 void CubeGraphicsObject::updateSticker(Cube::Face face, int x, int y){
     int piece = cube->sticker(face, x, y);
+
     QColor colour = settings->getColour((Cube::Face)piece);
-    QGraphicsPolygonItem *sticker = stickers[face][y][x];
+    Sticker *sticker = stickers[face][y][x];
 
     sticker->setBrush(QBrush(colour));
+
+    if(cube->isSupercube()){
+        int orientation = cube->stickerOrientation(face, x, y);
+        sticker->setOrientation(orientation);
+    }
+
     sticker->update();
 }
 

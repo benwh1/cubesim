@@ -14,6 +14,18 @@ public:
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 
+    void setOrientation(int orientation);
+
+private:
+    qreal size;
+
+    int orientation;
+
+    QPointF projRight;
+    QPointF projUp;
+
+    QPointF center;
+
 };
 
 #endif // STICKER_H
