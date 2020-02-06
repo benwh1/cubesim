@@ -3,6 +3,8 @@
 Cube::Cube(QObject *parent) :
     QObject(parent)
 {
+    supercube = false;
+
     setSize(3);
 }
 
@@ -30,6 +32,12 @@ void Cube::move(Axis axis, int layer){
             stickers[Face::F][i][size-1-layer] = stickers[Face::D][i][size-1-layer];
             stickers[Face::D][i][size-1-layer] = stickers[Face::B][size-1-i][layer];
             stickers[Face::B][size-1-i][layer] = temp;
+
+            temp = orientations[Face::U][i][size-1-layer];
+            orientations[Face::U][i][size-1-layer] = orientations[Face::F][i][size-1-layer];
+            orientations[Face::F][i][size-1-layer] = orientations[Face::D][i][size-1-layer];
+            orientations[Face::D][i][size-1-layer] = (orientations[Face::B][size-1-i][layer]+2)%4;
+            orientations[Face::B][size-1-i][layer] = (temp+2)%4;
         }
 
         if(layer == 0) rotateFace(Face::R, 1);
@@ -43,6 +51,12 @@ void Cube::move(Axis axis, int layer){
             stickers[Face::R][layer][i] = stickers[Face::B][layer][i];
             stickers[Face::B][layer][i] = stickers[Face::L][layer][i];
             stickers[Face::L][layer][i] = temp;
+
+            temp = orientations[Face::F][layer][i];
+            orientations[Face::F][layer][i] = orientations[Face::R][layer][i];
+            orientations[Face::R][layer][i] = orientations[Face::B][layer][i];
+            orientations[Face::B][layer][i] = orientations[Face::L][layer][i];
+            orientations[Face::L][layer][i] = temp;
         }
 
         if(layer == 0) rotateFace(Face::U, 1);
@@ -56,6 +70,12 @@ void Cube::move(Axis axis, int layer){
             stickers[Face::L][size-1-i][size-1-layer] = stickers[Face::D][layer][size-1-i];
             stickers[Face::D][layer][size-1-i] = stickers[Face::R][i][layer];
             stickers[Face::R][i][layer] = temp;
+
+            temp = orientations[Face::U][size-1-layer][i];
+            orientations[Face::U][size-1-layer][i] = (1+orientations[Face::L][size-1-i][size-1-layer])%4;
+            orientations[Face::L][size-1-i][size-1-layer] = (1+orientations[Face::D][layer][size-1-i])%4;
+            orientations[Face::D][layer][size-1-i] = (1+orientations[Face::R][i][layer])%4;
+            orientations[Face::R][i][layer] = (1+temp)%4;
         }
 
         if(layer == 0) rotateFace(Face::F, 1);
@@ -83,6 +103,18 @@ void Cube::rotateFace(Face f){
             face[size-1-x][y] = face[size-1-y][size-1-x];
             face[size-1-y][size-1-x] = face[x][size-1-y];
             face[x][size-1-y] = temp;
+
+            temp = orientations[f][y][x];
+            orientations[f][y][x] = orientations[f][size-1-x][y];
+            orientations[f][size-1-x][y] = orientations[f][size-1-y][size-1-x];
+            orientations[f][size-1-y][size-1-x] = orientations[f][x][size-1-y];
+            orientations[f][x][size-1-y] = temp;
+        }
+    }
+
+    for(int y=0; y<size; y++){
+        for(int x=0; x<size; x++){
+            orientations[f][y][x] = (orientations[f][y][x]+1)%4;
         }
     }
 }
@@ -147,6 +179,10 @@ void Cube::rotate(Cube::Axis axis, int amount){
     emit rotationDone(axis, amount);
 }
 
+bool Cube::isSupercube(){
+    return supercube;
+}
+
 bool Cube::isSolved(){
     for(int face=0; face<6; face++){
         int faceColour = stickers[face][0][0];
@@ -159,11 +195,28 @@ bool Cube::isSolved(){
         }
     }
 
+    //check if all stickers are oriented correctly if this is a supercube
+    if(supercube){
+        for(int face=0; face<6; face++){
+            for(int y=0; y<size; y++){
+                for(int x=0; x<size; x++){
+                    if(orientations[face][y][x] != 0){
+                        return false;
+                    }
+                }
+            }
+        }
+    }
+
     return true;
 }
 
 int Cube::sticker(Face f, int x, int y){
     return stickers[f][y][x];
+}
+
+int Cube::stickerOrientation(Face f, int x, int y){
+    return orientations[f][y][x];
 }
 
 void Cube::scramble(){
@@ -214,13 +267,17 @@ void Cube::fromJSON(QJsonObject data){
 
 void Cube::reset(){
     stickers.clear();
+    orientations.clear();
 
     for(int face=0; face<6; face++){
         stickers.append(QList<QList<int>>());
+        orientations.append(QList<QList<int>>());
         for(int y=0; y<size; y++){
             stickers[face].append(QList<int>());
+            orientations[face].append(QList<int>());
             for(int x=0; x<size; x++){
                 stickers[face][y].append(face);
+                orientations[face][y].append(0);
             }
         }
     }

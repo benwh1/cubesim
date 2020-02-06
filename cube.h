@@ -28,9 +28,12 @@ public:
     void multisliceMove(Axis axis, int layer, int amount);
     void rotate(Axis axis, int amount);
 
+    bool isSupercube();
+
     bool isSolved();
 
     int sticker(Face f, int x, int y);
+    int stickerOrientation(Face f, int x, int y);
 
     void reset();
     void scramble();
@@ -41,6 +44,14 @@ public:
 private:
     QList<QList<QList<int>>> stickers;
     int size;
+
+    bool supercube;
+
+    //sticker orientations for supercubes
+    //oriented correctly = 0
+    //rotated clockwise once (so needs rotating ccw once to be solved) = 1
+    //etc.
+    QList<QList<QList<int>>> orientations;
 
     //this should only be used internally - doesn't emit moveDone signal
     void move(Axis axis, int layer);
