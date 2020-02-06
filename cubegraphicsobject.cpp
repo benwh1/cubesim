@@ -256,7 +256,7 @@ void CubeGraphicsObject::reset(){
             stickers[face].append(QList<Sticker*>());
             for(int x=0; x<cube->getSize(); x++){
                 //todo: make proj a pointer
-                Sticker *sticker = new Sticker((Cube::Face)face, QPoint(x, y), cube, &proj, stickerSize, this);
+                Sticker *sticker = new Sticker((Cube::Face)face, QPoint(x, y), cube, settings, &proj, stickerSize, this);
                 stickers[face][y].append(sticker);
             }
         }
