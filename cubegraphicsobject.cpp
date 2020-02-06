@@ -14,6 +14,7 @@ CubeGraphicsObject::CubeGraphicsObject(Cube *c, Settings *s, QGraphicsObject *pa
 
     connect(settings, SIGNAL(lineColourChanged()), this, SLOT(onLineColourSettingChanged()));
     connect(settings, SIGNAL(lineWidthChanged()), this, SLOT(onLineWidthSettingChanged()));
+    connect(settings, SIGNAL(coloursChanged()), this, SLOT(onColoursSettingChanged()));
     connect(settings, SIGNAL(guideLinesCrossChanged()), this, SLOT(onGuideLinesCrossSettingChanged()));
     connect(settings, SIGNAL(guideLinesPlusChanged()), this, SLOT(onGuideLinesPlusSettingChanged()));
     connect(settings, SIGNAL(guideLinesBoxChanged()), this, SLOT(onGuideLinesBoxSettingChanged()));
@@ -22,13 +23,6 @@ CubeGraphicsObject::CubeGraphicsObject(Cube *c, Settings *s, QGraphicsObject *pa
 
     float mat[6] = {1/sqrt(2), 1/sqrt(2), 0, -1/sqrt(6), 1/sqrt(6), sqrt(2./3)};
     proj = Projection(QMatrix3x2(mat));
-
-    colours << QColor(Qt::white)
-            << QColor(Qt::green)
-            << QColor(Qt::red)
-            << QColor(Qt::blue)
-            << QColor(255,165,0)
-            << QColor(Qt::yellow);
 
     setEdgeLength(350);
     setGapSize(0);
@@ -306,7 +300,7 @@ void CubeGraphicsObject::reset(){
             for(int x=0; x<s; x++){
                 Sticker *sticker = stickers[face][y][x];
 
-                QColor colour = colours[cube->sticker((Cube::Face)face, x, y)];
+                QColor colour = settings->getColour((Cube::Face)cube->sticker((Cube::Face)face, x, y));
 
                 sticker->setBrush(QBrush(colour));
                 sticker->setPen(QPen(settings->getLineColour(), settings->getLineWidth()));
@@ -481,7 +475,7 @@ void CubeGraphicsObject::reset(){
 
 void CubeGraphicsObject::updateSticker(Cube::Face face, int x, int y){
     int piece = cube->sticker(face, x, y);
-    QColor colour = colours[piece];
+    QColor colour = settings->getColour((Cube::Face)piece);
     QGraphicsPolygonItem *sticker = stickers[face][y][x];
 
     sticker->setBrush(QBrush(colour));
@@ -585,6 +579,10 @@ void CubeGraphicsObject::onLineWidthSettingChanged(){
             }
         }
     }
+}
+
+void CubeGraphicsObject::onColoursSettingChanged(){
+    updateAll();
 }
 
 void CubeGraphicsObject::onGuideLinesCrossSettingChanged(){

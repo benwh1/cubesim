@@ -13,6 +13,12 @@ SettingsWindow::SettingsWindow(Settings *settings, QDialog *parent) :
     connect(ui->backgroundColourWidget, SIGNAL(colorChanged()), this, SLOT(onBackgroundColourWidgetChanged()));
     connect(ui->lineColourWidget, SIGNAL(colorChanged()), this, SLOT(onLineColourWidgetChanged()));
     connect(ui->lineWidthSpinBox, SIGNAL(valueChanged(int)), this, SLOT(onLineWidthSpinBoxChanged()));
+    connect(ui->faceUColourWidget, SIGNAL(colorChanged()), this, SLOT(onFaceUColourChanged()));
+    connect(ui->faceFColourWidget, SIGNAL(colorChanged()), this, SLOT(onFaceFColourChanged()));
+    connect(ui->faceRColourWidget, SIGNAL(colorChanged()), this, SLOT(onFaceRColourChanged()));
+    connect(ui->faceBColourWidget, SIGNAL(colorChanged()), this, SLOT(onFaceBColourChanged()));
+    connect(ui->faceLColourWidget, SIGNAL(colorChanged()), this, SLOT(onFaceLColourChanged()));
+    connect(ui->faceDColourWidget, SIGNAL(colorChanged()), this, SLOT(onFaceDColourChanged()));
     connect(ui->multisliceCheckBox, SIGNAL(toggled(bool)), this, SLOT(onMultisliceCheckBoxChanged()));
     connect(ui->guideLinesCrossCheckBox, SIGNAL(toggled(bool)), this, SLOT(onGuideLinesCrossCheckBoxChanged()));
     connect(ui->guideLinesPlusCheckBox, SIGNAL(toggled(bool)), this, SLOT(onGuideLinesPlusCheckBoxChanged()));
@@ -40,6 +46,12 @@ void SettingsWindow::synchronizeFromSettings(){
                               ui->backgroundColourWidget,
                               ui->lineColourWidget,
                               ui->lineWidthSpinBox,
+                              ui->faceUColourWidget,
+                              ui->faceFColourWidget,
+                              ui->faceRColourWidget,
+                              ui->faceBColourWidget,
+                              ui->faceLColourWidget,
+                              ui->faceDColourWidget,
                               ui->multisliceCheckBox,
                               ui->guideLinesCrossCheckBox,
                               ui->guideLinesPlusCheckBox,
@@ -55,6 +67,12 @@ void SettingsWindow::synchronizeFromSettings(){
     ui->backgroundColourWidget->setColor(settings->getBackgroundColour());
     ui->lineColourWidget->setColor(settings->getLineColour());
     ui->lineWidthSpinBox->setValue(settings->getLineWidth());
+    ui->faceUColourWidget->setColor(settings->getColour(Cube::Face::U));
+    ui->faceFColourWidget->setColor(settings->getColour(Cube::Face::F));
+    ui->faceRColourWidget->setColor(settings->getColour(Cube::Face::R));
+    ui->faceBColourWidget->setColor(settings->getColour(Cube::Face::B));
+    ui->faceLColourWidget->setColor(settings->getColour(Cube::Face::L));
+    ui->faceDColourWidget->setColor(settings->getColour(Cube::Face::D));
     ui->multisliceCheckBox->setChecked(settings->getMultislice());
     ui->guideLinesCrossCheckBox->setChecked(settings->getGuideLinesCross());
     ui->guideLinesPlusCheckBox->setChecked(settings->getGuideLinesPlus());
@@ -81,6 +99,30 @@ void SettingsWindow::onLineColourWidgetChanged(){
 
 void SettingsWindow::onLineWidthSpinBoxChanged(){
     settings->setLineWidth(ui->lineWidthSpinBox->value());
+}
+
+void SettingsWindow::onFaceUColourChanged(){
+    settings->setColour(Cube::Face::U, ui->faceUColourWidget->getColor());
+}
+
+void SettingsWindow::onFaceFColourChanged(){
+    settings->setColour(Cube::Face::F, ui->faceFColourWidget->getColor());
+}
+
+void SettingsWindow::onFaceRColourChanged(){
+    settings->setColour(Cube::Face::R, ui->faceRColourWidget->getColor());
+}
+
+void SettingsWindow::onFaceBColourChanged(){
+    settings->setColour(Cube::Face::B, ui->faceBColourWidget->getColor());
+}
+
+void SettingsWindow::onFaceLColourChanged(){
+    settings->setColour(Cube::Face::L, ui->faceLColourWidget->getColor());
+}
+
+void SettingsWindow::onFaceDColourChanged(){
+    settings->setColour(Cube::Face::D, ui->faceDColourWidget->getColor());
 }
 
 void SettingsWindow::onMultisliceCheckBoxChanged(){

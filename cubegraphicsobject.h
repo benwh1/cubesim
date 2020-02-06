@@ -45,8 +45,6 @@ private:
     Cube *cube;
     Settings *settings;
 
-    QList<QColor> colours;
-
     qreal edgeLength;
     qreal gapSize;
 
@@ -76,6 +74,7 @@ private slots:
     //slots from settings being changed
     void onLineColourSettingChanged();
     void onLineWidthSettingChanged();
+    void onColoursSettingChanged();
     void onGuideLinesCrossSettingChanged();
     void onGuideLinesPlusSettingChanged();
     void onGuideLinesBoxSettingChanged();

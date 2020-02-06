@@ -4,6 +4,7 @@
 #include <QColor>
 #include <QJsonObject>
 #include <QObject>
+#include "cube.h"
 
 class Settings : public QObject
 {
@@ -15,6 +16,8 @@ public:
     QColor getBackgroundColour();
     QColor getLineColour();
     int getLineWidth();
+    QList<QColor> getColours();
+    QColor getColour(Cube::Face face);
     bool getMultislice();
     bool getGuideLinesCross();
     bool getGuideLinesPlus();
@@ -26,6 +29,8 @@ public:
     void setBackgroundColour(QColor c);
     void setLineColour(QColor c);
     void setLineWidth(int n);
+    void setColours(QList<QColor> c);
+    void setColour(Cube::Face face, QColor c);
     void setMultislice(bool b);
     void setGuideLinesCross(bool b);
     void setGuideLinesPlus(bool b);
@@ -41,6 +46,7 @@ private:
     QColor lineColour;
     bool antialiasing;
     int lineWidth;
+    QList<QColor> colours;
     bool multislice;
     bool guideLinesCross;
     bool guideLinesPlus;
@@ -53,6 +59,7 @@ signals:
     void backgroundColourChanged();
     void lineColourChanged();
     void lineWidthChanged();
+    void coloursChanged();
     void multisliceChanged();
     void guideLinesCrossChanged();
     void guideLinesPlusChanged();

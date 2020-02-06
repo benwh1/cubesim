@@ -7,6 +7,12 @@ Settings::Settings(QObject *parent) :
     backgroundColour = QColor(255, 228, 196);
     lineColour = Qt::black;
     lineWidth = 0;
+    colours << QColor(Qt::white)
+            << QColor(Qt::green)
+            << QColor(Qt::red)
+            << QColor(Qt::blue)
+            << QColor(255,165,0)
+            << QColor(Qt::yellow);
     multislice = false;
     guideLinesCross = false;
     guideLinesPlus = false;
@@ -29,6 +35,14 @@ QColor Settings::getLineColour(){
 
 int Settings::getLineWidth(){
     return lineWidth;
+}
+
+QList<QColor> Settings::getColours(){
+    return colours;
+}
+
+QColor Settings::getColour(Cube::Face face){
+    return colours[face];
 }
 
 bool Settings::getMultislice(){
@@ -76,6 +90,18 @@ void Settings::setLineColour(QColor c){
 void Settings::setLineWidth(int n){
     lineWidth = n;
     emit lineWidthChanged();
+    emit settingChanged();
+}
+
+void Settings::setColours(QList<QColor> c){
+    colours = c;
+    emit coloursChanged();
+    emit settingChanged();
+}
+
+void Settings::setColour(Cube::Face face, QColor c){
+    colours[face] = c;
+    emit coloursChanged();
     emit settingChanged();
 }
 
