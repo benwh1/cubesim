@@ -1,6 +1,7 @@
 #ifndef SAVECONVERTER_H
 #define SAVECONVERTER_H
 
+#include <QJsonArray>
 #include <QJsonObject>
 #include "global.h"
 
@@ -56,6 +57,29 @@ public:
             settings["guideLinesBox"] = false;
             settings["guideLineColour"] = "#ff000000";
             settings["guideLineWidth"] = 2;
+
+            //add the new settings to the save file
+            data["settings"] = settings;
+        }
+        else if(fromVersion == "0.2"){
+            /* differences:
+             * added colour scheme to Settings
+             */
+
+            toVersion = "0.3";
+
+            //create the default colour scheme array
+            QJsonArray colourArray;
+            colourArray.append("#ffffffff"); //white
+            colourArray.append("#ff00ff00"); //green
+            colourArray.append("#ffff0000"); //red
+            colourArray.append("#ff0000ff"); //blue
+            colourArray.append("#ffffa500"); //orange
+            colourArray.append("#ffffff00"); //yellow
+
+            //add it into settings
+            QJsonObject settings = data["settings"].toObject();
+            settings["colours"] = colourArray;
 
             //add the new settings to the save file
             data["settings"] = settings;
