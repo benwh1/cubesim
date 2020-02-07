@@ -152,7 +152,7 @@ void CubeWidget::resizeEvent(QResizeEvent *event){
 
     //the statistics widget is not in a layout, which means the sizePolicy is
     //ignored. we want the widget to be the minimum height, so we set it here
-    ui->statisticsWidget->setGeometry(0, 0, 180, ui->statisticsWidget->sizeHint().height());
+    ui->statisticsWidget->setGeometry(0, 0, 200, ui->statisticsWidget->sizeHint().height());
 
     event->accept();
 }
