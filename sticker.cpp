@@ -58,9 +58,6 @@ void Sticker::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 
     //if we're using a supercube, draw supercube stickers
     if(cube->isSupercube()){
-        //scale the painter up so we can use coordinates in [0,1]^2
-        painter->scale(size, size);
-
         //the 4 faces adjacent to each face of the cube, in the order up right down left
         //e.g. looking at the U face in orientation 0, the adjacent faces are B, R, F, L
         QList<QList<Cube::Face>> adjacentFaces = {{Cube::Face::B, Cube::Face::R, Cube::Face::F, Cube::Face::L},  //U
@@ -78,63 +75,142 @@ void Sticker::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
         //how wide are the pochmann sticker bars?
         qreal barWidth = 0.2;
 
-        //the sticker bar polygon
-        QPolygonF p;
+        //sticker on a diagonal, need to draw two bars instead of one
+        if(x == y || x == s-1-y){
+            //two separate polygons, one for each colour
+            QPolygonF p1, p2;
 
-        //which "wedge" is the sticker in?
-        //top = 0
-        //right = 1
-        //bottom = 2
-        //left = 3
-        int wedge;
+            //which diagonal is the sticker in?
+            //top left = 0, top right = 1, bottom right = 2, bottom left = 3
+            int diagonal;
 
-        //upper wedge
-        if(y-s2 > abs(x-s2)){
-            p << (1 - barWidth) * projUp + 0.0 * projRight
-              <<            1.0 * projUp + 0.0 * projRight
-              <<            1.0 * projUp + 1.0 * projRight
-              << (1 - barWidth) * projUp + 1.0 * projRight;
-            wedge = 0;
+            if(y == s-1-x && y > s2){
+                p1 <<      0.0 * projRight +            0.0 * projUp
+                   <<      0.0 * projRight +            1.0 * projUp
+                   << barWidth * projRight + (1 - barWidth) * projUp
+                   << barWidth * projRight +            0.0 * projUp;
+                p2 << barWidth * projRight + (1 - barWidth) * projUp
+                   <<      0.0 * projRight +            1.0 * projUp
+                   <<      1.0 * projRight +            1.0 * projUp
+                   <<      1.0 * projRight + (1 - barWidth) * projUp;
+                diagonal = 0;
+            }
+            else if(y == x && y > s2){
+                p1 <<            0.0 * projRight + (1 - barWidth) * projUp
+                   <<            0.0 * projRight +            1.0 * projUp
+                   <<            1.0 * projRight +            1.0 * projUp
+                   << (1 - barWidth) * projRight + (1 - barWidth) * projUp;
+                p2 << (1 - barWidth) * projRight +            0.0 * projUp
+                   << (1 - barWidth) * projRight + (1 - barWidth) * projUp
+                   <<            1.0 * projRight +            1.0 * projUp
+                   <<            1.0 * projRight +            0.0 * projUp;
+                diagonal = 1;
+            }
+            else if(y == s-1-x && y < s2){
+                p1 << (1 - barWidth) * projRight + barWidth * projUp
+                   << (1 - barWidth) * projRight +      1.0 * projUp
+                   <<            1.0 * projRight +      1.0 * projUp
+                   <<            1.0 * projRight +      0.0 * projUp;
+                p2 <<            0.0 * projRight +      0.0 * projUp
+                   <<            0.0 * projRight + barWidth * projUp
+                   << (1 - barWidth) * projRight + barWidth * projUp
+                   <<            1.0 * projRight +      0.0 * projUp;
+                diagonal = 2;
+            }
+            else if(y == x && y < s2){
+                p1 <<      0.0 * projRight +      0.0 * projUp
+                   << barWidth * projRight + barWidth * projUp
+                   <<      1.0 * projRight + barWidth * projUp
+                   <<      1.0 * projRight +      0.0 * projUp;
+                p2 <<      0.0 * projRight +      0.0 * projUp
+                   <<      0.0 * projRight +      1.0 * projUp
+                   << barWidth * projRight +      1.0 * projUp
+                   << barWidth * projRight + barWidth * projUp;
+                diagonal = 3;
+            }
+
+            //which face does the sticker belong on?
+            Cube::Face pieceFace = (Cube::Face)cube->sticker(face, piecePos.x(), piecePos.y());
+
+            //orientation of the sticker
+            int orientation = cube->stickerOrientation(face, piecePos.x(), piecePos.y());
+
+            //the two adjacent faces, based on the stickers orientation
+            Cube::Face adjacentFace1 = adjacentFaces[pieceFace][(4-orientation+diagonal+3)%4];
+            Cube::Face adjacentFace2 = adjacentFaces[pieceFace][(4-orientation+diagonal)%4];
+
+            //the colours of the adjacent faces
+            QColor adjacentColour1 = settings->getColour(adjacentFace1);
+            QColor adjacentColour2 = settings->getColour(adjacentFace2);
+
+            //scale the painter up since our coordinates are in [0,1]^2
+            painter->scale(size, size);
+
+            painter->setBrush(QBrush(adjacentColour1));
+            painter->drawPolygon(p1);
+            painter->setBrush(QBrush(adjacentColour2));
+            painter->drawPolygon(p2);
         }
-        else if(x-s2 > abs(y-s2)){
-            p << (1 - barWidth) * projRight + 0.0 * projUp
-              << (1 - barWidth) * projRight + 1.0 * projUp
-              <<            1.0 * projRight + 1.0 * projUp
-              <<            1.0 * projRight + 0.0 * projUp;
-            wedge = 1;
+        //normal sticker, only one bar
+        else{
+            //the sticker bar polygon
+            QPolygonF p;
+
+            //which "wedge" is the sticker in?
+            //top = 0, right = 1, bottom = 2, left = 3
+            int wedge;
+
+            //upper wedge
+            if(y-s2 > abs(x-s2)){
+                p << (1 - barWidth) * projUp + 0.0 * projRight
+                  <<            1.0 * projUp + 0.0 * projRight
+                  <<            1.0 * projUp + 1.0 * projRight
+                  << (1 - barWidth) * projUp + 1.0 * projRight;
+                wedge = 0;
+            }
+            else if(x-s2 > abs(y-s2)){
+                p << (1 - barWidth) * projRight + 0.0 * projUp
+                  << (1 - barWidth) * projRight + 1.0 * projUp
+                  <<            1.0 * projRight + 1.0 * projUp
+                  <<            1.0 * projRight + 0.0 * projUp;
+                wedge = 1;
+            }
+            else if(-(y-s2) > abs(x-s2)){
+                p << 0.0 * projRight +      0.0 * projUp
+                  << 0.0 * projRight + barWidth * projUp
+                  << 1.0 * projRight + barWidth * projUp
+                  << 1.0 * projRight +      0.0 * projUp;
+                wedge = 2;
+            }
+            else if(-(x-s2) > abs(y-s2)){
+                p <<      0.0 * projRight + 0.0 * projUp
+                  <<      0.0 * projRight + 1.0 * projUp
+                  << barWidth * projRight + 1.0 * projUp
+                  << barWidth * projRight + 0.0 * projUp;
+                wedge = 3;
+            }
+            else return;
+
+            //which face does the sticker belong on?
+            Cube::Face pieceFace = (Cube::Face)cube->sticker(face, piecePos.x(), piecePos.y());
+
+            //orientation of the sticker
+            int orientation = cube->stickerOrientation(face, piecePos.x(), piecePos.y());
+
+            //the adjacent face, based on the stickers orientation
+            Cube::Face adjacentFace = adjacentFaces[pieceFace][(4-orientation+wedge)%4];
+
+            //the colour of the adjacent face - this is the colour of the pochmann sticker bar
+            QColor adjacentColour = settings->getColour(adjacentFace);
+
+            //set the brush colour
+            painter->setBrush(QBrush(adjacentColour));
+
+            //scale the painter up since our coordinates are in [0,1]^2
+            painter->scale(size, size);
+
+            //draw the bar
+            painter->drawPolygon(p);
         }
-        else if(-(y-s2) > abs(x-s2)){
-            p << 0.0 * projRight +      0.0 * projUp
-              << 0.0 * projRight + barWidth * projUp
-              << 1.0 * projRight + barWidth * projUp
-              << 1.0 * projRight +      0.0 * projUp;
-            wedge = 2;
-        }
-        else if(-(x-s2) > abs(y-s2)){
-            p <<      0.0 * projRight + 0.0 * projUp
-              <<      0.0 * projRight + 1.0 * projUp
-              << barWidth * projRight + 1.0 * projUp
-              << barWidth * projRight + 0.0 * projUp;
-            wedge = 3;
-        }
-        else return;
-
-        //which face does the sticker belong on?
-        Cube::Face pieceFace = (Cube::Face)cube->sticker(face, piecePos.x(), piecePos.y());
-
-        //orientation of the sticker
-        int orientation = cube->stickerOrientation(face, piecePos.x(), piecePos.y());
-
-        //the adjacent face, based on the stickers orientation
-        Cube::Face adjacentFace = adjacentFaces[pieceFace][(4-orientation+wedge)%4];
-
-        //the colour of the adjacent face - this is the colour of the pochmann sticker bar
-        QColor adjacentColour = settings->getColour(adjacentFace);
-
-        //set the brush colour
-        painter->setBrush(QBrush(adjacentColour));
-
-        //draw the bar
-        painter->drawPolygon(p);
     }
 }
