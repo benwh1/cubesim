@@ -41,7 +41,7 @@ QList<QColor> Settings::getColours(){
     return colours;
 }
 
-QColor Settings::getColour(Cube::Face face){
+QColor Settings::getColour(Face face){
     return colours[face];
 }
 
@@ -99,7 +99,7 @@ void Settings::setColours(QList<QColor> c){
     emit settingChanged();
 }
 
-void Settings::setColour(Cube::Face face, QColor c){
+void Settings::setColour(Face face, QColor c){
     colours[face] = c;
     emit coloursChanged();
     emit settingChanged();

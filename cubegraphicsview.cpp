@@ -32,7 +32,7 @@ void CubeGraphicsView::initialize(Cube *cube, Settings *settings){
     connect(settings, SIGNAL(antialiasingChanged()), this, SLOT(onAntialiasingSettingChanged()));
 
     //propogate the moveDrag signal
-    connect(cubeGraphicsObject, SIGNAL(moveDrag(Cube::Axis,int,bool,Qt::MouseButton)), this, SIGNAL(moveDrag(Cube::Axis,int,bool,Qt::MouseButton)));
+    connect(cubeGraphicsObject, SIGNAL(moveDrag(Axis,int,bool,Qt::MouseButton)), this, SIGNAL(moveDrag(Axis,int,bool,Qt::MouseButton)));
 
     //reset the scene rect when the projection is changed
     connect(cubeGraphicsObject, SIGNAL(projectionChanged()), this, SLOT(onProjectionChanged()));

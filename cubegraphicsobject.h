@@ -10,6 +10,7 @@
 #include <QVector3D>
 #include <cmath>
 #include "cube.h"
+#include "enums.h"
 #include "projection.h"
 #include "settings.h"
 #include "sticker.h"
@@ -20,10 +21,6 @@ class CubeGraphicsObject : public QGraphicsObject
 {
     Q_OBJECT
 public:
-    enum Direction{
-        Up, Left, Down, Right
-    };
-
     explicit CubeGraphicsObject(Cube *c = nullptr, Settings *s = nullptr, QGraphicsObject *parent = nullptr);
 
     QRectF boundingRect() const;
@@ -59,13 +56,13 @@ private:
     QPointF lastMouseRelease;
 
     void reset();
-    void updateSticker(Cube::Face face, int x, int y);
-    void updateFace(Cube::Face face);
-    void updateLayer(Cube::Axis axis, int layer);
+    void updateSticker(Face face, int x, int y);
+    void updateFace(Face face);
+    void updateLayer(Axis axis, int layer);
     void updateAll();
 
 private slots:
-    void onMoveDone(Cube::Axis axis, int layerStart, int layerEnd, int amount);
+    void onMoveDone(Axis axis, int layerStart, int layerEnd, int amount);
     void onRotationDone();
     void onCubeReset();
     void onCubeScrambled();
@@ -83,7 +80,7 @@ private slots:
 
 signals:
     void projectionChanged();
-    void moveDrag(Cube::Axis axis, int layer, bool clockwise, Qt::MouseButton button);
+    void moveDrag(Axis axis, int layer, bool clockwise, Qt::MouseButton button);
 
 };
 

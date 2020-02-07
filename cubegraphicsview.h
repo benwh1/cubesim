@@ -43,7 +43,7 @@ private slots:
     void onAntialiasingSettingChanged();
 
 signals:
-    void moveDrag(Cube::Axis axis, int layer, bool clockwise, Qt::MouseButton button);
+    void moveDrag(Axis axis, int layer, bool clockwise, Qt::MouseButton button);
 
 };
 

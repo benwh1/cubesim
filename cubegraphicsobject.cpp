@@ -6,8 +6,8 @@ CubeGraphicsObject::CubeGraphicsObject(Cube *c, Settings *s, QGraphicsObject *pa
     cube = c;
     settings = s;
 
-    connect(cube, SIGNAL(moveDone(Cube::Axis,int,int,int)), this, SLOT(onMoveDone(Cube::Axis,int,int,int)));
-    connect(cube, SIGNAL(rotationDone(Cube::Axis,int)), this, SLOT(onRotationDone()));
+    connect(cube, SIGNAL(moveDone(Axis,int,int,int)), this, SLOT(onMoveDone(Axis,int,int,int)));
+    connect(cube, SIGNAL(rotationDone(Axis,int)), this, SLOT(onRotationDone()));
     connect(cube, SIGNAL(cubeReset()), this, SLOT(onCubeReset()));
     connect(cube, SIGNAL(cubeScrambled()), this, SLOT(onCubeScrambled()));
     connect(cube, SIGNAL(cubeSizeChanged()), this, SLOT(onCubeSizeChanged()));
@@ -89,7 +89,7 @@ void CubeGraphicsObject::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
     vPressed = (vPressed + QVector3D(1, 1, 1))/2;
 
     //which face was clicked
-    Cube::Face clickedFace;
+    Face clickedFace;
 
     //points on the face [0,1]^2 where the mouse was pressed/released
     QPointF facePosPress;
@@ -101,7 +101,7 @@ void CubeGraphicsObject::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
     //layer to move and in which direction
     QVector3D vReleased;
     if(vPressed.z() == 1){ //U face
-        clickedFace = Cube::Face::U;
+        clickedFace = Face::U;
         facePosPress.setX(vPressed.x());
         facePosPress.setY(vPressed.y());
 
@@ -111,7 +111,7 @@ void CubeGraphicsObject::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
         facePosRelease.setY(vReleased.y());
     }
     else if(vPressed.y() == 0){ //F face
-        clickedFace = Cube::Face::F;
+        clickedFace = Face::F;
         facePosPress.setX(vPressed.x());
         facePosPress.setY(vPressed.z());
 
@@ -121,7 +121,7 @@ void CubeGraphicsObject::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
         facePosRelease.setY(vReleased.z());
     }
     else if(vPressed.x() == 1){ //R face
-        clickedFace = Cube::Face::R;
+        clickedFace = Face::R;
         facePosPress.setX(vPressed.y());
         facePosPress.setY(vPressed.z());
 
@@ -157,72 +157,72 @@ void CubeGraphicsObject::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
     if(stickerPos.y() > s-1) stickerPos.setY(s-1);
 
     //determine which layer was moved and whether it was cw, ccw, or double
-    Cube::Axis axis;
+    Axis axis;
     int layer;
     bool clockwise; //true if clockwise wrt U,F,R faces
 
-    if(clickedFace == Cube::Face::U){
+    if(clickedFace == Face::U){
         if(dragDirection == Direction::Right){
-            axis = Cube::Axis::Z;
+            axis = Axis::Z;
             layer = s-1-stickerPos.y();
             clockwise = true;
         }
         else if(dragDirection == Direction::Up){
-            axis = Cube::Axis::X;
+            axis = Axis::X;
             layer = s-1-stickerPos.x();
             clockwise = true;
         }
         else if(dragDirection == Direction::Left){
-            axis = Cube::Axis::Z;
+            axis = Axis::Z;
             layer = s-1-stickerPos.y();
             clockwise = false;
         }
         else if(dragDirection == Direction::Down){
-            axis = Cube::Axis::X;
+            axis = Axis::X;
             layer = s-1-stickerPos.x();
             clockwise = false;
         }
     }
-    else if(clickedFace == Cube::Face::F){
+    else if(clickedFace == Face::F){
         if(dragDirection == Direction::Right){
-            axis = Cube::Axis::Y;
+            axis = Axis::Y;
             layer = stickerPos.y();
             clockwise = false;
         }
         else if(dragDirection == Direction::Up){
-            axis = Cube::Axis::X;
+            axis = Axis::X;
             layer = s-1-stickerPos.x();
             clockwise = true;
         }
         else if(dragDirection == Direction::Left){
-            axis = Cube::Axis::Y;
+            axis = Axis::Y;
             layer = stickerPos.y();
             clockwise = true;
         }
         else if(dragDirection == Direction::Down){
-            axis = Cube::Axis::X;
+            axis = Axis::X;
             layer = s-1-stickerPos.x();
             clockwise = false;
         }
     }
-    else if(clickedFace == Cube::Face::R){
+    else if(clickedFace == Face::R){
         if(dragDirection == Direction::Right){
-            axis = Cube::Axis::Y;
+            axis = Axis::Y;
             layer = stickerPos.y();
             clockwise = false;
         }
         else if(dragDirection == Direction::Up){
-            axis = Cube::Axis::Z;
+            axis = Axis::Z;
             layer = stickerPos.x();
             clockwise = false;
         }
         else if(dragDirection == Direction::Left){
-            axis = Cube::Axis::Y;
+            axis = Axis::Y;
             layer = stickerPos.y();
             clockwise = true;
         }
         else if(dragDirection == Direction::Down){
-            axis = Cube::Axis::Z;
+            axis = Axis::Z;
             layer = stickerPos.x();
             clockwise = true;
         }
@@ -256,7 +256,7 @@ void CubeGraphicsObject::reset(){
             stickers[face].append(QList<Sticker*>());
             for(int x=0; x<cube->getSize(); x++){
                 //todo: make proj a pointer
-                Sticker *sticker = new Sticker((Cube::Face)face, QPoint(x, y), cube, settings, &proj, stickerSize, this);
+                Sticker *sticker = new Sticker((Face)face, QPoint(x, y), cube, settings, &proj, stickerSize, this);
                 stickers[face][y].append(sticker);
             }
         }
@@ -274,19 +274,19 @@ void CubeGraphicsObject::reset(){
             //the projected coordinates
             QPointF point;
 
-            sticker = stickers[Cube::Face::U][y][x];
+            sticker = stickers[Face::U][y][x];
             v = QVector3D(x*delta, (s-1-y)*delta, 1);
             v = 2 * v - QVector3D(1, 1, 1);
             point = edgeLength/2 * proj.project(v);
             sticker->setPos(point);
 
-            sticker = stickers[Cube::Face::F][y][x];
+            sticker = stickers[Face::F][y][x];
             v = QVector3D(x*delta, 0, (s-1-y)*delta);
             v = 2 * v - QVector3D(1, 1, 1);
             point = edgeLength/2 * proj.project(v);
             sticker->setPos(point);
 
-            sticker = stickers[Cube::Face::R][y][x];
+            sticker = stickers[Face::R][y][x];
             v = QVector3D(1, x*delta, (s-1-y)*delta);
             v = 2 * v - QVector3D(1, 1, 1);
             point = edgeLength/2 * proj.project(v);
@@ -300,7 +300,7 @@ void CubeGraphicsObject::reset(){
             for(int x=0; x<s; x++){
                 Sticker *sticker = stickers[face][y][x];
 
-                QColor colour = settings->getColour((Cube::Face)cube->sticker((Cube::Face)face, x, y));
+                QColor colour = settings->getColour((Face)cube->sticker((Face)face, x, y));
 
                 sticker->setBrush(QBrush(colour));
                 sticker->setPen(QPen(settings->getLineColour(), settings->getLineWidth()));
@@ -473,17 +473,17 @@ void CubeGraphicsObject::reset(){
     }
 }
 
-void CubeGraphicsObject::updateSticker(Cube::Face face, int x, int y){
+void CubeGraphicsObject::updateSticker(Face face, int x, int y){
     int piece = cube->sticker(face, x, y);
 
-    QColor colour = settings->getColour((Cube::Face)piece);
+    QColor colour = settings->getColour((Face)piece);
     Sticker *sticker = stickers[face][y][x];
 
     sticker->setBrush(QBrush(colour));
     sticker->update();
 }
 
-void CubeGraphicsObject::updateFace(Cube::Face face){
+void CubeGraphicsObject::updateFace(Face face){
     int s = cube->getSize();
     for(int y=0; y<s; y++){
         for(int x=0; x<s; x++){
@@ -492,32 +492,32 @@ void CubeGraphicsObject::updateFace(Cube::Face face){
     }
 }
 
-void CubeGraphicsObject::updateLayer(Cube::Axis axis, int layer){
+void CubeGraphicsObject::updateLayer(Axis axis, int layer){
     int s = cube->getSize();
 
-    if(axis == Cube::Axis::X){ //R-L moves
+    if(axis == Axis::X){ //R-L moves
         for(int i=0; i<s; i++){
-            updateSticker(Cube::Face::U, s-1-layer, i);
-            updateSticker(Cube::Face::F, s-1-layer, i);
+            updateSticker(Face::U, s-1-layer, i);
+            updateSticker(Face::F, s-1-layer, i);
         }
 
-        if(layer == 0) updateFace(Cube::Face::R);
+        if(layer == 0) updateFace(Face::R);
     }
-    else if(axis == Cube::Axis::Y){ //U-D moves
+    else if(axis == Axis::Y){ //U-D moves
         for(int i=0; i<s; i++){
-            updateSticker(Cube::Face::F, i, layer);
-            updateSticker(Cube::Face::R, i, layer);
+            updateSticker(Face::F, i, layer);
+            updateSticker(Face::R, i, layer);
         }
 
-        if(layer == 0) updateFace(Cube::Face::U);
+        if(layer == 0) updateFace(Face::U);
     }
-    else if(axis == Cube::Axis::Z){ //F-B moves
+    else if(axis == Axis::Z){ //F-B moves
         for(int i=0; i<s; i++){
-            updateSticker(Cube::Face::U, i, s-1-layer);
-            updateSticker(Cube::Face::R, layer, i);
+            updateSticker(Face::U, i, s-1-layer);
+            updateSticker(Face::R, layer, i);
         }
 
-        if(layer == 0) updateFace(Cube::Face::F);
+        if(layer == 0) updateFace(Face::F);
     }
 }
 
@@ -526,13 +526,13 @@ void CubeGraphicsObject::updateAll(){
     for(int face=0; face<3; face++){
         for(int y=0; y<s; y++){
             for(int x=0; x<s; x++){
-                updateSticker((Cube::Face)face, x, y);
+                updateSticker((Face)face, x, y);
             }
         }
     }
 }
 
-void CubeGraphicsObject::onMoveDone(Cube::Axis axis, int layerStart, int layerEnd, int){
+void CubeGraphicsObject::onMoveDone(Axis axis, int layerStart, int layerEnd, int){
     for(int i=layerStart; i<=layerEnd; i++){
         updateLayer(axis, i);
     }

@@ -37,10 +37,10 @@ void CubeWidget::initialize(Cube *cube){
     ui->statisticsWidget->initialize(statistics, settings);
 
     //detect drags so we can pass the move to the cube
-    connect(ui->graphicsView, SIGNAL(moveDrag(Cube::Axis,int,bool,Qt::MouseButton)), this, SLOT(onMoveDrag(Cube::Axis,int,bool,Qt::MouseButton)));
+    connect(ui->graphicsView, SIGNAL(moveDrag(Axis,int,bool,Qt::MouseButton)), this, SLOT(onMoveDrag(Axis,int,bool,Qt::MouseButton)));
 
     //detect cube moves
-    connect(cube, SIGNAL(moveDone(Cube::Axis,int,int,int)), this, SLOT(onMoveDone(Cube::Axis,int,int,int)));
+    connect(cube, SIGNAL(moveDone(Axis,int,int,int)), this, SLOT(onMoveDone(Axis,int,int,int)));
 
     //detect when the cube is solved
     connect(cube, SIGNAL(cubeSolved()), this, SLOT(onCubeSolved()));
@@ -228,7 +228,7 @@ void CubeWidget::load(){
     state = State::Solving;
 }
 
-void CubeWidget::onMoveDrag(Cube::Axis axis, int layer, bool clockwise, Qt::MouseButton button){
+void CubeWidget::onMoveDrag(Axis axis, int layer, bool clockwise, Qt::MouseButton button){
     Qt::KeyboardModifiers modifiers = QGuiApplication::queryKeyboardModifiers();
 
     bool ctrl = modifiers & Qt::ControlModifier;
@@ -259,7 +259,7 @@ void CubeWidget::onMoveDrag(Cube::Axis axis, int layer, bool clockwise, Qt::Mous
     }
 }
 
-void CubeWidget::onMoveDone(Cube::Axis, int, int, int){
+void CubeWidget::onMoveDone(Axis, int, int, int){
     //if we are in inspection, start the timer
     if(state == State::Inspecting){
         statistics->reset();

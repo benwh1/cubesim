@@ -2,9 +2,10 @@
 #define SETTINGS_H
 
 #include <QColor>
+#include <QJsonArray>
 #include <QJsonObject>
 #include <QObject>
-#include "cube.h"
+#include "enums.h"
 
 class Settings : public QObject
 {
@@ -17,7 +18,7 @@ public:
     QColor getLineColour();
     int getLineWidth();
     QList<QColor> getColours();
-    QColor getColour(Cube::Face face);
+    QColor getColour(Face face);
     bool getMultislice();
     bool getGuideLinesCross();
     bool getGuideLinesPlus();
@@ -30,7 +31,7 @@ public:
     void setLineColour(QColor c);
     void setLineWidth(int n);
     void setColours(QList<QColor> c);
-    void setColour(Cube::Face face, QColor c);
+    void setColour(Face face, QColor c);
     void setMultislice(bool b);
     void setGuideLinesCross(bool b);
     void setGuideLinesPlus(bool b);

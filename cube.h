@@ -6,19 +6,12 @@
 #include <QJsonObject>
 #include <QObject>
 #include <QSize>
+#include "enums.h"
 
 class Cube : public QObject
 {
     Q_OBJECT
 public:
-    enum Face{
-        U, F, R, B, L, D
-    };
-
-    enum Axis{
-        X, Y, Z
-    };
-
     explicit Cube(QObject *parent = nullptr);
 
     int getSize();
@@ -61,9 +54,9 @@ private:
     void rotateFace(Face f, int amount);
 
 signals:
-    void moveDone(Cube::Axis axis, int layerStart, int layerEnd, int amount);
+    void moveDone(Axis axis, int layerStart, int layerEnd, int amount);
 
-    void rotationDone(Cube::Axis axis, int amount);
+    void rotationDone(Axis axis, int amount);
 
     void cubeReset();
     void cubeScrambled();

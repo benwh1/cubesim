@@ -67,12 +67,12 @@ void SettingsWindow::synchronizeFromSettings(){
     ui->backgroundColourWidget->setColor(settings->getBackgroundColour());
     ui->lineColourWidget->setColor(settings->getLineColour());
     ui->lineWidthSpinBox->setValue(settings->getLineWidth());
-    ui->faceUColourWidget->setColor(settings->getColour(Cube::Face::U));
-    ui->faceFColourWidget->setColor(settings->getColour(Cube::Face::F));
-    ui->faceRColourWidget->setColor(settings->getColour(Cube::Face::R));
-    ui->faceBColourWidget->setColor(settings->getColour(Cube::Face::B));
-    ui->faceLColourWidget->setColor(settings->getColour(Cube::Face::L));
-    ui->faceDColourWidget->setColor(settings->getColour(Cube::Face::D));
+    ui->faceUColourWidget->setColor(settings->getColour(Face::U));
+    ui->faceFColourWidget->setColor(settings->getColour(Face::F));
+    ui->faceRColourWidget->setColor(settings->getColour(Face::R));
+    ui->faceBColourWidget->setColor(settings->getColour(Face::B));
+    ui->faceLColourWidget->setColor(settings->getColour(Face::L));
+    ui->faceDColourWidget->setColor(settings->getColour(Face::D));
     ui->multisliceCheckBox->setChecked(settings->getMultislice());
     ui->guideLinesCrossCheckBox->setChecked(settings->getGuideLinesCross());
     ui->guideLinesPlusCheckBox->setChecked(settings->getGuideLinesPlus());
@@ -102,27 +102,27 @@ void SettingsWindow::onLineWidthSpinBoxChanged(){
 }
 
 void SettingsWindow::onFaceUColourChanged(){
-    settings->setColour(Cube::Face::U, ui->faceUColourWidget->getColor());
+    settings->setColour(Face::U, ui->faceUColourWidget->getColor());
 }
 
 void SettingsWindow::onFaceFColourChanged(){
-    settings->setColour(Cube::Face::F, ui->faceFColourWidget->getColor());
+    settings->setColour(Face::F, ui->faceFColourWidget->getColor());
 }
 
 void SettingsWindow::onFaceRColourChanged(){
-    settings->setColour(Cube::Face::R, ui->faceRColourWidget->getColor());
+    settings->setColour(Face::R, ui->faceRColourWidget->getColor());
 }
 
 void SettingsWindow::onFaceBColourChanged(){
-    settings->setColour(Cube::Face::B, ui->faceBColourWidget->getColor());
+    settings->setColour(Face::B, ui->faceBColourWidget->getColor());
 }
 
 void SettingsWindow::onFaceLColourChanged(){
-    settings->setColour(Cube::Face::L, ui->faceLColourWidget->getColor());
+    settings->setColour(Face::L, ui->faceLColourWidget->getColor());
 }
 
 void SettingsWindow::onFaceDColourChanged(){
-    settings->setColour(Cube::Face::D, ui->faceDColourWidget->getColor());
+    settings->setColour(Face::D, ui->faceDColourWidget->getColor());
 }
 
 void SettingsWindow::onMultisliceCheckBoxChanged(){

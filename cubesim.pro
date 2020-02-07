@@ -36,6 +36,7 @@ HEADERS += \
     cubegraphicsobject.h \
     cubegraphicsview.h \
     cubewidget.h \
+    enums.h \
     global.h \
     mainwindow.h \
     projection.h \

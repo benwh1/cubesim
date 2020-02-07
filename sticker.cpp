@@ -1,6 +1,6 @@
 #include "sticker.h"
 
-Sticker::Sticker(Cube::Face face, QPoint piecePos, Cube *cube, Settings *settings, Projection *proj, qreal size, QGraphicsItem *parent) :
+Sticker::Sticker(Face face, QPoint piecePos, Cube *cube, Settings *settings, Projection *proj, qreal size, QGraphicsItem *parent) :
     QGraphicsPolygonItem(parent)
 {
     this->face = face;
@@ -15,15 +15,15 @@ Sticker::Sticker(Cube::Face face, QPoint piecePos, Cube *cube, Settings *setting
     //from the F face to the B face increases the y coordinate
     QVector3D right, up;
 
-    if(face == Cube::Face::U){
+    if(face == Face::U){
         right = QVector3D(1, 0, 0);
         up = QVector3D(0, 1, 0);
     }
-    else if(face == Cube::F){
+    else if(face == Face::F){
         right = QVector3D(1, 0, 0);
         up = QVector3D(0, 0, 1);
     }
-    else if(face == Cube::R){
+    else if(face == Face::R){
         right = QVector3D(0, 1, 0);
         up = QVector3D(0, 0, 1);
     }
@@ -56,12 +56,12 @@ void Sticker::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 void Sticker::paintPochmann(QPainter *painter){
     //the 4 faces adjacent to each face of the cube, in the order up right down left
     //e.g. looking at the U face in orientation 0, the adjacent faces are B, R, F, L
-    QList<QList<Cube::Face>> adjacentFaces = {{Cube::Face::B, Cube::Face::R, Cube::Face::F, Cube::Face::L},  //U
-                                              {Cube::Face::U, Cube::Face::R, Cube::Face::D, Cube::Face::L},  //F
-                                              {Cube::Face::U, Cube::Face::B, Cube::Face::D, Cube::Face::F},  //R
-                                              {Cube::Face::U, Cube::Face::L, Cube::Face::D, Cube::Face::R},  //B
-                                              {Cube::Face::U, Cube::Face::F, Cube::Face::D, Cube::Face::B},  //L
-                                              {Cube::Face::F, Cube::Face::R, Cube::Face::B, Cube::Face::L}}; //D
+    QList<QList<Face>> adjacentFaces = {{Face::B, Face::R, Face::F, Face::L},  //U
+                                              {Face::U, Face::R, Face::D, Face::L},  //F
+                                              {Face::U, Face::B, Face::D, Face::F},  //R
+                                              {Face::U, Face::L, Face::D, Face::R},  //B
+                                              {Face::U, Face::F, Face::D, Face::B},  //L
+                                              {Face::F, Face::R, Face::B, Face::L}}; //D
 
     //some useful constants
     int s = cube->getSize();
@@ -80,13 +80,13 @@ void Sticker::paintPochmann(QPainter *painter){
 
         for(int i=0; i<4; i++){
             //which face does the sticker belong on?
-            Cube::Face pieceFace = (Cube::Face)cube->sticker(face, piecePos.x(), piecePos.y());
+            Face pieceFace = (Face)cube->sticker(face, piecePos.x(), piecePos.y());
 
             //orientation of the sticker
             int orientation = cube->stickerOrientation(face, piecePos.x(), piecePos.y());
 
             //the adjacent face, based on the stickers orientation
-            Cube::Face adjacentFace = adjacentFaces[pieceFace][(4-orientation+i)%4];
+            Face adjacentFace = adjacentFaces[pieceFace][(4-orientation+i)%4];
 
             //colour of the adjacent face
             QColor adjacentColour = settings->getColour(adjacentFace);
@@ -123,14 +123,14 @@ void Sticker::paintPochmann(QPainter *painter){
         painter->translate(-0.5, -0.5);
 
         //which face does the sticker belong on?
-        Cube::Face pieceFace = (Cube::Face)cube->sticker(face, piecePos.x(), piecePos.y());
+        Face pieceFace = (Face)cube->sticker(face, piecePos.x(), piecePos.y());
 
         //orientation of the sticker
         int orientation = cube->stickerOrientation(face, piecePos.x(), piecePos.y());
 
         //the two adjacent faces, based on the stickers orientation
-        Cube::Face adjacentFace1 = adjacentFaces[pieceFace][(4-orientation+diagonal+3)%4];
-        Cube::Face adjacentFace2 = adjacentFaces[pieceFace][(4-orientation+diagonal)%4];
+        Face adjacentFace1 = adjacentFaces[pieceFace][(4-orientation+diagonal+3)%4];
+        Face adjacentFace2 = adjacentFaces[pieceFace][(4-orientation+diagonal)%4];
 
         //the colours of the adjacent faces
         QColor adjacentColour1 = settings->getColour(adjacentFace1);
@@ -163,13 +163,13 @@ void Sticker::paintPochmann(QPainter *painter){
         painter->translate(-0.5, -0.5);
 
         //which face does the sticker belong on?
-        Cube::Face pieceFace = (Cube::Face)cube->sticker(face, piecePos.x(), piecePos.y());
+        Face pieceFace = (Face)cube->sticker(face, piecePos.x(), piecePos.y());
 
         //orientation of the sticker
         int orientation = cube->stickerOrientation(face, piecePos.x(), piecePos.y());
 
         //the adjacent face, based on the stickers orientation
-        Cube::Face adjacentFace = adjacentFaces[pieceFace][(4-orientation+wedge)%4];
+        Face adjacentFace = adjacentFaces[pieceFace][(4-orientation+wedge)%4];
 
         //the colour of the adjacent face - this is the colour of the pochmann sticker bar
         QColor adjacentColour = settings->getColour(adjacentFace);

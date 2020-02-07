@@ -137,7 +137,7 @@ void Cube::move(Axis axis, int layer, int amount){
     }
 }
 
-void Cube::multisliceMove(Cube::Axis axis, int layer, int amount){
+void Cube::multisliceMove(Axis axis, int layer, int amount){
     if(layer < size/2){
         blockSignals(true);
         for(int i=0; i<=layer; i++){
@@ -169,7 +169,7 @@ void Cube::multisliceMove(Cube::Axis axis, int layer, int amount){
     }
 }
 
-void Cube::rotate(Cube::Axis axis, int amount){
+void Cube::rotate(Axis axis, int amount){
     for(int i=0; i<size; i++){
         for(int n=0; n<amount; n++){
             move(axis, i);
@@ -224,7 +224,7 @@ void Cube::scramble(){
     int moves = 1000 + 10*size*size + qrand()%size;
 
     for(int i=0; i<moves; i++){
-        move((Cube::Axis)(qrand()%3), rand()%size);
+        move((Axis)(qrand()%3), rand()%size);
     }
 
     emit cubeScrambled();

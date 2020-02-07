@@ -12,12 +12,12 @@
 class Sticker : public QGraphicsPolygonItem
 {
 public:
-    Sticker(Cube::Face face, QPoint piecePos, Cube *cube, Settings *settings, Projection *proj, qreal size, QGraphicsItem *parent = nullptr);
+    Sticker(Face face, QPoint piecePos, Cube *cube, Settings *settings, Projection *proj, qreal size, QGraphicsItem *parent = nullptr);
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 
 private:
-    Cube::Face face;
+    Face face;
     QPoint piecePos;
     Cube *cube;
     Settings *settings;
