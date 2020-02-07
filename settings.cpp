@@ -20,6 +20,7 @@ Settings::Settings(QObject *parent) :
     guideLineColour = Qt::black;
     guideLineWidth = 2;
     supercube = false;
+    supercubeStickers = "Arrows";
 }
 
 bool Settings::getAntialiasing(){
@@ -72,6 +73,10 @@ int Settings::getGuideLineWidth(){
 
 bool Settings::getSupercube(){
     return supercube;
+}
+
+QString Settings::getSupercubeStickers(){
+    return supercubeStickers;
 }
 
 void Settings::setAntialiasing(bool b){
@@ -152,6 +157,12 @@ void Settings::setSupercube(bool b){
     emit settingChanged();
 }
 
+void Settings::setSupercubeStickers(QString s){
+    supercubeStickers = s;
+    emit supercubeStickersChanged();
+    emit settingChanged();
+}
+
 QJsonObject Settings::toJSON(){
     QJsonObject data;
 
@@ -173,6 +184,7 @@ QJsonObject Settings::toJSON(){
     data["guideLineColour"] = guideLineColour.name(QColor::HexArgb);
     data["guideLineWidth"] = guideLineWidth;
     data["supercube"] = supercube;
+    data["supercubeStickers"] = supercubeStickers;
 
     return data;
 }
@@ -197,4 +209,5 @@ void Settings::fromJSON(QJsonObject data){
     setGuideLineColour(QColor(data["guideLineColour"].toString()));
     setGuideLineWidth(data["guideLineWidth"].toInt());
     setSupercube(data["supercube"].toBool());
+    setSupercubeStickers(data["supercubeStickers"].toString());
 }

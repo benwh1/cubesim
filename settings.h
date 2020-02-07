@@ -26,6 +26,7 @@ public:
     QColor getGuideLineColour();
     int getGuideLineWidth();
     bool getSupercube();
+    QString getSupercubeStickers();
 
     void setAntialiasing(bool b);
     void setBackgroundColour(QColor c);
@@ -40,6 +41,7 @@ public:
     void setGuideLineColour(QColor c);
     void setGuideLineWidth(int n);
     void setSupercube(bool b);
+    void setSupercubeStickers(QString s);
 
     QJsonObject toJSON();
     void fromJSON(QJsonObject data);
@@ -57,6 +59,7 @@ private:
     QColor guideLineColour;
     int guideLineWidth;
     bool supercube;
+    QString supercubeStickers;
 
 signals:
     void antialiasingChanged();
@@ -71,6 +74,7 @@ signals:
     void guideLineColourChanged();
     void guideLineWidthChanged();
     void supercubeChanged();
+    void supercubeStickersChanged();
 
     //emitted when any setting is changed
     void settingChanged();

@@ -49,7 +49,14 @@ void Sticker::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 
     //if we're using a supercube, draw supercube stickers
     if(settings->getSupercube()){
-        paintPochmann(painter);
+        QString stickers = settings->getSupercubeStickers();
+
+        if(stickers == "Arrows"){
+            ;
+        }
+        if(stickers == "Pochmann"){
+            paintPochmann(painter);
+        }
     }
 }
 

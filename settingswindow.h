@@ -42,6 +42,7 @@ private slots:
     void onGuideLineColourWidgetChanged();
     void onGuideLineWidthSpinBoxChanged();
     void onSupercubeCheckBoxChanged();
+    void onSupercubeStickersComboBoxChanged();
 
     void onSettingChanged();
 
