@@ -254,6 +254,11 @@ stickers:</string>
              <string>Pochmann</string>
             </property>
            </item>
+           <item>
+            <property name="text">
+             <string>Image</string>
+            </property>
+           </item>
           </widget>
          </item>
         </layout>

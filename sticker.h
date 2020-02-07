@@ -24,6 +24,7 @@ private:
 
     void paintArrows(QPainter *painter);
     void paintPochmann(QPainter *painter);
+    void paintImage(QPainter *painter);
 
 };
 

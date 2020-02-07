@@ -57,6 +57,9 @@ void Sticker::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
         else if(stickers == "Pochmann"){
             paintPochmann(painter);
         }
+        else if(stickers == "Image"){
+            paintImage(painter);
+        }
     }
 }
 
@@ -203,4 +206,17 @@ void Sticker::paintPochmann(QPainter *painter){
         //draw the bar
         painter->drawPolygon(p);
     }
+}
+
+void Sticker::paintImage(QPainter *painter){
+    int orientation = cube->stickerOrientation(face, piecePos.x(), piecePos.y());
+
+    //rotate the painter
+    painter->translate(0.5, 0.5);
+    painter->rotate(-90 * orientation);
+    painter->scale(1, -1); //because the CubeGraphicsView is also flipped
+    painter->translate(-0.5, -0.5);
+
+    QPixmap pixmap("image.png");
+    painter->drawPixmap(QRect(0,0,1,1), pixmap);
 }
