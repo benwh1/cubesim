@@ -7,6 +7,7 @@ Sticker::Sticker(Face face, QPoint piecePos, Cube *cube, Settings *settings, Pro
     this->piecePos = piecePos;
     this->cube = cube;
     this->settings = settings;
+    this->size = size;
 
     //unit vectors pointing right/up when looking at the
     //face containing this sticker
@@ -34,11 +35,13 @@ Sticker::Sticker(Face face, QPoint piecePos, Cube *cube, Settings *settings, Pro
 
     //set the transform to map the square [0,1]^2 onto the projected sticker
     setTransform(QTransform(projRight.x(), projRight.y(), projUp.x(), projUp.y(), 0, 0));
-    setScale(size);
 
     //create the polygon
     QPolygonF poly;
     poly << QPointF(0,0) << QPointF(0,1) << QPointF(1,1) << QPointF(1,0);
+    for(int i=0; i<poly.size(); i++){
+        poly[i] = poly[i] * size;
+    }
 
     setPolygon(poly);
 }
@@ -66,14 +69,19 @@ void Sticker::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 void Sticker::paintArrows(QPainter *painter){
     QPolygonF arrow;
     arrow << QPointF(0.4, 0.1) << QPointF(0.4, 0.6) << QPointF(0.2, 0.6) << QPointF(0.5, 0.9) << QPointF(0.8, 0.6) << QPointF(0.6, 0.6) << QPointF(0.6, 0.1);
+    for(int i=0; i<arrow.size(); i++){
+        arrow[i] = arrow[i] * size;
+    }
 
     //get the orientation of the sticker
     int orientation = cube->stickerOrientation(face, piecePos.x(), piecePos.y());
 
     //rotate the painter around the center of the sticker
+    painter->scale(size, size);
     painter->translate(0.5, 0.5);
     painter->rotate(-90 * orientation);
     painter->translate(-0.5, -0.5);
+    painter->scale(1/size, 1/size);
 
     //draw the arrow
     painter->drawPolygon(arrow);
@@ -103,6 +111,9 @@ void Sticker::paintPochmann(QPainter *painter){
         //the trapezoidal shape of the bar
         QPolygonF p;
         p << QPointF(barWidth, 1 - barWidth) << QPointF(0, 1) << QPointF(1, 1) << QPointF(1 - barWidth, 1 - barWidth);
+        for(int i=0; i<p.size(); i++){
+            p[i] = p[i] * size;
+        }
 
         for(int i=0; i<4; i++){
             //which face does the sticker belong on?
@@ -123,9 +134,11 @@ void Sticker::paintPochmann(QPainter *painter){
 
             //rotate the painter around the center of the sticker
             //in preparation for drawing the next bar
+            painter->scale(size, size);
             painter->translate(0.5, 0.5);
             painter->rotate(-90);
             painter->translate(-0.5, -0.5);
+            painter->scale(1/size, 1/size);
         }
     }
     //sticker on a diagonal, need to draw two bars instead of one
@@ -134,6 +147,12 @@ void Sticker::paintPochmann(QPainter *painter){
         QPolygonF p1, p2;
         p1 << QPointF(0, 0) << QPointF(0, 1) << QPointF(barWidth, 1 - barWidth) << QPointF(barWidth, 0);
         p2 << QPointF(barWidth, 1 - barWidth) << QPointF(0, 1) << QPointF(1, 1) << QPointF(1, 1 - barWidth);
+        for(int i=0; i<p1.size(); i++){
+            p1[i] = p1[i] * size;
+        }
+        for(int i=0; i<p2.size(); i++){
+            p2[i] = p2[i] * size;
+        }
 
         //which diagonal is the sticker in?
         //top left = 0, top right = 1, bottom right = 2, bottom left = 3
@@ -144,9 +163,11 @@ void Sticker::paintPochmann(QPainter *painter){
         else if(y == x     && y < s2) diagonal = 3;
 
         //rotate the painter around the center of the sticker
+        painter->scale(size, size);
         painter->translate(0.5, 0.5);
         painter->rotate(-90 * diagonal);
         painter->translate(-0.5, -0.5);
+        painter->scale(1/size, 1/size);
 
         //which face does the sticker belong on?
         Face pieceFace = (Face)cube->sticker(face, piecePos.x(), piecePos.y());
@@ -172,6 +193,9 @@ void Sticker::paintPochmann(QPainter *painter){
         //the sticker bar polygon
         QPolygonF p;
         p << QPointF(0, 1 - barWidth) << QPointF(0, 1) << QPointF(1, 1) << QPointF(1, 1 - barWidth);
+        for(int i=0; i<p.size(); i++){
+            p[i] = p[i] * size;
+        }
 
         //which "wedge" is the sticker in?
         //top = 0, right = 1, bottom = 2, left = 3
@@ -184,9 +208,11 @@ void Sticker::paintPochmann(QPainter *painter){
         else if(-(x-s2) > abs(y-s2)) wedge = 3;
 
         //rotate the painter around the center of the sticker
+        painter->scale(size, size);
         painter->translate(0.5, 0.5);
         painter->rotate(-90 * wedge);
         painter->translate(-0.5, -0.5);
+        painter->scale(1/size, 1/size);
 
         //which face does the sticker belong on?
         Face pieceFace = (Face)cube->sticker(face, piecePos.x(), piecePos.y());
@@ -212,6 +238,7 @@ void Sticker::paintImage(QPainter *painter){
     int orientation = cube->stickerOrientation(face, piecePos.x(), piecePos.y());
 
     //rotate the painter
+    painter->scale(size, size);
     painter->translate(0.5, 0.5);
     painter->rotate(-90 * orientation);
     painter->scale(1, -1); //because the CubeGraphicsView is also flipped

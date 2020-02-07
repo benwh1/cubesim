@@ -22,6 +22,9 @@ private:
     Cube *cube;
     Settings *settings;
 
+    //edge length of the sticker in 3d space
+    qreal size;
+
     void paintArrows(QPainter *painter);
     void paintPochmann(QPainter *painter);
     void paintImage(QPainter *painter);
