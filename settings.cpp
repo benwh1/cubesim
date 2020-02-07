@@ -19,6 +19,7 @@ Settings::Settings(QObject *parent) :
     guideLinesBox = false;
     guideLineColour = Qt::black;
     guideLineWidth = 2;
+    supercube = false;
 }
 
 bool Settings::getAntialiasing(){
@@ -67,6 +68,10 @@ QColor Settings::getGuideLineColour(){
 
 int Settings::getGuideLineWidth(){
     return guideLineWidth;
+}
+
+bool Settings::getSupercube(){
+    return supercube;
 }
 
 void Settings::setAntialiasing(bool b){
@@ -138,6 +143,12 @@ void Settings::setGuideLineColour(QColor c){
 void Settings::setGuideLineWidth(int n){
     guideLineWidth = n;
     emit guideLineWidthChanged();
+    emit settingChanged();
+}
+
+void Settings::setSupercube(bool b){
+    supercube = b;
+    emit supercubeChanged();
     emit settingChanged();
 }
 

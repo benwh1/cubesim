@@ -25,6 +25,7 @@ SettingsWindow::SettingsWindow(Settings *settings, QDialog *parent) :
     connect(ui->guideLinesBoxCheckBox, SIGNAL(toggled(bool)), this, SLOT(onGuideLinesBoxCheckBoxChanged()));
     connect(ui->guideLineColourWidget, SIGNAL(colorChanged()), this, SLOT(onGuideLineColourWidgetChanged()));
     connect(ui->guideLineWidthSpinBox, SIGNAL(valueChanged(int)), this, SLOT(onGuideLineWidthSpinBoxChanged()));
+    connect(ui->supercubeCheckBox, SIGNAL(toggled(bool)), this, SLOT(onSupercubeCheckBoxChanged()));
 
     connect(settings, SIGNAL(settingChanged()), this, SLOT(onSettingChanged()));
 
@@ -57,7 +58,8 @@ void SettingsWindow::synchronizeFromSettings(){
                               ui->guideLinesPlusCheckBox,
                               ui->guideLinesBoxCheckBox,
                               ui->guideLineColourWidget,
-                              ui->guideLineWidthSpinBox};
+                              ui->guideLineWidthSpinBox,
+                              ui->supercubeCheckBox};
 
     foreach(QWidget *w, widgets){
         w->blockSignals(true);
@@ -79,6 +81,7 @@ void SettingsWindow::synchronizeFromSettings(){
     ui->guideLinesBoxCheckBox->setChecked(settings->getGuideLinesBox());
     ui->guideLineColourWidget->setColor(settings->getGuideLineColour());
     ui->guideLineWidthSpinBox->setValue(settings->getGuideLineWidth());
+    ui->supercubeCheckBox->setChecked(settings->getSupercube());
 
     foreach(QWidget *w, widgets){
         w->blockSignals(false);
@@ -147,6 +150,10 @@ void SettingsWindow::onGuideLineColourWidgetChanged(){
 
 void SettingsWindow::onGuideLineWidthSpinBoxChanged(){
     settings->setGuideLineWidth(ui->guideLineWidthSpinBox->value());
+}
+
+void SettingsWindow::onSupercubeCheckBoxChanged(){
+    settings->setSupercube(ui->supercubeCheckBox->isChecked());
 }
 
 void SettingsWindow::onSettingChanged(){

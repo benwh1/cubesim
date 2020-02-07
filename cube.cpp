@@ -1,11 +1,13 @@
 #include "cube.h"
 
-Cube::Cube(QObject *parent) :
+Cube::Cube(Settings *settings, QObject *parent) :
     QObject(parent)
 {
-    supercube = false;
+    this->settings = settings;
 
     setSize(3);
+
+    QObject::connect(settings, SIGNAL(supercubeChanged()), this, SLOT(onSupercubeSettingChanged()));
 }
 
 int Cube::getSize(){
@@ -125,6 +127,10 @@ void Cube::rotateFace(Face f, int amount){
     }
 }
 
+void Cube::onSupercubeSettingChanged(){
+    reset();
+}
+
 void Cube::move(Axis axis, int layer, int amount){
     for(int i=0; i<amount; i++){
         move(axis, layer);
@@ -179,10 +185,6 @@ void Cube::rotate(Axis axis, int amount){
     emit rotationDone(axis, amount);
 }
 
-bool Cube::isSupercube(){
-    return supercube;
-}
-
 bool Cube::isSolved(){
     for(int face=0; face<6; face++){
         int faceColour = stickers[face][0][0];
@@ -196,7 +198,7 @@ bool Cube::isSolved(){
     }
 
     //check if all stickers are oriented correctly if this is a supercube
-    if(supercube){
+    if(settings->getSupercube()){
         for(int face=0; face<6; face++){
             int faceOrientation = orientations[face][0][0];
             for(int y=0; y<size; y++){

@@ -48,7 +48,7 @@ void Sticker::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
     QGraphicsPolygonItem::paint(painter, option, widget);
 
     //if we're using a supercube, draw supercube stickers
-    if(cube->isSupercube()){
+    if(settings->getSupercube()){
         paintPochmann(painter);
     }
 }

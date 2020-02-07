@@ -7,12 +7,13 @@
 #include <QObject>
 #include <QSize>
 #include "enums.h"
+#include "settings.h"
 
 class Cube : public QObject
 {
     Q_OBJECT
 public:
-    explicit Cube(QObject *parent = nullptr);
+    explicit Cube(Settings *settings, QObject *parent = nullptr);
 
     int getSize();
     void setSize(int s);
@@ -20,8 +21,6 @@ public:
     void move(Axis axis, int layer, int amount);
     void multisliceMove(Axis axis, int layer, int amount);
     void rotate(Axis axis, int amount);
-
-    bool isSupercube();
 
     bool isSolved();
 
@@ -38,7 +37,7 @@ private:
     QList<QList<QList<int>>> stickers;
     int size;
 
-    bool supercube;
+    Settings *settings;
 
     //sticker orientations for supercubes
     //oriented correctly = 0
@@ -52,6 +51,9 @@ private:
     //rotates a single face, no inner slice pieces
     void rotateFace(Face f);
     void rotateFace(Face f, int amount);
+
+private slots:
+    void onSupercubeSettingChanged();
 
 signals:
     void moveDone(Axis axis, int layerStart, int layerEnd, int amount);

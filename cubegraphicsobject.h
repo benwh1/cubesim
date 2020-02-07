@@ -77,6 +77,7 @@ private slots:
     void onGuideLinesBoxSettingChanged();
     void onGuideLineColourSettingChanged();
     void onGuideLineWidthSettingChanged();
+    void onSupercubeSettingChanged();
 
 signals:
     void projectionChanged();
