@@ -75,8 +75,58 @@ void Sticker::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
         //how wide are the pochmann sticker bars?
         qreal barWidth = 0.2;
 
+        //sticker in the center
+        if(s%2 == 1 && x == s/2 && y == s/2){
+            QPolygonF p1, p2, p3, p4;
+            p1 << barWidth * projRight + (1 - barWidth) * projUp
+               << 0.0 * projRight + 1.0 * projUp
+               << 1.0 * projRight + 1.0 * projUp
+               << (1 - barWidth) * projRight + (1 - barWidth) * projUp;
+            p2 << (1 - barWidth) * projRight + barWidth * projUp
+               << (1 - barWidth) * projRight + (1 - barWidth) * projUp
+               << 1.0 * projRight + 1.0 * projUp
+               << 1.0 * projRight + 0.0 * projUp;
+            p3 << 0.0 * projRight + 0.0 * projUp
+               << barWidth * projRight + barWidth * projUp
+               << (1 - barWidth) * projRight + barWidth * projUp
+               << 1.0 * projRight + 0.0 * projUp;
+            p4 << 0.0 * projRight + 0.0 * projUp
+               << 0.0 * projRight + 1.0 * projUp
+               << barWidth * projRight + (1 - barWidth) * projUp
+               << barWidth * projRight + barWidth * projUp;
+
+            //which face does the sticker belong on?
+            Cube::Face pieceFace = (Cube::Face)cube->sticker(face, piecePos.x(), piecePos.y());
+
+            //orientation of the sticker
+            int orientation = cube->stickerOrientation(face, piecePos.x(), piecePos.y());
+
+            //the two adjacent faces, based on the stickers orientation
+            Cube::Face adjacentFace1 = adjacentFaces[pieceFace][(4-orientation)%4];
+            Cube::Face adjacentFace2 = adjacentFaces[pieceFace][(4-orientation+1)%4];
+            Cube::Face adjacentFace3 = adjacentFaces[pieceFace][(4-orientation+2)%4];
+            Cube::Face adjacentFace4 = adjacentFaces[pieceFace][(4-orientation+3)%4];
+
+            //the colours of the adjacent faces
+            QColor adjacentColour1 = settings->getColour(adjacentFace1);
+            QColor adjacentColour2 = settings->getColour(adjacentFace2);
+            QColor adjacentColour3 = settings->getColour(adjacentFace3);
+            QColor adjacentColour4 = settings->getColour(adjacentFace4);
+
+            //scale the painter up since our coordinates are in [0,1]^2
+            painter->scale(size, size);
+
+            painter->setBrush(QBrush(adjacentColour1));
+            painter->drawPolygon(p1);
+            painter->setBrush(QBrush(adjacentColour2));
+            painter->drawPolygon(p2);
+            painter->setBrush(QBrush(adjacentColour3));
+            painter->drawPolygon(p3);
+            painter->setBrush(QBrush(adjacentColour4));
+            painter->drawPolygon(p4);
+        }
         //sticker on a diagonal, need to draw two bars instead of one
-        if(x == y || x == s-1-y){
+        else if(x == y || x == s-1-y){
             //two separate polygons, one for each colour
             QPolygonF p1, p2;
 
