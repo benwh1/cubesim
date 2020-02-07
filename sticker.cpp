@@ -108,6 +108,9 @@ void Sticker::paintPochmann(QPainter *painter){
 
     //sticker in the center
     if(s%2 == 1 && x == s/2 && y == s/2){
+        //limit this stickers bar width to 0.5, otherwise there will be overlap
+        if(b > 0.5) b = 0.5;
+
         //the trapezoidal shape of the bar
         QPolygonF p;
         p << QPointF(b, 1-b) << QPointF(0, 1) << QPointF(1, 1) << QPointF(1-b, 1-b);
