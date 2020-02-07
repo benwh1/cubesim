@@ -27,6 +27,7 @@ public:
     int getGuideLineWidth();
     bool getSupercube();
     QString getSupercubeStickers();
+    qreal getPochmannBarThickness();
 
     void setAntialiasing(bool b);
     void setBackgroundColour(QColor c);
@@ -42,6 +43,7 @@ public:
     void setGuideLineWidth(int n);
     void setSupercube(bool b);
     void setSupercubeStickers(QString s);
+    void setPochmannBarThickness(qreal r);
 
     QJsonObject toJSON();
     void fromJSON(QJsonObject data);
@@ -60,6 +62,7 @@ private:
     int guideLineWidth;
     bool supercube;
     QString supercubeStickers;
+    qreal pochmannBarThickness;
 
 signals:
     void antialiasingChanged();
@@ -75,6 +78,7 @@ signals:
     void guideLineWidthChanged();
     void supercubeChanged();
     void supercubeStickersChanged();
+    void pochmannBarThicknessChanged();
 
     //emitted when any setting is changed
     void settingChanged();

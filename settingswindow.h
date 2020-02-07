@@ -43,6 +43,7 @@ private slots:
     void onGuideLineWidthSpinBoxChanged();
     void onSupercubeCheckBoxChanged();
     void onSupercubeStickersComboBoxChanged();
+    void onPochmannBarThicknessChanged();
 
     void onSettingChanged();
 

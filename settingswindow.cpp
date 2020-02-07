@@ -27,6 +27,7 @@ SettingsWindow::SettingsWindow(Settings *settings, QDialog *parent) :
     connect(ui->guideLineWidthSpinBox, SIGNAL(valueChanged(int)), this, SLOT(onGuideLineWidthSpinBoxChanged()));
     connect(ui->supercubeCheckBox, SIGNAL(toggled(bool)), this, SLOT(onSupercubeCheckBoxChanged()));
     connect(ui->supercubeStickersComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(onSupercubeStickersComboBoxChanged()));
+    connect(ui->pochmannBarThicknessSpinBox, SIGNAL(valueChanged(double)), this, SLOT(onPochmannBarThicknessChanged()));
 
     connect(settings, SIGNAL(settingChanged()), this, SLOT(onSettingChanged()));
 
@@ -61,7 +62,8 @@ void SettingsWindow::synchronizeFromSettings(){
                               ui->guideLineColourWidget,
                               ui->guideLineWidthSpinBox,
                               ui->supercubeCheckBox,
-                              ui->supercubeStickersComboBox};
+                              ui->supercubeStickersComboBox,
+                              ui->pochmannBarThicknessSpinBox};
 
     foreach(QWidget *w, widgets){
         w->blockSignals(true);
@@ -85,6 +87,7 @@ void SettingsWindow::synchronizeFromSettings(){
     ui->guideLineWidthSpinBox->setValue(settings->getGuideLineWidth());
     ui->supercubeCheckBox->setChecked(settings->getSupercube());
     ui->supercubeStickersComboBox->setCurrentText(settings->getSupercubeStickers());
+    ui->pochmannBarThicknessSpinBox->setValue(settings->getPochmannBarThickness());
 
     foreach(QWidget *w, widgets){
         w->blockSignals(false);
@@ -161,6 +164,10 @@ void SettingsWindow::onSupercubeCheckBoxChanged(){
 
 void SettingsWindow::onSupercubeStickersComboBoxChanged(){
     settings->setSupercubeStickers(ui->supercubeStickersComboBox->currentText());
+}
+
+void SettingsWindow::onPochmannBarThicknessChanged(){
+    settings->setPochmannBarThickness(ui->pochmannBarThicknessSpinBox->value());
 }
 
 void SettingsWindow::onSettingChanged(){

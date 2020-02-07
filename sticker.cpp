@@ -104,13 +104,13 @@ void Sticker::paintPochmann(QPainter *painter){
     int y = s-1-piecePos.y();
 
     //how wide are the pochmann sticker bars?
-    qreal barWidth = 0.2;
+    qreal b = settings->getPochmannBarThickness();
 
     //sticker in the center
     if(s%2 == 1 && x == s/2 && y == s/2){
         //the trapezoidal shape of the bar
         QPolygonF p;
-        p << QPointF(barWidth, 1 - barWidth) << QPointF(0, 1) << QPointF(1, 1) << QPointF(1 - barWidth, 1 - barWidth);
+        p << QPointF(b, 1-b) << QPointF(0, 1) << QPointF(1, 1) << QPointF(1-b, 1-b);
         for(int i=0; i<p.size(); i++){
             p[i] = p[i] * size;
         }
@@ -145,8 +145,8 @@ void Sticker::paintPochmann(QPainter *painter){
     else if(x == y || x == s-1-y){
         //two separate polygons, one for each colour
         QPolygonF p1, p2;
-        p1 << QPointF(0, 0) << QPointF(0, 1) << QPointF(barWidth, 1 - barWidth) << QPointF(barWidth, 0);
-        p2 << QPointF(barWidth, 1 - barWidth) << QPointF(0, 1) << QPointF(1, 1) << QPointF(1, 1 - barWidth);
+        p1 << QPointF(0, 0) << QPointF(0, 1) << QPointF(b, 1-b) << QPointF(b, 0);
+        p2 << QPointF(b, 1-b) << QPointF(0, 1) << QPointF(1, 1) << QPointF(1, 1-b);
         for(int i=0; i<p1.size(); i++){
             p1[i] = p1[i] * size;
         }
@@ -192,7 +192,7 @@ void Sticker::paintPochmann(QPainter *painter){
     else{
         //the sticker bar polygon
         QPolygonF p;
-        p << QPointF(0, 1 - barWidth) << QPointF(0, 1) << QPointF(1, 1) << QPointF(1, 1 - barWidth);
+        p << QPointF(0, 1-b) << QPointF(0, 1) << QPointF(1, 1) << QPointF(1, 1-b);
         for(int i=0; i<p.size(); i++){
             p[i] = p[i] * size;
         }

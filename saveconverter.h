@@ -64,7 +64,7 @@ public:
         else if(fromVersion == "0.2"){
             /* differences:
              * added colour scheme to Settings
-             * added supercube/supercubeStickers to settings
+             * added supercube settings
              */
 
             toVersion = "0.3";
@@ -85,6 +85,7 @@ public:
             //add supercube settings
             settings["supercube"] = false;
             settings["supercubeStickers"] = "Arrows";
+            settings["pochmannBarThickness"] = 0.2;
 
             //add the new settings to the save file
             data["settings"] = settings;

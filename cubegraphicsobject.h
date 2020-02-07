@@ -79,6 +79,7 @@ private slots:
     void onGuideLineWidthSettingChanged();
     void onSupercubeSettingChanged();
     void onSupercubeStickersSettingChanged();
+    void onPochmannBarThicknessSettingChanged();
 
 signals:
     void projectionChanged();

@@ -21,6 +21,7 @@ Settings::Settings(QObject *parent) :
     guideLineWidth = 2;
     supercube = false;
     supercubeStickers = "Arrows";
+    pochmannBarThickness = 0.2;
 }
 
 bool Settings::getAntialiasing(){
@@ -77,6 +78,10 @@ bool Settings::getSupercube(){
 
 QString Settings::getSupercubeStickers(){
     return supercubeStickers;
+}
+
+qreal Settings::getPochmannBarThickness(){
+    return pochmannBarThickness;
 }
 
 void Settings::setAntialiasing(bool b){
@@ -163,6 +168,12 @@ void Settings::setSupercubeStickers(QString s){
     emit settingChanged();
 }
 
+void Settings::setPochmannBarThickness(qreal r){
+    pochmannBarThickness = r;
+    emit pochmannBarThicknessChanged();
+    emit settingChanged();
+}
+
 QJsonObject Settings::toJSON(){
     QJsonObject data;
 
@@ -185,6 +196,7 @@ QJsonObject Settings::toJSON(){
     data["guideLineWidth"] = guideLineWidth;
     data["supercube"] = supercube;
     data["supercubeStickers"] = supercubeStickers;
+    data["pochmannBarThickness"] = pochmannBarThickness;
 
     return data;
 }
@@ -210,4 +222,5 @@ void Settings::fromJSON(QJsonObject data){
     setGuideLineWidth(data["guideLineWidth"].toInt());
     setSupercube(data["supercube"].toBool());
     setSupercubeStickers(data["supercubeStickers"].toString());
+    setPochmannBarThickness(data["pochmannBarThickness"].toDouble());
 }
