@@ -22,6 +22,7 @@ private:
     Cube *cube;
     Settings *settings;
 
+    void paintArrows(QPainter *painter);
     void paintPochmann(QPainter *painter);
 
 };

@@ -52,12 +52,28 @@ void Sticker::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
         QString stickers = settings->getSupercubeStickers();
 
         if(stickers == "Arrows"){
-            ;
+            paintArrows(painter);
         }
-        if(stickers == "Pochmann"){
+        else if(stickers == "Pochmann"){
             paintPochmann(painter);
         }
     }
+}
+
+void Sticker::paintArrows(QPainter *painter){
+    QPolygonF arrow;
+    arrow << QPointF(0.4, 0.1) << QPointF(0.4, 0.6) << QPointF(0.2, 0.6) << QPointF(0.5, 0.9) << QPointF(0.8, 0.6) << QPointF(0.6, 0.6) << QPointF(0.6, 0.1);
+
+    //get the orientation of the sticker
+    int orientation = cube->stickerOrientation(face, piecePos.x(), piecePos.y());
+
+    //rotate the painter around the center of the sticker
+    painter->translate(0.5, 0.5);
+    painter->rotate(-90 * orientation);
+    painter->translate(-0.5, -0.5);
+
+    //draw the arrow
+    painter->drawPolygon(arrow);
 }
 
 void Sticker::paintPochmann(QPainter *painter){
