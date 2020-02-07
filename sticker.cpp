@@ -58,6 +58,7 @@ void Sticker::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
                                                   {Cube::Face::U, Cube::Face::F, Cube::Face::D, Cube::Face::B},  //L
                                                   {Cube::Face::F, Cube::Face::R, Cube::Face::B, Cube::Face::L}}; //D
 
+        //some useful constants
         int s = cube->getSize();
         qreal s2 = (s-1)/2.;
         int x = piecePos.x();
@@ -68,104 +69,53 @@ void Sticker::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 
         //sticker in the center
         if(s%2 == 1 && x == s/2 && y == s/2){
-            QPolygonF p1, p2, p3, p4;
-            p1 << QPointF(barWidth, 1 - barWidth)
-               << QPointF(0, 1)
-               << QPointF(1, 1)
-               << QPointF(1 - barWidth, 1 - barWidth);
-            p2 << QPointF(1 - barWidth, barWidth)
-               << QPointF(1 - barWidth, 1 - barWidth)
-               << QPointF(1, 1)
-               << QPointF(1, 0);
-            p3 << QPointF(0, 0)
-               << QPointF(barWidth, barWidth)
-               << QPointF(1 - barWidth, barWidth)
-               << QPointF(1, 0);
-            p4 << QPointF(0, 0)
-               << QPointF(0, 1)
-               << QPointF(barWidth, 1 - barWidth)
-               << QPointF(barWidth, barWidth);
+            //the trapezoidal shape of the bar
+            QPolygonF p;
+            p << QPointF(barWidth, 1 - barWidth) << QPointF(0, 1) << QPointF(1, 1) << QPointF(1 - barWidth, 1 - barWidth);
 
-            //which face does the sticker belong on?
-            Cube::Face pieceFace = (Cube::Face)cube->sticker(face, piecePos.x(), piecePos.y());
+            for(int i=0; i<4; i++){
+                //which face does the sticker belong on?
+                Cube::Face pieceFace = (Cube::Face)cube->sticker(face, piecePos.x(), piecePos.y());
 
-            //orientation of the sticker
-            int orientation = cube->stickerOrientation(face, piecePos.x(), piecePos.y());
+                //orientation of the sticker
+                int orientation = cube->stickerOrientation(face, piecePos.x(), piecePos.y());
 
-            //the two adjacent faces, based on the stickers orientation
-            Cube::Face adjacentFace1 = adjacentFaces[pieceFace][(4-orientation)%4];
-            Cube::Face adjacentFace2 = adjacentFaces[pieceFace][(4-orientation+1)%4];
-            Cube::Face adjacentFace3 = adjacentFaces[pieceFace][(4-orientation+2)%4];
-            Cube::Face adjacentFace4 = adjacentFaces[pieceFace][(4-orientation+3)%4];
+                //the adjacent face, based on the stickers orientation
+                Cube::Face adjacentFace = adjacentFaces[pieceFace][(4-orientation+i)%4];
 
-            //the colours of the adjacent faces
-            QColor adjacentColour1 = settings->getColour(adjacentFace1);
-            QColor adjacentColour2 = settings->getColour(adjacentFace2);
-            QColor adjacentColour3 = settings->getColour(adjacentFace3);
-            QColor adjacentColour4 = settings->getColour(adjacentFace4);
+                //colour of the adjacent face
+                QColor adjacentColour = settings->getColour(adjacentFace);
+                painter->setBrush(QBrush(adjacentColour));
 
-            painter->setBrush(QBrush(adjacentColour1));
-            painter->drawPolygon(p1);
-            painter->setBrush(QBrush(adjacentColour2));
-            painter->drawPolygon(p2);
-            painter->setBrush(QBrush(adjacentColour3));
-            painter->drawPolygon(p3);
-            painter->setBrush(QBrush(adjacentColour4));
-            painter->drawPolygon(p4);
+                //draw the polygon
+                painter->drawPolygon(p);
+
+                //rotate the painter around the center of the sticker
+                //in preparation for drawing the next bar
+                painter->translate(0.5, 0.5);
+                painter->rotate(-90);
+                painter->translate(-0.5, -0.5);
+            }
         }
         //sticker on a diagonal, need to draw two bars instead of one
         else if(x == y || x == s-1-y){
             //two separate polygons, one for each colour
             QPolygonF p1, p2;
+            p1 << QPointF(0, 0) << QPointF(0, 1) << QPointF(barWidth, 1 - barWidth) << QPointF(barWidth, 0);
+            p2 << QPointF(barWidth, 1 - barWidth) << QPointF(0, 1) << QPointF(1, 1) << QPointF(1, 1 - barWidth);
 
             //which diagonal is the sticker in?
             //top left = 0, top right = 1, bottom right = 2, bottom left = 3
             int diagonal;
+                 if(y == s-1-x && y > s2) diagonal = 0;
+            else if(y == x     && y > s2) diagonal = 1;
+            else if(y == s-1-x && y < s2) diagonal = 2;
+            else if(y == x     && y < s2) diagonal = 3;
 
-            if(y == s-1-x && y > s2){
-                p1 << QPointF(0, 0)
-                   << QPointF(0, 1)
-                   << QPointF(barWidth, 1 - barWidth)
-                   << QPointF(barWidth, 0);
-                p2 << QPointF(barWidth, 1 - barWidth)
-                   << QPointF(0, 1)
-                   << QPointF(1, 1)
-                   << QPointF(1, 1 - barWidth);
-                diagonal = 0;
-            }
-            else if(y == x && y > s2){
-                p1 << QPointF(0, 1 - barWidth)
-                   << QPointF(0, 1)
-                   << QPointF(1, 1)
-                   << QPointF(1 - barWidth, 1 - barWidth);
-                p2 << QPointF(1 - barWidth, 0)
-                   << QPointF(1 - barWidth, 1 - barWidth)
-                   << QPointF(1, 1)
-                   << QPointF(1, 0);
-                diagonal = 1;
-            }
-            else if(y == s-1-x && y < s2){
-                p1 << QPointF(1 - barWidth, barWidth)
-                   << QPointF(1 - barWidth, 1)
-                   << QPointF(1, 1)
-                   << QPointF(1, 0);
-                p2 << QPointF(0, 0)
-                   << QPointF(0, barWidth)
-                   << QPointF(1 - barWidth, barWidth)
-                   << QPointF(1, 0);
-                diagonal = 2;
-            }
-            else if(y == x && y < s2){
-                p1 << QPointF(0, 0)
-                   << QPointF(barWidth, barWidth)
-                   << QPointF(1, barWidth)
-                   << QPointF(1, 0);
-                p2 << QPointF(0, 0)
-                   << QPointF(0, 1)
-                   << QPointF(barWidth, 1)
-                   << QPointF(barWidth, barWidth);
-                diagonal = 3;
-            }
+            //rotate the painter around the center of the sticker
+            painter->translate(0.5, 0.5);
+            painter->rotate(-90 * diagonal);
+            painter->translate(-0.5, -0.5);
 
             //which face does the sticker belong on?
             Cube::Face pieceFace = (Cube::Face)cube->sticker(face, piecePos.x(), piecePos.y());
@@ -190,41 +140,22 @@ void Sticker::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
         else{
             //the sticker bar polygon
             QPolygonF p;
+            p << QPointF(0, 1 - barWidth) << QPointF(0, 1) << QPointF(1, 1) << QPointF(1, 1 - barWidth);
 
             //which "wedge" is the sticker in?
             //top = 0, right = 1, bottom = 2, left = 3
             int wedge;
 
             //upper wedge
-            if(y-s2 > abs(x-s2)){
-                p << QPointF(0, 1 - barWidth)
-                  << QPointF(0, 1)
-                  << QPointF(1, 1)
-                  << QPointF(1, 1 - barWidth);
-                wedge = 0;
-            }
-            else if(x-s2 > abs(y-s2)){
-                p << QPointF(1 - barWidth, 0)
-                  << QPointF(1 - barWidth, 1)
-                  << QPointF(1, 1)
-                  << QPointF(1, 0);
-                wedge = 1;
-            }
-            else if(-(y-s2) > abs(x-s2)){
-                p << QPointF(0, 0)
-                  << QPointF(0, barWidth)
-                  << QPointF(1, barWidth)
-                  << QPointF(1, 0);
-                wedge = 2;
-            }
-            else if(-(x-s2) > abs(y-s2)){
-                p << QPointF(0, 0)
-                  << QPointF(0, 1)
-                  << QPointF(barWidth, 1)
-                  << QPointF(barWidth, 0);
-                wedge = 3;
-            }
-            else return;
+                 if(  y-s2  > abs(x-s2)) wedge = 0;
+            else if(  x-s2  > abs(y-s2)) wedge = 1;
+            else if(-(y-s2) > abs(x-s2)) wedge = 2;
+            else if(-(x-s2) > abs(y-s2)) wedge = 3;
+
+            //rotate the painter around the center of the sticker
+            painter->translate(0.5, 0.5);
+            painter->rotate(-90 * wedge);
+            painter->translate(-0.5, -0.5);
 
             //which face does the sticker belong on?
             Cube::Face pieceFace = (Cube::Face)cube->sticker(face, piecePos.x(), piecePos.y());
