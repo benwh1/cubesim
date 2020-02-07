@@ -80,11 +80,11 @@ void Sticker::paintPochmann(QPainter *painter){
     //the 4 faces adjacent to each face of the cube, in the order up right down left
     //e.g. looking at the U face in orientation 0, the adjacent faces are B, R, F, L
     QList<QList<Face>> adjacentFaces = {{Face::B, Face::R, Face::F, Face::L},  //U
-                                              {Face::U, Face::R, Face::D, Face::L},  //F
-                                              {Face::U, Face::B, Face::D, Face::F},  //R
-                                              {Face::U, Face::L, Face::D, Face::R},  //B
-                                              {Face::U, Face::F, Face::D, Face::B},  //L
-                                              {Face::F, Face::R, Face::B, Face::L}}; //D
+                                        {Face::U, Face::R, Face::D, Face::L},  //F
+                                        {Face::U, Face::B, Face::D, Face::F},  //R
+                                        {Face::U, Face::L, Face::D, Face::R},  //B
+                                        {Face::U, Face::F, Face::D, Face::B},  //L
+                                        {Face::F, Face::R, Face::B, Face::L}}; //D
 
     //some useful constants
     int s = cube->getSize();
