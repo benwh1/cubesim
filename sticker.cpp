@@ -33,6 +33,9 @@ Sticker::Sticker(Cube::Face face, QPoint piecePos, Cube *cube, Settings *setting
     projRight = proj->project(right);
     projUp    = proj->project(up);
 
+    setTransform(QTransform(projRight.x(), projRight.y(), projUp.x(), projUp.y(), 0, 0));
+    setScale(size);
+
     //the bottom left corner of the sticker has coordinates (0,0)
     //in the sticker's coordinate system. the parent item is responsible
     //for moving the stickers of the cube into the correct position
@@ -40,16 +43,11 @@ Sticker::Sticker(Cube::Face face, QPoint piecePos, Cube *cube, Settings *setting
 
     //create the polygon
     QPolygonF poly;
-    poly << position
-         << position + size * (projUp)
-         << position + size * (projUp + projRight)
-         << position + size * (projRight);
+    poly << QPointF(0,0) << QPointF(0,1) << QPointF(1,1) << QPointF(1,0);
 
     setPolygon(poly);
 
-    //compute the center of the sticker
-    //by linearity, we can just average two diagonally opposite corners
-    center = (poly[0] + poly[2])/2;
+    center = QPointF(0.5, 0.5);
 }
 
 void Sticker::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
@@ -78,22 +76,22 @@ void Sticker::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
         //sticker in the center
         if(s%2 == 1 && x == s/2 && y == s/2){
             QPolygonF p1, p2, p3, p4;
-            p1 << barWidth * projRight + (1 - barWidth) * projUp
-               << 0.0 * projRight + 1.0 * projUp
-               << 1.0 * projRight + 1.0 * projUp
-               << (1 - barWidth) * projRight + (1 - barWidth) * projUp;
-            p2 << (1 - barWidth) * projRight + barWidth * projUp
-               << (1 - barWidth) * projRight + (1 - barWidth) * projUp
-               << 1.0 * projRight + 1.0 * projUp
-               << 1.0 * projRight + 0.0 * projUp;
-            p3 << 0.0 * projRight + 0.0 * projUp
-               << barWidth * projRight + barWidth * projUp
-               << (1 - barWidth) * projRight + barWidth * projUp
-               << 1.0 * projRight + 0.0 * projUp;
-            p4 << 0.0 * projRight + 0.0 * projUp
-               << 0.0 * projRight + 1.0 * projUp
-               << barWidth * projRight + (1 - barWidth) * projUp
-               << barWidth * projRight + barWidth * projUp;
+            p1 << QPointF(barWidth, 1 - barWidth)
+               << QPointF(0, 1)
+               << QPointF(1, 1)
+               << QPointF(1 - barWidth, 1 - barWidth);
+            p2 << QPointF(1 - barWidth, barWidth)
+               << QPointF(1 - barWidth, 1 - barWidth)
+               << QPointF(1, 1)
+               << QPointF(1, 0);
+            p3 << QPointF(0, 0)
+               << QPointF(barWidth, barWidth)
+               << QPointF(1 - barWidth, barWidth)
+               << QPointF(1, 0);
+            p4 << QPointF(0, 0)
+               << QPointF(0, 1)
+               << QPointF(barWidth, 1 - barWidth)
+               << QPointF(barWidth, barWidth);
 
             //which face does the sticker belong on?
             Cube::Face pieceFace = (Cube::Face)cube->sticker(face, piecePos.x(), piecePos.y());
@@ -112,9 +110,6 @@ void Sticker::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
             QColor adjacentColour2 = settings->getColour(adjacentFace2);
             QColor adjacentColour3 = settings->getColour(adjacentFace3);
             QColor adjacentColour4 = settings->getColour(adjacentFace4);
-
-            //scale the painter up since our coordinates are in [0,1]^2
-            painter->scale(size, size);
 
             painter->setBrush(QBrush(adjacentColour1));
             painter->drawPolygon(p1);
@@ -135,47 +130,47 @@ void Sticker::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
             int diagonal;
 
             if(y == s-1-x && y > s2){
-                p1 <<      0.0 * projRight +            0.0 * projUp
-                   <<      0.0 * projRight +            1.0 * projUp
-                   << barWidth * projRight + (1 - barWidth) * projUp
-                   << barWidth * projRight +            0.0 * projUp;
-                p2 << barWidth * projRight + (1 - barWidth) * projUp
-                   <<      0.0 * projRight +            1.0 * projUp
-                   <<      1.0 * projRight +            1.0 * projUp
-                   <<      1.0 * projRight + (1 - barWidth) * projUp;
+                p1 << QPointF(0, 0)
+                   << QPointF(0, 1)
+                   << QPointF(barWidth, 1 - barWidth)
+                   << QPointF(barWidth, 0);
+                p2 << QPointF(barWidth, 1 - barWidth)
+                   << QPointF(0, 1)
+                   << QPointF(1, 1)
+                   << QPointF(1, 1 - barWidth);
                 diagonal = 0;
             }
             else if(y == x && y > s2){
-                p1 <<            0.0 * projRight + (1 - barWidth) * projUp
-                   <<            0.0 * projRight +            1.0 * projUp
-                   <<            1.0 * projRight +            1.0 * projUp
-                   << (1 - barWidth) * projRight + (1 - barWidth) * projUp;
-                p2 << (1 - barWidth) * projRight +            0.0 * projUp
-                   << (1 - barWidth) * projRight + (1 - barWidth) * projUp
-                   <<            1.0 * projRight +            1.0 * projUp
-                   <<            1.0 * projRight +            0.0 * projUp;
+                p1 << QPointF(0, 1 - barWidth)
+                   << QPointF(0, 1)
+                   << QPointF(1, 1)
+                   << QPointF(1 - barWidth, 1 - barWidth);
+                p2 << QPointF(1 - barWidth, 0)
+                   << QPointF(1 - barWidth, 1 - barWidth)
+                   << QPointF(1, 1)
+                   << QPointF(1, 0);
                 diagonal = 1;
             }
             else if(y == s-1-x && y < s2){
-                p1 << (1 - barWidth) * projRight + barWidth * projUp
-                   << (1 - barWidth) * projRight +      1.0 * projUp
-                   <<            1.0 * projRight +      1.0 * projUp
-                   <<            1.0 * projRight +      0.0 * projUp;
-                p2 <<            0.0 * projRight +      0.0 * projUp
-                   <<            0.0 * projRight + barWidth * projUp
-                   << (1 - barWidth) * projRight + barWidth * projUp
-                   <<            1.0 * projRight +      0.0 * projUp;
+                p1 << QPointF(1 - barWidth, barWidth)
+                   << QPointF(1 - barWidth, 1)
+                   << QPointF(1, 1)
+                   << QPointF(1, 0);
+                p2 << QPointF(0, 0)
+                   << QPointF(0, barWidth)
+                   << QPointF(1 - barWidth, barWidth)
+                   << QPointF(1, 0);
                 diagonal = 2;
             }
             else if(y == x && y < s2){
-                p1 <<      0.0 * projRight +      0.0 * projUp
-                   << barWidth * projRight + barWidth * projUp
-                   <<      1.0 * projRight + barWidth * projUp
-                   <<      1.0 * projRight +      0.0 * projUp;
-                p2 <<      0.0 * projRight +      0.0 * projUp
-                   <<      0.0 * projRight +      1.0 * projUp
-                   << barWidth * projRight +      1.0 * projUp
-                   << barWidth * projRight + barWidth * projUp;
+                p1 << QPointF(0, 0)
+                   << QPointF(barWidth, barWidth)
+                   << QPointF(1, barWidth)
+                   << QPointF(1, 0);
+                p2 << QPointF(0, 0)
+                   << QPointF(0, 1)
+                   << QPointF(barWidth, 1)
+                   << QPointF(barWidth, barWidth);
                 diagonal = 3;
             }
 
@@ -193,9 +188,6 @@ void Sticker::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
             QColor adjacentColour1 = settings->getColour(adjacentFace1);
             QColor adjacentColour2 = settings->getColour(adjacentFace2);
 
-            //scale the painter up since our coordinates are in [0,1]^2
-            painter->scale(size, size);
-
             painter->setBrush(QBrush(adjacentColour1));
             painter->drawPolygon(p1);
             painter->setBrush(QBrush(adjacentColour2));
@@ -212,31 +204,31 @@ void Sticker::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 
             //upper wedge
             if(y-s2 > abs(x-s2)){
-                p << (1 - barWidth) * projUp + 0.0 * projRight
-                  <<            1.0 * projUp + 0.0 * projRight
-                  <<            1.0 * projUp + 1.0 * projRight
-                  << (1 - barWidth) * projUp + 1.0 * projRight;
+                p << QPointF(0, 1 - barWidth)
+                  << QPointF(0, 1)
+                  << QPointF(1, 1)
+                  << QPointF(1, 1 - barWidth);
                 wedge = 0;
             }
             else if(x-s2 > abs(y-s2)){
-                p << (1 - barWidth) * projRight + 0.0 * projUp
-                  << (1 - barWidth) * projRight + 1.0 * projUp
-                  <<            1.0 * projRight + 1.0 * projUp
-                  <<            1.0 * projRight + 0.0 * projUp;
+                p << QPointF(1 - barWidth, 0)
+                  << QPointF(1 - barWidth, 1)
+                  << QPointF(1, 1)
+                  << QPointF(1, 0);
                 wedge = 1;
             }
             else if(-(y-s2) > abs(x-s2)){
-                p << 0.0 * projRight +      0.0 * projUp
-                  << 0.0 * projRight + barWidth * projUp
-                  << 1.0 * projRight + barWidth * projUp
-                  << 1.0 * projRight +      0.0 * projUp;
+                p << QPointF(0, 0)
+                  << QPointF(0, barWidth)
+                  << QPointF(1, barWidth)
+                  << QPointF(1, 0);
                 wedge = 2;
             }
             else if(-(x-s2) > abs(y-s2)){
-                p <<      0.0 * projRight + 0.0 * projUp
-                  <<      0.0 * projRight + 1.0 * projUp
-                  << barWidth * projRight + 1.0 * projUp
-                  << barWidth * projRight + 0.0 * projUp;
+                p << QPointF(0, 0)
+                  << QPointF(0, 1)
+                  << QPointF(barWidth, 1)
+                  << QPointF(barWidth, 0);
                 wedge = 3;
             }
             else return;
@@ -255,9 +247,6 @@ void Sticker::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 
             //set the brush colour
             painter->setBrush(QBrush(adjacentColour));
-
-            //scale the painter up since our coordinates are in [0,1]^2
-            painter->scale(size, size);
 
             //draw the bar
             painter->drawPolygon(p);
