@@ -22,6 +22,8 @@ private:
     Cube *cube;
     Settings *settings;
 
+    void paintPochmann(QPainter *painter);
+
 };
 
 #endif // STICKER_H

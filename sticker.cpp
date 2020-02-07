@@ -49,114 +49,36 @@ void Sticker::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 
     //if we're using a supercube, draw supercube stickers
     if(cube->isSupercube()){
-        //the 4 faces adjacent to each face of the cube, in the order up right down left
-        //e.g. looking at the U face in orientation 0, the adjacent faces are B, R, F, L
-        QList<QList<Cube::Face>> adjacentFaces = {{Cube::Face::B, Cube::Face::R, Cube::Face::F, Cube::Face::L},  //U
-                                                  {Cube::Face::U, Cube::Face::R, Cube::Face::D, Cube::Face::L},  //F
-                                                  {Cube::Face::U, Cube::Face::B, Cube::Face::D, Cube::Face::F},  //R
-                                                  {Cube::Face::U, Cube::Face::L, Cube::Face::D, Cube::Face::R},  //B
-                                                  {Cube::Face::U, Cube::Face::F, Cube::Face::D, Cube::Face::B},  //L
-                                                  {Cube::Face::F, Cube::Face::R, Cube::Face::B, Cube::Face::L}}; //D
+        paintPochmann(painter);
+    }
+}
 
-        //some useful constants
-        int s = cube->getSize();
-        qreal s2 = (s-1)/2.;
-        int x = piecePos.x();
-        int y = s-1-piecePos.y();
+void Sticker::paintPochmann(QPainter *painter){
+    //the 4 faces adjacent to each face of the cube, in the order up right down left
+    //e.g. looking at the U face in orientation 0, the adjacent faces are B, R, F, L
+    QList<QList<Cube::Face>> adjacentFaces = {{Cube::Face::B, Cube::Face::R, Cube::Face::F, Cube::Face::L},  //U
+                                              {Cube::Face::U, Cube::Face::R, Cube::Face::D, Cube::Face::L},  //F
+                                              {Cube::Face::U, Cube::Face::B, Cube::Face::D, Cube::Face::F},  //R
+                                              {Cube::Face::U, Cube::Face::L, Cube::Face::D, Cube::Face::R},  //B
+                                              {Cube::Face::U, Cube::Face::F, Cube::Face::D, Cube::Face::B},  //L
+                                              {Cube::Face::F, Cube::Face::R, Cube::Face::B, Cube::Face::L}}; //D
 
-        //how wide are the pochmann sticker bars?
-        qreal barWidth = 0.2;
+    //some useful constants
+    int s = cube->getSize();
+    qreal s2 = (s-1)/2.;
+    int x = piecePos.x();
+    int y = s-1-piecePos.y();
 
-        //sticker in the center
-        if(s%2 == 1 && x == s/2 && y == s/2){
-            //the trapezoidal shape of the bar
-            QPolygonF p;
-            p << QPointF(barWidth, 1 - barWidth) << QPointF(0, 1) << QPointF(1, 1) << QPointF(1 - barWidth, 1 - barWidth);
+    //how wide are the pochmann sticker bars?
+    qreal barWidth = 0.2;
 
-            for(int i=0; i<4; i++){
-                //which face does the sticker belong on?
-                Cube::Face pieceFace = (Cube::Face)cube->sticker(face, piecePos.x(), piecePos.y());
+    //sticker in the center
+    if(s%2 == 1 && x == s/2 && y == s/2){
+        //the trapezoidal shape of the bar
+        QPolygonF p;
+        p << QPointF(barWidth, 1 - barWidth) << QPointF(0, 1) << QPointF(1, 1) << QPointF(1 - barWidth, 1 - barWidth);
 
-                //orientation of the sticker
-                int orientation = cube->stickerOrientation(face, piecePos.x(), piecePos.y());
-
-                //the adjacent face, based on the stickers orientation
-                Cube::Face adjacentFace = adjacentFaces[pieceFace][(4-orientation+i)%4];
-
-                //colour of the adjacent face
-                QColor adjacentColour = settings->getColour(adjacentFace);
-                painter->setBrush(QBrush(adjacentColour));
-
-                //draw the polygon
-                painter->drawPolygon(p);
-
-                //rotate the painter around the center of the sticker
-                //in preparation for drawing the next bar
-                painter->translate(0.5, 0.5);
-                painter->rotate(-90);
-                painter->translate(-0.5, -0.5);
-            }
-        }
-        //sticker on a diagonal, need to draw two bars instead of one
-        else if(x == y || x == s-1-y){
-            //two separate polygons, one for each colour
-            QPolygonF p1, p2;
-            p1 << QPointF(0, 0) << QPointF(0, 1) << QPointF(barWidth, 1 - barWidth) << QPointF(barWidth, 0);
-            p2 << QPointF(barWidth, 1 - barWidth) << QPointF(0, 1) << QPointF(1, 1) << QPointF(1, 1 - barWidth);
-
-            //which diagonal is the sticker in?
-            //top left = 0, top right = 1, bottom right = 2, bottom left = 3
-            int diagonal;
-                 if(y == s-1-x && y > s2) diagonal = 0;
-            else if(y == x     && y > s2) diagonal = 1;
-            else if(y == s-1-x && y < s2) diagonal = 2;
-            else if(y == x     && y < s2) diagonal = 3;
-
-            //rotate the painter around the center of the sticker
-            painter->translate(0.5, 0.5);
-            painter->rotate(-90 * diagonal);
-            painter->translate(-0.5, -0.5);
-
-            //which face does the sticker belong on?
-            Cube::Face pieceFace = (Cube::Face)cube->sticker(face, piecePos.x(), piecePos.y());
-
-            //orientation of the sticker
-            int orientation = cube->stickerOrientation(face, piecePos.x(), piecePos.y());
-
-            //the two adjacent faces, based on the stickers orientation
-            Cube::Face adjacentFace1 = adjacentFaces[pieceFace][(4-orientation+diagonal+3)%4];
-            Cube::Face adjacentFace2 = adjacentFaces[pieceFace][(4-orientation+diagonal)%4];
-
-            //the colours of the adjacent faces
-            QColor adjacentColour1 = settings->getColour(adjacentFace1);
-            QColor adjacentColour2 = settings->getColour(adjacentFace2);
-
-            painter->setBrush(QBrush(adjacentColour1));
-            painter->drawPolygon(p1);
-            painter->setBrush(QBrush(adjacentColour2));
-            painter->drawPolygon(p2);
-        }
-        //normal sticker, only one bar
-        else{
-            //the sticker bar polygon
-            QPolygonF p;
-            p << QPointF(0, 1 - barWidth) << QPointF(0, 1) << QPointF(1, 1) << QPointF(1, 1 - barWidth);
-
-            //which "wedge" is the sticker in?
-            //top = 0, right = 1, bottom = 2, left = 3
-            int wedge;
-
-            //upper wedge
-                 if(  y-s2  > abs(x-s2)) wedge = 0;
-            else if(  x-s2  > abs(y-s2)) wedge = 1;
-            else if(-(y-s2) > abs(x-s2)) wedge = 2;
-            else if(-(x-s2) > abs(y-s2)) wedge = 3;
-
-            //rotate the painter around the center of the sticker
-            painter->translate(0.5, 0.5);
-            painter->rotate(-90 * wedge);
-            painter->translate(-0.5, -0.5);
-
+        for(int i=0; i<4; i++){
             //which face does the sticker belong on?
             Cube::Face pieceFace = (Cube::Face)cube->sticker(face, piecePos.x(), piecePos.y());
 
@@ -164,16 +86,98 @@ void Sticker::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
             int orientation = cube->stickerOrientation(face, piecePos.x(), piecePos.y());
 
             //the adjacent face, based on the stickers orientation
-            Cube::Face adjacentFace = adjacentFaces[pieceFace][(4-orientation+wedge)%4];
+            Cube::Face adjacentFace = adjacentFaces[pieceFace][(4-orientation+i)%4];
 
-            //the colour of the adjacent face - this is the colour of the pochmann sticker bar
+            //colour of the adjacent face
             QColor adjacentColour = settings->getColour(adjacentFace);
-
-            //set the brush colour
             painter->setBrush(QBrush(adjacentColour));
 
-            //draw the bar
+            //draw the polygon
             painter->drawPolygon(p);
+
+            //rotate the painter around the center of the sticker
+            //in preparation for drawing the next bar
+            painter->translate(0.5, 0.5);
+            painter->rotate(-90);
+            painter->translate(-0.5, -0.5);
         }
+    }
+    //sticker on a diagonal, need to draw two bars instead of one
+    else if(x == y || x == s-1-y){
+        //two separate polygons, one for each colour
+        QPolygonF p1, p2;
+        p1 << QPointF(0, 0) << QPointF(0, 1) << QPointF(barWidth, 1 - barWidth) << QPointF(barWidth, 0);
+        p2 << QPointF(barWidth, 1 - barWidth) << QPointF(0, 1) << QPointF(1, 1) << QPointF(1, 1 - barWidth);
+
+        //which diagonal is the sticker in?
+        //top left = 0, top right = 1, bottom right = 2, bottom left = 3
+        int diagonal;
+             if(y == s-1-x && y > s2) diagonal = 0;
+        else if(y == x     && y > s2) diagonal = 1;
+        else if(y == s-1-x && y < s2) diagonal = 2;
+        else if(y == x     && y < s2) diagonal = 3;
+
+        //rotate the painter around the center of the sticker
+        painter->translate(0.5, 0.5);
+        painter->rotate(-90 * diagonal);
+        painter->translate(-0.5, -0.5);
+
+        //which face does the sticker belong on?
+        Cube::Face pieceFace = (Cube::Face)cube->sticker(face, piecePos.x(), piecePos.y());
+
+        //orientation of the sticker
+        int orientation = cube->stickerOrientation(face, piecePos.x(), piecePos.y());
+
+        //the two adjacent faces, based on the stickers orientation
+        Cube::Face adjacentFace1 = adjacentFaces[pieceFace][(4-orientation+diagonal+3)%4];
+        Cube::Face adjacentFace2 = adjacentFaces[pieceFace][(4-orientation+diagonal)%4];
+
+        //the colours of the adjacent faces
+        QColor adjacentColour1 = settings->getColour(adjacentFace1);
+        QColor adjacentColour2 = settings->getColour(adjacentFace2);
+
+        painter->setBrush(QBrush(adjacentColour1));
+        painter->drawPolygon(p1);
+        painter->setBrush(QBrush(adjacentColour2));
+        painter->drawPolygon(p2);
+    }
+    //normal sticker, only one bar
+    else{
+        //the sticker bar polygon
+        QPolygonF p;
+        p << QPointF(0, 1 - barWidth) << QPointF(0, 1) << QPointF(1, 1) << QPointF(1, 1 - barWidth);
+
+        //which "wedge" is the sticker in?
+        //top = 0, right = 1, bottom = 2, left = 3
+        int wedge;
+
+        //upper wedge
+             if(  y-s2  > abs(x-s2)) wedge = 0;
+        else if(  x-s2  > abs(y-s2)) wedge = 1;
+        else if(-(y-s2) > abs(x-s2)) wedge = 2;
+        else if(-(x-s2) > abs(y-s2)) wedge = 3;
+
+        //rotate the painter around the center of the sticker
+        painter->translate(0.5, 0.5);
+        painter->rotate(-90 * wedge);
+        painter->translate(-0.5, -0.5);
+
+        //which face does the sticker belong on?
+        Cube::Face pieceFace = (Cube::Face)cube->sticker(face, piecePos.x(), piecePos.y());
+
+        //orientation of the sticker
+        int orientation = cube->stickerOrientation(face, piecePos.x(), piecePos.y());
+
+        //the adjacent face, based on the stickers orientation
+        Cube::Face adjacentFace = adjacentFaces[pieceFace][(4-orientation+wedge)%4];
+
+        //the colour of the adjacent face - this is the colour of the pochmann sticker bar
+        QColor adjacentColour = settings->getColour(adjacentFace);
+
+        //set the brush colour
+        painter->setBrush(QBrush(adjacentColour));
+
+        //draw the bar
+        painter->drawPolygon(p);
     }
 }
