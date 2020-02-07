@@ -22,13 +22,6 @@ private:
     Cube *cube;
     Settings *settings;
 
-    qreal size;
-
-    QPointF projRight;
-    QPointF projUp;
-
-    QPointF center;
-
 };
 
 #endif // STICKER_H

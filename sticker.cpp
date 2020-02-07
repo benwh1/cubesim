@@ -7,7 +7,6 @@ Sticker::Sticker(Cube::Face face, QPoint piecePos, Cube *cube, Settings *setting
     this->piecePos = piecePos;
     this->cube = cube;
     this->settings = settings;
-    this->size = size;
 
     //unit vectors pointing right/up when looking at the
     //face containing this sticker
@@ -30,24 +29,18 @@ Sticker::Sticker(Cube::Face face, QPoint piecePos, Cube *cube, Settings *setting
     }
 
     //coordinates of projections of right and up vectors;
-    projRight = proj->project(right);
-    projUp    = proj->project(up);
+    QPointF projRight = proj->project(right);
+    QPointF projUp    = proj->project(up);
 
+    //set the transform to map the square [0,1]^2 onto the projected sticker
     setTransform(QTransform(projRight.x(), projRight.y(), projUp.x(), projUp.y(), 0, 0));
     setScale(size);
-
-    //the bottom left corner of the sticker has coordinates (0,0)
-    //in the sticker's coordinate system. the parent item is responsible
-    //for moving the stickers of the cube into the correct position
-    QPointF position(0, 0);
 
     //create the polygon
     QPolygonF poly;
     poly << QPointF(0,0) << QPointF(0,1) << QPointF(1,1) << QPointF(1,0);
 
     setPolygon(poly);
-
-    center = QPointF(0.5, 0.5);
 }
 
 void Sticker::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
