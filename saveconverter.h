@@ -64,6 +64,7 @@ public:
         else if(fromVersion == "0.2"){
             /* differences:
              * added colour scheme to Settings
+             * added supercube to settings
              */
 
             toVersion = "0.3";
@@ -80,6 +81,9 @@ public:
             //add it into settings
             QJsonObject settings = data["settings"].toObject();
             settings["colours"] = colourArray;
+
+            //add supercube to settings
+            settings["supercube"] = false;
 
             //add the new settings to the save file
             data["settings"] = settings;

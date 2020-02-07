@@ -172,6 +172,7 @@ QJsonObject Settings::toJSON(){
     data["guideLinesBox"] = guideLinesBox;
     data["guideLineColour"] = guideLineColour.name(QColor::HexArgb);
     data["guideLineWidth"] = guideLineWidth;
+    data["supercube"] = supercube;
 
     return data;
 }
@@ -195,4 +196,5 @@ void Settings::fromJSON(QJsonObject data){
     setGuideLinesBox(data["guideLinesBox"].toBool());
     setGuideLineColour(QColor(data["guideLineColour"].toString()));
     setGuideLineWidth(data["guideLineWidth"].toInt());
+    setSupercube(data["supercube"].toBool());
 }
