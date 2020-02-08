@@ -65,6 +65,7 @@ public:
             /* differences:
              * added colour scheme to Settings
              * added supercube settings
+             * added supercube orientations to Cube
              */
 
             toVersion = "0.3";
@@ -89,6 +90,27 @@ public:
 
             //add the new settings to the save file
             data["settings"] = settings;
+
+            //get the cube object and read the size
+            QJsonObject cube = data["cube"].toObject();
+            int size = cube["size"].toInt();
+
+            //build the array
+            QJsonArray orientationsArray;
+            for(int face=0; face<6; face++){
+                for(int y=0; y<size; y++){
+                    for(int x=0; x<size; x++){
+                        //default orientations are all 0
+                        orientationsArray.append(0);
+                    }
+                }
+            }
+
+            //add it to the cube object
+            cube["orientations"] = orientationsArray;
+
+            //add the new cube to the save file
+            data["cube"] = cube;
         }
 
         //update the version number

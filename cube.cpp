@@ -229,6 +229,8 @@ void Cube::scramble(){
 QJsonObject Cube::toJSON(){
     QJsonObject data;
 
+    data["size"] = size;
+
     QJsonArray stickerArray;
     for(int face=0; face<6; face++){
         for(int y=0; y<size; y++){
@@ -237,15 +239,23 @@ QJsonObject Cube::toJSON(){
             }
         }
     }
-
-    data["size"] = size;
     data["stickers"] = stickerArray;
+
+    QJsonArray orientationsArray;
+    for(int face=0; face<6; face++){
+        for(int y=0; y<size; y++){
+            for(int x=0; x<size; x++){
+                orientationsArray.append(orientations[face][y][x]);
+            }
+        }
+    }
+    data["orientations"] = orientationsArray;
 
     return data;
 }
 
 void Cube::fromJSON(QJsonObject data){
-    QJsonArray stickerArray;
+    QJsonArray stickerArray, orientationsArray;
 
     setSize(data["size"].toInt());
     stickerArray = data["stickers"].toArray();
@@ -257,6 +267,19 @@ void Cube::fromJSON(QJsonObject data){
                 int sticker = stickerArray[index].toInt(-1);
                 if(sticker == -1) return;
                 stickers[face][y][x] = sticker;
+            }
+        }
+    }
+
+    orientationsArray = data["orientations"].toArray();
+
+    for(int face=0; face<6; face++){
+        for(int y=0; y<size; y++){
+            for(int x=0; x<size; x++){
+                int index = (face*size+y)*size+x;
+                int orientation = orientationsArray[index].toInt(-1);
+                if(orientation == -1) return;
+                orientations[face][y][x] = orientation;
             }
         }
     }
