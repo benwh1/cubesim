@@ -6,8 +6,6 @@ Cube::Cube(Settings *settings, QObject *parent) :
     this->settings = settings;
 
     setSize(3);
-
-    QObject::connect(settings, SIGNAL(supercubeChanged()), this, SLOT(onSupercubeSettingChanged()));
 }
 
 int Cube::getSize(){
@@ -125,10 +123,6 @@ void Cube::rotateFace(Face f, int amount){
     for(int i=0; i<amount; i++){
         rotateFace(f);
     }
-}
-
-void Cube::onSupercubeSettingChanged(){
-    reset();
 }
 
 void Cube::move(Axis axis, int layer, int amount){

@@ -52,9 +52,6 @@ private:
     void rotateFace(Face f);
     void rotateFace(Face f, int amount);
 
-private slots:
-    void onSupercubeSettingChanged();
-
 signals:
     void moveDone(Axis axis, int layerStart, int layerEnd, int amount);
 
