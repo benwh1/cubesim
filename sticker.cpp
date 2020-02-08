@@ -84,7 +84,8 @@ void Sticker::paintArrows(QPainter *painter){
     painter->scale(1/size, 1/size);
 
     //draw the arrow
-    painter->drawPolygon(arrow);
+    painter->setBrush(QBrush(Qt::black));
+    painter->drawPolygon(arrow, fillRule());
 }
 
 void Sticker::paintPochmann(QPainter *painter){
