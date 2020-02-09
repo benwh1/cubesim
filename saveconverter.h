@@ -112,6 +112,18 @@ public:
             //add the new cube to the save file
             data["cube"] = cube;
         }
+        else if(fromVersion == "0.3"){
+            /* differences:
+             * added pochmann cage setting
+             */
+
+            toVersion = "0.3.1";
+
+            //add pochmannCage to settings and update the save data
+            QJsonObject settings = data["settings"].toObject();
+            settings["pochmannCage"] = true;
+            data["settings"] = settings;
+        }
 
         //update the version number
         data["version"] = toVersion;
