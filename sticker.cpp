@@ -107,6 +107,12 @@ void Sticker::paintPochmann(QPainter *painter){
     //how wide are the pochmann sticker bars?
     qreal b = settings->getPochmannBarThickness();
 
+    //check if this is a cage sticker and if we should draw it
+    if(!settings->getPochmannCage() &&
+       (x == 0 || y == 0 || x == s-1 || y == s-1)){
+        return;
+    }
+
     //sticker in the center
     if(s%2 == 1 && x == s/2 && y == s/2){
         //limit this stickers bar width to 0.5, otherwise there will be overlap

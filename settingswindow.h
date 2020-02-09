@@ -44,6 +44,7 @@ private slots:
     void onSupercubeCheckBoxChanged();
     void onSupercubeStickersComboBoxChanged();
     void onPochmannBarThicknessChanged();
+    void onPochmannCageChanged();
 
     void onSettingChanged();
 

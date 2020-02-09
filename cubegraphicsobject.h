@@ -80,6 +80,7 @@ private slots:
     void onSupercubeSettingChanged();
     void onSupercubeStickersSettingChanged();
     void onPochmannBarThicknessSettingChanged();
+    void onPochmannCageSettingChanged();
 
 signals:
     void projectionChanged();

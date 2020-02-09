@@ -28,6 +28,7 @@ public:
     bool getSupercube();
     QString getSupercubeStickers();
     qreal getPochmannBarThickness();
+    bool getPochmannCage();
 
     void setAntialiasing(bool b);
     void setBackgroundColour(QColor c);
@@ -44,6 +45,7 @@ public:
     void setSupercube(bool b);
     void setSupercubeStickers(QString s);
     void setPochmannBarThickness(qreal r);
+    void setPochmannCage(bool b);
 
     QJsonObject toJSON();
     void fromJSON(QJsonObject data);
@@ -63,6 +65,7 @@ private:
     bool supercube;
     QString supercubeStickers;
     qreal pochmannBarThickness;
+    bool pochmannCage;
 
 signals:
     void antialiasingChanged();
@@ -79,6 +82,7 @@ signals:
     void supercubeChanged();
     void supercubeStickersChanged();
     void pochmannBarThicknessChanged();
+    void pochmannCageChanged();
 
     //emitted when any setting is changed
     void settingChanged();

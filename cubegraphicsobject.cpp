@@ -23,6 +23,7 @@ CubeGraphicsObject::CubeGraphicsObject(Cube *c, Settings *s, QGraphicsObject *pa
     connect(settings, SIGNAL(supercubeChanged()), this, SLOT(onSupercubeSettingChanged()));
     connect(settings, SIGNAL(supercubeStickersChanged()), this, SLOT(onSupercubeStickersSettingChanged()));
     connect(settings, SIGNAL(pochmannBarThicknessChanged()), this, SLOT(onPochmannBarThicknessSettingChanged()));
+    connect(settings, SIGNAL(pochmannCageChanged()), this, SLOT(onPochmannCageSettingChanged()));
 
     float mat[6] = {1/sqrt(2), 1/sqrt(2), 0, -1/sqrt(6), 1/sqrt(6), sqrt(2./3)};
     proj = Projection(QMatrix3x2(mat));
@@ -652,5 +653,9 @@ void CubeGraphicsObject::onSupercubeStickersSettingChanged(){
 }
 
 void CubeGraphicsObject::onPochmannBarThicknessSettingChanged(){
+    updateAll();
+}
+
+void CubeGraphicsObject::onPochmannCageSettingChanged(){
     updateAll();
 }

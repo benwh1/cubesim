@@ -28,6 +28,7 @@ SettingsWindow::SettingsWindow(Settings *settings, QDialog *parent) :
     connect(ui->supercubeCheckBox, SIGNAL(toggled(bool)), this, SLOT(onSupercubeCheckBoxChanged()));
     connect(ui->supercubeStickersComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(onSupercubeStickersComboBoxChanged()));
     connect(ui->pochmannBarThicknessSpinBox, SIGNAL(valueChanged(double)), this, SLOT(onPochmannBarThicknessChanged()));
+    connect(ui->pochmannCageCheckBox, SIGNAL(toggled(bool)), this, SLOT(onPochmannCageChanged()));
 
     connect(settings, SIGNAL(settingChanged()), this, SLOT(onSettingChanged()));
 
@@ -63,7 +64,8 @@ void SettingsWindow::synchronizeFromSettings(){
                               ui->guideLineWidthSpinBox,
                               ui->supercubeCheckBox,
                               ui->supercubeStickersComboBox,
-                              ui->pochmannBarThicknessSpinBox};
+                              ui->pochmannBarThicknessSpinBox,
+                              ui->pochmannCageCheckBox};
 
     foreach(QWidget *w, widgets){
         w->blockSignals(true);
@@ -88,6 +90,7 @@ void SettingsWindow::synchronizeFromSettings(){
     ui->supercubeCheckBox->setChecked(settings->getSupercube());
     ui->supercubeStickersComboBox->setCurrentText(settings->getSupercubeStickers());
     ui->pochmannBarThicknessSpinBox->setValue(settings->getPochmannBarThickness());
+    ui->pochmannCageCheckBox->setChecked(settings->getPochmannCage());
 
     foreach(QWidget *w, widgets){
         w->blockSignals(false);
@@ -168,6 +171,10 @@ void SettingsWindow::onSupercubeStickersComboBoxChanged(){
 
 void SettingsWindow::onPochmannBarThicknessChanged(){
     settings->setPochmannBarThickness(ui->pochmannBarThicknessSpinBox->value());
+}
+
+void SettingsWindow::onPochmannCageChanged(){
+    settings->setPochmannCage(ui->pochmannCageCheckBox->isChecked());
 }
 
 void SettingsWindow::onSettingChanged(){

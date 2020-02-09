@@ -22,6 +22,7 @@ Settings::Settings(QObject *parent) :
     supercube = false;
     supercubeStickers = "Arrows";
     pochmannBarThickness = 0.2;
+    pochmannCage = true;
 }
 
 bool Settings::getAntialiasing(){
@@ -82,6 +83,10 @@ QString Settings::getSupercubeStickers(){
 
 qreal Settings::getPochmannBarThickness(){
     return pochmannBarThickness;
+}
+
+bool Settings::getPochmannCage(){
+    return pochmannCage;
 }
 
 void Settings::setAntialiasing(bool b){
@@ -174,6 +179,12 @@ void Settings::setPochmannBarThickness(qreal r){
     emit settingChanged();
 }
 
+void Settings::setPochmannCage(bool b){
+    pochmannCage = b;;
+    emit pochmannCageChanged();
+    emit settingChanged();
+}
+
 QJsonObject Settings::toJSON(){
     QJsonObject data;
 
@@ -197,6 +208,7 @@ QJsonObject Settings::toJSON(){
     data["supercube"] = supercube;
     data["supercubeStickers"] = supercubeStickers;
     data["pochmannBarThickness"] = pochmannBarThickness;
+    data["pochmannCage"] = pochmannCage;
 
     return data;
 }
@@ -223,4 +235,5 @@ void Settings::fromJSON(QJsonObject data){
     setSupercube(data["supercube"].toBool());
     setSupercubeStickers(data["supercubeStickers"].toString());
     setPochmannBarThickness(data["pochmannBarThickness"].toDouble());
+    setPochmannCage(data["pochmannCage"].toBool());
 }
