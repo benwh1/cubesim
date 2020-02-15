@@ -15,6 +15,17 @@ void Reconstruction::addMove(Axis axis, int layerStart, int layerEnd, int amount
     moves.append(QPair<Move, qint64>(m, t));
 }
 
+void Reconstruction::addRotation(Axis axis, int amount, qint64 time){
+    //use -1 as the end layer to denote a rotation
+    Move m(axis, 0, -1, amount);
+
+    quint64 t;
+    if(moves.length() == 0) t = 0;
+    else t = time - moves.last().second;
+
+    moves.append(QPair<Move, qint64>(m, t));
+}
+
 void Reconstruction::reset(){
     moves.clear();
 }

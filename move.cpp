@@ -9,10 +9,29 @@ Move::Move(Axis axis, int layerStart, int layerEnd, int amount)
 }
 
 QString Move::toString(){
-    QString axis;
-    if(this->axis == Axis::X) axis = "R";
-    else if(this->axis == Axis::Y) axis = "U";
-    else axis = "F";
+    QString face, axis;
+    if(this->axis == Axis::X){
+        face = "R";
+        axis = "x";
+    }
+    else if(this->axis == Axis::Y){
+        face = "U";
+        axis = "y";
+    }
+    else{
+        face = "F";
+        axis = "z";
+    }
+
+    QString suffix;
+    if(amount == 1) suffix = "";
+    else if(amount == 2) suffix = "2";
+    else if(amount == 3) suffix = "'";
+
+    //cube rotation
+    if(layerStart == 0 && layerEnd == -1){
+        return axis + suffix;
+    }
 
     QString layers;
     if(layerStart == 0){
@@ -28,10 +47,5 @@ QString Move::toString(){
         }
     }
 
-    QString suffix;
-    if(amount == 1) suffix = "";
-    else if(amount == 2) suffix = "2";
-    else if(amount == 3) suffix = "'";
-
-    return layers + axis + suffix;
+    return layers + face + suffix;
 }

@@ -13,6 +13,7 @@ public:
     //here, time is the total time from the start of the solve, not the
     //amount of time since the previous move
     void addMove(Axis axis, int layerStart, int layerEnd, int amount, qint64 time);
+    void addRotation(Axis axis, int amount, qint64 time);
 
     void reset();
     QString toString();

@@ -41,6 +41,7 @@ void CubeWidget::initialize(Cube *cube){
 
     //detect cube moves
     connect(cube, SIGNAL(moveDone(Axis,int,int,int)), this, SLOT(onMoveDone(Axis,int,int,int)));
+    connect(cube, SIGNAL(rotationDone(Axis,int)), this, SLOT(onRotationDone(Axis,int)));
 
     //detect when the cube is solved
     connect(cube, SIGNAL(cubeSolved()), this, SLOT(onCubeSolved()));
@@ -276,6 +277,14 @@ void CubeWidget::onMoveDone(Axis axis, int layerStart, int layerEnd, int amount)
         qint64 time = statistics->getTime();
         reconstruction.addMove(axis, layerStart, layerEnd, amount, time);
         statistics->doMove();
+    }
+}
+
+void CubeWidget::onRotationDone(Axis axis, int amount){
+    //if we are solving, add the rotation to the reconstruction
+    if(state == State::Solving){
+        qint64 time = statistics->getTime();
+        reconstruction.addRotation(axis, amount, time);
     }
 }
 
