@@ -124,6 +124,24 @@ public:
             settings["pochmannCage"] = true;
             data["settings"] = settings;
         }
+        else if(fromVersion == "0.3.1"){
+            /* differences:
+             * added reconstructions
+             */
+
+            toVersion = "0.4";
+
+            QJsonObject reconstruction;
+            QJsonArray emptyArray;
+
+            //these store the list of moves and time between moves
+            //but we have no data saved, so just make them empty lists
+            reconstruction["moves"] = emptyArray;
+            reconstruction["times"] = emptyArray;
+
+            //add it to the save file
+            data["reconstruction"] = reconstruction;
+        }
 
         //update the version number
         data["version"] = toVersion;
