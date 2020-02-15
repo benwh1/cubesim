@@ -38,3 +38,33 @@ QString Reconstruction::toString(){
     str.chop(1);
     return str;
 }
+
+QJsonObject Reconstruction::toJSON(){
+    QJsonObject data;
+
+    QJsonArray m, t;
+    for(int i=0; i<moves.size(); i++){
+        m.append(moves[i].first.toJSON());
+        t.append(moves[i].second);
+    }
+
+    data["moves"] = m;
+    data["times"] = t;
+
+    return data;
+}
+
+void Reconstruction::fromJSON(QJsonObject data){
+    moves.clear();
+
+    QJsonArray m = data["moves"].toArray();
+    QJsonArray t = data["times"].toArray();
+
+    Move move;
+    qint64 time;
+    for(int i=0; i<m.size(); i++){
+        move.fromJSON(m[i].toObject());
+        time = t[i].toInt();
+        moves.append(QPair<Move, qint64>(move, time));
+    }
+}

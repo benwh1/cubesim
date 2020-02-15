@@ -1,6 +1,8 @@
 #ifndef RECONSTRUCTION_H
 #define RECONSTRUCTION_H
 
+#include <QJsonArray>
+#include <QJsonObject>
 #include <QList>
 #include "enums.h"
 #include "move.h"
@@ -16,7 +18,10 @@ public:
     void addRotation(Axis axis, int amount, qint64 time);
 
     void reset();
+
     QString toString();
+    QJsonObject toJSON();
+    void fromJSON(QJsonObject data);
 
 private:
     //moves[i].second is the time in milliseconds between moves[i-1] and moves[i]

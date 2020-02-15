@@ -1,5 +1,7 @@
 #include "move.h"
 
+Move::Move(){}
+
 Move::Move(Axis axis, int layerStart, int layerEnd, int amount)
 {
     this->axis = axis;
@@ -48,4 +50,22 @@ QString Move::toString(){
     }
 
     return layers + face + suffix;
+}
+
+QJsonObject Move::toJSON(){
+    QJsonObject data;
+
+    data["axis"] = axis;
+    data["layerStart"] = layerStart;
+    data["layerEnd"] = layerEnd;
+    data["amount"] = amount;
+
+    return data;
+}
+
+void Move::fromJSON(QJsonObject data){
+    axis = (Axis)(data["axis"].toInt());
+    layerStart = data["layerStart"].toInt();
+    layerEnd = data["layerEnd"].toInt();
+    amount = data["amount"].toInt();
 }

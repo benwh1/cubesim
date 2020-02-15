@@ -171,6 +171,7 @@ QJsonObject CubeWidget::toJSON(){
     data["cubeGraphicsObject"] = ui->graphicsView->getCubeGraphicsObject()->toJSON();
     data["swapCtrlShift"] = swapCtrlShift;
     data["settings"] = settings->toJSON();
+    data["reconstruction"] = reconstruction.toJSON();
 
     return data;
 }
@@ -187,6 +188,7 @@ void CubeWidget::fromJSON(QJsonObject data){
     ui->graphicsView->getCubeGraphicsObject()->fromJSON(data["cubeGraphicsObject"].toObject());
     swapCtrlShift = data["swapCtrlShift"].toBool();
     settings->fromJSON(data["settings"].toObject());
+    reconstruction.fromJSON(data["reconstruction"].toObject());
 }
 
 void CubeWidget::save(){
