@@ -127,20 +127,31 @@ public:
         else if(fromVersion == "0.3.1"){
             /* differences:
              * added reconstructions
+             * added state
+             * added statisticsWidget
              */
 
             toVersion = "0.4";
 
             QJsonObject reconstruction;
-            QJsonArray emptyArray;
 
             //these store the list of moves and time between moves
             //but we have no data saved, so just make them empty lists
+            QJsonArray emptyArray;
             reconstruction["moves"] = emptyArray;
             reconstruction["times"] = emptyArray;
 
             //add it to the save file
             data["reconstruction"] = reconstruction;
+
+            //previously, all saves were in the Solving (== 2) state
+            data["state"] = 2;
+
+            //only thing stored in statisticsWidget is the style sheet
+            //and since we are in the Solving state, the style sheet is blank
+            QJsonObject statisticsWidget;
+            statisticsWidget["timeStyleSheet"] = "";
+            data["statisticsWidget"] = statisticsWidget;
         }
 
         //update the version number
