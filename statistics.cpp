@@ -94,6 +94,4 @@ QJsonObject Statistics::toJSON(){
 void Statistics::fromJSON(QJsonObject data){
     additionalTime = data["time"].toInt();
     moves = data["moves"].toInt();
-
-    startTimer();
 }

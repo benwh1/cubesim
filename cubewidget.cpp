@@ -172,6 +172,8 @@ QJsonObject CubeWidget::toJSON(){
     data["swapCtrlShift"] = swapCtrlShift;
     data["settings"] = settings->toJSON();
     data["reconstruction"] = reconstruction.toJSON();
+    data["state"] = state;
+    data["statisticsWidget"] = ui->statisticsWidget->toJSON();
 
     return data;
 }
@@ -189,10 +191,16 @@ void CubeWidget::fromJSON(QJsonObject data){
     swapCtrlShift = data["swapCtrlShift"].toBool();
     settings->fromJSON(data["settings"].toObject());
     reconstruction.fromJSON(data["reconstruction"].toObject());
+    state = (State)data["state"].toInt();
+    ui->statisticsWidget->fromJSON(data["statisticsWidget"].toObject());
+
+    if(state == State::Solving){
+        statistics->startTimer();
+    }
 }
 
 void CubeWidget::save(){
-    if(state != State::Solving) return;
+    if(state != State::Solving && state != State::Finished) return;
 
     QJsonDocument document(toJSON());
 
@@ -231,8 +239,13 @@ void CubeWidget::load(){
     QJsonDocument document = QJsonDocument::fromBinaryData(data);
     fromJSON(document.object());
 
-    //set the state to solving
-    state = State::Solving;
+    if(cube->isSolved()){
+        state = State::Finished;
+    }
+    else{
+        //set the state to solving
+        state = State::Solving;
+    }
 }
 
 void CubeWidget::onMoveDrag(Axis axis, int layer, bool clockwise, Qt::MouseButton button){

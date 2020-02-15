@@ -37,6 +37,23 @@ void StatisticsWidget::initialize(Statistics *statistics, Settings *settings){
     initialized = true;
 }
 
+QJsonObject StatisticsWidget::toJSON(){
+    QJsonObject data;
+
+    data["timeStyleSheet"] = ui->timeLabel->styleSheet();
+
+    return data;
+}
+
+void StatisticsWidget::fromJSON(QJsonObject data){
+    ui->timeLabel->setStyleSheet(data["timeStyleSheet"].toString());
+
+    //update the widget. we need to do this because if the timer in
+    //statistics is not running, then the timeLabel won't show the
+    //correct time
+    updateStatistics(true);
+}
+
 void StatisticsWidget::paintEvent(QPaintEvent *event){
     QPainter painter(this);
     painter.setBrush(QBrush(settings->getBackgroundColour()));
@@ -44,11 +61,11 @@ void StatisticsWidget::paintEvent(QPaintEvent *event){
     QWidget::paintEvent(event);
 }
 
-void StatisticsWidget::updateStatistics(){
+void StatisticsWidget::updateStatistics(bool force){
     //make sure we actually have a statistics object to work with
     if(!initialized) return;
 
-    if(statistics->timerRunning()){
+    if(statistics->timerRunning() || force){
         ui->timeLabel->setText(statistics->timeString());
         ui->movesLabel->setText(statistics->movesString());
         ui->tpsLabel->setText(statistics->tpsString());

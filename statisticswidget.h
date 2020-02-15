@@ -22,6 +22,9 @@ public:
 
     void initialize(Statistics *statistics, Settings *settings);
 
+    QJsonObject toJSON();
+    void fromJSON(QJsonObject data);
+
 protected:
     void paintEvent(QPaintEvent *event);
 
@@ -35,7 +38,9 @@ private:
 
     QTimer updateTimer;
 
-    void updateStatistics();
+    //if force is true, then the statistics will be updated even if the
+    //timer in statistics is not running. otherwise, nothing will be updated
+    void updateStatistics(bool force = false);
     void clear();
 
 private slots:
