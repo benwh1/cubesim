@@ -14,3 +14,12 @@ void Reconstruction::addMove(Axis axis, int layerStart, int layerEnd, int amount
 
     moves.append(QPair<Move, qint64>(m, t));
 }
+
+QString Reconstruction::toString(){
+    QString str = "";
+    for(int i=0; i<moves.size(); i++){
+        str += moves[i].first.toString() + " ";
+    }
+    str.chop(1);
+    return str;
+}

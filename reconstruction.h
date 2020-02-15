@@ -14,6 +14,8 @@ public:
     //amount of time since the previous move
     void addMove(Axis axis, int layerStart, int layerEnd, int amount, qint64 time);
 
+    QString toString();
+
 private:
     //moves[i].second is the time in milliseconds between moves[i-1] and moves[i]
     QList<QPair<Move, qint64>> moves;
