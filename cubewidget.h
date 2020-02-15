@@ -8,6 +8,7 @@
 #include <QWidget>
 #include "cube.h"
 #include "global.h"
+#include "reconstruction.h"
 #include "saveconverter.h"
 #include "settings.h"
 #include "statistics.h"
@@ -45,7 +46,9 @@ private:
     Ui::CubeWidget *ui;
 
     Cube *cube;
+    Reconstruction reconstruction;
     Statistics *statistics;
+
     Settings *settings;
 
     State state;

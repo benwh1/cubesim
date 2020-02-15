@@ -23,7 +23,9 @@ SOURCES += \
     cubewidget.cpp \
     main.cpp \
     mainwindow.cpp \
+    move.cpp \
     projection.cpp \
+    reconstruction.cpp \
     settings.cpp \
     settingswindow.cpp \
     statistics.cpp \
@@ -39,7 +41,9 @@ HEADERS += \
     enums.h \
     global.h \
     mainwindow.h \
+    move.h \
     projection.h \
+    reconstruction.h \
     saveconverter.h \
     settings.h \
     settingswindow.h \
