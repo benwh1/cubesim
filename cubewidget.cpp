@@ -69,6 +69,7 @@ void CubeWidget::keyPressEvent(QKeyEvent *event){
 
     if(event->key() == Qt::Key_Space){
         if(state == State::Neutral || state == State::Finished){
+            reconstruction.reset();
             cube->scramble();
             state = State::Inspecting;
         }

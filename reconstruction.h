@@ -14,6 +14,7 @@ public:
     //amount of time since the previous move
     void addMove(Axis axis, int layerStart, int layerEnd, int amount, qint64 time);
 
+    void reset();
     QString toString();
 
 private:
