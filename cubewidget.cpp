@@ -301,6 +301,10 @@ void CubeWidget::onRotationDone(Axis axis, int amount){
         qint64 time = statistics->getTime();
         reconstruction.addRotation(axis, amount, time);
     }
+    //if we rotate during inspection, add the rotation with a time of 0
+    else if(state == State::Inspecting){
+        reconstruction.addRotation(axis, amount, 0);
+    }
 }
 
 void CubeWidget::onCubeSolved(){
