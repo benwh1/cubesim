@@ -13,7 +13,7 @@ class CubeGraphicsView : public QGraphicsView
     Q_OBJECT
 public:
     explicit CubeGraphicsView(QWidget *parent = nullptr);
-    void initialize(CubeState *cube, Settings *settings);
+    void initialize(Cube *cube, Settings *settings);
 
     void zoom(qreal factor);
 
@@ -29,7 +29,7 @@ protected:
 private:
     QGraphicsScene *scene;
 
-    CubeState *cube;
+    Cube *cube;
     CubeGraphicsObject *cubeGraphicsObject;
     Settings *settings;
 

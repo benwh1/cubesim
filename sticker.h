@@ -5,21 +5,21 @@
 #include <QPainter>
 #include <QVector3D>
 #include <cmath>
-#include "cubestate.h"
+#include "cube.h"
 #include "projection.h"
 #include "settings.h"
 
 class Sticker : public QGraphicsPolygonItem
 {
 public:
-    Sticker(Face face, QPoint piecePos, CubeState *cube, Settings *settings, Projection *proj, qreal size, QGraphicsItem *parent = nullptr);
+    Sticker(Face face, QPoint piecePos, Cube *cube, Settings *settings, Projection *proj, qreal size, QGraphicsItem *parent = nullptr);
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 
 private:
     Face face;
     QPoint piecePos;
-    CubeState *cube;
+    Cube *cube;
     Settings *settings;
 
     //edge length of the sticker in 3d space

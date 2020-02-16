@@ -24,8 +24,14 @@ public:
 
     bool isSolved();
 
+    QList<QList<QList<int>>> getStickers();
+    QList<QList<QList<int>>> getOrientations();
+
     int sticker(Face f, int x, int y);
     int stickerOrientation(Face f, int x, int y);
+
+    //set the current objects size, stickers, orientations to match c
+    void copyFrom(CubeState *c);
 
     void reset();
     void scramble();

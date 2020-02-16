@@ -208,12 +208,26 @@ bool CubeState::isSolved(){
     return true;
 }
 
+QList<QList<QList<int> > > CubeState::getStickers(){
+    return stickers;
+}
+
+QList<QList<QList<int> > > CubeState::getOrientations(){
+    return orientations;
+}
+
 int CubeState::sticker(Face f, int x, int y){
     return stickers[f][y][x];
 }
 
 int CubeState::stickerOrientation(Face f, int x, int y){
     return orientations[f][y][x];
+}
+
+void CubeState::copyFrom(CubeState *c){
+    setSize(c->getSize());
+    stickers = c->getStickers();
+    orientations = c->getOrientations();
 }
 
 void CubeState::scramble(){

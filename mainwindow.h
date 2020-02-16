@@ -3,7 +3,7 @@
 
 #include <QKeyEvent>
 #include <QMainWindow>
-#include "cubestate.h"
+#include "cube.h"
 #include "settingswindow.h"
 
 QT_BEGIN_NAMESPACE
@@ -24,7 +24,7 @@ protected:
 private:
     Ui::MainWindow *ui;
 
-    CubeState *cube;
+    Cube *cube;
 
     SettingsWindow *settingsWindow;
 
