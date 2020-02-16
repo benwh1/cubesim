@@ -129,6 +129,7 @@ public:
              * added reconstructions
              * added state
              * added statisticsWidget
+             * cube contains state and lastScramble
              */
 
             toVersion = "0.4";
@@ -152,6 +153,41 @@ public:
             QJsonObject statisticsWidget;
             statisticsWidget["timeStyleSheet"] = "";
             data["statisticsWidget"] = statisticsWidget;
+
+            //make a new cube object and put the old cube in the new location
+            QJsonObject oldCube = data["cube"].toObject();
+            data.remove("cube");
+
+            QJsonObject cube;
+            cube["state"] = oldCube;
+
+            //create another cube state, just using solved as the scramble
+            int size = oldCube["size"].toInt();
+
+            //make an array of 6*size^2 stickers
+            QJsonArray scrambleStickers;
+            for(int face=0; face<6; face++){
+                for(int i=0; i<size*size; i++){
+                    scrambleStickers.append(face);
+                }
+            }
+
+            //make an array of 6*size^2 zeros for the supercube orientations
+            QJsonArray scrambleOrientations;
+            for(int i=0; i<6*size*size; i++){
+                scrambleOrientations.append(0);
+            }
+
+            QJsonObject lastScrambleObject;
+            lastScrambleObject["size"] = size;
+            lastScrambleObject["stickers"] = scrambleStickers;
+            lastScrambleObject["orientations"] = scrambleOrientations;
+
+            //add the lastScramble to the new cube object
+            cube["lastScramble"] = lastScrambleObject;
+
+            //finally, add the new cube to the save file
+            data["cube"] = cube;
         }
 
         //update the version number
