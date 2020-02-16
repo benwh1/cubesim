@@ -1,6 +1,6 @@
 #include "cubegraphicsobject.h"
 
-CubeGraphicsObject::CubeGraphicsObject(Cube *c, Settings *s, QGraphicsObject *parent) :
+CubeGraphicsObject::CubeGraphicsObject(CubeState *c, Settings *s, QGraphicsObject *parent) :
     QGraphicsObject(parent)
 {
     cube = c;

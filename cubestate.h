@@ -1,5 +1,5 @@
-#ifndef CUBE_H
-#define CUBE_H
+#ifndef CUBESTATE_H
+#define CUBESTATE_H
 
 #include <QDebug>
 #include <QJsonArray>
@@ -9,11 +9,11 @@
 #include "enums.h"
 #include "settings.h"
 
-class Cube : public QObject
+class CubeState : public QObject
 {
     Q_OBJECT
 public:
-    explicit Cube(Settings *settings, QObject *parent = nullptr);
+    explicit CubeState(Settings *settings, QObject *parent = nullptr);
 
     int getSize();
     void setSize(int s);
@@ -67,4 +67,4 @@ signals:
 
 };
 
-#endif // CUBE_H
+#endif // CUBESTATE_H

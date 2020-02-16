@@ -9,7 +9,7 @@
 #include <QPen>
 #include <QVector3D>
 #include <cmath>
-#include "cube.h"
+#include "cubestate.h"
 #include "enums.h"
 #include "projection.h"
 #include "settings.h"
@@ -21,7 +21,7 @@ class CubeGraphicsObject : public QGraphicsObject
 {
     Q_OBJECT
 public:
-    explicit CubeGraphicsObject(Cube *c = nullptr, Settings *s = nullptr, QGraphicsObject *parent = nullptr);
+    explicit CubeGraphicsObject(CubeState *c = nullptr, Settings *s = nullptr, QGraphicsObject *parent = nullptr);
 
     QRectF boundingRect() const;
     void paint(QPainter *, const QStyleOptionGraphicsItem *, QWidget *);
@@ -39,7 +39,7 @@ protected:
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
 
 private:
-    Cube *cube;
+    CubeState *cube;
     Settings *settings;
 
     qreal edgeLength;

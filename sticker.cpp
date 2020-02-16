@@ -1,6 +1,6 @@
 #include "sticker.h"
 
-Sticker::Sticker(Face face, QPoint piecePos, Cube *cube, Settings *settings, Projection *proj, qreal size, QGraphicsItem *parent) :
+Sticker::Sticker(Face face, QPoint piecePos, CubeState *cube, Settings *settings, Projection *proj, qreal size, QGraphicsItem *parent) :
     QGraphicsPolygonItem(parent)
 {
     this->face = face;

@@ -1,6 +1,6 @@
-#include "cube.h"
+#include "cubestate.h"
 
-Cube::Cube(Settings *settings, QObject *parent) :
+CubeState::CubeState(Settings *settings, QObject *parent) :
     QObject(parent)
 {
     this->settings = settings;
@@ -8,11 +8,11 @@ Cube::Cube(Settings *settings, QObject *parent) :
     setSize(3);
 }
 
-int Cube::getSize(){
+int CubeState::getSize(){
     return size;
 }
 
-void Cube::setSize(int s){
+void CubeState::setSize(int s){
     size = s;
     if(size < 2) size = 2;
 
@@ -23,7 +23,7 @@ void Cube::setSize(int s){
     emit cubeSizeChanged();
 }
 
-void Cube::move(Axis axis, int layer){
+void CubeState::move(Axis axis, int layer){
     if(axis == Axis::X){ //R-L moves
         //cycle U -> B -> D -> F -> U slice
         for(int i=0; i<size; i++){
@@ -83,7 +83,7 @@ void Cube::move(Axis axis, int layer){
     }
 }
 
-void Cube::rotateFace(Face f){
+void CubeState::rotateFace(Face f){
     QList<QList<int>> &face = stickers[f];
 
     int xmax, ymax;
@@ -119,13 +119,13 @@ void Cube::rotateFace(Face f){
     }
 }
 
-void Cube::rotateFace(Face f, int amount){
+void CubeState::rotateFace(Face f, int amount){
     for(int i=0; i<amount; i++){
         rotateFace(f);
     }
 }
 
-void Cube::move(Axis axis, int layer, int amount){
+void CubeState::move(Axis axis, int layer, int amount){
     for(int i=0; i<amount; i++){
         move(axis, layer);
     }
@@ -137,7 +137,7 @@ void Cube::move(Axis axis, int layer, int amount){
     }
 }
 
-void Cube::multisliceMove(Axis axis, int layer, int amount){
+void CubeState::multisliceMove(Axis axis, int layer, int amount){
     if(layer < size/2){
         blockSignals(true);
         for(int i=0; i<=layer; i++){
@@ -169,7 +169,7 @@ void Cube::multisliceMove(Axis axis, int layer, int amount){
     }
 }
 
-void Cube::rotate(Axis axis, int amount){
+void CubeState::rotate(Axis axis, int amount){
     for(int i=0; i<size; i++){
         for(int n=0; n<amount; n++){
             move(axis, i);
@@ -179,7 +179,7 @@ void Cube::rotate(Axis axis, int amount){
     emit rotationDone(axis, amount);
 }
 
-bool Cube::isSolved(){
+bool CubeState::isSolved(){
     for(int face=0; face<6; face++){
         int faceColour = stickers[face][0][0];
         for(int y=0; y<size; y++){
@@ -208,15 +208,15 @@ bool Cube::isSolved(){
     return true;
 }
 
-int Cube::sticker(Face f, int x, int y){
+int CubeState::sticker(Face f, int x, int y){
     return stickers[f][y][x];
 }
 
-int Cube::stickerOrientation(Face f, int x, int y){
+int CubeState::stickerOrientation(Face f, int x, int y){
     return orientations[f][y][x];
 }
 
-void Cube::scramble(){
+void CubeState::scramble(){
     int moves = 1000 + 10*size*size + qrand()%size;
 
     for(int i=0; i<moves; i++){
@@ -226,7 +226,7 @@ void Cube::scramble(){
     emit cubeScrambled();
 }
 
-QJsonObject Cube::toJSON(){
+QJsonObject CubeState::toJSON(){
     QJsonObject data;
 
     data["size"] = size;
@@ -254,7 +254,7 @@ QJsonObject Cube::toJSON(){
     return data;
 }
 
-void Cube::fromJSON(QJsonObject data){
+void CubeState::fromJSON(QJsonObject data){
     QJsonArray stickerArray, orientationsArray;
 
     setSize(data["size"].toInt());
@@ -285,7 +285,7 @@ void Cube::fromJSON(QJsonObject data){
     }
 }
 
-void Cube::reset(){
+void CubeState::reset(){
     stickers.clear();
     orientations.clear();
 

@@ -6,7 +6,7 @@
 #include <QJsonDocument>
 #include <QMessageBox>
 #include <QWidget>
-#include "cube.h"
+#include "cubestate.h"
 #include "global.h"
 #include "reconstruction.h"
 #include "saveconverter.h"
@@ -32,7 +32,7 @@ public:
     explicit CubeWidget(QWidget *parent = nullptr);
     ~CubeWidget();
 
-    void initialize(Cube *cube);
+    void initialize(CubeState *cube);
 
     Settings *getSettings();
     State getState();
@@ -45,7 +45,7 @@ protected:
 private:
     Ui::CubeWidget *ui;
 
-    Cube *cube;
+    CubeState *cube;
     Reconstruction reconstruction;
     Statistics *statistics;
 

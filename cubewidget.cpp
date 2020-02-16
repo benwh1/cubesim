@@ -30,7 +30,7 @@ CubeWidget::~CubeWidget()
     delete ui;
 }
 
-void CubeWidget::initialize(Cube *cube){
+void CubeWidget::initialize(CubeState *cube){
     this->cube = cube;
 
     ui->graphicsView->initialize(cube, settings);

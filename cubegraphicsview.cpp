@@ -14,7 +14,7 @@ CubeGraphicsView::CubeGraphicsView(QWidget *parent) :
     zoomFactor = 1;
 }
 
-void CubeGraphicsView::initialize(Cube *cube, Settings *settings){
+void CubeGraphicsView::initialize(CubeState *cube, Settings *settings){
     this->cube = cube;
 
     //create the cube graphics object and add it to the scene
