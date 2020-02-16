@@ -37,8 +37,13 @@ QString Move::toString(){
 
     QString layers;
     if(layerStart == 0){
-        if(layerEnd == 0) layers = "";
-        else layers = QString::number(layerEnd+1);
+        if(layerEnd == 0){
+            layers = "";
+        }
+        else{
+            layers = QString::number(layerEnd+1);
+            face = face.toLower();
+        }
     }
     else{
         if(layerStart == layerEnd){
