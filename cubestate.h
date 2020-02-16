@@ -7,13 +7,12 @@
 #include <QObject>
 #include <QSize>
 #include "enums.h"
-#include "settings.h"
 
 class CubeState : public QObject
 {
     Q_OBJECT
 public:
-    explicit CubeState(Settings *settings, QObject *parent = nullptr);
+    explicit CubeState(QObject *parent = nullptr);
 
     int getSize();
     void setSize(int s);
@@ -22,7 +21,7 @@ public:
     void multisliceMove(Axis axis, int layer, int amount);
     void rotate(Axis axis, int amount);
 
-    bool isSolved();
+    bool isSolved(bool super = false);
 
     QList<QList<QList<int>>> getStickers();
     QList<QList<QList<int>>> getOrientations();
@@ -40,10 +39,8 @@ public:
     void fromJSON(QJsonObject data);
 
 private:
-    QList<QList<QList<int>>> stickers;
     int size;
-
-    Settings *settings;
+    QList<QList<QList<int>>> stickers;
 
     //sticker orientations for supercubes
     //oriented correctly = 0
@@ -60,15 +57,9 @@ private:
 
 signals:
     void moveDone(Axis axis, int layerStart, int layerEnd, int amount);
-
     void rotationDone(Axis axis, int amount);
-
     void cubeReset();
     void cubeScrambled();
-
-    //only emitted when the cube is solved by a move, not e.g. by a reset
-    void cubeSolved();
-
     void cubeSizeChanged();
 
 };

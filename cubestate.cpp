@@ -1,10 +1,8 @@
 #include "cubestate.h"
 
-CubeState::CubeState(Settings *settings, QObject *parent) :
+CubeState::CubeState(QObject *parent) :
     QObject(parent)
 {
-    this->settings = settings;
-
     setSize(3);
 }
 
@@ -131,10 +129,6 @@ void CubeState::move(Axis axis, int layer, int amount){
     }
 
     emit moveDone(axis, layer, layer, amount);
-
-    if(isSolved()){
-        emit cubeSolved();
-    }
 }
 
 void CubeState::multisliceMove(Axis axis, int layer, int amount){
@@ -163,10 +157,6 @@ void CubeState::multisliceMove(Axis axis, int layer, int amount){
 
         emit moveDone(axis, layer, size-1, amount);
     }
-
-    if(isSolved()){
-        emit cubeSolved();
-    }
 }
 
 void CubeState::rotate(Axis axis, int amount){
@@ -179,7 +169,7 @@ void CubeState::rotate(Axis axis, int amount){
     emit rotationDone(axis, amount);
 }
 
-bool CubeState::isSolved(){
+bool CubeState::isSolved(bool super){
     for(int face=0; face<6; face++){
         int faceColour = stickers[face][0][0];
         for(int y=0; y<size; y++){
@@ -192,7 +182,7 @@ bool CubeState::isSolved(){
     }
 
     //check if all stickers are oriented correctly if this is a supercube
-    if(settings->getSupercube()){
+    if(super){
         for(int face=0; face<6; face++){
             int faceOrientation = orientations[face][0][0];
             for(int y=0; y<size; y++){
