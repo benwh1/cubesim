@@ -12,8 +12,6 @@ class Reconstruction
 public:
     Reconstruction();
 
-    //here, time is the total time from the start of the solve, not the
-    //amount of time since the previous move
     void addMove(Axis axis, int layerStart, int layerEnd, int amount, qint64 time);
     void addRotation(Axis axis, int amount, qint64 time);
 
@@ -24,7 +22,8 @@ public:
     void fromJSON(QJsonObject data);
 
 private:
-    //moves[i].second is the time in milliseconds between moves[i-1] and moves[i]
+    //moves[i].second is the time in milliseconds since the start of the solve
+    //when moves[i].first was done
     QList<QPair<Move, qint64>> moves;
 
 };

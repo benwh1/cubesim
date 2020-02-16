@@ -7,23 +7,13 @@ Reconstruction::Reconstruction()
 
 void Reconstruction::addMove(Axis axis, int layerStart, int layerEnd, int amount, qint64 time){
     Move m(axis, layerStart, layerEnd, amount);
-
-    quint64 t;
-    if(moves.length() == 0) t = 0;
-    else t = time - moves.last().second;
-
-    moves.append(QPair<Move, qint64>(m, t));
+    moves.append(QPair<Move, qint64>(m, time));
 }
 
 void Reconstruction::addRotation(Axis axis, int amount, qint64 time){
     //use -1 as the end layer to denote a rotation
     Move m(axis, 0, -1, amount);
-
-    quint64 t;
-    if(moves.length() == 0) t = 0;
-    else t = time - moves.last().second;
-
-    moves.append(QPair<Move, qint64>(m, t));
+    moves.append(QPair<Move, qint64>(m, time));
 }
 
 void Reconstruction::reset(){
