@@ -224,7 +224,7 @@ void CubeState::scramble(){
     int moves = 1000 + 10*size*size + qrand()%size;
 
     for(int i=0; i<moves; i++){
-        move((Axis)(qrand()%3), rand()%size);
+        move((Axis)(qrand()%3), qrand()%size);
     }
 
     emit cubeScrambled();
