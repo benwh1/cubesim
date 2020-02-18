@@ -271,6 +271,9 @@ void CubeWidget::onMoveDrag(Axis axis, int layer, bool clockwise, Qt::MouseButto
     else if(clockwise) amount = 1;
     else amount = 3;
 
+    //use middle mouse button for rotations
+    if(button == Qt::MiddleButton) rotation = true;
+
     //don't allow moves if the solve is finished
     if(state != State::Finished){
         if(rotation) cube->rotate(axis, amount);
