@@ -274,11 +274,21 @@ void CubeWidget::onMoveDrag(Axis axis, int layer, bool clockwise, Qt::MouseButto
     //use middle mouse button for rotations
     if(button == Qt::MiddleButton) rotation = true;
 
-    //don't allow moves if the solve is finished
-    if(state != State::Finished){
-        if(rotation) cube->rotate(axis, amount);
-        else if(settings->getMultislice()) cube->multisliceMove(axis, layer, amount);
-        else cube->move(axis, layer, amount);
+    //if the solve is finished, allow rotations but not moves
+    if(rotation){
+        cube->rotate(axis, amount);
+    }
+    else{
+        if(state == State::Finished){
+            return;
+        }
+
+        if(settings->getMultislice()){
+            cube->multisliceMove(axis, layer, amount);
+        }
+        else{
+            cube->move(axis, layer, amount);
+        }
     }
 }
 
