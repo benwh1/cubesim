@@ -54,6 +54,7 @@ private:
     State state;
 
     bool swapCtrlShift;
+    bool overlapStats;
 
     QJsonObject toJSON();
     void fromJSON(QJsonObject data);
