@@ -27,10 +27,14 @@ void Statistics::setTime(qint64 time){
     if(timerRunning()){
         timer.restart();
     }
+
+    emit statisticChanged();
 }
 
 void Statistics::setMoves(qint64 moves){
     this->moves = moves;
+
+    emit statisticChanged();
 }
 
 void Statistics::startTimer(){
@@ -60,7 +64,7 @@ void Statistics::reset(){
 void Statistics::doMove(){
     moves++;
 
-    emit moveDone();
+    emit statisticChanged();
 }
 
 bool Statistics::timerRunning(){

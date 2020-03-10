@@ -26,8 +26,10 @@ void StatisticsWidget::initialize(Statistics *statistics, Settings *settings){
     //is exactly the final time, because it may be a few ms off from the last
     //time it was updated
     connect(statistics, SIGNAL(timerStopped()), this, SLOT(onTimerStopped()));
-    connect(statistics, SIGNAL(moveDone()), this, SLOT(onMoveDone()));
     connect(statistics, SIGNAL(timerReset()), this, SLOT(onTimerReset()));
+
+    //update the UI whenever a statistic is changed
+    connect(statistics, SIGNAL(statisticChanged()), this, SLOT(onStatisticChanged()));
 
     this->settings = settings;
 
@@ -100,7 +102,7 @@ void StatisticsWidget::onTimerReset(){
     clear();
 }
 
-void StatisticsWidget::onMoveDone(){
+void StatisticsWidget::onStatisticChanged(){
     updateStatistics();
 }
 

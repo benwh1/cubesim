@@ -49,7 +49,7 @@ private slots:
     void onTimerStarted();
     void onTimerStopped();
     void onTimerReset();
-    void onMoveDone();
+    void onStatisticChanged();
 
     void onCubeSolved();
 

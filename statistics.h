@@ -48,7 +48,10 @@ signals:
     void timerStopped();
     void timerReset();
 
-    void moveDone();
+    //emitted whenever the movecount or time is changed
+    //not emitted by the timer updated when the timer is running, because it
+    //changes continuously
+    void statisticChanged();
 
 };
 
