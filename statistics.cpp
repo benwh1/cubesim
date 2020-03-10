@@ -21,6 +21,18 @@ int Statistics::getTPS(){
     return qRound((1000000.*moves)/time);
 }
 
+void Statistics::setTime(qint64 time){
+    additionalTime = time;
+
+    if(timerRunning()){
+        timer.restart();
+    }
+}
+
+void Statistics::setMoves(qint64 moves){
+    this->moves = moves;
+}
+
 void Statistics::startTimer(){
     timer.start();
     active = true;

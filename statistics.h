@@ -17,6 +17,9 @@ public:
     qint64 getMoves();
     int getTPS();
 
+    void setTime(qint64 time);
+    void setMoves(qint64 moves);
+
     void startTimer();
     void stopTimer();
     void reset();
