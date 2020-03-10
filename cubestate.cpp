@@ -1,3 +1,5 @@
+#include "move.h"
+
 #include "cubestate.h"
 
 CubeState::CubeState(QObject *parent) :
@@ -19,6 +21,19 @@ void CubeState::setSize(int s){
     blockSignals(false);
 
     emit cubeSizeChanged();
+}
+
+void CubeState::move(Move m){
+    if(m.isRotation()){
+        rotate(m.getAxis(), m.getAmount());
+    }
+    else{
+        move(m.getAxis(), m.getLayerStart(), m.getLayerEnd(), m.getAmount());
+    }
+}
+
+void CubeState::move(Axis axis, int layer, int amount){
+    move(axis, layer, layer, amount);
 }
 
 void CubeState::move(Axis axis, int layer){
@@ -123,46 +138,32 @@ void CubeState::rotateFace(Face f, int amount){
     }
 }
 
-void CubeState::move(Axis axis, int layer, int amount){
-    for(int i=0; i<amount; i++){
-        move(axis, layer);
+void CubeState::move(Axis axis, int layerStart, int layerEnd, int amount){
+    for(int layer=layerStart; layer<=layerEnd; layer++){
+        for(int i=0; i<amount; i++){
+            move(axis, layer);
+        }
     }
 
-    emit moveDone(axis, layer, layer, amount);
+    emit moveDone(axis, layerStart, layerEnd, amount);
 }
 
 void CubeState::multisliceMove(Axis axis, int layer, int amount){
     if(layer < size/2){
-        blockSignals(true);
-        for(int i=0; i<=layer; i++){
-            move(axis, i, amount);
-        }
-        blockSignals(false);
-
-        emit moveDone(axis, 0, layer, amount);
+        move(axis, 0, layer, amount);
     }
     else if(size%2 == 1 && layer == (size-1)/2){
-        blockSignals(true);
-        move(axis, layer, amount);
-        blockSignals(false);
-
-        emit moveDone(axis, layer, layer, amount);
+        move(axis, layer, layer, amount);
     }
     else{
-        blockSignals(true);
-        for(int i=layer; i<size; i++){
-            move(axis, i, amount);
-        }
-        blockSignals(false);
-
-        emit moveDone(axis, layer, size-1, amount);
+        move(axis, layer, size-1, amount);
     }
 }
 
 void CubeState::rotate(Axis axis, int amount){
-    for(int i=0; i<size; i++){
-        for(int n=0; n<amount; n++){
-            move(axis, i);
+    for(int layer=0; layer<size; layer++){
+        for(int i=0; i<amount; i++){
+            move(axis, layer);
         }
     }
 

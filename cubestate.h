@@ -8,6 +8,8 @@
 #include <QSize>
 #include "enums.h"
 
+class Move;
+
 class CubeState : public QObject
 {
     Q_OBJECT
@@ -17,7 +19,9 @@ public:
     int getSize();
     void setSize(int s);
 
+    void move(Move m);
     void move(Axis axis, int layer, int amount);
+    void move(Axis axis, int layerStart, int layerEnd, int amount);
     void multisliceMove(Axis axis, int layer, int amount);
     void rotate(Axis axis, int amount);
 
