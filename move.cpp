@@ -10,6 +10,10 @@ Move::Move(Axis axis, int layerStart, int layerEnd, int amount)
     this->amount = amount;
 }
 
+bool Move::isRotation(){
+    return layerStart == 0 && layerEnd == -1;
+}
+
 QString Move::toString(){
     QString face, axis;
     if(this->axis == Axis::X){
