@@ -47,6 +47,7 @@ signals:
 
     void cubeReset();
     void cubeScrambled();
+    void cubeStateChanged();
     void cubeSolved();
     void cubeSizeChanged();
 

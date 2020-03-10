@@ -219,6 +219,8 @@ void CubeState::copyFrom(CubeState *c){
     setSize(c->getSize());
     stickers = c->getStickers();
     orientations = c->getOrientations();
+
+    emit cubeStateChanged();
 }
 
 void CubeState::scramble(){

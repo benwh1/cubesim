@@ -14,6 +14,7 @@ Cube::Cube(Settings *settings, QObject *parent) :
     connect(state, SIGNAL(rotationDone(Axis,int)), this, SIGNAL(rotationDone(Axis,int)));
     connect(state, SIGNAL(cubeReset()), this, SIGNAL(cubeReset()));
     connect(state, SIGNAL(cubeScrambled()), this, SIGNAL(cubeScrambled()));
+    connect(state, SIGNAL(cubeStateChanged()), this, SIGNAL(cubeStateChanged()));
     connect(state, SIGNAL(cubeSizeChanged()), this, SIGNAL(cubeSizeChanged()));
 }
 

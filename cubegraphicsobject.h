@@ -66,6 +66,7 @@ private slots:
     void onRotationDone();
     void onCubeReset();
     void onCubeScrambled();
+    void onCubeStateChanged();
     void onCubeSizeChanged();
 
     //slots from settings being changed

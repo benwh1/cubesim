@@ -10,6 +10,7 @@ CubeGraphicsObject::CubeGraphicsObject(Cube *c, Settings *s, QGraphicsObject *pa
     connect(cube, SIGNAL(rotationDone(Axis,int)), this, SLOT(onRotationDone()));
     connect(cube, SIGNAL(cubeReset()), this, SLOT(onCubeReset()));
     connect(cube, SIGNAL(cubeScrambled()), this, SLOT(onCubeScrambled()));
+    connect(cube, SIGNAL(cubeStateChanged()), this, SLOT(onCubeStateChanged()));
     connect(cube, SIGNAL(cubeSizeChanged()), this, SLOT(onCubeSizeChanged()));
 
     connect(settings, SIGNAL(lineColourChanged()), this, SLOT(onLineColourSettingChanged()));
@@ -551,6 +552,10 @@ void CubeGraphicsObject::onCubeReset(){
 }
 
 void CubeGraphicsObject::onCubeScrambled(){
+    updateAll();
+}
+
+void CubeGraphicsObject::onCubeStateChanged(){
     updateAll();
 }
 

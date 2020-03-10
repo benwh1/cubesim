@@ -64,6 +64,7 @@ signals:
     void rotationDone(Axis axis, int amount);
     void cubeReset();
     void cubeScrambled();
+    void cubeStateChanged(); //emitted when the state is changed in any other way (e.g. by calling copyFrom)
     void cubeSizeChanged();
 
 };
