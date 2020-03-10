@@ -22,6 +22,8 @@ public:
 
     void initialize(Statistics *statistics, Settings *settings);
 
+    void clear();
+
     QJsonObject toJSON();
     void fromJSON(QJsonObject data);
 
@@ -41,7 +43,6 @@ private:
     //if force is true, then the statistics will be updated even if the
     //timer in statistics is not running. otherwise, nothing will be updated
     void updateStatistics(bool force = false);
-    void clear();
 
 private slots:
     void onTimeout();
