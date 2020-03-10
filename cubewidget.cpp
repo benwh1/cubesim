@@ -161,12 +161,13 @@ void CubeWidget::keyPressEvent(QKeyEvent *event){
 }
 
 void CubeWidget::resizeEvent(QResizeEvent *event){
-    int n = overlapStats ? 0 : 200;
+    int size = 220;
+    int n = overlapStats ? 0 : size;
     ui->graphicsView->setGeometry(n, 0, event->size().width()-n, event->size().height());
 
     //the statistics widget is not in a layout, which means the sizePolicy is
     //ignored. we want the widget to be the minimum height, so we set it here
-    ui->statisticsWidget->setGeometry(0, 0, 200, ui->statisticsWidget->sizeHint().height());
+    ui->statisticsWidget->setGeometry(0, 0, size, ui->statisticsWidget->sizeHint().height());
 
     event->accept();
 }
