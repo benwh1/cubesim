@@ -65,6 +65,10 @@ CubeState *Cube::getLastScramble(){
     return lastScramble;
 }
 
+void Cube::setState(CubeState *state){
+    state->copyFrom(state);
+}
+
 void Cube::reset(){
     state->reset();
     lastScramble->reset();

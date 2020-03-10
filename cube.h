@@ -29,6 +29,8 @@ public:
     CubeState *getState();
     CubeState *getLastScramble();
 
+    void setState(CubeState *state);
+
     void reset();
     void scramble();
 
