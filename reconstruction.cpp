@@ -16,6 +16,20 @@ void Reconstruction::addRotation(Axis axis, int amount, qint64 time){
     moves.append(QPair<Move, qint64>(m, time));
 }
 
+Move Reconstruction::getMove(int n){
+    assert(0 <= n && n < moves.size());
+    return moves[n].first;
+}
+
+QPair<Move, qint64> Reconstruction::at(int n){
+    assert(0 <= n && n < moves.size());
+    return moves[n];
+}
+
+int Reconstruction::length(){
+    return moves.size();
+}
+
 void Reconstruction::reset(){
     moves.clear();
 }
