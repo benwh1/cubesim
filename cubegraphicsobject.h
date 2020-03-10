@@ -31,6 +31,8 @@ public:
 
     void setProjection(float *mat);
 
+    void updateAll();
+
     QJsonObject toJSON();
     void fromJSON(QJsonObject data);
 
@@ -59,7 +61,6 @@ private:
     void updateSticker(Face face, int x, int y);
     void updateFace(Face face);
     void updateLayer(Axis axis, int layer);
-    void updateAll();
 
 private slots:
     void onMoveDone(Axis axis, int layerStart, int layerEnd, int amount);
