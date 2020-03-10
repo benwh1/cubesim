@@ -5,6 +5,8 @@
 #include "cubestate.h"
 #include "settings.h"
 
+class Move;
+
 class Cube : public QObject
 {
     Q_OBJECT
@@ -14,6 +16,7 @@ public:
     int getSize();
     void setSize(int s);
 
+    void move(Move m);
     void move(Axis axis, int layer, int amount);
     void multisliceMove(Axis axis, int layer, int amount);
     void rotate(Axis axis, int amount);

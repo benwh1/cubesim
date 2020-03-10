@@ -1,3 +1,5 @@
+#include "move.h"
+
 #include "cube.h"
 
 Cube::Cube(Settings *settings, QObject *parent) :
@@ -21,6 +23,11 @@ int Cube::getSize(){
 
 void Cube::setSize(int s){
     state->setSize(s);
+}
+
+void Cube::move(Move m){
+    state->move(m);
+    if(isSolved()) emit cubeSolved();
 }
 
 void Cube::move(Axis axis, int layer, int amount){
