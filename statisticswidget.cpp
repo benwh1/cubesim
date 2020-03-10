@@ -53,7 +53,7 @@ void StatisticsWidget::fromJSON(QJsonObject data){
     //update the widget. we need to do this because if the timer in
     //statistics is not running, then the timeLabel won't show the
     //correct time
-    updateStatistics(true);
+    updateStatistics();
 }
 
 void StatisticsWidget::paintEvent(QPaintEvent *event){
@@ -83,19 +83,19 @@ void StatisticsWidget::clear(){
 }
 
 void StatisticsWidget::onTimeout(){
-    updateStatistics();
+    updateStatistics(false);
 }
 
 void StatisticsWidget::onTimerStarted(){
     ui->timeLabel->setStyleSheet("");
 
     updateTimer.start(30);
-    updateStatistics();
+    updateStatistics(false);
 }
 
 void StatisticsWidget::onTimerStopped(){
     updateTimer.stop();
-    updateStatistics();
+    updateStatistics(false);
 }
 
 void StatisticsWidget::onTimerReset(){
@@ -103,7 +103,7 @@ void StatisticsWidget::onTimerReset(){
 }
 
 void StatisticsWidget::onStatisticChanged(){
-    updateStatistics();
+    updateStatistics(false);
 }
 
 void StatisticsWidget::onCubeSolved(){
