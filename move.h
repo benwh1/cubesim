@@ -15,6 +15,11 @@ public:
 
     bool isRotation();
 
+    Axis getAxis();
+    int getLayerStart();
+    int getLayerEnd();
+    int getAmount();
+
     QString toString();
     QJsonObject toJSON();
     void fromJSON(QJsonObject data);

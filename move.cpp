@@ -14,6 +14,22 @@ bool Move::isRotation(){
     return layerStart == 0 && layerEnd == -1;
 }
 
+Axis Move::getAxis(){
+    return axis;
+}
+
+int Move::getLayerStart(){
+    return layerStart;
+}
+
+int Move::getLayerEnd(){
+    return layerEnd;
+}
+
+int Move::getAmount(){
+    return amount;
+}
+
 QString Move::toString(){
     QString face, axis;
     if(this->axis == Axis::X){
