@@ -151,6 +151,120 @@ void CubeWidget::keyPressEvent(QKeyEvent *event){
     else if(event->key() == Qt::Key_L){
         QMessageBox::information(this, "Reconstruction", reconstruction.toString());
     }
+    else if(event->key() == Qt::Key_R){
+        if(ctrl){
+            if(state != State::Finished){
+                return;
+            }
+
+            //store these for later
+            qint64 time = statistics->getTime();
+            qint64 moves = statistics->getMoves();
+
+            //reset the statistics widget to be blank
+            ui->statisticsWidget->clear();
+
+            //block all signals from the cube so that the CubeGraphicsObject
+            //doesn't try to update the cube after every single move
+            cube->blockSignals(true);
+
+            //create an image and a painter
+            QImage image(size(), QImage::Format_ARGB32);
+            QPainter painter(&image);
+
+            //framerate and number of frames in the video
+            int fps = 30;
+            qreal msPerFrame = 1000.0/fps;
+            qint64 numFrames = time/msPerFrame+1;
+
+            //which move are we currently at in the reconstruction?
+            int moveNumber = 0; //including rotations
+            int moveCounter = 0; //not including rotations
+
+            //start a timer
+            QElapsedTimer timer;
+            timer.start();
+
+            //scramble the cube
+            cube->setState(cube->getLastScramble());
+
+            //apply the rotations from inspection
+            while(true){
+                Move move = reconstruction.getMove(moveNumber);
+                if(!move.isRotation()) break;
+                cube->move(move);
+                moveNumber++;
+            }
+
+            //render the first frame
+            ui->graphicsView->getCubeGraphicsObject()->updateAll();
+            render(&painter);
+            image.save("images/frame_start.png");
+
+            //render the frames
+            for(int frame=0; frame<numFrames; frame++){
+                //how much time has passed so far?
+                qint64 timeElapsed = frame * msPerFrame;
+
+                //do moves until we reach the current time
+                QPair<Move, qint64> pair = reconstruction.at(moveNumber);
+                while(pair.second <= timeElapsed && moveNumber < reconstruction.length()){
+                    cube->move(pair.first);
+
+                    moveNumber++;
+                    if(!pair.first.isRotation()){
+                        moveCounter++;
+                    }
+
+                    pair = reconstruction.at(moveNumber);
+                }
+
+                //update the statistics
+                statistics->setTime(timeElapsed);
+                statistics->setMoves(moveCounter);
+
+                //update the statistics widget
+                ui->statisticsWidget->updateStatistics();
+
+                //render a frame
+                qDebug() << "rendering frame" << frame+1 << "/" << numFrames << "at move" << moveNumber << "(elapsed time:" << QString::number((qreal)timer.elapsed()/1000,'f',3) << "seconds";
+                qDebug() << "timeElapsed =" << timeElapsed;
+                ui->graphicsView->getCubeGraphicsObject()->updateAll();
+                render(&painter);
+
+                //save the frame
+                image.save("images/frame" + QString::number(frame+1) + ".png");
+            }
+
+            //apply the final moves
+            while(moveNumber < reconstruction.length()){
+                QPair<Move, qint64> pair = reconstruction.at(moveNumber);
+                cube->move(pair.first);
+                moveNumber++;
+            }
+
+            //update the statistics with the final time and movecount
+            statistics->setTime(time);
+            statistics->setMoves(moves);
+
+            //update the statistics widget
+            ui->statisticsWidget->updateStatistics();
+
+            //re-enable the cube signals
+            cube->blockSignals(false);
+
+            //emit a cubeSolved signal, so the statisticsWidget will update
+            //the timer labels stylesheet
+            cube->cubeSolved();
+
+            //render the last frame
+            ui->graphicsView->getCubeGraphicsObject()->updateAll();
+            render(&painter);
+
+            //save the frame
+            image.save("images/frame_end.png");
+        }
+    }
     else{
         event->ignore();
     }
