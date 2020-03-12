@@ -46,10 +46,9 @@ private:
     Ui::CubeWidget *ui;
 
     Cube *cube;
-    Reconstruction reconstruction;
-    Statistics *statistics;
-
+    Reconstruction *reconstruction;
     Settings *settings;
+    Statistics *statistics;
 
     State state;
 

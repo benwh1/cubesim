@@ -13,6 +13,8 @@ CubeWidget::CubeWidget(QWidget *parent) :
     state = State::Neutral;
     swapCtrlShift = false;
     overlapStats = true;
+
+    reconstruction = new Reconstruction();
     settings = new Settings(this);
     statistics = new Statistics(this);
 
@@ -31,6 +33,7 @@ CubeWidget::CubeWidget(QWidget *parent) :
 CubeWidget::~CubeWidget()
 {
     delete ui;
+    delete reconstruction;
 }
 
 void CubeWidget::initialize(Cube *cube){
@@ -73,7 +76,7 @@ void CubeWidget::keyPressEvent(QKeyEvent *event){
 
     if(event->key() == Qt::Key_Space){
         if(state == State::Neutral || state == State::Finished){
-            reconstruction.reset();
+            reconstruction->reset();
             cube->scramble();
             state = State::Inspecting;
         }
@@ -151,7 +154,7 @@ void CubeWidget::keyPressEvent(QKeyEvent *event){
         settings->setMultislice(!settings->getMultislice());
     }
     else if(event->key() == Qt::Key_L){
-        QMessageBox::information(this, "Reconstruction", reconstruction.toString());
+        QMessageBox::information(this, "Reconstruction", reconstruction->toString());
     }
     else if(event->key() == Qt::Key_R){
         if(ctrl){
@@ -160,7 +163,7 @@ void CubeWidget::keyPressEvent(QKeyEvent *event){
             }
 
             ReplayRecorder r(this, cube, statistics);
-            r.record(&reconstruction, 30, 1);
+            r.record(reconstruction, 30, 1);
         }
     }
     else{
@@ -193,7 +196,7 @@ QJsonObject CubeWidget::toJSON(){
     data["cubeGraphicsObject"] = ui->graphicsView->getCubeGraphicsObject()->toJSON();
     data["swapCtrlShift"] = swapCtrlShift;
     data["settings"] = settings->toJSON();
-    data["reconstruction"] = reconstruction.toJSON();
+    data["reconstruction"] = reconstruction->toJSON();
     data["state"] = state;
     data["statisticsWidget"] = ui->statisticsWidget->toJSON();
 
@@ -212,7 +215,7 @@ void CubeWidget::fromJSON(QJsonObject data){
     ui->graphicsView->getCubeGraphicsObject()->fromJSON(data["cubeGraphicsObject"].toObject());
     swapCtrlShift = data["swapCtrlShift"].toBool();
     settings->fromJSON(data["settings"].toObject());
-    reconstruction.fromJSON(data["reconstruction"].toObject());
+    reconstruction->fromJSON(data["reconstruction"].toObject());
     state = (State)data["state"].toInt();
     ui->statisticsWidget->fromJSON(data["statisticsWidget"].toObject());
 
@@ -325,7 +328,7 @@ void CubeWidget::onMoveDone(Axis axis, int layerStart, int layerEnd, int amount)
     //if we are solving, add the move to statistics and reconstruction
     if(state == State::Solving){
         qint64 time = statistics->getTime();
-        reconstruction.addMove(axis, layerStart, layerEnd, amount, time);
+        reconstruction->addMove(axis, layerStart, layerEnd, amount, time);
         statistics->doMove();
     }
 }
@@ -334,11 +337,11 @@ void CubeWidget::onRotationDone(Axis axis, int amount){
     //if we are solving, add the rotation to the reconstruction
     if(state == State::Solving){
         qint64 time = statistics->getTime();
-        reconstruction.addRotation(axis, amount, time);
+        reconstruction->addRotation(axis, amount, time);
     }
     //if we rotate during inspection, add the rotation with a time of 0
     else if(state == State::Inspecting){
-        reconstruction.addRotation(axis, amount, 0);
+        reconstruction->addRotation(axis, amount, 0);
     }
 }
 
