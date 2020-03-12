@@ -103,7 +103,7 @@ void StatisticsWidget::onTimerReset(){
 }
 
 void StatisticsWidget::onStatisticChanged(){
-    updateStatistics(false);
+    updateStatistics();
 }
 
 void StatisticsWidget::onCubeSolved(){

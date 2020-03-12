@@ -27,6 +27,7 @@ SOURCES += \
     move.cpp \
     projection.cpp \
     reconstruction.cpp \
+    replayrecorder.cpp \
     settings.cpp \
     settingswindow.cpp \
     statistics.cpp \
@@ -46,6 +47,7 @@ HEADERS += \
     move.h \
     projection.h \
     reconstruction.h \
+    replayrecorder.h \
     saveconverter.h \
     settings.h \
     settingswindow.h \
