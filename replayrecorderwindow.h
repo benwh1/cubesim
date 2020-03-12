@@ -18,6 +18,12 @@ public:
 
 private:
     Ui::ReplayRecorderWindow *ui;
+
+    ReplayRecorder *replayRecorder;
+
+private slots:
+    void onRenderButtonClicked();
+
 };
 
 #endif // REPLAYRECORDERWINDOW_H
