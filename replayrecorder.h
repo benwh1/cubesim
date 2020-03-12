@@ -4,8 +4,10 @@
 #include <QImage>
 #include <QPainter>
 #include "cube.h"
-#include "cubewidget.h"
 #include "statistics.h"
+#include "reconstruction.h"
+
+class CubeWidget;
 
 class ReplayRecorder
 {

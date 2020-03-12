@@ -19,11 +19,15 @@ MainWindow::MainWindow(QWidget *parent)
 
     //create the settings window and give it the cubeWidget's settings object
     settingsWindow = new SettingsWindow(ui->cubeWidget->getSettings());
+
+    //create the replay recorder window
+    replayRecorderWindow = new ReplayRecorderWindow(ui->cubeWidget->getReplayRecorder());
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+    delete replayRecorderWindow;
     delete settingsWindow;
 }
 
@@ -44,6 +48,9 @@ void MainWindow::keyPressEvent(QKeyEvent *event){
             f.write(document.toBinaryData());
             f.close();
         }
+    }
+    else if(event->key() == Qt::Key_R){
+        replayRecorderWindow->exec();
     }
     else{
         event->ignore();

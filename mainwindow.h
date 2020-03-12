@@ -4,6 +4,7 @@
 #include <QKeyEvent>
 #include <QMainWindow>
 #include "cube.h"
+#include "replayrecorderwindow.h"
 #include "settingswindow.h"
 
 QT_BEGIN_NAMESPACE
@@ -26,6 +27,7 @@ private:
 
     Cube *cube;
 
+    ReplayRecorderWindow *replayRecorderWindow;
     SettingsWindow *settingsWindow;
 
     void updateTitleText();

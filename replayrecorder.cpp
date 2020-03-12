@@ -1,5 +1,7 @@
 #include "replayrecorder.h"
 
+#include "cubewidget.h"
+
 ReplayRecorder::ReplayRecorder(CubeWidget *cubeWidget, Reconstruction *reconstruction, Cube *cube, Statistics *statistics)
 {
     this->cube = cube;

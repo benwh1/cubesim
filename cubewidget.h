@@ -13,6 +13,8 @@
 #include "settings.h"
 #include "statistics.h"
 
+class ReplayRecorder;
+
 namespace Ui {
 class CubeWidget;
 }
@@ -34,6 +36,7 @@ public:
 
     void initialize(Cube *cube);
 
+    ReplayRecorder *getReplayRecorder();
     Settings *getSettings();
     State getState();
 
@@ -47,6 +50,7 @@ private:
 
     Cube *cube;
     Reconstruction *reconstruction;
+    ReplayRecorder *replayRecorder;
     Settings *settings;
     Statistics *statistics;
 

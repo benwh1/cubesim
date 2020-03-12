@@ -1,7 +1,7 @@
-#include "replayrecorder.h"
-
 #include "cubewidget.h"
 #include "ui_cubewidget.h"
+
+#include "replayrecorder.h"
 
 CubeWidget::CubeWidget(QWidget *parent) :
     QWidget(parent),
@@ -17,6 +17,8 @@ CubeWidget::CubeWidget(QWidget *parent) :
     reconstruction = new Reconstruction();
     settings = new Settings(this);
     statistics = new Statistics(this);
+
+    replayRecorder = new ReplayRecorder(this, reconstruction, cube, statistics);
 
     //load the settings file if it exists
     QFile f("settings.dat");
@@ -52,6 +54,10 @@ void CubeWidget::initialize(Cube *cube){
     //detect when the cube is solved
     connect(cube, SIGNAL(cubeSolved()), this, SLOT(onCubeSolved()));
     connect(cube, SIGNAL(cubeSolved()), ui->statisticsWidget, SLOT(onCubeSolved()));
+}
+
+ReplayRecorder *CubeWidget::getReplayRecorder(){
+    return replayRecorder;
 }
 
 Settings *CubeWidget::getSettings(){
