@@ -161,16 +161,6 @@ void CubeWidget::keyPressEvent(QKeyEvent *event){
     else if(event->key() == Qt::Key_L){
         QMessageBox::information(this, "Reconstruction", reconstruction->toString());
     }
-    else if(event->key() == Qt::Key_R){
-        if(ctrl){
-            if(state != State::Finished){
-                return;
-            }
-
-            ReplayRecorder r(this, reconstruction, cube, statistics);
-            r.record(30, 1);
-        }
-    }
     else{
         event->ignore();
     }
