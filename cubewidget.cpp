@@ -13,12 +13,9 @@ CubeWidget::CubeWidget(QWidget *parent) :
     state = State::Neutral;
     swapCtrlShift = false;
     overlapStats = true;
-
     reconstruction = new Reconstruction();
     settings = new Settings(this);
     statistics = new Statistics(this);
-
-    replayRecorder = new ReplayRecorder(this, reconstruction, cube, statistics);
 
     //load the settings file if it exists
     QFile f("settings.dat");
@@ -43,6 +40,8 @@ void CubeWidget::initialize(Cube *cube){
 
     ui->graphicsView->initialize(cube, settings);
     ui->statisticsWidget->initialize(statistics, settings);
+
+    replayRecorder = new ReplayRecorder(this, reconstruction, cube, statistics);
 
     //detect drags so we can pass the move to the cube
     connect(ui->graphicsView, SIGNAL(moveDrag(Axis,int,bool,Qt::MouseButton)), this, SLOT(onMoveDrag(Axis,int,bool,Qt::MouseButton)));
