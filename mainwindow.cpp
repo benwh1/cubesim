@@ -50,7 +50,9 @@ void MainWindow::keyPressEvent(QKeyEvent *event){
         }
     }
     else if(event->key() == Qt::Key_R){
-        replayRecorderWindow->exec();
+        if(ui->cubeWidget->getState() == CubeWidget::State::Finished){
+            replayRecorderWindow->exec();
+        }
     }
     else{
         event->ignore();
