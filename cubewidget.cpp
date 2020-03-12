@@ -162,8 +162,8 @@ void CubeWidget::keyPressEvent(QKeyEvent *event){
                 return;
             }
 
-            ReplayRecorder r(this, cube, statistics);
-            r.record(reconstruction, 30, 1);
+            ReplayRecorder r(this, reconstruction, cube, statistics);
+            r.record(30, 1);
         }
     }
     else{

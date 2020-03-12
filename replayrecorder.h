@@ -10,13 +10,14 @@
 class ReplayRecorder
 {
 public:
-    ReplayRecorder(CubeWidget *cubeWidget, Cube *cube, Statistics *statistics);
+    ReplayRecorder(CubeWidget *cubeWidget, Reconstruction *reconstruction, Cube *cube, Statistics *statistics);
 
-    void record(Reconstruction *reconstruction, int frameRate, qreal speed);
+    void record(int frameRate, qreal speed);
 
 private:
-    CubeWidget *cubeWidget;
     Cube *cube;
+    CubeWidget *cubeWidget;
+    Reconstruction *reconstruction;
     Statistics *statistics;
 
 };

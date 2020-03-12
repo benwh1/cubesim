@@ -1,13 +1,14 @@
 #include "replayrecorder.h"
 
-ReplayRecorder::ReplayRecorder(CubeWidget *cubeWidget, Cube *cube, Statistics *statistics)
+ReplayRecorder::ReplayRecorder(CubeWidget *cubeWidget, Reconstruction *reconstruction, Cube *cube, Statistics *statistics)
 {
-    this->cubeWidget = cubeWidget;
     this->cube = cube;
+    this->cubeWidget = cubeWidget;
+    this->reconstruction = reconstruction;
     this->statistics = statistics;
 }
 
-void ReplayRecorder::record(Reconstruction *reconstruction, int frameRate, qreal speed){
+void ReplayRecorder::record(int frameRate, qreal speed){
     //store the final time and movecount for use in the last frame
     qint64 time = statistics->getTime();
     qint64 moves = statistics->getMoves();
