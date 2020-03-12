@@ -20,6 +20,10 @@ public:
     int getLayerEnd();
     int getAmount();
 
+    Move inverse();
+
+    bool operator==(Move m);
+
     QString toString();
     QJsonObject toJSON();
     void fromJSON(QJsonObject data);

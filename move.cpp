@@ -30,6 +30,17 @@ int Move::getAmount(){
     return amount;
 }
 
+Move Move::inverse(){
+    return Move(axis, layerStart, layerEnd, (4-amount)%4);
+}
+
+bool Move::operator==(Move m){
+    return m.getAxis() == axis &&
+            m.getLayerStart() == layerStart &&
+            m.getLayerEnd() == layerEnd &&
+            m.getAmount() == amount;
+}
+
 QString Move::toString(){
     QString face, axis;
     if(this->axis == Axis::X){

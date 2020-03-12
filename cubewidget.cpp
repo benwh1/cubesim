@@ -207,8 +207,57 @@ void CubeWidget::keyPressEvent(QKeyEvent *event){
                 qint64 timeElapsed = frame * msPerFrame;
 
                 //do moves until we reach the current time
-                QPair<Move, qint64> pair = reconstruction.at(moveNumber);
-                while(pair.second <= timeElapsed && moveNumber < reconstruction.length()){
+                QPair<Move, qint64> pair;
+                while(true){
+                    //check if we're at the end of the reconstruction
+                    if(moveNumber >= reconstruction.length()) break;
+
+                    //get the next move, and check if we are still within
+                    //the next frame to be rendered
+                    pair = reconstruction.at(moveNumber);
+                    if(pair.second > timeElapsed) break;
+
+                    //check the move after the next move, and see if it is the
+                    //inverse of the next move and that both moves are within
+                    //the current frame. if so, skip over both moves
+                    bool skipTwoMoves;
+                    if(moveNumber+1 < reconstruction.length()){
+                        QPair<Move, qint64> pair2 = reconstruction.at(moveNumber+1);
+
+                        //second move is after the current frame
+                        if(pair2.second > timeElapsed){
+                            skipTwoMoves = false;
+                        }
+                        //second move is still in the current frame
+                        else{
+                            //the second move is the inverse of the next move
+                            if(pair.first == pair2.first.inverse()){
+                                skipTwoMoves = true;
+                            }
+                            //the second move is not the inverse
+                            else{
+                                skipTwoMoves = false;
+                            }
+                        }
+                    }
+                    //the next move is the last move of the reconstruction
+                    else{
+                        skipTwoMoves = false;
+                    }
+
+                    //check if we need to skip two moves
+                    if(skipTwoMoves){
+                        moveNumber += 2;
+
+                        //check whether the moves were rotations
+                        if(!pair.first.isRotation()){
+                            moveCounter += 2;
+                        }
+
+                        qDebug() << "skipping two moves";
+                        continue;
+                    }
+
                     cube->move(pair.first);
 
                     moveNumber++;
