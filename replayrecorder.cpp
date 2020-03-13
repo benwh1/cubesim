@@ -35,7 +35,7 @@ void ReplayRecorder::record(){
 
     //read the settings
     int numFrames = settings->getNumberOfFrames();
-    qreal msPerFrame = settings->getTimePerFrame();
+    qreal msPerFrame = 1000*settings->getTimePerFrame();
 
     //which move are we currently at in the reconstruction?
     int moveNumber = 0; //including rotations

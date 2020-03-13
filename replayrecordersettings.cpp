@@ -49,8 +49,8 @@ qreal ReplayRecorderSettings::getVideoLength(){
 
 void ReplayRecorderSettings::setPlaybackFrameRate(int n){
     playbackFrameRate = n;
-    timePerFrame = (1000*speed)/playbackFrameRate;
-    numberOfFrames = reconstruction->totalTime()/timePerFrame + 2;
+    timePerFrame = speed/playbackFrameRate;
+    numberOfFrames = reconstruction->totalTime()/(1000*timePerFrame) + 2;
     videoLength = (qreal)(numberOfFrames - 2)/playbackFrameRate + extremeFrameDuration * 2;
 
     emit settingChanged();
@@ -58,8 +58,8 @@ void ReplayRecorderSettings::setPlaybackFrameRate(int n){
 
 void ReplayRecorderSettings::setSpeed(qreal r){
     speed = r;
-    timePerFrame = (1000*speed)/playbackFrameRate;
-    numberOfFrames = reconstruction->totalTime()/timePerFrame + 2;
+    timePerFrame = speed/playbackFrameRate;
+    numberOfFrames = reconstruction->totalTime()/(1000*timePerFrame) + 2;
     videoLength = (qreal)(numberOfFrames - 2)/playbackFrameRate + extremeFrameDuration * 2;
 
     emit settingChanged();
@@ -67,8 +67,8 @@ void ReplayRecorderSettings::setSpeed(qreal r){
 
 void ReplayRecorderSettings::setNumberOfFrames(int n){
     numberOfFrames = n;
-    timePerFrame = (qreal)reconstruction->totalTime()/(numberOfFrames - 2);
-    speed = timePerFrame*playbackFrameRate/1000;
+    timePerFrame = (qreal)reconstruction->totalTime()/(1000*(numberOfFrames - 2));
+    speed = timePerFrame*playbackFrameRate;
     videoLength = (qreal)(numberOfFrames - 2)/playbackFrameRate + extremeFrameDuration * 2;
 
     emit settingChanged();
@@ -76,8 +76,8 @@ void ReplayRecorderSettings::setNumberOfFrames(int n){
 
 void ReplayRecorderSettings::setTimePerFrame(qreal r){
     timePerFrame = r;
-    speed = timePerFrame*playbackFrameRate/1000;
-    numberOfFrames = reconstruction->totalTime()/timePerFrame + 2;
+    speed = timePerFrame*playbackFrameRate;
+    numberOfFrames = reconstruction->totalTime()/(1000*timePerFrame) + 2;
     videoLength = (qreal)(numberOfFrames - 2)/playbackFrameRate + extremeFrameDuration * 2;
 
     emit settingChanged();
@@ -86,8 +86,8 @@ void ReplayRecorderSettings::setTimePerFrame(qreal r){
 void ReplayRecorderSettings::setExtremeFrameDuration(qreal r){
     extremeFrameDuration = r;
     videoLength = (qreal)(numberOfFrames - 2)/playbackFrameRate + extremeFrameDuration * 2;
-    timePerFrame = (1000*speed)/playbackFrameRate;
-    numberOfFrames = reconstruction->totalTime()/timePerFrame + 2;
+    timePerFrame = speed/playbackFrameRate;
+    numberOfFrames = reconstruction->totalTime()/(1000*timePerFrame) + 2;
 
     emit settingChanged();
 }
@@ -95,8 +95,8 @@ void ReplayRecorderSettings::setExtremeFrameDuration(qreal r){
 void ReplayRecorderSettings::setVideoLength(qreal r){
     videoLength = r;
     numberOfFrames = (videoLength - extremeFrameDuration * 2) * playbackFrameRate + 2;
-    timePerFrame = (qreal)reconstruction->totalTime()/(numberOfFrames - 2);
-    speed = (timePerFrame * playbackFrameRate)/1000;
+    timePerFrame = (qreal)reconstruction->totalTime()/(1000*(numberOfFrames - 2));
+    speed = timePerFrame*playbackFrameRate;
 
     emit settingChanged();
 }
