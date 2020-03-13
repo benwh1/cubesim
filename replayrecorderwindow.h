@@ -1,6 +1,7 @@
 #ifndef REPLAYRECORDERWINDOW_H
 #define REPLAYRECORDERWINDOW_H
 
+#include <QApplication>
 #include <QDialog>
 #include "replayrecorder.h"
 
@@ -20,6 +21,8 @@ private:
     Ui::ReplayRecorderWindow *ui;
 
     ReplayRecorder *replayRecorder;
+
+    void shrinkWindow();
 
 private slots:
     void onRenderButtonClicked();
