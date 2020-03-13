@@ -102,7 +102,7 @@
    <item row="3" column="1">
     <widget class="QDoubleSpinBox" name="timePerFrameSpinBox">
      <property name="suffix">
-      <string>s</string>
+      <string>ms</string>
      </property>
      <property name="decimals">
       <number>3</number>
