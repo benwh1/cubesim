@@ -28,6 +28,7 @@ SOURCES += \
     projection.cpp \
     reconstruction.cpp \
     replayrecorder.cpp \
+    replayrecordersettings.cpp \
     replayrecorderwindow.cpp \
     settings.cpp \
     settingswindow.cpp \
@@ -49,6 +50,7 @@ HEADERS += \
     projection.h \
     reconstruction.h \
     replayrecorder.h \
+    replayrecordersettings.h \
     replayrecorderwindow.h \
     saveconverter.h \
     settings.h \
