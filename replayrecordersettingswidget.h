@@ -31,6 +31,8 @@ private slots:
     void onSpeedSpinBoxChanged();
     void onNumberOfFramesSpinBoxChanged();
     void onTimePerFrameSpinBoxChanged();
+    void onExtremeFrameDurationSpinBoxChanged();
+    void onVideoLengthSpinBoxChanged();
 
     void onSettingChanged();
 

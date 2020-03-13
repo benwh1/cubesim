@@ -11,6 +11,8 @@ ReplayRecorderSettingsWidget::ReplayRecorderSettingsWidget(QWidget *parent) :
     connect(ui->speedSpinBox, SIGNAL(valueChanged(double)), this, SLOT(onSpeedSpinBoxChanged()));
     connect(ui->numberOfFramesSpinBox, SIGNAL(valueChanged(int)), this, SLOT(onNumberOfFramesSpinBoxChanged()));
     connect(ui->timePerFrameSpinBox, SIGNAL(valueChanged(double)), this, SLOT(onTimePerFrameSpinBoxChanged()));
+    connect(ui->extremeFrameDurationSpinBox, SIGNAL(valueChanged(double)), this, SLOT(onExtremeFrameDurationSpinBoxChanged()));
+    connect(ui->videoLengthSpinBox, SIGNAL(valueChanged(double)), this, SLOT(onVideoLengthSpinBoxChanged()));
 }
 
 ReplayRecorderSettingsWidget::~ReplayRecorderSettingsWidget()
@@ -37,7 +39,9 @@ void ReplayRecorderSettingsWidget::synchronizeFromSettings(){
     QList<QWidget*> widgets = {ui->playbackFrameRateSpinBox,
                                ui->speedSpinBox,
                                ui->numberOfFramesSpinBox,
-                               ui->timePerFrameSpinBox};
+                               ui->timePerFrameSpinBox,
+                               ui->extremeFrameDurationSpinBox,
+                               ui->videoLengthSpinBox};
 
     //block signals
     foreach(QWidget *w, widgets){
@@ -49,6 +53,8 @@ void ReplayRecorderSettingsWidget::synchronizeFromSettings(){
     ui->speedSpinBox->setValue(replayRecorderSettings->getSpeed());
     ui->numberOfFramesSpinBox->setValue(replayRecorderSettings->getNumberOfFrames());
     ui->timePerFrameSpinBox->setValue(replayRecorderSettings->getTimePerFrame());
+    ui->extremeFrameDurationSpinBox->setValue(replayRecorderSettings->getExtremeFrameDuration());
+    ui->videoLengthSpinBox->setValue(replayRecorderSettings->getVideoLength());
 
     //unblock signals
     foreach(QWidget *w, widgets){
@@ -74,6 +80,16 @@ void ReplayRecorderSettingsWidget::onNumberOfFramesSpinBoxChanged(){
 void ReplayRecorderSettingsWidget::onTimePerFrameSpinBoxChanged(){
     qreal timePerFrame = ui->timePerFrameSpinBox->value();
     replayRecorderSettings->setTimePerFrame(timePerFrame);
+}
+
+void ReplayRecorderSettingsWidget::onExtremeFrameDurationSpinBoxChanged(){
+    qreal extremeFrameDuration = ui->extremeFrameDurationSpinBox->value();
+    replayRecorderSettings->setExtremeFrameDuration(extremeFrameDuration);
+}
+
+void ReplayRecorderSettingsWidget::onVideoLengthSpinBoxChanged(){
+    qreal videoLength = ui->videoLengthSpinBox->value();
+    replayRecorderSettings->setVideoLength(videoLength);
 }
 
 void ReplayRecorderSettingsWidget::onSettingChanged(){
