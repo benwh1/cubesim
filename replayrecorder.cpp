@@ -164,13 +164,11 @@ void ReplayRecorder::record(){
     statistics->setTime(time);
     statistics->setMoves(moves);
 
-    //emit a cubeSolved signal, so the statisticsWidget will update
-    //the timer labels stylesheet
-    cube->cubeSolved();
-
-    //update the cubeGraphicsObject as before
+    //update the cubeGraphicsObject and emit a cubeSolved signal, so that
+    //the statisticsWidget will update the timer labels stylesheet
     cube->blockSignals(false);
     cube->cubeStateChanged();
+    cube->cubeSolved();
     cube->blockSignals(true);
 
     //render the last frame
