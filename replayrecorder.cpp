@@ -64,13 +64,13 @@ void ReplayRecorder::record(){
 
     //render the first frame
     cubeWidget->render(&painter);
-    image.save("images/frame_start.png");
-    emit frameRendered(0, numFrames+2);
+    image.save("images/frame1.png");
+    emit frameRendered(1, numFrames);
 
-    //render the frames
-    for(int frame=0; frame<numFrames; frame++){
+    //render the solving frames
+    for(int frame=2; frame<=numFrames-1; frame++){
         //how much time has passed so far?
-        qint64 timeElapsed = frame * msPerFrame;
+        qint64 timeElapsed = (frame-1) * msPerFrame;
 
         //do moves until we reach the current time
         QPair<Move, qint64> pair;
@@ -142,15 +142,15 @@ void ReplayRecorder::record(){
         cube->cubeStateChanged();
         cube->blockSignals(true);
 
-        qDebug() << "rendering frame" << frame+1 << "/" << numFrames << "at move" << moveNumber << "(elapsed time:" << QString::number((qreal)timer.elapsed()/1000,'f',3) << "seconds";
+        qDebug() << "rendering frame" << frame << "/" << numFrames << "at move" << moveNumber << "(elapsed time:" << QString::number((qreal)timer.elapsed()/1000,'f',3) << "seconds";
         qDebug() << "timeElapsed =" << timeElapsed;
 
         //render a frame
         cubeWidget->render(&painter);
-        emit frameRendered(frame+2, numFrames+2);
+        emit frameRendered(frame, numFrames);
 
         //save the frame
-        image.save("images/frame" + QString::number(frame+1) + ".png");
+        image.save("images/frame" + QString::number(frame) + ".png");
     }
 
     //apply the final moves
@@ -177,8 +177,8 @@ void ReplayRecorder::record(){
     cubeWidget->render(&painter);
 
     //save the frame
-    image.save("images/frame_end.png");
-    emit frameRendered(numFrames+2, numFrames+2);
+    image.save("images/frame" + QString::number(numFrames) + ".png");
+    emit frameRendered(numFrames, numFrames);
 
     //re-enable the cube signals
     cube->blockSignals(false);
