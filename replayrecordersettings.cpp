@@ -52,7 +52,7 @@ void ReplayRecorderSettings::setSpeed(qreal r){
 
 void ReplayRecorderSettings::setNumberOfFrames(int n){
     numberOfFrames = n;
-    timePerFrame = reconstruction->totalTime()/(numberOfFrames - 2);
+    timePerFrame = (qreal)reconstruction->totalTime()/(numberOfFrames - 2);
     speed = timePerFrame*playbackFrameRate/1000;
 
     emit settingChanged();
