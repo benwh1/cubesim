@@ -157,9 +157,6 @@ void ReplayRecorder::record(int frameRate, qreal speed){
     statistics->setTime(time);
     statistics->setMoves(moves);
 
-    //re-enable the cube signals
-    cube->blockSignals(false);
-
     //emit a cubeSolved signal, so the statisticsWidget will update
     //the timer labels stylesheet
     cube->cubeSolved();
@@ -174,4 +171,7 @@ void ReplayRecorder::record(int frameRate, qreal speed){
 
     //save the frame
     image.save("images/frame_end.png");
+
+    //re-enable the cube signals
+    cube->blockSignals(false);
 }
