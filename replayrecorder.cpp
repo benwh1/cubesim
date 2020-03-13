@@ -64,7 +64,7 @@ void ReplayRecorder::record(){
 
     //render the first frame
     cubeWidget->render(&painter);
-    image.save("images/frame1.png");
+    image.save("images/frame_start.png");
     emit frameRendered(1, numFrames);
 
     //render the solving frames
@@ -172,7 +172,7 @@ void ReplayRecorder::record(){
     cubeWidget->render(&painter);
 
     //save the frame
-    image.save("images/frame" + QString::number(numFrames) + ".png");
+    image.save("images/frame_end.png");
     emit frameRendered(numFrames, numFrames);
 
     //re-enable the cube signals
