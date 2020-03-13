@@ -2,6 +2,7 @@
 #define REPLAYRECORDER_H
 
 #include <QImage>
+#include <QObject>
 #include <QPainter>
 #include "cube.h"
 #include "statistics.h"
@@ -9,10 +10,11 @@
 
 class CubeWidget;
 
-class ReplayRecorder
+class ReplayRecorder : public QObject
 {
+    Q_OBJECT
 public:
-    ReplayRecorder(CubeWidget *cubeWidget, Reconstruction *reconstruction, Cube *cube, Statistics *statistics);
+    explicit ReplayRecorder(CubeWidget *cubeWidget, Reconstruction *reconstruction, Cube *cube, Statistics *statistics, QObject *parent = nullptr);
 
     void record(int frameRate, qreal speed);
 
@@ -21,6 +23,9 @@ private:
     CubeWidget *cubeWidget;
     Reconstruction *reconstruction;
     Statistics *statistics;
+
+signals:
+    void frameRendered(int frame, int total);
 
 };
 

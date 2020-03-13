@@ -2,7 +2,8 @@
 
 #include "cubewidget.h"
 
-ReplayRecorder::ReplayRecorder(CubeWidget *cubeWidget, Reconstruction *reconstruction, Cube *cube, Statistics *statistics)
+ReplayRecorder::ReplayRecorder(CubeWidget *cubeWidget, Reconstruction *reconstruction, Cube *cube, Statistics *statistics, QObject *parent) :
+    QObject(parent)
 {
     this->cube = cube;
     this->cubeWidget = cubeWidget;
@@ -62,6 +63,7 @@ void ReplayRecorder::record(int frameRate, qreal speed){
     //render the first frame
     cubeWidget->render(&painter);
     image.save("images/frame_start.png");
+    emit frameRendered(0, numFrames+2);
 
     //render the frames
     for(int frame=0; frame<numFrames; frame++){
@@ -143,6 +145,7 @@ void ReplayRecorder::record(int frameRate, qreal speed){
 
         //render a frame
         cubeWidget->render(&painter);
+        emit frameRendered(frame+2, numFrames+2);
 
         //save the frame
         image.save("images/frame" + QString::number(frame+1) + ".png");
@@ -173,6 +176,7 @@ void ReplayRecorder::record(int frameRate, qreal speed){
 
     //save the frame
     image.save("images/frame_end.png");
+    emit frameRendered(numFrames+2, numFrames+2);
 
     //re-enable the cube signals
     cube->blockSignals(false);

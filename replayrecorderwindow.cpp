@@ -11,6 +11,9 @@ ReplayRecorderWindow::ReplayRecorderWindow(ReplayRecorder *replayRecorder, QWidg
 
     //connect the render button
     connect(ui->renderButton, SIGNAL(clicked(bool)), this, SLOT(onRenderButtonClicked()));
+
+    //detect when a frame has been rendered
+    connect(replayRecorder, SIGNAL(frameRendered(int,int)), this, SLOT(onFrameRendered(int,int)));
 }
 
 ReplayRecorderWindow::~ReplayRecorderWindow()
@@ -23,4 +26,11 @@ void ReplayRecorderWindow::onRenderButtonClicked(){
     qreal speed = ui->speedSpinBox->value();
 
     replayRecorder->record(frameRate, speed);
+}
+
+void ReplayRecorderWindow::onFrameRendered(int frame, int total){
+    ui->progressBar->setMaximum(total);
+    ui->progressBar->setValue(frame);
+
+    QApplication::processEvents();
 }

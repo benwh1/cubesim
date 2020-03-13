@@ -24,6 +24,8 @@ private:
 private slots:
     void onRenderButtonClicked();
 
+    void onFrameRendered(int frame, int total);
+
 };
 
 #endif // REPLAYRECORDERWINDOW_H
