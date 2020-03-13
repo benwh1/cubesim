@@ -19,6 +19,7 @@ public:
     QPair<Move, qint64> at(int n);
 
     int length();
+    qint64 totalTime();
 
     void reset();
 

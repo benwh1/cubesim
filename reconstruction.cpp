@@ -30,6 +30,11 @@ int Reconstruction::length(){
     return moves.size();
 }
 
+qint64 Reconstruction::totalTime(){
+    if(moves.length() == 0) return 0;
+    return moves.last().second;
+}
+
 void Reconstruction::reset(){
     moves.clear();
 }
