@@ -19,8 +19,22 @@ public:
     qreal getExtremeFrameDuration();
     qreal getVideoLength();
 
+    /* list of dependencies A -> B where changing A will cause B to be
+     * recomputed directly:
+     *
+     * playbackFrameRate -> videoLength
+     * speed -> timePerFrame
+     * speed -> numberOfFrames
+     * numberOfFrames -> speed
+     * numberOfFrames -> timePerFrame
+     * timePerFrame -> speed
+     * timePerFrame -> numberOfFrames
+     * extremeFrameDuration -> videoLength
+     * videoLength -> speed
+     * videoLength -> numberOfFrames
+     * videoLength -> timePerFrame
+     */
     void setPlaybackFrameRate(int n);
-    //the following functions change speed, numberOfFrames, timePerFrame
     void setSpeed(qreal r);
     void setNumberOfFrames(int n);
     void setTimePerFrame(qreal r);
