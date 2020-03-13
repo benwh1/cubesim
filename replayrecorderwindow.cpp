@@ -9,6 +9,9 @@ ReplayRecorderWindow::ReplayRecorderWindow(ReplayRecorder *replayRecorder, QWidg
 
     this->replayRecorder = replayRecorder;
 
+    //pass the ReplayRecorderSettings object to the ReplayRecorderSettingsWidget
+    ui->replayRecorderSettingsWidget->initialize(replayRecorder->getSettings());
+
     //make the progress bar invisible initially, and resize the window
     ui->progressBar->setVisible(false);
     shrinkWindow();

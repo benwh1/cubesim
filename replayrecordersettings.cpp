@@ -4,6 +4,9 @@ ReplayRecorderSettings::ReplayRecorderSettings(Reconstruction *reconstruction, Q
     QObject(parent)
 {
     this->reconstruction = reconstruction;
+
+    playbackFrameRate = 30;
+    speed = 1;
 }
 
 int ReplayRecorderSettings::getPlaybackFrameRate(){
