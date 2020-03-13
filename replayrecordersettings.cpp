@@ -5,8 +5,19 @@ ReplayRecorderSettings::ReplayRecorderSettings(Reconstruction *reconstruction, Q
 {
     this->reconstruction = reconstruction;
 
-    playbackFrameRate = 30;
-    speed = 1;
+    reset();
+}
+
+void ReplayRecorderSettings::reset(){
+    //we only need to emit settingChanged once, so block signals for now
+    blockSignals(true);
+
+    setPlaybackFrameRate(30);
+    setSpeed(1); //will also set timePerFrame = 33.333ms and numberOfFrames = 2
+
+    blockSignals(false);
+
+    emit settingChanged();
 }
 
 int ReplayRecorderSettings::getPlaybackFrameRate(){
