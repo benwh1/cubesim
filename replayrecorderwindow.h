@@ -17,6 +17,9 @@ public:
     explicit ReplayRecorderWindow(ReplayRecorder *replayRecorder, QWidget *parent = nullptr);
     ~ReplayRecorderWindow();
 
+public slots:
+    void open();
+
 private:
     Ui::ReplayRecorderWindow *ui;
 

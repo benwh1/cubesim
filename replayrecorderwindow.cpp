@@ -28,6 +28,11 @@ ReplayRecorderWindow::~ReplayRecorderWindow()
     delete ui;
 }
 
+void ReplayRecorderWindow::open(){
+    replayRecorder->getSettings()->reset();
+    QDialog::open();
+}
+
 void ReplayRecorderWindow::shrinkWindow(){
     //process events so the minimumSize of the window is computed correctly
     //e.g. need to process events after setting visibility of progress bar
