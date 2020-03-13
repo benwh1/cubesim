@@ -142,9 +142,6 @@ void ReplayRecorder::record(){
         cube->cubeStateChanged();
         cube->blockSignals(true);
 
-        qDebug() << "rendering frame" << frame << "/" << numFrames << "at move" << moveNumber << "(elapsed time:" << QString::number((qreal)timer.elapsed()/1000,'f',3) << "seconds";
-        qDebug() << "timeElapsed =" << timeElapsed;
-
         //render a frame
         cubeWidget->render(&painter);
         emit frameRendered(frame, numFrames);
