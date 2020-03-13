@@ -6,6 +6,22 @@ ReplayRecorderSettings::ReplayRecorderSettings(Reconstruction *reconstruction, Q
     this->reconstruction = reconstruction;
 }
 
+int ReplayRecorderSettings::getPlaybackFrameRate(){
+    return playbackFrameRate;
+}
+
+qreal ReplayRecorderSettings::getSpeed(){
+    return speed;
+}
+
+int ReplayRecorderSettings::getNumberOfFrames(){
+    return numberOfFrames;
+}
+
+qreal ReplayRecorderSettings::getTimePerFrame(){
+    return timePerFrame;
+}
+
 void ReplayRecorderSettings::setPlaybackFrameRate(int n){
     playbackFrameRate = n;
 

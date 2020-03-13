@@ -9,9 +9,11 @@ ReplayRecorder::ReplayRecorder(CubeWidget *cubeWidget, Reconstruction *reconstru
     this->cubeWidget = cubeWidget;
     this->reconstruction = reconstruction;
     this->statistics = statistics;
+
+    settings = new ReplayRecorderSettings(reconstruction, this);
 }
 
-void ReplayRecorder::record(int frameRate, qreal speed){
+void ReplayRecorder::record(){
     //store the final time and movecount for use in the last frame
     qint64 time = statistics->getTime();
     qint64 moves = statistics->getMoves();
@@ -31,9 +33,9 @@ void ReplayRecorder::record(int frameRate, qreal speed){
     QImage image(cubeWidget->size(), QImage::Format_ARGB32);
     QPainter painter(&image);
 
-    //calculate the number of frames in the video
-    qreal msPerFrame = 1000.0*speed/frameRate;
-    qint64 numFrames = time/msPerFrame+1;
+    //read the settings
+    int numFrames = settings->getNumberOfFrames();
+    qreal msPerFrame = settings->getTimePerFrame();
 
     //which move are we currently at in the reconstruction?
     int moveNumber = 0; //including rotations
@@ -180,4 +182,8 @@ void ReplayRecorder::record(int frameRate, qreal speed){
 
     //re-enable the cube signals
     cube->blockSignals(false);
+}
+
+ReplayRecorderSettings *ReplayRecorder::getSettings(){
+    return settings;
 }

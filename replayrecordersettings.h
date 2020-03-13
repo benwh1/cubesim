@@ -10,6 +10,11 @@ class ReplayRecorderSettings : public QObject
 public:
     explicit ReplayRecorderSettings(Reconstruction *reconstruction, QObject *parent = nullptr);
 
+    int getPlaybackFrameRate();
+    qreal getSpeed();
+    int getNumberOfFrames();
+    qreal getTimePerFrame();
+
     void setPlaybackFrameRate(int n);
 
     //the following functions change speed, numberOfFrames, timePerFrame

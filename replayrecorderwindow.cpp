@@ -45,12 +45,8 @@ void ReplayRecorderWindow::onRenderButtonClicked(){
     //resize the window
     shrinkWindow();
 
-    //get the frame rate and speed from the UI
-    int frameRate = ui->playbackFrameRateSpinBox->value();
-    qreal speed = ui->speedSpinBox->value();
-
     //record the replay
-    replayRecorder->record(frameRate, speed);
+    replayRecorder->record();
 }
 
 void ReplayRecorderWindow::onFrameRendered(int frame, int total){
