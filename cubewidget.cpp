@@ -252,8 +252,13 @@ void CubeWidget::load(){
     QString name = QFileDialog::getOpenFileName(this, "Open", path, "*.dat");
     if(name == "") return;
 
+    //load the file
+    load(name);
+}
+
+void CubeWidget::load(QString fileName){
     //read the file
-    QFile f(name);
+    QFile f(fileName);
     f.open(QFile::ReadOnly);
     QByteArray data = f.readAll();
     f.close();

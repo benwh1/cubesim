@@ -63,6 +63,7 @@ private:
 
     void save();
     void load();
+    void load(QString fileName);
 
 private slots:
     void onMoveDrag(Axis axis, int layer, bool clockwise, Qt::MouseButton button);
