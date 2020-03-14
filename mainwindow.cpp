@@ -7,15 +7,11 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    //create the cube and give it to the CubeGraphicsView
-    cube = new Cube(ui->cubeWidget->getSettings(), ui->cubeWidget);
-    ui->cubeWidget->initialize(cube);
-
     //set the window title
     updateTitleText();
 
     //detect when the cube size changes so we can update the window title
-    connect(cube, SIGNAL(cubeSizeChanged()), this, SLOT(onCubeSizeChanged()));
+    connect(ui->cubeWidget->getCube(), SIGNAL(cubeSizeChanged()), this, SLOT(onCubeSizeChanged()));
 
     //create the settings window and give it the cubeWidget's settings object
     settingsWindow = new SettingsWindow(ui->cubeWidget->getSettings());
@@ -64,7 +60,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event){
 }
 
 void MainWindow::updateTitleText(){
-    QString size = QString::number(cube->getSize());
+    QString size = QString::number(ui->cubeWidget->getCube()->getSize());
     QString str = "cubesim v" + Global::version() + " (" + size + "x" + size + "x" + size + ")";
 
     setWindowTitle(str);

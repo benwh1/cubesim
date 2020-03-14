@@ -25,8 +25,6 @@ protected:
 private:
     Ui::MainWindow *ui;
 
-    Cube *cube;
-
     ReplayRecorderWindow *replayRecorderWindow;
     SettingsWindow *settingsWindow;
 

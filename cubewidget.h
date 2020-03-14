@@ -34,8 +34,7 @@ public:
     explicit CubeWidget(QWidget *parent = nullptr);
     ~CubeWidget();
 
-    void initialize(Cube *cube);
-
+    Cube *getCube();
     ReplayRecorder *getReplayRecorder();
     Settings *getSettings();
     State getState();

@@ -13,9 +13,28 @@ CubeWidget::CubeWidget(QWidget *parent) :
     state = State::Neutral;
     swapCtrlShift = false;
     overlapStats = true;
+
     reconstruction = new Reconstruction();
     settings = new Settings(this);
     statistics = new Statistics(this);
+
+    cube = new Cube(settings, this);
+
+    ui->graphicsView->initialize(cube, settings);
+    ui->statisticsWidget->initialize(statistics, settings);
+
+    replayRecorder = new ReplayRecorder(this, reconstruction, cube, statistics);
+
+    //detect drags so we can pass the move to the cube
+    connect(ui->graphicsView, SIGNAL(moveDrag(Axis,int,bool,Qt::MouseButton)), this, SLOT(onMoveDrag(Axis,int,bool,Qt::MouseButton)));
+
+    //detect cube moves
+    connect(cube, SIGNAL(moveDone(Axis,int,int,int)), this, SLOT(onMoveDone(Axis,int,int,int)));
+    connect(cube, SIGNAL(rotationDone(Axis,int)), this, SLOT(onRotationDone(Axis,int)));
+
+    //detect when the cube is solved
+    connect(cube, SIGNAL(cubeSolved()), this, SLOT(onCubeSolved()));
+    connect(cube, SIGNAL(cubeSolved()), ui->statisticsWidget, SLOT(onCubeSolved()));
 
     //load the settings file if it exists
     QFile f("settings.dat");
@@ -35,24 +54,8 @@ CubeWidget::~CubeWidget()
     delete reconstruction;
 }
 
-void CubeWidget::initialize(Cube *cube){
-    this->cube = cube;
-
-    ui->graphicsView->initialize(cube, settings);
-    ui->statisticsWidget->initialize(statistics, settings);
-
-    replayRecorder = new ReplayRecorder(this, reconstruction, cube, statistics);
-
-    //detect drags so we can pass the move to the cube
-    connect(ui->graphicsView, SIGNAL(moveDrag(Axis,int,bool,Qt::MouseButton)), this, SLOT(onMoveDrag(Axis,int,bool,Qt::MouseButton)));
-
-    //detect cube moves
-    connect(cube, SIGNAL(moveDone(Axis,int,int,int)), this, SLOT(onMoveDone(Axis,int,int,int)));
-    connect(cube, SIGNAL(rotationDone(Axis,int)), this, SLOT(onRotationDone(Axis,int)));
-
-    //detect when the cube is solved
-    connect(cube, SIGNAL(cubeSolved()), this, SLOT(onCubeSolved()));
-    connect(cube, SIGNAL(cubeSolved()), ui->statisticsWidget, SLOT(onCubeSolved()));
+Cube *CubeWidget::getCube(){
+    return cube;
 }
 
 ReplayRecorder *CubeWidget::getReplayRecorder(){
