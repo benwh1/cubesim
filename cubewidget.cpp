@@ -46,6 +46,13 @@ CubeWidget::CubeWidget(QWidget *parent) :
         QJsonObject data = document.object();
         settings->fromJSON(data);
     }
+
+    //check for a second command line argument, corresponding to a save file
+    //that we should load immediately
+    QStringList args = QApplication::arguments();
+    if(args.length() == 2){
+        load(args.at(1));
+    }
 }
 
 CubeWidget::~CubeWidget()
