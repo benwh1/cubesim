@@ -73,6 +73,7 @@ void ReplayRecorder::record(){
         qint64 timeElapsed = (frame-1) * msPerFrame;
 
         //do moves until we reach the current time
+        bool movesApplied = false;
         QPair<Move, qint64> pair;
         while(true){
             //check if we're at the end of the reconstruction
@@ -125,6 +126,7 @@ void ReplayRecorder::record(){
 
             //apply the move
             cube->move(pair.first);
+            movesApplied = true;
 
             //increment the move counter and the non-rotation counter
             moveNumber++;
@@ -137,10 +139,12 @@ void ReplayRecorder::record(){
         statistics->setTime(timeElapsed);
         statistics->setMoves(moveCounter);
 
-        //update the cubeGraphicsObject in the same way as before
-        cube->blockSignals(false);
-        cube->cubeStateChanged();
-        cube->blockSignals(true);
+        //update the cubeGraphicsObject if any moves have been applied
+        if(movesApplied){
+            cube->blockSignals(false);
+            cube->cubeStateChanged();
+            cube->blockSignals(true);
+        }
 
         //render a frame
         cubeWidget->render(&painter);
