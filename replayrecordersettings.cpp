@@ -12,10 +12,11 @@ void ReplayRecorderSettings::reset(){
     //we only need to emit settingChanged once, so block signals for now
     blockSignals(true);
 
-    //we need to set these values initially, and then the rest can be computed
-    //from them. calling setSpeed(1) computes the rest of the variables.
+    //set the default values
     playbackFrameRate = 30;
     extremeFrameDuration = 2;
+    videoSize = QSize(800, 600);
+    //this will also compute numberOfFrames, timePerFrame, videoLength
     setSpeed(1);
 
     blockSignals(false);
@@ -45,6 +46,18 @@ qreal ReplayRecorderSettings::getExtremeFrameDuration(){
 
 qreal ReplayRecorderSettings::getVideoLength(){
     return videoLength;
+}
+
+int ReplayRecorderSettings::getVideoWidth(){
+    return videoSize.width();
+}
+
+int ReplayRecorderSettings::getVideoHeight(){
+    return videoSize.height();
+}
+
+QSize ReplayRecorderSettings::getVideoSize(){
+    return videoSize;
 }
 
 void ReplayRecorderSettings::setPlaybackFrameRate(int n){
@@ -97,6 +110,18 @@ void ReplayRecorderSettings::setVideoLength(qreal r){
     numberOfFrames = (videoLength - extremeFrameDuration * 2) * playbackFrameRate + 2;
     timePerFrame = (qreal)reconstruction->totalTime()/(1000*(numberOfFrames - 2));
     speed = timePerFrame*playbackFrameRate;
+
+    emit settingChanged();
+}
+
+void ReplayRecorderSettings::setVideoWidth(int n){
+    videoSize.setWidth(n);
+
+    emit settingChanged();
+}
+
+void ReplayRecorderSettings::setVideoHeight(int n){
+    videoSize.setHeight(n);
 
     emit settingChanged();
 }

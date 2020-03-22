@@ -2,6 +2,7 @@
 #define REPLAYRECORDERSETTINGS_H
 
 #include <QObject>
+#include <QSize>
 #include "reconstruction.h"
 
 class ReplayRecorderSettings : public QObject
@@ -18,6 +19,9 @@ public:
     qreal getTimePerFrame();
     qreal getExtremeFrameDuration();
     qreal getVideoLength();
+    int getVideoWidth();
+    int getVideoHeight();
+    QSize getVideoSize();
 
     /* list of dependencies A -> B where changing A will cause B to be
      * recomputed directly:
@@ -40,6 +44,8 @@ public:
     void setTimePerFrame(qreal r);
     void setExtremeFrameDuration(qreal r);
     void setVideoLength(qreal r);
+    void setVideoWidth(int n);
+    void setVideoHeight(int n);
 
 private:
     Reconstruction *reconstruction;
@@ -50,6 +56,7 @@ private:
     qreal timePerFrame;
     qreal extremeFrameDuration;
     qreal videoLength;
+    QSize videoSize;
 
 signals:
     void settingChanged();

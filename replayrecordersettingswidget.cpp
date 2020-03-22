@@ -13,6 +13,8 @@ ReplayRecorderSettingsWidget::ReplayRecorderSettingsWidget(QWidget *parent) :
     connect(ui->timePerFrameSpinBox, SIGNAL(valueChanged(double)), this, SLOT(onTimePerFrameSpinBoxChanged()));
     connect(ui->extremeFrameDurationSpinBox, SIGNAL(valueChanged(double)), this, SLOT(onExtremeFrameDurationSpinBoxChanged()));
     connect(ui->videoLengthSpinBox, SIGNAL(valueChanged(double)), this, SLOT(onVideoLengthSpinBoxChanged()));
+    connect(ui->videoWidthSpinBox, SIGNAL(valueChanged(int)), this, SLOT(onVideoWidthSpinBoxChanged()));
+    connect(ui->videoHeightSpinBox, SIGNAL(valueChanged(int)), this, SLOT(onVideoHeightSpinBoxChanged()));
 }
 
 ReplayRecorderSettingsWidget::~ReplayRecorderSettingsWidget()
@@ -41,7 +43,9 @@ void ReplayRecorderSettingsWidget::synchronizeFromSettings(){
                                ui->numberOfFramesSpinBox,
                                ui->timePerFrameSpinBox,
                                ui->extremeFrameDurationSpinBox,
-                               ui->videoLengthSpinBox};
+                               ui->videoLengthSpinBox,
+                               ui->videoWidthSpinBox,
+                               ui->videoHeightSpinBox};
 
     //block signals
     foreach(QWidget *w, widgets){
@@ -55,6 +59,8 @@ void ReplayRecorderSettingsWidget::synchronizeFromSettings(){
     ui->timePerFrameSpinBox->setValue(replayRecorderSettings->getTimePerFrame());
     ui->extremeFrameDurationSpinBox->setValue(replayRecorderSettings->getExtremeFrameDuration());
     ui->videoLengthSpinBox->setValue(replayRecorderSettings->getVideoLength());
+    ui->videoWidthSpinBox->setValue(replayRecorderSettings->getVideoWidth());
+    ui->videoHeightSpinBox->setValue(replayRecorderSettings->getVideoHeight());
 
     //unblock signals
     foreach(QWidget *w, widgets){
@@ -90,6 +96,16 @@ void ReplayRecorderSettingsWidget::onExtremeFrameDurationSpinBoxChanged(){
 void ReplayRecorderSettingsWidget::onVideoLengthSpinBoxChanged(){
     qreal videoLength = ui->videoLengthSpinBox->value();
     replayRecorderSettings->setVideoLength(videoLength);
+}
+
+void ReplayRecorderSettingsWidget::onVideoWidthSpinBoxChanged(){
+    int videoWidth = ui->videoWidthSpinBox->value();
+    replayRecorderSettings->setVideoWidth(videoWidth);
+}
+
+void ReplayRecorderSettingsWidget::onVideoHeightSpinBoxChanged(){
+    int videoHeight = ui->videoHeightSpinBox->value();
+    replayRecorderSettings->setVideoHeight(videoHeight);
 }
 
 void ReplayRecorderSettingsWidget::onSettingChanged(){

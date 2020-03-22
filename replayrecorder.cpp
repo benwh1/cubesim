@@ -14,6 +14,12 @@ ReplayRecorder::ReplayRecorder(CubeWidget *cubeWidget, Reconstruction *reconstru
 }
 
 void ReplayRecorder::record(){
+    //store the current size of the widget so it can be restored later
+    QSize oldSize = cubeWidget->size();
+
+    //resize the widget
+    cubeWidget->resize(settings->getVideoSize());
+
     //store the final time and movecount for use in the last frame
     qint64 time = statistics->getTime();
     qint64 moves = statistics->getMoves();
@@ -181,6 +187,9 @@ void ReplayRecorder::record(){
 
     //re-enable the cube signals
     cube->blockSignals(false);
+
+    //resize the widget to the old size
+    cubeWidget->resize(oldSize);
 }
 
 ReplayRecorderSettings *ReplayRecorder::getSettings(){
