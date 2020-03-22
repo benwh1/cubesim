@@ -1,6 +1,7 @@
 #ifndef REPLAYRECORDER_H
 #define REPLAYRECORDER_H
 
+#include <QApplication>
 #include <QImage>
 #include <QObject>
 #include <QPainter>

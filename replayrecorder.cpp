@@ -20,6 +20,12 @@ void ReplayRecorder::record(){
     //resize the widget
     cubeWidget->resize(settings->getVideoSize());
 
+    //force the resize event to be processed immediately. if we don't do
+    //this, then the first frame of the video may show scroll bars when it
+    //shouldn't, because the resize event didn't get processed before the
+    //first frame is rendered.
+    QApplication::processEvents();
+
     //store the final time and movecount for use in the last frame
     qint64 time = statistics->getTime();
     qint64 moves = statistics->getMoves();
