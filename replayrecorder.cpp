@@ -14,6 +14,9 @@ ReplayRecorder::ReplayRecorder(CubeWidget *cubeWidget, Reconstruction *reconstru
 }
 
 void ReplayRecorder::record(){
+    //make the images directory if it doesn't already exist
+    QDir::current().mkdir("images");
+
     //store the current size of the widget so it can be restored later
     QSize oldSize = cubeWidget->size();
 
