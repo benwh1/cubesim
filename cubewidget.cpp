@@ -134,6 +134,10 @@ void CubeWidget::keyPressEvent(QKeyEvent *event){
         QResizeEvent *r = new QResizeEvent(size(), size());
         QApplication::sendEvent(this, r);
     }
+    else if(event->key() == Qt::Key_V){
+        //toggle visibility of stats box
+        ui->statisticsWidget->setVisible(!ui->statisticsWidget->isVisible());
+    }
     else if(event->key() == Qt::Key_Equal){
         if(state == State::Neutral){
             cube->setSize(cube->getSize()+1);
