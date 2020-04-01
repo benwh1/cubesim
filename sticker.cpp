@@ -1,7 +1,7 @@
 #include "sticker.h"
 
 Sticker::Sticker(Face face, QPoint piecePos, Cube *cube, Settings *settings, Projection *proj, qreal size, QGraphicsItem *parent) :
-    QGraphicsPolygonItem(parent)
+    QGraphicsRectItem(parent)
 {
     this->face = face;
     this->piecePos = piecePos;
@@ -36,19 +36,13 @@ Sticker::Sticker(Face face, QPoint piecePos, Cube *cube, Settings *settings, Pro
     //set the transform to map the square [0,1]^2 onto the projected sticker
     setTransform(QTransform(projRight.x(), projRight.y(), projUp.x(), projUp.y(), 0, 0));
 
-    //create the polygon
-    QPolygonF poly;
-    poly << QPointF(0,0) << QPointF(0,1) << QPointF(1,1) << QPointF(1,0);
-    for(int i=0; i<poly.size(); i++){
-        poly[i] = poly[i] * size;
-    }
-
-    setPolygon(poly);
+    //set the rect to a square with side length size
+    setRect(0, 0, size, size);
 }
 
 void Sticker::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
     //draw the basic polygon
-    QGraphicsPolygonItem::paint(painter, option, widget);
+    QGraphicsRectItem::paint(painter, option, widget);
 
     //if we're using a supercube, draw supercube stickers
     if(settings->getSupercube()){
@@ -85,7 +79,7 @@ void Sticker::paintArrows(QPainter *painter){
 
     //draw the arrow
     painter->setBrush(QBrush(Qt::black));
-    painter->drawPolygon(arrow, fillRule());
+    painter->drawPolygon(arrow);
 }
 
 void Sticker::paintPochmann(QPainter *painter){

@@ -1,7 +1,7 @@
 #ifndef STICKER_H
 #define STICKER_H
 
-#include <QGraphicsPolygonItem>
+#include <QGraphicsRectItem>
 #include <QPainter>
 #include <QVector3D>
 #include <cmath>
@@ -9,7 +9,7 @@
 #include "projection.h"
 #include "settings.h"
 
-class Sticker : public QGraphicsPolygonItem
+class Sticker : public QGraphicsRectItem
 {
 public:
     Sticker(Face face, QPoint piecePos, Cube *cube, Settings *settings, Projection *proj, qreal size, QGraphicsItem *parent = nullptr);

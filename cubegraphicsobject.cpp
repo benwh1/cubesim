@@ -438,7 +438,7 @@ void CubeGraphicsObject::reset(){
             QGraphicsPolygonItem *b = new QGraphicsPolygonItem(this);
 
             Sticker *centerSticker = stickers[face][s/2][s/2];
-            b->setPolygon(QGraphicsItem::mapFromItem(centerSticker, centerSticker->polygon()));
+            b->setPolygon(QGraphicsItem::mapFromItem(centerSticker, centerSticker->rect()));
 
             guideLinesBox.append(b);
         }
@@ -455,10 +455,10 @@ void CubeGraphicsObject::reset(){
             //the bottom right corner of stickers[face][s/2][s/2]
 
             QPolygonF poly;
-            poly << stickers[face][s/2  ][s/2-1]->mapToParent(stickers[face][s/2  ][s/2-1]->polygon().at(0))
-                 << stickers[face][s/2-1][s/2-1]->mapToParent(stickers[face][s/2-1][s/2-1]->polygon().at(1))
-                 << stickers[face][s/2-1][s/2  ]->mapToParent(stickers[face][s/2-1][s/2  ]->polygon().at(2))
-                 << stickers[face][s/2  ][s/2  ]->mapToParent(stickers[face][s/2  ][s/2  ]->polygon().at(3));
+            poly << stickers[face][s/2  ][s/2-1]->mapToParent(stickers[face][s/2  ][s/2-1]->rect().bottomLeft())
+                 << stickers[face][s/2-1][s/2-1]->mapToParent(stickers[face][s/2-1][s/2-1]->rect().topLeft())
+                 << stickers[face][s/2-1][s/2  ]->mapToParent(stickers[face][s/2-1][s/2  ]->rect().topRight())
+                 << stickers[face][s/2  ][s/2  ]->mapToParent(stickers[face][s/2  ][s/2  ]->rect().bottomRight());
 
             b->setPolygon(poly);
 
@@ -568,7 +568,7 @@ void CubeGraphicsObject::onLineColourSettingChanged(){
     for(int face=0; face<3; face++){
         for(int y=0; y<s; y++){
             for(int x=0; x<s; x++){
-                QGraphicsPolygonItem *sticker = stickers[face][y][x];
+                Sticker *sticker = stickers[face][y][x];
                 QPen pen = sticker->pen();
                 pen.setColor(settings->getLineColour());
                 stickers[face][y][x]->setPen(pen);
@@ -582,7 +582,7 @@ void CubeGraphicsObject::onLineWidthSettingChanged(){
     for(int face=0; face<3; face++){
         for(int y=0; y<s; y++){
             for(int x=0; x<s; x++){
-                QGraphicsPolygonItem *sticker = stickers[face][y][x];
+                Sticker *sticker = stickers[face][y][x];
                 QPen pen = sticker->pen();
                 pen.setWidth(settings->getLineWidth());
                 stickers[face][y][x]->setPen(pen);
