@@ -1,5 +1,3 @@
-#include "move.h"
-
 #include "cube.h"
 
 Cube::Cube(Settings *settings, QObject *parent) :
@@ -10,8 +8,8 @@ Cube::Cube(Settings *settings, QObject *parent) :
     lastScramble = new CubeState(this);
 
     //propogate signals from state
-    connect(state, SIGNAL(moveDone(Axis,int,int,int)), this, SIGNAL(moveDone(Axis,int,int,int)));
-    connect(state, SIGNAL(rotationDone(Axis,int)), this, SIGNAL(rotationDone(Axis,int)));
+    connect(state, SIGNAL(moveDone(Move)), this, SIGNAL(moveDone(Move)));
+    connect(state, SIGNAL(rotationDone(Move)), this, SIGNAL(rotationDone(Move)));
     connect(state, SIGNAL(cubeReset()), this, SIGNAL(cubeReset()));
     connect(state, SIGNAL(cubeScrambled()), this, SIGNAL(cubeScrambled()));
     connect(state, SIGNAL(cubeStateChanged()), this, SIGNAL(cubeStateChanged()));
@@ -28,21 +26,10 @@ void Cube::setSize(int s){
 
 void Cube::move(Move m){
     state->move(m);
-    if(isSolved()) emit cubeSolved();
-}
 
-void Cube::move(Axis axis, int layer, int amount){
-    state->move(axis, layer, amount);
-    if(isSolved()) emit cubeSolved();
-}
-
-void Cube::multisliceMove(Axis axis, int layer, int amount){
-    state->multisliceMove(axis, layer, amount);
-    if(isSolved()) emit cubeSolved();
-}
-
-void Cube::rotate(Axis axis, int amount){
-    state->rotate(axis, amount);
+    if(isSolved()){
+        emit cubeSolved();
+    }
 }
 
 bool Cube::isSolved(){

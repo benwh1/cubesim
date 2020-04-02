@@ -6,8 +6,8 @@ CubeGraphicsObject::CubeGraphicsObject(Cube *c, Settings *s, QGraphicsObject *pa
     cube = c;
     settings = s;
 
-    connect(cube, SIGNAL(moveDone(Axis,int,int,int)), this, SLOT(onMoveDone(Axis,int,int,int)));
-    connect(cube, SIGNAL(rotationDone(Axis,int)), this, SLOT(onRotationDone()));
+    connect(cube, SIGNAL(moveDone(Move)), this, SLOT(onMoveDone(Move)));
+    connect(cube, SIGNAL(rotationDone(Move)), this, SLOT(onRotationDone()));
     connect(cube, SIGNAL(cubeReset()), this, SLOT(onCubeReset()));
     connect(cube, SIGNAL(cubeScrambled()), this, SLOT(onCubeScrambled()));
     connect(cube, SIGNAL(cubeStateChanged()), this, SLOT(onCubeStateChanged()));
@@ -537,7 +537,11 @@ void CubeGraphicsObject::updateAll(){
     }
 }
 
-void CubeGraphicsObject::onMoveDone(Axis axis, int layerStart, int layerEnd, int){
+void CubeGraphicsObject::onMoveDone(Move move){
+    Axis axis = move.getAxis();
+    int layerStart = move.getLayerStart();
+    int layerEnd = move.getLayerEnd();
+
     for(int i=layerStart; i<=layerEnd; i++){
         updateLayer(axis, i);
     }

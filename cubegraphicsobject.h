@@ -63,7 +63,7 @@ private:
     void updateLayer(Axis axis, int layer);
 
 private slots:
-    void onMoveDone(Axis axis, int layerStart, int layerEnd, int amount);
+    void onMoveDone(Move move);
     void onRotationDone();
     void onCubeReset();
     void onCubeScrambled();

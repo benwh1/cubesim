@@ -67,8 +67,8 @@ private:
 
 private slots:
     void onMoveDrag(Axis axis, int layer, bool clockwise, Qt::MouseButton button);
-    void onMoveDone(Axis axis, int layerStart, int layerEnd, int amount);
-    void onRotationDone(Axis axis, int amount);
+    void onMoveDone(Move move);
+    void onRotationDone(Move move);
     void onCubeSolved();
 
 };

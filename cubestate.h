@@ -7,8 +7,7 @@
 #include <QObject>
 #include <QSize>
 #include "enums.h"
-
-class Move;
+#include "move.h"
 
 class CubeState : public QObject
 {
@@ -20,10 +19,6 @@ public:
     void setSize(int s);
 
     void move(Move m);
-    void move(Axis axis, int layer, int amount);
-    void move(Axis axis, int layerStart, int layerEnd, int amount);
-    void multisliceMove(Axis axis, int layer, int amount);
-    void rotate(Axis axis, int amount);
 
     bool isSolved(bool super = false);
 
@@ -60,8 +55,8 @@ private:
     void rotateFace(Face f, int amount);
 
 signals:
-    void moveDone(Axis axis, int layerStart, int layerEnd, int amount);
-    void rotationDone(Axis axis, int amount);
+    void moveDone(Move move);
+    void rotationDone(Move move);
     void cubeReset();
     void cubeScrambled();
     void cubeStateChanged(); //emitted when the state is changed in any other way (e.g. by calling copyFrom)

@@ -12,8 +12,8 @@ class Reconstruction
 public:
     Reconstruction();
 
-    void addMove(Axis axis, int layerStart, int layerEnd, int amount, qint64 time);
-    void addRotation(Axis axis, int amount, qint64 time);
+    void addMove(Move move, qint64 time);
+    void addRotation(Move move, qint64 time);
 
     Move getMove(int n);
     QPair<Move, qint64> at(int n);

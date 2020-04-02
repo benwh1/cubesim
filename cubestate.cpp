@@ -1,5 +1,3 @@
-#include "move.h"
-
 #include "cubestate.h"
 
 CubeState::CubeState(QObject *parent) :
@@ -24,16 +22,29 @@ void CubeState::setSize(int s){
 }
 
 void CubeState::move(Move m){
+    Axis axis = m.getAxis();
+    int layerStart = m.getLayerStart();
+    int layerEnd = m.getLayerEnd();
+    int amount = m.getAmount();
+
     if(m.isRotation()){
-        rotate(m.getAxis(), m.getAmount());
+        for(int layer=0; layer<size; layer++){
+            for(int i=0; i<amount; i++){
+                move(axis, layer);
+            }
+        }
+
+        emit rotationDone(m);
     }
     else{
-        move(m.getAxis(), m.getLayerStart(), m.getLayerEnd(), m.getAmount());
-    }
-}
+        for(int layer=layerStart; layer<=layerEnd; layer++){
+            for(int i=0; i<amount; i++){
+                move(axis, layer);
+            }
+        }
 
-void CubeState::move(Axis axis, int layer, int amount){
-    move(axis, layer, layer, amount);
+        emit moveDone(m);
+    }
 }
 
 void CubeState::move(Axis axis, int layer){
@@ -136,38 +147,6 @@ void CubeState::rotateFace(Face f, int amount){
     for(int i=0; i<amount; i++){
         rotateFace(f);
     }
-}
-
-void CubeState::move(Axis axis, int layerStart, int layerEnd, int amount){
-    for(int layer=layerStart; layer<=layerEnd; layer++){
-        for(int i=0; i<amount; i++){
-            move(axis, layer);
-        }
-    }
-
-    emit moveDone(axis, layerStart, layerEnd, amount);
-}
-
-void CubeState::multisliceMove(Axis axis, int layer, int amount){
-    if(layer < size/2){
-        move(axis, 0, layer, amount);
-    }
-    else if(size%2 == 1 && layer == (size-1)/2){
-        move(axis, layer, layer, amount);
-    }
-    else{
-        move(axis, layer, size-1, amount);
-    }
-}
-
-void CubeState::rotate(Axis axis, int amount){
-    for(int layer=0; layer<size; layer++){
-        for(int i=0; i<amount; i++){
-            move(axis, layer);
-        }
-    }
-
-    emit rotationDone(axis, amount);
 }
 
 bool CubeState::isSolved(bool super){

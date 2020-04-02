@@ -5,15 +5,12 @@ Reconstruction::Reconstruction()
 
 }
 
-void Reconstruction::addMove(Axis axis, int layerStart, int layerEnd, int amount, qint64 time){
-    Move m(axis, layerStart, layerEnd, amount);
-    moves.append(QPair<Move, qint64>(m, time));
+void Reconstruction::addMove(Move move, qint64 time){
+    moves.append(QPair<Move, qint64>(move, time));
 }
 
-void Reconstruction::addRotation(Axis axis, int amount, qint64 time){
-    //use -1 as the end layer to denote a rotation
-    Move m(axis, 0, -1, amount);
-    moves.append(QPair<Move, qint64>(m, time));
+void Reconstruction::addRotation(Move move, qint64 time){
+    moves.append(QPair<Move, qint64>(move, time));
 }
 
 Move Reconstruction::getMove(int n){

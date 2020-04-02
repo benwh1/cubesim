@@ -3,9 +3,8 @@
 
 #include <QObject>
 #include "cubestate.h"
+#include "move.h"
 #include "settings.h"
-
-class Move;
 
 class Cube : public QObject
 {
@@ -17,10 +16,6 @@ public:
     void setSize(int s);
 
     void move(Move m);
-    void move(Axis axis, int layer, int amount);
-    void multisliceMove(Axis axis, int layer, int amount);
-    void rotate(Axis axis, int amount);
-
     bool isSolved();
 
     int sticker(Face f, int x, int y);
@@ -44,8 +39,8 @@ private:
     Settings *settings;
 
 signals:
-    void moveDone(Axis axis, int layerStart, int layerEnd, int amount);
-    void rotationDone(Axis axis, int amount);
+    void moveDone(Move move);
+    void rotationDone(Move move);
 
     void cubeReset();
     void cubeScrambled();

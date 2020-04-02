@@ -29,8 +29,8 @@ CubeWidget::CubeWidget(QWidget *parent) :
     connect(ui->graphicsView, SIGNAL(moveDrag(Axis,int,bool,Qt::MouseButton)), this, SLOT(onMoveDrag(Axis,int,bool,Qt::MouseButton)));
 
     //detect cube moves
-    connect(cube, SIGNAL(moveDone(Axis,int,int,int)), this, SLOT(onMoveDone(Axis,int,int,int)));
-    connect(cube, SIGNAL(rotationDone(Axis,int)), this, SLOT(onRotationDone(Axis,int)));
+    connect(cube, SIGNAL(moveDone(Move)), this, SLOT(onMoveDone(Move)));
+    connect(cube, SIGNAL(rotationDone(Move)), this, SLOT(onRotationDone(Move)));
 
     //detect when the cube is solved
     connect(cube, SIGNAL(cubeSolved()), this, SLOT(onCubeSolved()));
@@ -286,45 +286,73 @@ void CubeWidget::onMoveDrag(Axis axis, int layer, bool clockwise, Qt::MouseButto
     bool ctrl = modifiers & Qt::ControlModifier;
     bool shift = modifiers & Qt::ShiftModifier;
 
-    bool halfTurn, rotation;
+    //check whether the move is a half turn or a rotation
+    bool isHalfTurn, isRotation;
     if(swapCtrlShift){
-        halfTurn = ctrl;
-        rotation = shift;
+        isHalfTurn = ctrl;
+        isRotation = shift;
     }
     else{
-        halfTurn = shift;
-        rotation = ctrl;
+        isHalfTurn = shift;
+        isRotation = ctrl;
     }
 
+    //use middle mouse button for rotations
+    if(button == Qt::MiddleButton) isRotation = true;
+
+    //compute the amount (cw = 1, half = 2, ccw = 3)
     int amount;
 
     //use right mouse button for half turns
-    if(halfTurn || button == Qt::RightButton) amount = 2;
+    if(isHalfTurn || button == Qt::RightButton) amount = 2;
     else if(clockwise) amount = 1;
     else amount = 3;
 
-    //use middle mouse button for rotations
-    if(button == Qt::MiddleButton) rotation = true;
+    //make the Move object
+    Move move;
 
-    //if the solve is finished, allow rotations but not moves
-    if(rotation){
-        cube->rotate(axis, amount);
+    if(isRotation){
+        move = Move(axis, 0, -1, amount);
     }
-    else{
-        if(state == State::Finished){
-            return;
-        }
+    else if(settings->getMultislice()){
+        //compute which half of the cube the move was in, and compute
+        //the start and end layers
+        int size = cube->getSize();
+        int layerStart, layerEnd;
 
-        if(settings->getMultislice()){
-            cube->multisliceMove(axis, layer, amount);
+        //U/F/R half of the cube
+        if(layer < size/2){
+            layerStart = 0;
+            layerEnd = layer;
         }
+        //middle slice on an odd cube
+        else if(size%2 == 1 && layer == (size-1)/2){
+            layerStart = layer;
+            layerEnd = layer;
+        }
+        //B/L/D half of the cube
         else{
-            cube->move(axis, layer, amount);
+            layerStart = layer;
+            layerEnd = size-1;
         }
+
+        move = Move(axis, layerStart, layerEnd, amount);
     }
+    //single slice move
+    else{
+        move = Move(axis, layer, layer, amount);
+    }
+
+    //if the solve is finished, only allow rotations
+    if(state == State::Finished && !move.isRotation()){
+        return;
+    }
+
+    //do the move
+    cube->move(move);
 }
 
-void CubeWidget::onMoveDone(Axis axis, int layerStart, int layerEnd, int amount){
+void CubeWidget::onMoveDone(Move move){
     //if we are in inspection, start the timer
     if(state == State::Inspecting){
         statistics->reset();
@@ -335,20 +363,20 @@ void CubeWidget::onMoveDone(Axis axis, int layerStart, int layerEnd, int amount)
     //if we are solving, add the move to statistics and reconstruction
     if(state == State::Solving){
         qint64 time = statistics->getTime();
-        reconstruction->addMove(axis, layerStart, layerEnd, amount, time);
+        reconstruction->addMove(move, time);
         statistics->doMove();
     }
 }
 
-void CubeWidget::onRotationDone(Axis axis, int amount){
+void CubeWidget::onRotationDone(Move move){
     //if we are solving, add the rotation to the reconstruction
     if(state == State::Solving){
         qint64 time = statistics->getTime();
-        reconstruction->addRotation(axis, amount, time);
+        reconstruction->addRotation(move, time);
     }
     //if we rotate during inspection, add the rotation with a time of 0
     else if(state == State::Inspecting){
-        reconstruction->addRotation(axis, amount, 0);
+        reconstruction->addRotation(move, 0);
     }
 }
 
