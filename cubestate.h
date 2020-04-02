@@ -47,8 +47,11 @@ private:
     //etc.
     QList<QList<QList<int>>> orientations;
 
-    //this should only be used internally - doesn't emit moveDone signal
-    void move(Axis axis, int layer);
+    //helper functions to make the public move function more readable
+    void move(Axis axis, int layer, int amount);
+    void moveCW(Axis axis, int layer);
+    void moveHalf(Axis axis, int layer);
+    void moveCCW(Axis axis, int layer);
 
     //rotates a single face, no inner slice pieces
     void rotateFace(Face f);

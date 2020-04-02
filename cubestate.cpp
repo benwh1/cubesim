@@ -29,25 +29,21 @@ void CubeState::move(Move m){
 
     if(m.isRotation()){
         for(int layer=0; layer<size; layer++){
-            for(int i=0; i<amount; i++){
-                move(axis, layer);
-            }
+            move(axis, layer, amount);
         }
 
         emit rotationDone(m);
     }
     else{
         for(int layer=layerStart; layer<=layerEnd; layer++){
-            for(int i=0; i<amount; i++){
-                move(axis, layer);
-            }
+            move(axis, layer, amount);
         }
 
         emit moveDone(m);
     }
 }
 
-void CubeState::move(Axis axis, int layer){
+void CubeState::moveCW(Axis axis, int layer){
     if(axis == Axis::X){ //R-L moves
         //cycle U -> B -> D -> F -> U slice
         for(int i=0; i<size; i++){
@@ -96,14 +92,146 @@ void CubeState::move(Axis axis, int layer){
             stickers[Face::R][i][layer] = temp;
 
             temp = orientations[Face::U][size-1-layer][i];
-            orientations[Face::U][size-1-layer][i] = (1+orientations[Face::L][size-1-i][size-1-layer])%4;
-            orientations[Face::L][size-1-i][size-1-layer] = (1+orientations[Face::D][layer][size-1-i])%4;
-            orientations[Face::D][layer][size-1-i] = (1+orientations[Face::R][i][layer])%4;
-            orientations[Face::R][i][layer] = (1+temp)%4;
+            orientations[Face::U][size-1-layer][i] = (orientations[Face::L][size-1-i][size-1-layer]+1)%4;
+            orientations[Face::L][size-1-i][size-1-layer] = (orientations[Face::D][layer][size-1-i]+1)%4;
+            orientations[Face::D][layer][size-1-i] = (orientations[Face::R][i][layer]+1)%4;
+            orientations[Face::R][i][layer] = (temp+1)%4;
         }
 
         if(layer == 0) rotateFace(Face::F, 1);
         else if(layer == size-1) rotateFace(Face::B, 3);
+    }
+}
+
+void CubeState::moveHalf(Axis axis, int layer){
+    if(axis == Axis::X){ //R-L moves
+        //cycle U -> D -> U and B -> F -> B
+        for(int i=0; i<size; i++){
+            int temp = stickers[Face::U][i][size-1-layer];
+            stickers[Face::U][i][size-1-layer] = stickers[Face::D][i][size-1-layer];
+            stickers[Face::D][i][size-1-layer] = temp;
+
+            temp = stickers[Face::B][size-1-i][layer];
+            stickers[Face::B][size-1-i][layer] = stickers[Face::F][i][size-1-layer];
+            stickers[Face::F][i][size-1-layer] = temp;
+
+            temp = orientations[Face::U][i][size-1-layer];
+            orientations[Face::U][i][size-1-layer] = orientations[Face::D][i][size-1-layer];
+            orientations[Face::D][i][size-1-layer] = temp;
+
+            temp = orientations[Face::B][size-1-i][layer];
+            orientations[Face::B][size-1-i][layer] = (orientations[Face::F][i][size-1-layer]+2)%4;
+            orientations[Face::F][i][size-1-layer] = (temp+2)%4;
+        }
+
+        if(layer == 0) rotateFace(Face::R, 2);
+        else if(layer == size-1) rotateFace(Face::L, 2);
+    }
+    else if(axis == Axis::Y){ //U-D moves
+        //cycle F -> B -> F and L -> R -> L
+        for(int i=0; i<size; i++){
+            int temp = stickers[Face::F][layer][i];
+            stickers[Face::F][layer][i] = stickers[Face::B][layer][i];
+            stickers[Face::B][layer][i] = temp;
+
+            temp = stickers[Face::L][layer][i];
+            stickers[Face::L][layer][i] = stickers[Face::R][layer][i];
+            stickers[Face::R][layer][i] = temp;
+
+            temp = orientations[Face::F][layer][i];
+            orientations[Face::F][layer][i] = orientations[Face::B][layer][i];
+            orientations[Face::B][layer][i] = temp;
+
+            temp = orientations[Face::L][layer][i];
+            orientations[Face::L][layer][i] = orientations[Face::R][layer][i];
+            orientations[Face::R][layer][i] = temp;
+        }
+
+        if(layer == 0) rotateFace(Face::U, 2);
+        else if(layer == size-1) rotateFace(Face::D, 2);
+    }
+    else if(axis == Axis::Z){ //F-B moves
+        //cycle U -> D -> U and R -> L -> R
+        for(int i=0; i<size; i++){
+            int temp = stickers[Face::U][size-1-layer][i];
+            stickers[Face::U][size-1-layer][i] = stickers[Face::D][layer][size-1-i];
+            stickers[Face::D][layer][size-1-i] = temp;
+
+            temp = stickers[Face::R][i][layer];
+            stickers[Face::R][i][layer] = stickers[Face::L][size-1-i][size-1-layer];
+            stickers[Face::L][size-1-i][size-1-layer] = temp;
+
+            temp = orientations[Face::U][size-1-layer][i];
+            orientations[Face::U][size-1-layer][i] = (orientations[Face::D][layer][size-1-i]+2)%4;
+            orientations[Face::D][layer][size-1-i] = (temp+2)%4;
+
+            temp = orientations[Face::R][i][layer];
+            orientations[Face::R][i][layer] = (orientations[Face::L][size-1-i][size-1-layer]+2)%4;
+            orientations[Face::L][size-1-i][size-1-layer] = (temp+2)%4;
+        }
+
+        if(layer == 0) rotateFace(Face::F, 2);
+        else if(layer == size-1) rotateFace(Face::B, 2);
+    }
+}
+
+void CubeState::moveCCW(Axis axis, int layer){
+    if(axis == Axis::X){ //R-L moves
+        //cycle U -> F -> D -> B -> U
+        for(int i=0; i<size; i++){
+            int temp = stickers[Face::U][i][size-1-layer];
+            stickers[Face::U][i][size-1-layer] = stickers[Face::B][size-1-i][layer];
+            stickers[Face::B][size-1-i][layer] = stickers[Face::D][i][size-1-layer];
+            stickers[Face::D][i][size-1-layer] = stickers[Face::F][i][size-1-layer];
+            stickers[Face::F][i][size-1-layer] = temp;
+
+            temp = orientations[Face::U][i][size-1-layer];
+            orientations[Face::U][i][size-1-layer] = (orientations[Face::B][size-1-i][layer]+2)%4;
+            orientations[Face::B][size-1-i][layer] = (orientations[Face::D][i][size-1-layer]+2)%4;
+            orientations[Face::D][i][size-1-layer] = orientations[Face::F][i][size-1-layer];
+            orientations[Face::F][i][size-1-layer] = temp;
+        }
+
+        if(layer == 0) rotateFace(Face::R, 3);
+        else if(layer == size-1) rotateFace(Face::L, 1);
+    }
+    else if(axis == Axis::Y){ //U-D moves
+        //cycle F -> R -> B -> L -> F
+        for(int i=0; i<size; i++){
+            int temp = stickers[Face::F][layer][i];
+            stickers[Face::F][layer][i] = stickers[Face::L][layer][i];
+            stickers[Face::L][layer][i] = stickers[Face::B][layer][i];
+            stickers[Face::B][layer][i] = stickers[Face::R][layer][i];
+            stickers[Face::R][layer][i] = temp;
+
+            temp = orientations[Face::F][layer][i];
+            orientations[Face::F][layer][i] = orientations[Face::L][layer][i];
+            orientations[Face::L][layer][i] = orientations[Face::B][layer][i];
+            orientations[Face::B][layer][i] = orientations[Face::R][layer][i];
+            orientations[Face::R][layer][i] = temp;
+        }
+
+        if(layer == 0) rotateFace(Face::U, 3);
+        else if(layer == size-1) rotateFace(Face::D, 1);
+    }
+    else if(axis == Axis::Z){ //F-B moves
+        //cycle U -> L -> D -> R -> U
+        for(int i=0; i<size; i++){
+            int temp = stickers[Face::U][size-1-layer][i];
+            stickers[Face::U][size-1-layer][i] = stickers[Face::R][i][layer];
+            stickers[Face::R][i][layer] = stickers[Face::D][layer][size-1-i];
+            stickers[Face::D][layer][size-1-i] = stickers[Face::L][size-1-i][size-1-layer];
+            stickers[Face::L][size-1-i][size-1-layer] = temp;
+
+            temp = orientations[Face::U][size-1-layer][i];
+            orientations[Face::U][size-1-layer][i] = (orientations[Face::R][i][layer]+3)%4;
+            orientations[Face::R][i][layer] = (orientations[Face::D][layer][size-1-i]+3)%4;
+            orientations[Face::D][layer][size-1-i] = (orientations[Face::L][size-1-i][size-1-layer]+3)%4;
+            orientations[Face::L][size-1-i][size-1-layer] = (temp+3)%4;
+        }
+
+        if(layer == 0) rotateFace(Face::F, 3);
+        else if(layer == size-1) rotateFace(Face::B, 1);
     }
 }
 
@@ -206,7 +334,7 @@ void CubeState::scramble(){
     int moves = 1000 + 10*size*size + qrand()%size;
 
     for(int i=0; i<moves; i++){
-        move((Axis)(qrand()%3), qrand()%size);
+        move((Axis)(qrand()%3), qrand()%size, 1+qrand()%3);
     }
 
     emit cubeScrambled();
@@ -268,6 +396,18 @@ void CubeState::fromJSON(QJsonObject data){
                 orientations[face][y][x] = orientation;
             }
         }
+    }
+}
+
+void CubeState::move(Axis axis, int layer, int amount){
+    if(amount == 1){
+        moveCW(axis, layer);
+    }
+    else if(amount == 2){
+        moveHalf(axis, layer);
+    }
+    else if(amount == 3){
+        moveCCW(axis, layer);
     }
 }
 
