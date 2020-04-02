@@ -54,8 +54,10 @@ private:
     void moveCCW(Axis axis, int layer);
 
     //rotates a single face, no inner slice pieces
-    void rotateFace(Face f);
     void rotateFace(Face f, int amount);
+    void rotateFaceCW(Face f);
+    void rotateFaceHalf(Face f);
+    void rotateFaceCCW(Face f);
 
 signals:
     void moveDone(Move move);

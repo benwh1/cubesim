@@ -235,8 +235,21 @@ void CubeState::moveCCW(Axis axis, int layer){
     }
 }
 
-void CubeState::rotateFace(Face f){
+void CubeState::rotateFace(Face f, int amount){
+    if(amount == 1){
+        rotateFaceCW(f);
+    }
+    else if(amount == 2){
+        rotateFaceHalf(f);
+    }
+    else if(amount == 3){
+        rotateFaceCCW(f);
+    }
+}
+
+void CubeState::rotateFaceCW(Face f){
     QList<QList<int>> &face = stickers[f];
+    QList<QList<int>> &ori = orientations[f];
 
     int xmax, ymax;
     if(size%2 == 0){
@@ -256,24 +269,96 @@ void CubeState::rotateFace(Face f){
             face[size-1-y][size-1-x] = face[x][size-1-y];
             face[x][size-1-y] = temp;
 
-            temp = orientations[f][y][x];
-            orientations[f][y][x] = orientations[f][size-1-x][y];
-            orientations[f][size-1-x][y] = orientations[f][size-1-y][size-1-x];
-            orientations[f][size-1-y][size-1-x] = orientations[f][x][size-1-y];
-            orientations[f][x][size-1-y] = temp;
+            temp = ori[y][x];
+            ori[y][x] = ori[size-1-x][y];
+            ori[size-1-x][y] = ori[size-1-y][size-1-x];
+            ori[size-1-y][size-1-x] = ori[x][size-1-y];
+            ori[x][size-1-y] = temp;
         }
     }
 
     for(int y=0; y<size; y++){
         for(int x=0; x<size; x++){
-            orientations[f][y][x] = (orientations[f][y][x]+1)%4;
+            ori[y][x] = (ori[y][x]+1)%4;
         }
     }
 }
 
-void CubeState::rotateFace(Face f, int amount){
-    for(int i=0; i<amount; i++){
-        rotateFace(f);
+void CubeState::rotateFaceHalf(Face f){
+    QList<QList<int>> &face = stickers[f];
+    QList<QList<int>> &ori = orientations[f];
+
+    int xmax, ymax;
+    if(size%2 == 0){
+        xmax = size/2;
+        ymax = size/2;
+    }
+    else{
+        xmax = size/2;
+        ymax = size/2 + 1;
+    }
+
+    for(int y=0; y<ymax; y++){
+        for(int x=0; x<xmax; x++){
+            int temp = face[y][x];
+            face[y][x] = face[size-1-y][size-1-x];
+            face[size-1-y][size-1-x] = temp;
+
+            temp = face[size-1-x][y];
+            face[size-1-x][y] = face[x][size-1-y];
+            face[x][size-1-y] = temp;
+
+            temp = ori[y][x];
+            ori[y][x] = ori[size-1-y][size-1-x];
+            ori[size-1-y][size-1-x] = temp;
+
+            temp = ori[size-1-x][y];
+            ori[size-1-x][y] = ori[x][size-1-y];
+            ori[x][size-1-y] = temp;
+        }
+    }
+
+    for(int y=0; y<size; y++){
+        for(int x=0; x<size; x++){
+            ori[y][x] = (ori[y][x]+2)%4;
+        }
+    }
+}
+
+void CubeState::rotateFaceCCW(Face f){
+    QList<QList<int>> &face = stickers[f];
+    QList<QList<int>> &ori = orientations[f];
+
+    int xmax, ymax;
+    if(size%2 == 0){
+        xmax = size/2;
+        ymax = size/2;
+    }
+    else{
+        xmax = size/2;
+        ymax = size/2 + 1;
+    }
+
+    for(int y=0; y<ymax; y++){
+        for(int x=0; x<xmax; x++){
+            int temp = face[y][x];
+            face[y][x] = face[x][size-1-y];
+            face[x][size-1-y] = face[size-1-y][size-1-x];
+            face[size-1-y][size-1-x] = face[size-1-x][y];
+            face[size-1-x][y] = temp;
+
+            temp = ori[y][x];
+            ori[y][x] = ori[x][size-1-y];
+            ori[x][size-1-y] = ori[size-1-y][size-1-x];
+            ori[size-1-y][size-1-x] = ori[size-1-x][y];
+            ori[size-1-x][y] = temp;
+        }
+    }
+
+    for(int y=0; y<size; y++){
+        for(int x=0; x<size; x++){
+            ori[y][x] = (ori[y][x]+3)%4;
+        }
     }
 }
 
