@@ -28,8 +28,67 @@ void CubeState::move(Move m){
     int amount = m.getAmount();
 
     if(m.isRotation()){
-        for(int layer=0; layer<size; layer++){
-            move(axis, layer, amount);
+        if(axis == Axis::X){
+            rotateFace(Face::R, amount);
+            rotateFace(Face::L, 4-amount);
+
+            for(int i=0; i<amount; i++){
+                rotateFace(Face::U, 2);
+                rotateFace(Face::B, 2);
+
+                QList<QList<int>> temp = stickers[Face::U];
+                stickers[Face::U] = stickers[Face::F];
+                stickers[Face::F] = stickers[Face::D];
+                stickers[Face::D] = stickers[Face::B];
+                stickers[Face::B] = temp;
+
+                temp = orientations[Face::U];
+                orientations[Face::U] = orientations[Face::F];
+                orientations[Face::F] = orientations[Face::D];
+                orientations[Face::D] = orientations[Face::B];
+                orientations[Face::B] = temp;
+            }
+        }
+        else if(axis == Axis::Y){
+            rotateFace(Face::U, amount);
+            rotateFace(Face::D, 4-amount);
+
+            for(int i=0; i<amount; i++){
+                QList<QList<int>> temp = stickers[Face::F];
+                stickers[Face::F] = stickers[Face::R];
+                stickers[Face::R] = stickers[Face::B];
+                stickers[Face::B] = stickers[Face::L];
+                stickers[Face::L] = temp;
+
+                temp = orientations[Face::F];
+                orientations[Face::F] = orientations[Face::R];
+                orientations[Face::R] = orientations[Face::B];
+                orientations[Face::B] = orientations[Face::L];
+                orientations[Face::L] = temp;
+            }
+        }
+        else if(axis == Axis::Z){
+            rotateFace(Face::F, amount);
+            rotateFace(Face::B, 4-amount);
+
+            rotateFace(Face::U, amount);
+            rotateFace(Face::L, amount);
+            rotateFace(Face::D, amount);
+            rotateFace(Face::R, amount);
+
+            for(int i=0; i<amount; i++){
+                QList<QList<int>> temp = stickers[Face::U];
+                stickers[Face::U] = stickers[Face::L];
+                stickers[Face::L] = stickers[Face::D];
+                stickers[Face::D] = stickers[Face::R];
+                stickers[Face::R] = temp;
+
+                temp = orientations[Face::U];
+                orientations[Face::U] = orientations[Face::L];
+                orientations[Face::L] = orientations[Face::D];
+                orientations[Face::D] = orientations[Face::R];
+                orientations[Face::R] = temp;
+            }
         }
 
         emit rotationDone(m);
