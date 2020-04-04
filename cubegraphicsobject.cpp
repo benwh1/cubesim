@@ -82,6 +82,9 @@ void CubeGraphicsObject::mousePressEvent(QGraphicsSceneMouseEvent *event){
 }
 
 void CubeGraphicsObject::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
+    QElapsedTimer t;
+    t.start();
+
     lastMouseRelease = event->pos();
     event->accept();
 
@@ -232,6 +235,8 @@ void CubeGraphicsObject::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
             clockwise = true;
         }
     }
+
+    qDebug() << "Detected move drag in" << t.elapsed() << "ms";
 
     emit moveDrag(axis, layer, clockwise, event->button());
 }
@@ -538,6 +543,9 @@ void CubeGraphicsObject::updateAll(){
 }
 
 void CubeGraphicsObject::onMoveDone(Move move){
+    QElapsedTimer t;
+    t.start();
+
     Axis axis = move.getAxis();
     int layerStart = move.getLayerStart();
     int layerEnd = move.getLayerEnd();
@@ -545,6 +553,8 @@ void CubeGraphicsObject::onMoveDone(Move move){
     for(int i=layerStart; i<=layerEnd; i++){
         updateLayer(axis, i);
     }
+
+    qDebug() << "Scheduled sticker updates in" << t.elapsed() << "ms";
 }
 
 void CubeGraphicsObject::onRotationDone(){

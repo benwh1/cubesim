@@ -25,9 +25,20 @@ void Cube::setSize(int s){
 }
 
 void Cube::move(Move m){
+    QElapsedTimer t;
+    t.start();
+
     state->move(m);
 
-    if(isSolved()){
+    qDebug() << "Applied move in" << t.elapsed() << "ms";
+
+    t.start();
+
+    bool b = isSolved();
+
+    qDebug() << "Checked whether cube is solved in" << t.elapsed() << "ms";
+
+    if(b){
         emit cubeSolved();
     }
 }

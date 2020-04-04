@@ -1,6 +1,7 @@
 #ifndef CUBE_H
 #define CUBE_H
 
+#include <QElapsedTimer>
 #include <QObject>
 #include "cubestate.h"
 #include "move.h"

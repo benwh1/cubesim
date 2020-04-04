@@ -90,6 +90,12 @@ void CubeGraphicsView::keyPressEvent(QKeyEvent *event){
         //reset zoom
         zoom(1/zoomFactor);
     }
+    else if(event->key() == Qt::Key_I){
+        QElapsedTimer t;
+        t.start();
+        QList<QGraphicsItem*> items = this->items(viewport()->rect());
+        qDebug() << "took" << t.elapsed() << "ms";
+    }
     else{
         event->ignore();
     }
@@ -97,6 +103,15 @@ void CubeGraphicsView::keyPressEvent(QKeyEvent *event){
     if(!event->isAccepted()){
         QGraphicsView::keyPressEvent(event);
     }
+}
+
+void CubeGraphicsView::paintEvent(QPaintEvent *event){
+    QElapsedTimer t;
+    t.start();
+
+    QGraphicsView::paintEvent(event);
+
+    qDebug() << "Repainted the scene in" << t.elapsed() << "ms";
 }
 
 void CubeGraphicsView::onProjectionChanged(){

@@ -1,8 +1,10 @@
 #ifndef CUBEGRAPHICSOBJECT_H
 #define CUBEGRAPHICSOBJECT_H
 
+#include <QApplication>
 #include <QBrush>
 #include <QDebug>
+#include <QElapsedTimer>
 #include <QGraphicsObject>
 #include <QGraphicsSceneDragDropEvent>
 #include <QKeyEvent>

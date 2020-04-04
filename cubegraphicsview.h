@@ -1,10 +1,13 @@
 #ifndef CUBEGRAPHICSVIEW_H
 #define CUBEGRAPHICSVIEW_H
 
+#include <QElapsedTimer>
+#include <QGraphicsView>
 #include <QGraphicsView>
 #include <QGuiApplication>
 #include <QKeyEvent>
 #include <QInputDialog>
+#include <QStyleOptionGraphicsItem>
 #include "cubegraphicsobject.h"
 #include "settings.h"
 
@@ -25,6 +28,7 @@ public:
 
 protected:
     void keyPressEvent(QKeyEvent *event);
+    void paintEvent(QPaintEvent *event);
 
 private:
     QGraphicsScene *scene;
