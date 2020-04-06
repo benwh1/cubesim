@@ -31,7 +31,10 @@ public:
     void setEdgeLength(qreal edgeLength);
     void setGapSize(qreal gapSize);
 
+    Projection getProjection();
     void setProjection(float *mat);
+
+    Sticker *getSticker(Face f, int x, int y);
 
     void updateAll();
 
@@ -42,8 +45,7 @@ protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
 
-//private:
-public:
+private:
     Cube *cube;
     Settings *settings;
 

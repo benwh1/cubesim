@@ -118,7 +118,7 @@ void CubeGraphicsView::paintEvent(QPaintEvent *event){
                 * QTransform::fromScale(2/size, 2/size);
     qDebug() << r;
 
-    Projection p = cubeGraphicsObject->proj;
+    Projection p = cubeGraphicsObject->getProjection();
 
     QPolygonF polyU = p.unprojectU(r)
                        .boundingRect()
@@ -177,7 +177,7 @@ void CubeGraphicsView::paintEvent(QPaintEvent *event){
 
     for(int y=startUy; y<=endUy; y++){
         for(int x=startUx; x<=endUx; x++){
-            Sticker *s = cubeGraphicsObject->stickers[Face::U][cubeSize-1-y][x];
+            Sticker *s = cubeGraphicsObject->getSticker(Face::U, x, cubeSize-1-y);
             painter.setTransform(viewportTransform());
             painter.translate(s->pos());
             painter.setTransform(s->transform(), true);
@@ -187,7 +187,7 @@ void CubeGraphicsView::paintEvent(QPaintEvent *event){
 
     for(int y=startFy; y<=endFy; y++){
         for(int x=startFx; x<=endFx; x++){
-            Sticker *s = cubeGraphicsObject->stickers[Face::F][cubeSize-1-y][x];
+            Sticker *s = cubeGraphicsObject->getSticker(Face::F, x, cubeSize-1-y);
             painter.setTransform(viewportTransform());
             painter.translate(s->pos());
             painter.setTransform(s->transform(), true);
@@ -197,7 +197,7 @@ void CubeGraphicsView::paintEvent(QPaintEvent *event){
 
     for(int y=startRy; y<=endRy; y++){
         for(int x=startRx; x<=endRx; x++){
-            Sticker *s = cubeGraphicsObject->stickers[Face::R][cubeSize-1-y][x];
+            Sticker *s = cubeGraphicsObject->getSticker(Face::R, x, cubeSize-1-y);
             painter.setTransform(viewportTransform());
             painter.translate(s->pos());
             painter.setTransform(s->transform(), true);
