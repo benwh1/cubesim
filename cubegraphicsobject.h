@@ -42,7 +42,8 @@ protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
 
-private:
+//private:
+public:
     Cube *cube;
     Settings *settings;
 

@@ -36,6 +36,8 @@ void CubeGraphicsView::initialize(Cube *cube, Settings *settings){
 
     //reset the scene rect when the projection is changed
     connect(cubeGraphicsObject, SIGNAL(projectionChanged()), this, SLOT(onProjectionChanged()));
+
+    connect(cube, SIGNAL(moveDone(Move)), viewport(), SLOT(repaint()));
 }
 
 void CubeGraphicsView::zoom(qreal factor){
@@ -109,7 +111,101 @@ void CubeGraphicsView::paintEvent(QPaintEvent *event){
     QElapsedTimer t;
     t.start();
 
-    QGraphicsView::paintEvent(event);
+    qreal size = 350;
+    int cubeSize = cube->getSize();
+
+    QPolygonF r = mapToScene(viewport()->rect())
+                * QTransform::fromScale(2/size, 2/size);
+    qDebug() << r;
+
+    Projection p = cubeGraphicsObject->proj;
+
+    QPolygonF polyU = p.unprojectU(r)
+                       .boundingRect()
+                       .intersected(QRectF(-1,-1,2,2))
+                       * QTransform::fromTranslate(1, 1)
+                       * QTransform::fromScale(0.5, 0.5)
+                       * QTransform::fromScale(cubeSize, cubeSize);
+    QPolygonF polyF = p.unprojectF(r)
+                       .boundingRect()
+                       .intersected(QRectF(-1,-1,2,2))
+                       * QTransform::fromTranslate(1, 1)
+                       * QTransform::fromScale(0.5, 0.5)
+                       * QTransform::fromScale(cubeSize, cubeSize);
+    QPolygonF polyR = p.unprojectR(r)
+                       .boundingRect()
+                       .intersected(QRectF(-1,-1,2,2))
+                       * QTransform::fromTranslate(1, 1)
+                       * QTransform::fromScale(0.5, 0.5)
+                       * QTransform::fromScale(cubeSize, cubeSize);
+
+    QRectF rectU = polyU.boundingRect();
+    QRectF rectF = polyF.boundingRect();
+    QRectF rectR = polyR.boundingRect();
+
+    qDebug() << rectU << rectF << rectR;
+
+    int startUx = floor(rectU.left());
+    int endUx = qMin((int)floor(rectU.right()), cubeSize-1);
+    int startUy = floor(rectU.top());
+    int endUy = qMin((int)floor(rectU.bottom()), cubeSize-1);
+    int startFx = floor(rectF.left());
+    int endFx = qMin((int)floor(rectF.right()), cubeSize-1);
+    int startFy = floor(rectF.top());
+    int endFy = qMin((int)floor(rectF.bottom()), cubeSize-1);
+    int startRx = floor(rectR.left());
+    int endRx = qMin((int)floor(rectR.right()), cubeSize-1);
+    int startRy = floor(rectR.top());
+    int endRy = qMin((int)floor(rectR.bottom()), cubeSize-1);
+
+    qDebug() << "U:" << startUx << "to" << endUx << "and" << startUy << "to" << endUy;
+
+    int numU = (endUx+1-startUx)*(endUy+1-startUy);
+    int numF = (endFx+1-startFx)*(endFy+1-startFy);
+    int numR = (endRx+1-startRx)*(endRy+1-startRy);
+
+    qDebug() << "number of stickers to paint =" << numU+numF+numR;
+
+    QPainter painter(viewport());
+    painter.setRenderHints(painter.renderHints(), false);
+    painter.setRenderHints(renderHints(), true);
+    painter.setWorldTransform(viewportTransform());
+
+    drawBackground(&painter, mapToScene(viewport()->rect()).boundingRect());
+
+    QStyleOptionGraphicsItem o;
+
+    for(int y=startUy; y<=endUy; y++){
+        for(int x=startUx; x<=endUx; x++){
+            Sticker *s = cubeGraphicsObject->stickers[Face::U][cubeSize-1-y][x];
+            painter.setTransform(viewportTransform());
+            painter.translate(s->pos());
+            painter.setTransform(s->transform(), true);
+            s->paint(&painter, &o, 0);
+        }
+    }
+
+    for(int y=startFy; y<=endFy; y++){
+        for(int x=startFx; x<=endFx; x++){
+            Sticker *s = cubeGraphicsObject->stickers[Face::F][cubeSize-1-y][x];
+            painter.setTransform(viewportTransform());
+            painter.translate(s->pos());
+            painter.setTransform(s->transform(), true);
+            s->paint(&painter, &o, 0);
+        }
+    }
+
+    for(int y=startRy; y<=endRy; y++){
+        for(int x=startRx; x<=endRx; x++){
+            Sticker *s = cubeGraphicsObject->stickers[Face::R][cubeSize-1-y][x];
+            painter.setTransform(viewportTransform());
+            painter.translate(s->pos());
+            painter.setTransform(s->transform(), true);
+            s->paint(&painter, &o, 0);
+        }
+    }
+
+    //QGraphicsView::paintEvent(event);
 
     qDebug() << "Repainted the scene in" << t.elapsed() << "ms";
 }
