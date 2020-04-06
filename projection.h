@@ -4,6 +4,7 @@
 #include <QGenericMatrix>
 #include <QJsonArray>
 #include <QJsonObject>
+#include <QPolygon>
 #include <QVector3D>
 
 class Projection
@@ -36,6 +37,16 @@ public:
     //unproject a point assuming the original v was on the R face
     //the R face is the plane x = 1
     QVector3D unprojectR(QPointF p);
+
+    //unproject polygons
+    //return (x,y) where (x,y,1) are the unprojected coordinates
+    QPolygonF unprojectU(QPolygonF p);
+
+    //return (x,z) where (x,-1,z) are the unprojected coordinates
+    QPolygonF unprojectF(QPolygonF p);
+
+    //return (y,z) where (1,y,z) are the unprojected coordinates
+    QPolygonF unprojectR(QPolygonF p);
 
     //inverse of project, assuming the original v was on either the
     //U F or R face of the cube [-1,1]^3

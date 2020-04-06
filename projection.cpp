@@ -74,6 +74,33 @@ QVector3D Projection::unprojectR(QPointF p){
     return QVector3D(x, y, z);
 }
 
+QPolygonF Projection::unprojectU(QPolygonF p){
+    QPolygonF poly;
+    for(int i=0; i<p.size(); i++){
+        QVector3D v = unprojectU(p.at(i));
+        poly << QPointF(v.x(), v.y());
+    }
+    return poly;
+}
+
+QPolygonF Projection::unprojectF(QPolygonF p){
+    QPolygonF poly;
+    for(int i=0; i<p.size(); i++){
+        QVector3D v = unprojectF(p.at(i));
+        poly << QPointF(v.x(), v.z());
+    }
+    return poly;
+}
+
+QPolygonF Projection::unprojectR(QPolygonF p){
+    QPolygonF poly;
+    for(int i=0; i<p.size(); i++){
+        QVector3D v = unprojectR(p.at(i));
+        poly << QPointF(v.y(), v.z());
+    }
+    return poly;
+}
+
 QVector3D Projection::unproject(QPointF p, bool *ok){
     //unproject the point assuming it is on each of the three faces
     //U F or R, and if the point is on one of the faces, return the
