@@ -145,18 +145,22 @@ void CubeGraphicsView::paintEvent(QPaintEvent *event){
 
     qDebug() << rectU << rectF << rectR;
 
-    int startUx = floor(rectU.left());
-    int endUx = qMin((int)floor(rectU.right()), cubeSize-1);
-    int startUy = floor(rectU.top());
-    int endUy = qMin((int)floor(rectU.bottom()), cubeSize-1);
-    int startFx = floor(rectF.left());
-    int endFx = qMin((int)floor(rectF.right()), cubeSize-1);
-    int startFy = floor(rectF.top());
-    int endFy = qMin((int)floor(rectF.bottom()), cubeSize-1);
-    int startRx = floor(rectR.left());
-    int endRx = qMin((int)floor(rectR.right()), cubeSize-1);
-    int startRy = floor(rectR.top());
-    int endRy = qMin((int)floor(rectR.bottom()), cubeSize-1);
+#define F(x) (qMax(qMin((int)floor(x), cubeSize-1), 0))
+
+    int startUx = F(rectU.left());
+    int   endUx = F(rectU.right());
+    int startUy = F(rectU.top());
+    int   endUy = F(rectU.bottom());
+    int startFx = F(rectF.left());
+    int   endFx = F(rectF.right());
+    int startFy = F(rectF.top());
+    int   endFy = F(rectF.bottom());
+    int startRx = F(rectR.left());
+    int   endRx = F(rectR.right());
+    int startRy = F(rectR.top());
+    int   endRy = F(rectR.bottom());
+
+#undef F
 
     qDebug() << "U:" << startUx << "to" << endUx << "and" << startUy << "to" << endUy;
 

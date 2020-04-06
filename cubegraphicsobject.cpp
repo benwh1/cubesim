@@ -552,6 +552,7 @@ void CubeGraphicsObject::updateAll(){
             }
         }
     }
+
 }
 
 void CubeGraphicsObject::onMoveDone(Move move){
