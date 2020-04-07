@@ -111,105 +111,11 @@ void CubeGraphicsView::paintEvent(QPaintEvent *event){
     QElapsedTimer t;
     t.start();
 
-    qreal size = 350;
-    int cubeSize = cube->getSize();
+    //tell the cubeGraphicsObject which part of the scene is visible
+    QRectF r = mapToScene(viewport()->rect()).boundingRect();
+    cubeGraphicsObject->setVisibleRect(r);
 
-    QPolygonF r = mapToScene(viewport()->rect())
-                * QTransform::fromScale(2/size, 2/size);
-    qDebug() << r;
-
-    Projection p = cubeGraphicsObject->getProjection();
-
-    QPolygonF polyU = p.unprojectU(r)
-                       .boundingRect()
-                       .intersected(QRectF(-1,-1,2,2))
-                       * QTransform::fromTranslate(1, 1)
-                       * QTransform::fromScale(0.5, 0.5)
-                       * QTransform::fromScale(cubeSize, cubeSize);
-    QPolygonF polyF = p.unprojectF(r)
-                       .boundingRect()
-                       .intersected(QRectF(-1,-1,2,2))
-                       * QTransform::fromTranslate(1, 1)
-                       * QTransform::fromScale(0.5, 0.5)
-                       * QTransform::fromScale(cubeSize, cubeSize);
-    QPolygonF polyR = p.unprojectR(r)
-                       .boundingRect()
-                       .intersected(QRectF(-1,-1,2,2))
-                       * QTransform::fromTranslate(1, 1)
-                       * QTransform::fromScale(0.5, 0.5)
-                       * QTransform::fromScale(cubeSize, cubeSize);
-
-    QRectF rectU = polyU.boundingRect();
-    QRectF rectF = polyF.boundingRect();
-    QRectF rectR = polyR.boundingRect();
-
-    qDebug() << rectU << rectF << rectR;
-
-#define F(x) (qMax(qMin((int)floor(x), cubeSize-1), 0))
-
-    int startUx = F(rectU.left());
-    int   endUx = F(rectU.right());
-    int startUy = F(rectU.top());
-    int   endUy = F(rectU.bottom());
-    int startFx = F(rectF.left());
-    int   endFx = F(rectF.right());
-    int startFy = F(rectF.top());
-    int   endFy = F(rectF.bottom());
-    int startRx = F(rectR.left());
-    int   endRx = F(rectR.right());
-    int startRy = F(rectR.top());
-    int   endRy = F(rectR.bottom());
-
-#undef F
-
-    qDebug() << "U:" << startUx << "to" << endUx << "and" << startUy << "to" << endUy;
-
-    int numU = (endUx+1-startUx)*(endUy+1-startUy);
-    int numF = (endFx+1-startFx)*(endFy+1-startFy);
-    int numR = (endRx+1-startRx)*(endRy+1-startRy);
-
-    qDebug() << "number of stickers to paint =" << numU+numF+numR;
-
-    QPainter painter(viewport());
-    painter.setRenderHints(painter.renderHints(), false);
-    painter.setRenderHints(renderHints(), true);
-    painter.setWorldTransform(viewportTransform());
-
-    drawBackground(&painter, mapToScene(viewport()->rect()).boundingRect());
-
-    QStyleOptionGraphicsItem o;
-
-    for(int y=startUy; y<=endUy; y++){
-        for(int x=startUx; x<=endUx; x++){
-            Sticker *s = cubeGraphicsObject->getSticker(Face::U, x, cubeSize-1-y);
-            painter.setTransform(viewportTransform());
-            painter.translate(s->pos());
-            painter.setTransform(s->transform(), true);
-            s->paint(&painter, &o, 0);
-        }
-    }
-
-    for(int y=startFy; y<=endFy; y++){
-        for(int x=startFx; x<=endFx; x++){
-            Sticker *s = cubeGraphicsObject->getSticker(Face::F, x, cubeSize-1-y);
-            painter.setTransform(viewportTransform());
-            painter.translate(s->pos());
-            painter.setTransform(s->transform(), true);
-            s->paint(&painter, &o, 0);
-        }
-    }
-
-    for(int y=startRy; y<=endRy; y++){
-        for(int x=startRx; x<=endRx; x++){
-            Sticker *s = cubeGraphicsObject->getSticker(Face::R, x, cubeSize-1-y);
-            painter.setTransform(viewportTransform());
-            painter.translate(s->pos());
-            painter.setTransform(s->transform(), true);
-            s->paint(&painter, &o, 0);
-        }
-    }
-
-    //QGraphicsView::paintEvent(event);
+    QGraphicsView::paintEvent(event);
 
     qDebug() << "Repainted the scene in" << t.elapsed() << "ms";
 }

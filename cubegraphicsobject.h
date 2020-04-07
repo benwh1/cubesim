@@ -26,7 +26,7 @@ public:
     explicit CubeGraphicsObject(Cube *c = nullptr, Settings *s = nullptr, QGraphicsObject *parent = nullptr);
 
     QRectF boundingRect() const;
-    void paint(QPainter *, const QStyleOptionGraphicsItem *, QWidget *);
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 
     void setEdgeLength(qreal edgeLength);
     void setGapSize(qreal gapSize);
@@ -35,6 +35,8 @@ public:
     void setProjection(float *mat);
 
     Sticker *getSticker(Face f, int x, int y);
+
+    void setVisibleRect(QRectF r);
 
     void updateAll();
 
@@ -61,6 +63,12 @@ private:
 
     QPointF lastMousePress;
     QPointF lastMouseRelease;
+
+    //the rect (in scene coordinates) which is currently visible in the
+    //viewport that this item is being painted in. the rect should be updated
+    //before this item is painted by overriding paintEvent in the graphicsView
+    //that is displaying the scene containing this item
+    QRectF visibleRect;
 
     void reset();
     void updateSticker(Face face, int x, int y);

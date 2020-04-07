@@ -39,8 +39,98 @@ QRectF CubeGraphicsObject::boundingRect() const{
     return childrenBoundingRect();
 }
 
-void CubeGraphicsObject::paint(QPainter *, const QStyleOptionGraphicsItem *, QWidget *){
-    //nothing to do, all the children are drawn automatically
+void CubeGraphicsObject::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
+    int cubeSize = cube->getSize();
+
+    //scale the visible rect so that the cube (in 3d space) is [-1,1]^3
+    QPolygonF r = visibleRect * QTransform::fromScale(2/edgeLength, 2/edgeLength);
+
+    qDebug() << "visible rect:" << visibleRect;
+
+    QPolygonF polyU = proj.unprojectU(r)
+                          .boundingRect()
+                          .intersected(QRectF(-1,-1,2,2))
+                          * QTransform::fromTranslate(1, 1)
+                          * QTransform::fromScale(0.5, 0.5)
+                          * QTransform::fromScale(cubeSize, cubeSize);
+    QPolygonF polyF = proj.unprojectF(r)
+                          .boundingRect()
+                          .intersected(QRectF(-1,-1,2,2))
+                          * QTransform::fromTranslate(1, 1)
+                          * QTransform::fromScale(0.5, 0.5)
+                          * QTransform::fromScale(cubeSize, cubeSize);
+    QPolygonF polyR = proj.unprojectR(r)
+                          .boundingRect()
+                          .intersected(QRectF(-1,-1,2,2))
+                          * QTransform::fromTranslate(1, 1)
+                          * QTransform::fromScale(0.5, 0.5)
+                          * QTransform::fromScale(cubeSize, cubeSize);
+
+    qDebug() << polyU << polyF << polyR;
+
+    QRectF rectU = polyU.boundingRect();
+    QRectF rectF = polyF.boundingRect();
+    QRectF rectR = polyR.boundingRect();
+
+    qDebug() << rectU << rectF << rectR;
+
+#define F(x) (qMax(qMin((int)floor(x), cubeSize-1), 0))
+
+    int startUx = F(rectU.left());
+    int   endUx = F(rectU.right());
+    int startUy = F(rectU.top());
+    int   endUy = F(rectU.bottom());
+    int startFx = F(rectF.left());
+    int   endFx = F(rectF.right());
+    int startFy = F(rectF.top());
+    int   endFy = F(rectF.bottom());
+    int startRx = F(rectR.left());
+    int   endRx = F(rectR.right());
+    int startRy = F(rectR.top());
+    int   endRy = F(rectR.bottom());
+
+#undef F
+
+    qDebug() << "U:" << startUx << "to" << endUx << "and" << startUy << "to" << endUy;
+    qDebug() << "F:" << startFx << "to" << endFx << "and" << startFy << "to" << endFy;
+    qDebug() << "R:" << startRx << "to" << endRx << "and" << startRy << "to" << endRy;
+
+    int numU = (endUx+1-startUx)*(endUy+1-startUy);
+    int numF = (endFx+1-startFx)*(endFy+1-startFy);
+    int numR = (endRx+1-startRx)*(endRy+1-startRy);
+
+    qDebug() << "number of stickers to paint:" << numU << numF << numR;
+
+    QTransform t = painter->transform();
+    for(int y=startUy; y<=endUy; y++){
+        for(int x=startUx; x<=endUx; x++){
+            Sticker *s = stickers[Face::U][cubeSize-1-y][x];
+            painter->setTransform(t);
+            painter->translate(s->pos());
+            painter->setTransform(s->transform(), true);
+            s->paint(painter, option, widget);
+        }
+    }
+
+    for(int y=startFy; y<=endFy; y++){
+        for(int x=startFx; x<=endFx; x++){
+            Sticker *s = stickers[Face::F][cubeSize-1-y][x];
+            painter->setTransform(t);
+            painter->translate(s->pos());
+            painter->setTransform(s->transform(), true);
+            s->paint(painter, option, widget);
+        }
+    }
+
+    for(int y=startRy; y<=endRy; y++){
+        for(int x=startRx; x<=endRx; x++){
+            Sticker *s = stickers[Face::R][cubeSize-1-y][x];
+            painter->setTransform(t);
+            painter->translate(s->pos());
+            painter->setTransform(s->transform(), true);
+            s->paint(painter, option, widget);
+        }
+    }
 }
 
 void CubeGraphicsObject::setEdgeLength(qreal edgeLength){
@@ -68,6 +158,10 @@ Sticker *CubeGraphicsObject::getSticker(Face f, int x, int y){
     assert(0 <= y && y < cube->getSize());
 
     return stickers[f][y][x];
+}
+
+void CubeGraphicsObject::setVisibleRect(QRectF r){
+    visibleRect = r;
 }
 
 QJsonObject CubeGraphicsObject::toJSON(){
@@ -278,7 +372,7 @@ void CubeGraphicsObject::reset(){
             stickers[face].append(QList<Sticker*>());
             for(int x=0; x<cube->getSize(); x++){
                 //todo: make proj a pointer
-                Sticker *sticker = new Sticker((Face)face, QPoint(x, y), cube, settings, &proj, stickerSize, this);
+                Sticker *sticker = new Sticker((Face)face, QPoint(x, y), cube, settings, &proj, stickerSize);
                 stickers[face][y].append(sticker);
             }
         }
