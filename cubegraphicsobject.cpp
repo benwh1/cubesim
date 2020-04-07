@@ -367,44 +367,21 @@ void CubeGraphicsObject::reset(){
 
     guideLinesCross.clear();
 
-    //U face
-    line = new QGraphicsLineItem(this);
-    p1 = edgeLength/2 * proj.project(QVector3D(-1, -1, 1));
-    p2 = edgeLength/2 * proj.project(QVector3D(1, 1, 1));
-    line->setLine(QLineF(p1, p2));
-    guideLinesCross.append(line);
+    for(int face=0; face<3; face++){
+        p1 = edgeLength/2 * QPointF(-1, -1);
+        p2 = edgeLength/2 * QPointF(1, 1);
+        line = new QGraphicsLineItem(QLineF(p1, p2), this);
+        line->setTransform(proj.toTransform((Face)face));
+        line->setPos(edgeLength/2 * (QPointF(0, 0) * line->transform()));
+        guideLinesCross.append(line);
 
-    line = new QGraphicsLineItem(this);
-    p1 = edgeLength/2 * proj.project(QVector3D(-1, 1, 1));
-    p2 = edgeLength/2 * proj.project(QVector3D(1, -1, 1));
-    line->setLine(QLineF(p1, p2));
-    guideLinesCross.append(line);
-
-    //F face
-    line = new QGraphicsLineItem(this);
-    p1 = edgeLength/2 * proj.project(QVector3D(-1, -1, -1));
-    p2 = edgeLength/2 * proj.project(QVector3D(1, -1, 1));
-    line->setLine(QLineF(p1, p2));
-    guideLinesCross.append(line);
-
-    line = new QGraphicsLineItem(this);
-    p1 = edgeLength/2 * proj.project(QVector3D(-1, -1, 1));
-    p2 = edgeLength/2 * proj.project(QVector3D(1, -1, -1));
-    line->setLine(QLineF(p1, p2));
-    guideLinesCross.append(line);
-
-    //R face
-    line = new QGraphicsLineItem(this);
-    p1 = edgeLength/2 * proj.project(QVector3D(1, -1, -1));
-    p2 = edgeLength/2 * proj.project(QVector3D(1, 1, 1));
-    line->setLine(QLineF(p1, p2));
-    guideLinesCross.append(line);
-
-    line = new QGraphicsLineItem(this);
-    p1 = edgeLength/2 * proj.project(QVector3D(1, -1, 1));
-    p2 = edgeLength/2 * proj.project(QVector3D(1, 1, -1));
-    line->setLine(QLineF(p1, p2));
-    guideLinesCross.append(line);
+        p1 = edgeLength/2 * QPointF(-1, 1);
+        p2 = edgeLength/2 * QPointF(1, -1);
+        line = new QGraphicsLineItem(QLineF(p1, p2), this);
+        line->setTransform(proj.toTransform((Face)face));
+        line->setPos(edgeLength/2 * (QPointF(0, 0) * line->transform()));
+        guideLinesCross.append(line);
+    }
 
     foreach(QGraphicsLineItem *l, guideLinesCross){
         //set the colour of the guide lines
@@ -421,44 +398,21 @@ void CubeGraphicsObject::reset(){
 
     guideLinesPlus.clear();
 
-    //U face
-    line = new QGraphicsLineItem(this);
-    p1 = edgeLength/2 * proj.project(QVector3D(0, -1, 1));
-    p2 = edgeLength/2 * proj.project(QVector3D(0, 1, 1));
-    line->setLine(QLineF(p1, p2));
-    guideLinesPlus.append(line);
+    for(int face=0; face<3; face++){
+        p1 = edgeLength/2 * QPointF(-1, 0);
+        p2 = edgeLength/2 * QPointF(1, 0);
+        line = new QGraphicsLineItem(QLineF(p1, p2), this);
+        line->setTransform(proj.toTransform((Face)face));
+        line->setPos(edgeLength/2 * (QPointF(0, 0) * line->transform()));
+        guideLinesPlus.append(line);
 
-    line = new QGraphicsLineItem(this);
-    p1 = edgeLength/2 * proj.project(QVector3D(-1, 0, 1));
-    p2 = edgeLength/2 * proj.project(QVector3D(1, 0, 1));
-    line->setLine(QLineF(p1, p2));
-    guideLinesPlus.append(line);
-
-    //F face
-    line = new QGraphicsLineItem(this);
-    p1 = edgeLength/2 * proj.project(QVector3D(0, -1, -1));
-    p2 = edgeLength/2 * proj.project(QVector3D(0, -1, 1));
-    line->setLine(QLineF(p1, p2));
-    guideLinesPlus.append(line);
-
-    line = new QGraphicsLineItem(this);
-    p1 = edgeLength/2 * proj.project(QVector3D(-1, -1, 0));
-    p2 = edgeLength/2 * proj.project(QVector3D(1, -1, 0));
-    line->setLine(QLineF(p1, p2));
-    guideLinesPlus.append(line);
-
-    //R face
-    line = new QGraphicsLineItem(this);
-    p1 = edgeLength/2 * proj.project(QVector3D(1, 0, -1));
-    p2 = edgeLength/2 * proj.project(QVector3D(1, 0, 1));
-    line->setLine(QLineF(p1, p2));
-    guideLinesPlus.append(line);
-
-    line = new QGraphicsLineItem(this);
-    p1 = edgeLength/2 * proj.project(QVector3D(1, -1, 0));
-    p2 = edgeLength/2 * proj.project(QVector3D(1, 1, 0));
-    line->setLine(QLineF(p1, p2));
-    guideLinesPlus.append(line);
+        p1 = edgeLength/2 * QPointF(0, -1);
+        p2 = edgeLength/2 * QPointF(0, 1);
+        line = new QGraphicsLineItem(QLineF(p1, p2), this);
+        line->setTransform(proj.toTransform((Face)face));
+        line->setPos(edgeLength/2 * (QPointF(0, 0) * line->transform()));
+        guideLinesPlus.append(line);
+    }
 
     foreach(QGraphicsLineItem *l, guideLinesPlus){
         //set the colour of the guide lines
