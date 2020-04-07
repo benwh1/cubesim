@@ -6,7 +6,7 @@ CubeGraphicsObject::CubeGraphicsObject(Cube *c, Settings *s, QGraphicsObject *pa
     cube = c;
     settings = s;
 
-    connect(cube, SIGNAL(moveDone(Move)), this, SLOT(onMoveDone(Move)));
+    connect(cube, SIGNAL(moveDone(Move)), this, SLOT(onMoveDone()));
     connect(cube, SIGNAL(rotationDone(Move)), this, SLOT(onRotationDone()));
     connect(cube, SIGNAL(cubeReset()), this, SLOT(onCubeReset()));
     connect(cube, SIGNAL(cubeScrambled()), this, SLOT(onCubeScrambled()));
@@ -105,6 +105,12 @@ void CubeGraphicsObject::paint(QPainter *painter, const QStyleOptionGraphicsItem
     for(int y=startUy; y<=endUy; y++){
         for(int x=startUx; x<=endUx; x++){
             Sticker *s = stickers[Face::U][cubeSize-1-y][x];
+
+            //set the stickers colour
+            int piece = cube->sticker(Face::U, x, cubeSize-1-y);
+            QColor colour = settings->getColour((Face)piece);
+            s->setBrush(QBrush(colour));
+
             painter->setTransform(t);
             painter->translate(s->pos());
             painter->setTransform(s->transform(), true);
@@ -115,6 +121,12 @@ void CubeGraphicsObject::paint(QPainter *painter, const QStyleOptionGraphicsItem
     for(int y=startFy; y<=endFy; y++){
         for(int x=startFx; x<=endFx; x++){
             Sticker *s = stickers[Face::F][cubeSize-1-y][x];
+
+            //set the stickers colour
+            int piece = cube->sticker(Face::F, x, cubeSize-1-y);
+            QColor colour = settings->getColour((Face)piece);
+            s->setBrush(QBrush(colour));
+
             painter->setTransform(t);
             painter->translate(s->pos());
             painter->setTransform(s->transform(), true);
@@ -125,6 +137,12 @@ void CubeGraphicsObject::paint(QPainter *painter, const QStyleOptionGraphicsItem
     for(int y=startRy; y<=endRy; y++){
         for(int x=startRx; x<=endRx; x++){
             Sticker *s = stickers[Face::R][cubeSize-1-y][x];
+
+            //set the stickers colour
+            int piece = cube->sticker(Face::R, x, cubeSize-1-y);
+            QColor colour = settings->getColour((Face)piece);
+            s->setBrush(QBrush(colour));
+
             painter->setTransform(t);
             painter->translate(s->pos());
             painter->setTransform(s->transform(), true);
@@ -589,99 +607,29 @@ void CubeGraphicsObject::reset(){
     }
 }
 
-void CubeGraphicsObject::updateSticker(Face face, int x, int y){
-    int piece = cube->sticker(face, x, y);
-
-    QColor colour = settings->getColour((Face)piece);
-    Sticker *sticker = stickers[face][y][x];
-
-    sticker->setBrush(QBrush(colour));
-    sticker->update();
-}
-
-void CubeGraphicsObject::updateFace(Face face){
-    int s = cube->getSize();
-    for(int y=0; y<s; y++){
-        for(int x=0; x<s; x++){
-            updateSticker(face, x, y);
-        }
-    }
-}
-
-void CubeGraphicsObject::updateLayer(Axis axis, int layer){
-    int s = cube->getSize();
-
-    if(axis == Axis::X){ //R-L moves
-        for(int i=0; i<s; i++){
-            updateSticker(Face::U, s-1-layer, i);
-            updateSticker(Face::F, s-1-layer, i);
-        }
-
-        if(layer == 0) updateFace(Face::R);
-    }
-    else if(axis == Axis::Y){ //U-D moves
-        for(int i=0; i<s; i++){
-            updateSticker(Face::F, i, layer);
-            updateSticker(Face::R, i, layer);
-        }
-
-        if(layer == 0) updateFace(Face::U);
-    }
-    else if(axis == Axis::Z){ //F-B moves
-        for(int i=0; i<s; i++){
-            updateSticker(Face::U, i, s-1-layer);
-            updateSticker(Face::R, layer, i);
-        }
-
-        if(layer == 0) updateFace(Face::F);
-    }
-}
-
-void CubeGraphicsObject::updateAll(){
-    int s = cube->getSize();
-    for(int face=0; face<3; face++){
-        for(int y=0; y<s; y++){
-            for(int x=0; x<s; x++){
-                updateSticker((Face)face, x, y);
-            }
-        }
-    }
-
-}
-
-void CubeGraphicsObject::onMoveDone(Move move){
-    QElapsedTimer t;
-    t.start();
-
-    Axis axis = move.getAxis();
-    int layerStart = move.getLayerStart();
-    int layerEnd = move.getLayerEnd();
-
-    for(int i=layerStart; i<=layerEnd; i++){
-        updateLayer(axis, i);
-    }
-
-    qDebug() << "Scheduled sticker updates in" << t.elapsed() << "ms";
+void CubeGraphicsObject::onMoveDone(){
+    update();
 }
 
 void CubeGraphicsObject::onRotationDone(){
-    updateAll();
+    update();
 }
 
 void CubeGraphicsObject::onCubeReset(){
-    updateAll();
+    update();
 }
 
 void CubeGraphicsObject::onCubeScrambled(){
-    updateAll();
+    update();
 }
 
 void CubeGraphicsObject::onCubeStateChanged(){
-    updateAll();
+    update();
 }
 
 void CubeGraphicsObject::onCubeSizeChanged(){
     reset();
+    update();
 }
 
 void CubeGraphicsObject::onLineColourSettingChanged(){
@@ -696,6 +644,8 @@ void CubeGraphicsObject::onLineColourSettingChanged(){
             }
         }
     }
+
+    update();
 }
 
 void CubeGraphicsObject::onLineWidthSettingChanged(){
@@ -710,28 +660,36 @@ void CubeGraphicsObject::onLineWidthSettingChanged(){
             }
         }
     }
+
+    update();
 }
 
 void CubeGraphicsObject::onColoursSettingChanged(){
-    updateAll();
+    update();
 }
 
 void CubeGraphicsObject::onGuideLinesCrossSettingChanged(){
     foreach(QGraphicsLineItem *l, guideLinesCross){
         l->setVisible(settings->getGuideLinesCross());
     }
+
+    update();
 }
 
 void CubeGraphicsObject::onGuideLinesPlusSettingChanged(){
     foreach(QGraphicsLineItem *l, guideLinesPlus){
         l->setVisible(settings->getGuideLinesPlus());
     }
+
+    update();
 }
 
 void CubeGraphicsObject::onGuideLinesBoxSettingChanged(){
     foreach(QGraphicsPolygonItem *b, guideLinesBox){
         b->setVisible(settings->getGuideLinesBox());
     }
+
+    update();
 }
 
 void CubeGraphicsObject::onGuideLineColourSettingChanged(){
@@ -750,6 +708,8 @@ void CubeGraphicsObject::onGuideLineColourSettingChanged(){
         pen.setColor(settings->getGuideLineColour());
         b->setPen(pen);
     }
+
+    update();
 }
 
 void CubeGraphicsObject::onGuideLineWidthSettingChanged(){
@@ -768,20 +728,22 @@ void CubeGraphicsObject::onGuideLineWidthSettingChanged(){
         pen.setWidth(settings->getGuideLineWidth());
         b->setPen(pen);
     }
+
+    update();
 }
 
 void CubeGraphicsObject::onSupercubeSettingChanged(){
-    updateAll();
+    update();
 }
 
 void CubeGraphicsObject::onSupercubeStickersSettingChanged(){
-    updateAll();
+    update();
 }
 
 void CubeGraphicsObject::onPochmannBarThicknessSettingChanged(){
-    updateAll();
+    update();
 }
 
 void CubeGraphicsObject::onPochmannCageSettingChanged(){
-    updateAll();
+    update();
 }

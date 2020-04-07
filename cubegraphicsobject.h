@@ -38,8 +38,6 @@ public:
 
     void setVisibleRect(QRectF r);
 
-    void updateAll();
-
     QJsonObject toJSON();
     void fromJSON(QJsonObject data);
 
@@ -71,12 +69,9 @@ private:
     QRectF visibleRect;
 
     void reset();
-    void updateSticker(Face face, int x, int y);
-    void updateFace(Face face);
-    void updateLayer(Axis axis, int layer);
 
 private slots:
-    void onMoveDone(Move move);
+    void onMoveDone();
     void onRotationDone();
     void onCubeReset();
     void onCubeScrambled();
