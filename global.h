@@ -7,7 +7,7 @@ class Global
 {
 public:
     static QString version(){
-        return "0.5";
+        return "0.5.1";
     }
 
     static QString saveFormatVersion(){
