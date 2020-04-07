@@ -143,23 +143,11 @@ void CubeGraphicsObject::setGapSize(qreal gapSize){
     this->gapSize = gapSize;
 }
 
-Projection CubeGraphicsObject::getProjection(){
-    return proj;
-}
-
 void CubeGraphicsObject::setProjection(float *mat){
     proj = Projection(QMatrix3x2(mat));
     reset();
 
     emit projectionChanged();
-}
-
-Sticker *CubeGraphicsObject::getSticker(Face f, int x, int y){
-    assert(0 <= (int)f && (int)f <= 6);
-    assert(0 <= x && x < cube->getSize());
-    assert(0 <= y && y < cube->getSize());
-
-    return stickers[f][y][x];
 }
 
 void CubeGraphicsObject::setVisibleRect(QRectF r){

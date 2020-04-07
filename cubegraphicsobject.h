@@ -28,11 +28,7 @@ public:
 
     void setEdgeLength(qreal edgeLength);
     void setGapSize(qreal gapSize);
-
-    Projection getProjection();
     void setProjection(float *mat);
-
-    Sticker *getSticker(Face f, int x, int y);
 
     void setVisibleRect(QRectF r);
 
