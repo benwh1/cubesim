@@ -61,6 +61,13 @@ void CubeGraphicsView::setCubeProjection(QString matrix){
 
 void CubeGraphicsView::setCubeProjection(float *matrix){
     cubeGraphicsObject->setProjection(matrix);
+
+    //we need to repaint the whole viewport after the projection is changed
+    //because changing the projection also changes the boundingRect of the
+    //cubeGraphicsObject, so when the cubeGraphicsObject is repainted, there
+    //can be visual artifacts remaining if the new boundingRect is fully
+    //contained inside the old boundingRect
+    viewport()->repaint();
 }
 
 void CubeGraphicsView::resetCubeProjection(){
@@ -68,6 +75,7 @@ void CubeGraphicsView::resetCubeProjection(){
     float m[6] = {1/sqrt(2), 1/sqrt(2), 0, -1/sqrt(6), 1/sqrt(6), sqrt(2./3)};
 
     cubeGraphicsObject->setProjection(m);
+    viewport()->repaint();
 }
 
 CubeGraphicsObject *CubeGraphicsView::getCubeGraphicsObject(){
