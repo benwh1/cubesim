@@ -373,6 +373,7 @@ void CubeGraphicsObject::reset(){
         line = new QGraphicsLineItem(QLineF(p1, p2), this);
         line->setTransform(proj.toTransform((Face)face));
         line->setPos(edgeLength/2 * (QPointF(0, 0) * line->transform()));
+
         guideLinesCross.append(line);
 
         p1 = edgeLength/2 * QPointF(-1, 1);
@@ -384,8 +385,12 @@ void CubeGraphicsObject::reset(){
     }
 
     foreach(QGraphicsLineItem *l, guideLinesCross){
-        //set the colour of the guide lines
-        l->setPen(QPen(settings->getGuideLineColour(), settings->getGuideLineWidth()));
+        //set the pen
+        QPen p;
+        p.setColor(settings->getGuideLineColour());
+        p.setWidth(settings->getGuideLineWidth());
+        p.setCapStyle(Qt::FlatCap);
+        l->setPen(p);
 
         //make the guide lines invisible if they are disabled in settings
         l->setVisible(settings->getGuideLinesCross());
@@ -415,8 +420,12 @@ void CubeGraphicsObject::reset(){
     }
 
     foreach(QGraphicsLineItem *l, guideLinesPlus){
-        //set the colour of the guide lines
-        l->setPen(QPen(settings->getGuideLineColour(), settings->getGuideLineWidth()));
+        //set the pen
+        QPen p;
+        p.setColor(settings->getGuideLineColour());
+        p.setWidth(settings->getGuideLineWidth());
+        p.setCapStyle(Qt::FlatCap);
+        l->setPen(p);
 
         //make the guide lines invisible if they are disabled in settings
         l->setVisible(settings->getGuideLinesPlus());
@@ -462,8 +471,12 @@ void CubeGraphicsObject::reset(){
     }
 
     foreach(QGraphicsRectItem *b, guideLinesBox){
-        //set the colour of the guide lines
-        b->setPen(QPen(settings->getGuideLineColour(), settings->getGuideLineWidth()));
+        //set the pen
+        QPen p;
+        p.setColor(settings->getGuideLineColour());
+        p.setWidth(settings->getGuideLineWidth());
+        p.setJoinStyle(Qt::MiterJoin);
+        b->setPen(p);
 
         //set the brush to be transparent (not filled in)
         b->setBrush(QBrush(Qt::transparent));
