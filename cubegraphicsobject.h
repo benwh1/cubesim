@@ -49,7 +49,7 @@ private:
     QList<QList<QList<Sticker*>>> stickers;
     QList<QGraphicsLineItem*> guideLinesCross;
     QList<QGraphicsLineItem*> guideLinesPlus;
-    QList<QGraphicsPolygonItem*> guideLinesBox;
+    QList<QGraphicsRectItem*> guideLinesBox;
 
     Projection proj;
 

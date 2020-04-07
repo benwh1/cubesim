@@ -531,10 +531,13 @@ void CubeGraphicsObject::reset(){
     //if odd cube, draw a box around the center sticker
     if(s%2 == 1){
         for(int face=0; face<3; face++){
-            QGraphicsPolygonItem *b = new QGraphicsPolygonItem(this);
+            QPointF boxPos = edgeLength/2 * proj.project(getStickerPos((Face)face, s/2, s/2));
+            QRectF r(0, 0, stickerSize, stickerSize);
 
-            Sticker *centerSticker = stickers[face][s/2][s/2];
-            b->setPolygon(QGraphicsItem::mapFromItem(centerSticker, centerSticker->rect()));
+            QGraphicsRectItem *b = new QGraphicsRectItem(r, this);
+
+            b->setPos(boxPos);
+            b->setTransform(proj.toTransform((Face)face, false));
 
             guideLinesBox.append(b);
         }
@@ -542,27 +545,19 @@ void CubeGraphicsObject::reset(){
     //if even cube except 2x2, draw a box around the center 4 stickers
     else if(s != 2){
         for(int face=0; face<3; face++){
-            QGraphicsPolygonItem *b = new QGraphicsPolygonItem(this);
+            QPointF boxPos = edgeLength/2 * proj.project(getStickerPos((Face)face, s/2-1, s/2));
+            QRectF r(0, 0, 2*stickerSize, 2*stickerSize);
 
-            //the polygon we want is formed of:
-            //the bottom left corner of stickers[face][s/2][s/2-1]
-            //the top left corner of stickers[face][s/2-1][s/2-1]
-            //the top right corner of stickers[face][s/2-1][s/2]
-            //the bottom right corner of stickers[face][s/2][s/2]
+            QGraphicsRectItem *b = new QGraphicsRectItem(r, this);
 
-            QPolygonF poly;
-            poly << stickers[face][s/2  ][s/2-1]->mapToParent(stickers[face][s/2  ][s/2-1]->rect().bottomLeft())
-                 << stickers[face][s/2-1][s/2-1]->mapToParent(stickers[face][s/2-1][s/2-1]->rect().topLeft())
-                 << stickers[face][s/2-1][s/2  ]->mapToParent(stickers[face][s/2-1][s/2  ]->rect().topRight())
-                 << stickers[face][s/2  ][s/2  ]->mapToParent(stickers[face][s/2  ][s/2  ]->rect().bottomRight());
-
-            b->setPolygon(poly);
+            b->setPos(boxPos);
+            b->setTransform(proj.toTransform((Face)face, false));
 
             guideLinesBox.append(b);
         }
     }
 
-    foreach(QGraphicsPolygonItem *b, guideLinesBox){
+    foreach(QGraphicsRectItem *b, guideLinesBox){
         //set the colour of the guide lines
         b->setPen(QPen(settings->getGuideLineColour(), settings->getGuideLineWidth()));
 
@@ -673,7 +668,7 @@ void CubeGraphicsObject::onGuideLinesPlusSettingChanged(){
 }
 
 void CubeGraphicsObject::onGuideLinesBoxSettingChanged(){
-    foreach(QGraphicsPolygonItem *b, guideLinesBox){
+    foreach(QGraphicsRectItem *b, guideLinesBox){
         b->setVisible(settings->getGuideLinesBox());
     }
 
@@ -691,7 +686,7 @@ void CubeGraphicsObject::onGuideLineColourSettingChanged(){
         pen.setColor(settings->getGuideLineColour());
         l->setPen(pen);
     }
-    foreach(QGraphicsPolygonItem *b, guideLinesBox){
+    foreach(QGraphicsRectItem *b, guideLinesBox){
         QPen pen = b->pen();
         pen.setColor(settings->getGuideLineColour());
         b->setPen(pen);
@@ -711,7 +706,7 @@ void CubeGraphicsObject::onGuideLineWidthSettingChanged(){
         pen.setWidth(settings->getGuideLineWidth());
         l->setPen(pen);
     }
-    foreach(QGraphicsPolygonItem *b, guideLinesBox){
+    foreach(QGraphicsRectItem *b, guideLinesBox){
         QPen pen = b->pen();
         pen.setWidth(settings->getGuideLineWidth());
         b->setPen(pen);
