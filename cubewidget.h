@@ -1,7 +1,6 @@
 #ifndef CUBEWIDGET_H
 #define CUBEWIDGET_H
 
-#include <QElapsedTimer>
 #include <QFileDialog>
 #include <QJsonDocument>
 #include <QMessageBox>

@@ -100,12 +100,6 @@ void CubeGraphicsView::keyPressEvent(QKeyEvent *event){
         //reset zoom
         zoom(1/zoomFactor);
     }
-    else if(event->key() == Qt::Key_I){
-        QElapsedTimer t;
-        t.start();
-        QList<QGraphicsItem*> items = this->items(viewport()->rect());
-        qDebug() << "took" << t.elapsed() << "ms";
-    }
     else{
         event->ignore();
     }
@@ -116,16 +110,11 @@ void CubeGraphicsView::keyPressEvent(QKeyEvent *event){
 }
 
 void CubeGraphicsView::paintEvent(QPaintEvent *event){
-    QElapsedTimer t;
-    t.start();
-
     //tell the cubeGraphicsObject which part of the scene is visible
     QRectF r = mapToScene(viewport()->rect()).boundingRect();
     cubeGraphicsObject->setVisibleRect(r);
 
     QGraphicsView::paintEvent(event);
-
-    qDebug() << "Repainted the scene in" << t.elapsed() << "ms";
 }
 
 void CubeGraphicsView::onProjectionChanged(){

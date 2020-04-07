@@ -45,8 +45,6 @@ void CubeGraphicsObject::paint(QPainter *painter, const QStyleOptionGraphicsItem
     //scale the visible rect so that the cube (in 3d space) is [-1,1]^3
     QPolygonF r = visibleRect * QTransform::fromScale(2/edgeLength, 2/edgeLength);
 
-    qDebug() << "visible rect:" << visibleRect;
-
     QPolygonF polyU = proj.unprojectU(r)
                           .boundingRect()
                           .intersected(QRectF(-1,-1,2,2))
@@ -66,13 +64,9 @@ void CubeGraphicsObject::paint(QPainter *painter, const QStyleOptionGraphicsItem
                           * QTransform::fromScale(0.5, 0.5)
                           * QTransform::fromScale(cubeSize, cubeSize);
 
-    qDebug() << polyU << polyF << polyR;
-
     QRectF rectU = polyU.boundingRect();
     QRectF rectF = polyF.boundingRect();
     QRectF rectR = polyR.boundingRect();
-
-    qDebug() << rectU << rectF << rectR;
 
 #define F(x) (qMax(qMin((int)floor(x), cubeSize-1), 0))
 
@@ -90,16 +84,6 @@ void CubeGraphicsObject::paint(QPainter *painter, const QStyleOptionGraphicsItem
     int   endRy = F(rectR.bottom());
 
 #undef F
-
-    qDebug() << "U:" << startUx << "to" << endUx << "and" << startUy << "to" << endUy;
-    qDebug() << "F:" << startFx << "to" << endFx << "and" << startFy << "to" << endFy;
-    qDebug() << "R:" << startRx << "to" << endRx << "and" << startRy << "to" << endRy;
-
-    int numU = (endUx+1-startUx)*(endUy+1-startUy);
-    int numF = (endFx+1-startFx)*(endFy+1-startFy);
-    int numR = (endRx+1-startRx)*(endRy+1-startRy);
-
-    qDebug() << "number of stickers to paint:" << numU << numF << numR;
 
     QTransform t = painter->transform();
     for(int y=startUy; y<=endUy; y++){
@@ -206,9 +190,6 @@ void CubeGraphicsObject::mousePressEvent(QGraphicsSceneMouseEvent *event){
 }
 
 void CubeGraphicsObject::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
-    QElapsedTimer t;
-    t.start();
-
     lastMouseRelease = event->pos();
     event->accept();
 
@@ -359,8 +340,6 @@ void CubeGraphicsObject::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
             clockwise = true;
         }
     }
-
-    qDebug() << "Detected move drag in" << t.elapsed() << "ms";
 
     emit moveDrag(axis, layer, clockwise, event->button());
 }

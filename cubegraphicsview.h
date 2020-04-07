@@ -1,8 +1,6 @@
 #ifndef CUBEGRAPHICSVIEW_H
 #define CUBEGRAPHICSVIEW_H
 
-#include <QElapsedTimer>
-#include <QGraphicsView>
 #include <QGraphicsView>
 #include <QGuiApplication>
 #include <QKeyEvent>

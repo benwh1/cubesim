@@ -281,9 +281,6 @@ void CubeWidget::load(QString fileName){
 }
 
 void CubeWidget::onMoveDrag(Axis axis, int layer, bool clockwise, Qt::MouseButton button){
-    QElapsedTimer t;
-    t.start();
-
     Qt::KeyboardModifiers modifiers = QGuiApplication::queryKeyboardModifiers();
 
     bool ctrl = modifiers & Qt::ControlModifier;
@@ -350,8 +347,6 @@ void CubeWidget::onMoveDrag(Axis axis, int layer, bool clockwise, Qt::MouseButto
     if(state == State::Finished && !move.isRotation()){
         return;
     }
-
-    qDebug() << "Processed move drag in" << t.elapsed() << "ms";
 
     //do the move
     cube->move(move);

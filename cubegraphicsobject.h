@@ -3,8 +3,6 @@
 
 #include <QApplication>
 #include <QBrush>
-#include <QDebug>
-#include <QElapsedTimer>
 #include <QGraphicsObject>
 #include <QGraphicsSceneDragDropEvent>
 #include <QKeyEvent>
