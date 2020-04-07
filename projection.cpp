@@ -138,6 +138,48 @@ QVector3D Projection::unproject(QPointF p, bool *ok){
     return QVector3D(0, 0, 0);
 }
 
+QTransform Projection::toTransform(Face face, bool translate){
+    float *m = matrix.data();
+
+    //matrix is {{a,b,c},{d,e,f}}
+    qreal a = m[0];
+    qreal b = m[2];
+    qreal c = m[4];
+    qreal d = m[1];
+    qreal e = m[3];
+    qreal f = m[5];
+
+    //z = 1
+    if(face == Face::U){
+        if(translate){
+            return QTransform(a,d,b,e,c,f);
+        }
+        else{
+            return QTransform(a,d,b,e,0,0);
+        }
+    }
+    //y = -1
+    else if(face == Face::F){
+        if(translate){
+            return QTransform(a,d,c,f,-b,-e);
+        }
+        else{
+            return QTransform(a,d,c,f,0,0);
+        }
+    }
+    //x = 1
+    else if(face == Face::R){
+        if(translate){
+            return QTransform(b,e,c,f,a,d);
+        }
+        else{
+            return QTransform(b,e,c,f,0,0);
+        }
+    }
+
+    return QTransform();
+}
+
 QJsonObject Projection::toJSON(){
     QJsonObject data;
 

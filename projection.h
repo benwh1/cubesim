@@ -5,7 +5,9 @@
 #include <QJsonArray>
 #include <QJsonObject>
 #include <QPolygon>
+#include <QTransform>
 #include <QVector3D>
+#include "enums.h"
 
 class Projection
 {
@@ -51,6 +53,11 @@ public:
     //inverse of project, assuming the original v was on either the
     //U F or R face of the cube [-1,1]^3
     QVector3D unproject(QPointF p, bool *ok = nullptr);
+
+    //convert the projection to a QTransform for a given face. this is useful
+    //because QTransform doesn't handle 3d -> 2d transformations.
+    //if translate = false, the transform x -> Ax+b will have b = 0
+    QTransform toTransform(Face face, bool translate = true);
 
     QJsonObject toJSON();
     void fromJSON(QJsonObject data);
