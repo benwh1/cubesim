@@ -46,7 +46,6 @@ private:
     qreal edgeLength;
     qreal gapSize;
 
-    QList<QList<QList<Sticker*>>> stickers;
     QList<QGraphicsLineItem*> guideLinesCross;
     QList<QGraphicsLineItem*> guideLinesPlus;
     QList<QGraphicsRectItem*> guideLinesBox;
