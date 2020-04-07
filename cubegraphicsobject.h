@@ -67,6 +67,9 @@ private:
     //(in cube coordinates) on a given face
     QVector3D getStickerPos(Face f, int x, int y);
 
+    //get the center of the face on the cube [-1,1]^3
+    QVector3D faceCenter(Face f);
+
 private slots:
     void onMoveDone();
     void onRotationDone();

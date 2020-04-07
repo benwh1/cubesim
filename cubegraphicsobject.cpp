@@ -371,16 +371,15 @@ void CubeGraphicsObject::reset(){
         p1 = edgeLength/2 * QPointF(-1, -1);
         p2 = edgeLength/2 * QPointF(1, 1);
         line = new QGraphicsLineItem(QLineF(p1, p2), this);
-        line->setTransform(proj.toTransform((Face)face));
-        line->setPos(edgeLength/2 * (QPointF(0, 0) * line->transform()));
-
+        line->setTransform(proj.toTransform((Face)face, false));
+        line->setPos(edgeLength/2 * proj.project(faceCenter((Face)face)));
         guideLinesCross.append(line);
 
         p1 = edgeLength/2 * QPointF(-1, 1);
         p2 = edgeLength/2 * QPointF(1, -1);
         line = new QGraphicsLineItem(QLineF(p1, p2), this);
-        line->setTransform(proj.toTransform((Face)face));
-        line->setPos(edgeLength/2 * (QPointF(0, 0) * line->transform()));
+        line->setTransform(proj.toTransform((Face)face, false));
+        line->setPos(edgeLength/2 * proj.project(faceCenter((Face)face)));
         guideLinesCross.append(line);
     }
 
@@ -407,15 +406,15 @@ void CubeGraphicsObject::reset(){
         p1 = edgeLength/2 * QPointF(-1, 0);
         p2 = edgeLength/2 * QPointF(1, 0);
         line = new QGraphicsLineItem(QLineF(p1, p2), this);
-        line->setTransform(proj.toTransform((Face)face));
-        line->setPos(edgeLength/2 * (QPointF(0, 0) * line->transform()));
+        line->setTransform(proj.toTransform((Face)face, false));
+        line->setPos(edgeLength/2 * proj.project(faceCenter((Face)face)));
         guideLinesPlus.append(line);
 
         p1 = edgeLength/2 * QPointF(0, -1);
         p2 = edgeLength/2 * QPointF(0, 1);
         line = new QGraphicsLineItem(QLineF(p1, p2), this);
-        line->setTransform(proj.toTransform((Face)face));
-        line->setPos(edgeLength/2 * (QPointF(0, 0) * line->transform()));
+        line->setTransform(proj.toTransform((Face)face, false));
+        line->setPos(edgeLength/2 * proj.project(faceCenter((Face)face)));
         guideLinesPlus.append(line);
     }
 
@@ -444,28 +443,20 @@ void CubeGraphicsObject::reset(){
     //if odd cube, draw a box around the center sticker
     if(s%2 == 1){
         for(int face=0; face<3; face++){
-            QPointF boxPos = edgeLength/2 * proj.project(getStickerPos((Face)face, s/2, s/2));
-            QRectF r(0, 0, stickerSize, stickerSize);
-
+            QRectF r(-stickerSize/2, -stickerSize/2, stickerSize, stickerSize);
             QGraphicsRectItem *b = new QGraphicsRectItem(r, this);
-
-            b->setPos(boxPos);
             b->setTransform(proj.toTransform((Face)face, false));
-
+            b->setPos(edgeLength/2 * proj.project(faceCenter((Face)face)));
             guideLinesBox.append(b);
         }
     }
     //if even cube except 2x2, draw a box around the center 4 stickers
     else if(s != 2){
         for(int face=0; face<3; face++){
-            QPointF boxPos = edgeLength/2 * proj.project(getStickerPos((Face)face, s/2-1, s/2));
-            QRectF r(0, 0, 2*stickerSize, 2*stickerSize);
-
+            QRectF r(-stickerSize, -stickerSize, 2*stickerSize, 2*stickerSize);
             QGraphicsRectItem *b = new QGraphicsRectItem(r, this);
-
-            b->setPos(boxPos);
             b->setTransform(proj.toTransform((Face)face, false));
-
+            b->setPos(edgeLength/2 * proj.project(faceCenter((Face)face)));
             guideLinesBox.append(b);
         }
     }
@@ -505,6 +496,20 @@ QVector3D CubeGraphicsObject::getStickerPos(Face f, int x, int y){
 
     //map to [-1,1]^3
     return 2 * v - QVector3D(1, 1, 1);
+}
+
+QVector3D CubeGraphicsObject::faceCenter(Face f){
+    if(f == Face::U){
+        return QVector3D(0, 0, 1);
+    }
+    else if(f == Face::F){
+        return QVector3D(0, -1, 0);
+    }
+    else if(f == Face::R){
+        return QVector3D(1, 0, 0);
+    }
+
+    return QVector3D();
 }
 
 void CubeGraphicsObject::onMoveDone(){
