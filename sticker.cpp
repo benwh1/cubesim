@@ -9,32 +9,8 @@ Sticker::Sticker(Face face, QPoint piecePos, Cube *cube, Settings *settings, Pro
     this->settings = settings;
     this->size = size;
 
-    //unit vectors pointing right/up when looking at the
-    //face containing this sticker
-    //e.g. if face is U, then upwards is from the F face to the B face
-    //so up = (0,1,0) because the F -> B axis is the y axis, and travelling
-    //from the F face to the B face increases the y coordinate
-    QVector3D right, up;
-
-    if(face == Face::U){
-        right = QVector3D(1, 0, 0);
-        up = QVector3D(0, 1, 0);
-    }
-    else if(face == Face::F){
-        right = QVector3D(1, 0, 0);
-        up = QVector3D(0, 0, 1);
-    }
-    else if(face == Face::R){
-        right = QVector3D(0, 1, 0);
-        up = QVector3D(0, 0, 1);
-    }
-
-    //coordinates of projections of right and up vectors;
-    QPointF projRight = proj->project(right);
-    QPointF projUp    = proj->project(up);
-
     //set the transform to map the square [0,1]^2 onto the projected sticker
-    setTransform(QTransform(projRight.x(), projRight.y(), projUp.x(), projUp.y(), 0, 0));
+    setTransform(proj->toTransform(face, false));
 
     //set the rect to a square with side length size
     setRect(0, 0, size, size);
