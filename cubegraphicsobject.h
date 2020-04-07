@@ -64,6 +64,10 @@ private:
 
     void reset();
 
+    //compute the position (on the cube [-1,1]^3) of the sticker at a position
+    //(in cube coordinates) on a given face
+    QVector3D getStickerPos(Face f, int x, int y);
+
 private slots:
     void onMoveDone();
     void onRotationDone();

@@ -574,6 +574,27 @@ void CubeGraphicsObject::reset(){
     }
 }
 
+QVector3D CubeGraphicsObject::getStickerPos(Face f, int x, int y){
+    int s = cube->getSize();
+    float delta = 1.0f/s + gapSize/(edgeLength*s);
+
+    QVector3D v;
+
+    //compute the position in [0,1]^3
+    if(f == Face::U){
+        v = QVector3D(x*delta, (s-1-y)*delta, 1);
+    }
+    else if(f == Face::F){
+        v = QVector3D(x*delta, 0, (s-1-y)*delta);
+    }
+    else if(f == Face::R){
+        v = QVector3D(1, x*delta, (s-1-y)*delta);
+    }
+
+    //map to [-1,1]^3
+    return 2 * v - QVector3D(1, 1, 1);
+}
+
 void CubeGraphicsObject::onMoveDone(){
     update();
 }
