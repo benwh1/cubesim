@@ -78,8 +78,16 @@ void CubeGraphicsView::resetCubeProjection(){
     viewport()->repaint();
 }
 
-CubeGraphicsObject *CubeGraphicsView::getCubeGraphicsObject(){
-    return cubeGraphicsObject;
+QJsonObject CubeGraphicsView::toJSON(){
+    QJsonObject data;
+
+    data["cubeGraphicsObject"] = cubeGraphicsObject->toJSON();
+
+    return data;
+}
+
+void CubeGraphicsView::fromJSON(QJsonObject data){
+    cubeGraphicsObject->fromJSON(data["cubeGraphicsObject"].toObject());
 }
 
 void CubeGraphicsView::keyPressEvent(QKeyEvent *event){

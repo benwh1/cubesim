@@ -189,6 +189,19 @@ public:
             //finally, add the new cube to the save file
             data["cube"] = cube;
         }
+        else if(fromVersion == "0.4"){
+            /* differences:
+             * cubeGraphicsObject is stored in graphicsView
+             */
+
+            toVersion = "0.5";
+
+            //move cubeGraphicsObject into graphicsView
+            QJsonObject graphicsView;
+            graphicsView["cubeGraphicsObject"] = data["cubeGraphicsObject"];
+            data.remove("cubeGraphicsObject");
+            data["graphicsView"] = graphicsView;
+        }
 
         //update the version number
         data["version"] = toVersion;

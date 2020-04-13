@@ -22,7 +22,8 @@ public:
     void setCubeProjection(float *matrix);
     void resetCubeProjection();
 
-    CubeGraphicsObject *getCubeGraphicsObject();
+    QJsonObject toJSON();
+    void fromJSON(QJsonObject data);
 
 protected:
     void keyPressEvent(QKeyEvent *event);
