@@ -138,7 +138,7 @@ QVector3D Projection::unproject(QPointF p, bool *ok){
     return QVector3D(0, 0, 0);
 }
 
-QTransform Projection::toTransform(Face face, bool translate){
+QTransform Projection::toTransform(Face face){
     float *m = matrix.data();
 
     //matrix is {{a,b,c},{d,e,f}}
@@ -151,30 +151,15 @@ QTransform Projection::toTransform(Face face, bool translate){
 
     //z = 1
     if(face == Face::U){
-        if(translate){
-            return QTransform(a,d,b,e,c,f);
-        }
-        else{
-            return QTransform(a,d,b,e,0,0);
-        }
+        return QTransform(a,d,b,e,0,0);
     }
     //y = -1
     else if(face == Face::F){
-        if(translate){
-            return QTransform(a,d,c,f,-b,-e);
-        }
-        else{
-            return QTransform(a,d,c,f,0,0);
-        }
+        return QTransform(a,d,c,f,0,0);
     }
     //x = 1
     else if(face == Face::R){
-        if(translate){
-            return QTransform(b,e,c,f,a,d);
-        }
-        else{
-            return QTransform(b,e,c,f,0,0);
-        }
+        return QTransform(b,e,c,f,0,0);
     }
 
     return QTransform();

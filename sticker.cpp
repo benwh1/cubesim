@@ -10,7 +10,7 @@ Sticker::Sticker(Face face, QPoint piecePos, Cube *cube, Settings *settings, Pro
     this->size = size;
 
     //set the transform to map the square [0,1]^2 onto the projected sticker
-    setTransform(proj->toTransform(face, false));
+    setTransform(proj->toTransform(face));
 
     //set the rect to a square with side length size
     setRect(0, 0, size, size);

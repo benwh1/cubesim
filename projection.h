@@ -56,8 +56,7 @@ public:
 
     //convert the projection to a QTransform for a given face. this is useful
     //because QTransform doesn't handle 3d -> 2d transformations.
-    //if translate = false, the transform x -> Ax+b will have b = 0
-    QTransform toTransform(Face face, bool translate = true);
+    QTransform toTransform(Face face);
 
     QJsonObject toJSON();
     void fromJSON(QJsonObject data);
