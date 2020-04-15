@@ -22,6 +22,7 @@ SOURCES += \
     cubegraphicsview.cpp \
     cubestate.cpp \
     cubewidget.cpp \
+    ffmpegprocess.cpp \
     main.cpp \
     mainwindow.cpp \
     move.cpp \
@@ -45,6 +46,7 @@ HEADERS += \
     cubestate.h \
     cubewidget.h \
     enums.h \
+    ffmpegprocess.h \
     global.h \
     mainwindow.h \
     move.h \

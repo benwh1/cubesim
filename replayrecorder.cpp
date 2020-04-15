@@ -14,8 +14,23 @@ ReplayRecorder::ReplayRecorder(CubeWidget *cubeWidget, Reconstruction *reconstru
 }
 
 void ReplayRecorder::record(){
-    //make the images directory if it doesn't already exist
-    QDir::current().mkdir("images");
+    //make the videos directory if it doesn't already exist
+    QDir::current().mkdir("videos");
+
+    //set the arguments of the ffmpeg process:
+    //- set the playback framerate
+    //- tell ffmpeg that the data comes from a pipe, not a file
+    //- use the "copy" codec, so we don't re-encode the video
+    //- set the output file
+    QStringList args;
+    args << "-framerate" << QString::number(settings->getPlaybackFrameRate())
+         << "-i" << "-"
+         << "-c" << "copy"
+         << "videos/out.mkv";
+    ffmpeg.setArguments(args);
+
+    //start ffmpeg
+    ffmpeg.start();
 
     //store the current size of the widget so it can be restored later
     QSize oldSize = cubeWidget->size();
@@ -44,10 +59,6 @@ void ReplayRecorder::record(){
     //doesn't try to update after every single move
     cube->blockSignals(true);
 
-    //create an image and a painter
-    QImage image(cubeWidget->size(), QImage::Format_ARGB32);
-    QPainter painter(&image);
-
     //read the settings
     int numFrames = settings->getNumberOfFrames();
     qreal msPerFrame = 1000*settings->getTimePerFrame();
@@ -71,15 +82,12 @@ void ReplayRecorder::record(){
         moveNumber++;
     }
 
-    //temporarily unblock the cube signals so we can call cubeStateChanged
-    //which will cause the cubeGraphicsObject to run updateAll
-    cube->blockSignals(false);
-    cube->cubeStateChanged();
-    cube->blockSignals(true);
+    //calculate how many frames the start and end frames should be
+    int numExtremeFrames = qRound(settings->getExtremeFrameDuration() *
+                                  settings->getPlaybackFrameRate());
 
     //render the first frame
-    cubeWidget->render(&painter);
-    image.save("images/frame_start.png");
+    renderFrame(true, numExtremeFrames);
     emit frameRendered(1, numFrames);
 
     //render the solving frames
@@ -154,19 +162,9 @@ void ReplayRecorder::record(){
         statistics->setTime(timeElapsed);
         statistics->setMoves(moveCounter);
 
-        //update the cubeGraphicsObject if any moves have been applied
-        if(movesApplied){
-            cube->blockSignals(false);
-            cube->cubeStateChanged();
-            cube->blockSignals(true);
-        }
-
-        //render a frame
-        cubeWidget->render(&painter);
+        //render a frame but only repaint the cube if any moves have been done
+        renderFrame(movesApplied);
         emit frameRendered(frame, numFrames);
-
-        //save the frame
-        image.save("images/frame" + QString::number(frame) + ".png");
     }
 
     //apply the final moves
@@ -188,11 +186,12 @@ void ReplayRecorder::record(){
     cube->blockSignals(true);
 
     //render the last frame
-    cubeWidget->render(&painter);
-
-    //save the frame
-    image.save("images/frame_end.png");
+    renderFrame(false, numExtremeFrames);
     emit frameRendered(numFrames, numFrames);
+
+    //schedule stdin to be closed once all of the data has been written.
+    //this tells ffmpeg to write the last part of the file, then exit
+    ffmpeg.closeWriteChannel();
 
     //re-enable the cube signals
     cube->blockSignals(false);
@@ -203,4 +202,25 @@ void ReplayRecorder::record(){
 
 ReplayRecorderSettings *ReplayRecorder::getSettings(){
     return settings;
+}
+
+void ReplayRecorder::renderFrame(bool update, int numFrames){
+    //repaint the cubeWidget if necessary
+    if(update){
+        //temporarily unblock the cube signals so we can call cubeStateChanged
+        //which will cause the cubeGraphicsObject to run updateAll
+        cube->blockSignals(false);
+        cube->cubeStateChanged();
+        cube->blockSignals(true);
+    }
+
+    //construct an image and a painter to draw on the image
+    QImage image(cubeWidget->size(), QImage::Format_ARGB32);
+    QPainter painter(&image);
+
+    //render the cubeWidget to the image
+    cubeWidget->render(&painter);
+
+    //send the frame to ffmpeg
+    ffmpeg.writeFrame(image, numFrames);
 }

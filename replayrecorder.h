@@ -5,6 +5,7 @@
 #include <QImage>
 #include <QObject>
 #include <QPainter>
+#include "ffmpegprocess.h"
 #include "cube.h"
 #include "statistics.h"
 #include "reconstruction.h"
@@ -29,6 +30,10 @@ private:
     Statistics *statistics;
 
     ReplayRecorderSettings *settings;
+
+    FFmpegProcess ffmpeg;
+
+    void renderFrame(bool update = true, int numFrames = 1);
 
 signals:
     void frameRendered(int frame, int total);
