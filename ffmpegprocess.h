@@ -15,9 +15,6 @@ public:
 
     void writeFrame(QImage image, int numFrames);
 
-private slots:
-    void onFinished(int, QProcess::ExitStatus);
-
 };
 
 #endif // FFMPEGPROCESS_H

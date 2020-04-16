@@ -11,6 +11,10 @@ ReplayRecorder::ReplayRecorder(CubeWidget *cubeWidget, Reconstruction *reconstru
     this->statistics = statistics;
 
     settings = new ReplayRecorderSettings(reconstruction, this);
+    ffmpeg = new FFmpegProcess(this);
+
+    //propogate the finished signal
+    connect(ffmpeg, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(onFinished(int, QProcess::ExitStatus)));
 }
 
 void ReplayRecorder::record(){
@@ -27,10 +31,10 @@ void ReplayRecorder::record(){
          << "-i" << "-"
          << "-c" << "copy"
          << "videos/out.mkv";
-    ffmpeg.setArguments(args);
+    ffmpeg->setArguments(args);
 
     //start ffmpeg
-    ffmpeg.start();
+    ffmpeg->start();
 
     //store the current size of the widget so it can be restored later
     QSize oldSize = cubeWidget->size();
@@ -191,7 +195,7 @@ void ReplayRecorder::record(){
 
     //schedule stdin to be closed once all of the data has been written.
     //this tells ffmpeg to write the last part of the file, then exit
-    ffmpeg.closeWriteChannel();
+    ffmpeg->closeWriteChannel();
 
     //re-enable the cube signals
     cube->blockSignals(false);
@@ -222,5 +226,9 @@ void ReplayRecorder::renderFrame(bool update, int numFrames){
     cubeWidget->render(&painter);
 
     //send the frame to ffmpeg
-    ffmpeg.writeFrame(image, numFrames);
+    ffmpeg->writeFrame(image, numFrames);
+}
+
+void ReplayRecorder::onFinished(int returnCode, QProcess::ExitStatus){
+    emit finished(returnCode);
 }

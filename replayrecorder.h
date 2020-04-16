@@ -31,12 +31,17 @@ private:
 
     ReplayRecorderSettings *settings;
 
-    FFmpegProcess ffmpeg;
+    FFmpegProcess *ffmpeg;
 
     void renderFrame(bool update = true, int numFrames = 1);
 
+private slots:
+    void onFinished(int returnCode, QProcess::ExitStatus);
+
 signals:
     void frameRendered(int frame, int total);
+
+    void finished(int returnCode);
 
 };
 

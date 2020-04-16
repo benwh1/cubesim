@@ -3,6 +3,7 @@
 
 #include <QApplication>
 #include <QDialog>
+#include <QMessageBox>
 #include "replayrecorder.h"
 
 namespace Ui {
@@ -31,6 +32,7 @@ private slots:
     void onRenderButtonClicked();
 
     void onFrameRendered(int frame, int total);
+    void onFinished(int returnCode);
 
 };
 

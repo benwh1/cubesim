@@ -4,8 +4,6 @@ FFmpegProcess::FFmpegProcess(QObject *parent) :
     QProcess(parent)
 {
     setProgram("ffmpeg");
-
-    connect(this, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(onFinished(int,QProcess::ExitStatus)));
 }
 
 void FFmpegProcess::writeFrame(QImage image, int numFrames){
@@ -19,8 +17,4 @@ void FFmpegProcess::writeFrame(QImage image, int numFrames){
     for(int i=0; i<numFrames; i++){
         write(data);
     }
-}
-
-void FFmpegProcess::onFinished(int r, QProcess::ExitStatus s){
-    qDebug() << "finished with return code" << r << "and exit status" << s;
 }

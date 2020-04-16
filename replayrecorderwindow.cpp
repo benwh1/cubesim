@@ -19,8 +19,9 @@ ReplayRecorderWindow::ReplayRecorderWindow(ReplayRecorder *replayRecorder, QWidg
     //connect the render button
     connect(ui->renderButton, SIGNAL(clicked(bool)), this, SLOT(onRenderButtonClicked()));
 
-    //detect when a frame has been rendered
+    //signals from replayRecorder
     connect(replayRecorder, SIGNAL(frameRendered(int,int)), this, SLOT(onFrameRendered(int,int)));
+    connect(replayRecorder, SIGNAL(finished(int)), this, SLOT(onFinished(int)));
 }
 
 ReplayRecorderWindow::~ReplayRecorderWindow()
@@ -71,5 +72,14 @@ void ReplayRecorderWindow::onFrameRendered(int frame, int total){
 
         //resize the window
         shrinkWindow();
+    }
+}
+
+void ReplayRecorderWindow::onFinished(int returnCode){
+    if(returnCode == 0){
+        QMessageBox::information(this, "Replay Recorder", "Video rendering finished");
+    }
+    else{
+        QMessageBox::warning(this, "Replay Recorder", "Video rendering failed");
     }
 }
