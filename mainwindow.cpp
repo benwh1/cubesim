@@ -33,7 +33,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event){
     if(event->key() == Qt::Key_W){
         if(ui->cubeWidget->getState() == CubeWidget::State::Neutral ||
            ui->cubeWidget->getState() == CubeWidget::State::Finished){
-            settingsWindow->exec();
+            settingsWindow->show();
 
             //save the settings to a file
             QJsonObject data = ui->cubeWidget->getSettings()->toJSON();
@@ -52,7 +52,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event){
                 QMessageBox::warning(this, "Error", "FFmpeg is not installed");
             }
             else{
-                replayRecorderWindow->open();
+                replayRecorderWindow->show();
             }
         }
     }

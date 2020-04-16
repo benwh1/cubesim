@@ -13,6 +13,9 @@
   <property name="windowTitle">
    <string>Replay Recorder</string>
   </property>
+  <property name="modal">
+   <bool>true</bool>
+  </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="ReplayRecorderSettingsWidget" name="replayRecorderSettingsWidget" native="true"/>
