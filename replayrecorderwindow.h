@@ -3,6 +3,7 @@
 
 #include <QApplication>
 #include <QDialog>
+#include <QFileDialog>
 #include <QMessageBox>
 #include "replayrecorder.h"
 

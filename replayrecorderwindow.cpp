@@ -54,10 +54,20 @@ void ReplayRecorderWindow::shrinkWindow(){
 }
 
 void ReplayRecorderWindow::onRenderButtonClicked(){
+    //make the videos directory if it doesn't already exist
+    QDir::current().mkdir("videos");
+
+    //get a save file name
+    QString path = QDir("videos").absolutePath();
+    QString name = QFileDialog::getSaveFileName(this, "Replay Recorder", path, "*.mkv");
+    if(name == ""){
+        return;
+    }
+
     //disable the settings widget so the settings can't be changed
     ui->replayRecorderSettingsWidget->setEnabled(false);
 
-    replayRecorder->record();
+    replayRecorder->record(name);
 }
 
 void ReplayRecorderWindow::onAbortButtonClicked(){

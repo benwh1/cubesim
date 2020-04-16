@@ -19,7 +19,7 @@ ReplayRecorder::ReplayRecorder(CubeWidget *cubeWidget, Reconstruction *reconstru
     connect(ffmpeg, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(onFinished(int, QProcess::ExitStatus)));
 }
 
-void ReplayRecorder::record(){
+void ReplayRecorder::record(QString fileName){
     //set the state to recording
     setState(State::Recording);
 
@@ -30,19 +30,20 @@ void ReplayRecorder::record(){
     //reset variables
     shouldAbort = false;
 
-    //make the videos directory if it doesn't already exist
-    QDir::current().mkdir("videos");
-
     //set the arguments of the ffmpeg process:
+    //- overwrite output file if it already exists
     //- set the playback framerate
     //- tell ffmpeg that the data comes from a pipe, not a file
     //- use the "copy" codec, so we don't re-encode the video
+    //- use the matroska muxer
     //- set the output file
     QStringList args;
-    args << "-framerate" << QString::number(settings->getPlaybackFrameRate())
+    args << "-y"
+         << "-framerate" << QString::number(settings->getPlaybackFrameRate())
          << "-i" << "-"
          << "-c" << "copy"
-         << "videos/out.mkv";
+         << "-f" << "matroska"
+         << fileName;
     ffmpeg->setArguments(args);
 
     //start ffmpeg

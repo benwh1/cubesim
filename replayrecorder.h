@@ -31,7 +31,7 @@ public:
 
     explicit ReplayRecorder(CubeWidget *cubeWidget, Reconstruction *reconstruction, Cube *cube, Statistics *statistics, QObject *parent = nullptr);
 
-    void record();
+    void record(QString fileName);
 
     //if we are currently recording, this will schedule the recording to be
     //cancelled before the next frame is rendered
