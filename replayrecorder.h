@@ -60,7 +60,7 @@ private:
     void setState(State s);
 
 private slots:
-    void onFinished(int returnCode, QProcess::ExitStatus);
+    void onFinished(int returnCode);
 
 signals:
     void frameRendered(int frame, int total);

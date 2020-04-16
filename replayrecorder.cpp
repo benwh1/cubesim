@@ -16,7 +16,7 @@ ReplayRecorder::ReplayRecorder(CubeWidget *cubeWidget, Reconstruction *reconstru
     state = State::Neutral;
 
     //propogate the finished signal
-    connect(ffmpeg, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(onFinished(int, QProcess::ExitStatus)));
+    connect(ffmpeg, SIGNAL(finished(int)), this, SLOT(onFinished(int)));
 }
 
 void ReplayRecorder::record(QString fileName){
@@ -294,7 +294,16 @@ void ReplayRecorder::setState(State s){
     emit stateChanged();
 }
 
-void ReplayRecorder::onFinished(int returnCode, QProcess::ExitStatus){
+void ReplayRecorder::onFinished(int returnCode){
+    //in case ffmpeg crashed, we will schedule the recording to be aborted
+    //(otherwise we will keep rendering frames and keep trying to send them
+    //to ffmpeg). if this slot was called *because* of an abort, then
+    //re-scheduling an abort will do nothing.
+    if(returnCode != 0){
+        abort();
+    }
+
+    //set the state back to neutral, since we are no longer recording
     setState(Neutral);
 
     emit finished(returnCode);
