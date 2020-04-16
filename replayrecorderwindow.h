@@ -22,6 +22,10 @@ public:
 public slots:
     void show();
 
+    //reject is called when we try to close the window by pressing escape
+    //or by clicking the window x button
+    void reject();
+
 private:
     Ui::ReplayRecorderWindow *ui;
 

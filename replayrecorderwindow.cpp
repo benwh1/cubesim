@@ -41,6 +41,13 @@ void ReplayRecorderWindow::show(){
     QDialog::show();
 }
 
+void ReplayRecorderWindow::reject(){
+    //don't allow the window to be closed while we are recording
+    if(replayRecorder->getState() == ReplayRecorder::State::Neutral){
+        QDialog::reject();
+    }
+}
+
 void ReplayRecorderWindow::shrinkWindow(){
     //process events so the minimumSize of the window is computed correctly
     //e.g. need to process events after setting visibility of progress bar
