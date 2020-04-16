@@ -12,9 +12,10 @@ ReplayRecorderWindow::ReplayRecorderWindow(ReplayRecorder *replayRecorder, QWidg
     //pass the ReplayRecorderSettings object to the ReplayRecorderSettingsWidget
     ui->replayRecorderSettingsWidget->initialize(replayRecorder->getSettings());
 
-    //make the progress bar and abort button invisible initially
+    //hide unnecessary parts of the UI
     ui->progressBar->setVisible(false);
     ui->abortButton->setVisible(false);
+    ui->statusLabel->setVisible(false);
 
     //resize the window
     shrinkWindow();
@@ -97,17 +98,22 @@ void ReplayRecorderWindow::onStateChanged(){
         ui->abortButton->setVisible(false);
         ui->renderButton->setVisible(true);
         ui->progressBar->setVisible(false);
+        ui->statusLabel->setVisible(false);
     }
     else if(state == ReplayRecorder::State::Recording){
         ui->abortButton->setVisible(true);
         ui->renderButton->setVisible(false);
         ui->progressBar->setVisible(true);
         ui->progressBar->setValue(0);
+        ui->statusLabel->setVisible(true);
+        ui->statusLabel->setText("Rendering...");
     }
     else if(state == ReplayRecorder::State::WaitingForFFmpeg){
         ui->abortButton->setVisible(false);
         ui->renderButton->setVisible(false);
         ui->progressBar->setVisible(false);
+        ui->statusLabel->setVisible(true);
+        ui->statusLabel->setText("Waiting for FFmpeg");
     }
 
     //resize the window
