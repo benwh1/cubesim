@@ -54,6 +54,9 @@ void ReplayRecorderWindow::shrinkWindow(){
 }
 
 void ReplayRecorderWindow::onRenderButtonClicked(){
+    //disable the settings widget so the settings can't be changed
+    ui->replayRecorderSettingsWidget->setEnabled(false);
+
     replayRecorder->record();
 }
 
@@ -84,6 +87,9 @@ void ReplayRecorderWindow::onFrameRendered(int frame, int total){
 }
 
 void ReplayRecorderWindow::onFinished(int returnCode){
+    //re-enable the settings widget
+    ui->replayRecorderSettingsWidget->setEnabled(true);
+
     if(returnCode == 0){
         QMessageBox::information(this, "Replay Recorder", "Video rendering finished");
     }
