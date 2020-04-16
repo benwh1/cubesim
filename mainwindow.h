@@ -3,6 +3,7 @@
 
 #include <QKeyEvent>
 #include <QMainWindow>
+#include <QStandardPaths>
 #include "cube.h"
 #include "replayrecorderwindow.h"
 #include "settingswindow.h"

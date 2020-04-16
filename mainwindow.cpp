@@ -47,7 +47,13 @@ void MainWindow::keyPressEvent(QKeyEvent *event){
     }
     else if(event->key() == Qt::Key_R){
         if(ui->cubeWidget->getState() == CubeWidget::State::Finished){
-            replayRecorderWindow->open();
+            //check whether ffmpeg is installed
+            if(QStandardPaths::findExecutable("ffmpeg") == ""){
+                QMessageBox::warning(this, "Error", "FFmpeg is not installed");
+            }
+            else{
+                replayRecorderWindow->open();
+            }
         }
     }
     else{
