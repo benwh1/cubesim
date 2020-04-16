@@ -123,9 +123,7 @@ void ReplayRecorder::record(){
             ffmpeg->kill();
 
             //reset everything
-            cube->reset();
-            statistics->reset();
-            reconstruction->reset();
+            cubeWidget->reset();
 
             //set state to neutral. killing ffmpeg should also do this, but
             //we want the state set to neutral before we emit aborted

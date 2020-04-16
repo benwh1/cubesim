@@ -76,6 +76,14 @@ void CubeWidget::setInteractionEnabled(bool b){
     interactionEnabled = b;
 }
 
+void CubeWidget::reset(){
+    cube->reset();
+    statistics->reset();
+    reconstruction->reset();
+
+    state = State::Neutral;
+}
+
 void CubeWidget::keyPressEvent(QKeyEvent *event){
     if(!interactionEnabled){
         return;

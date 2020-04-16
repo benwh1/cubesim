@@ -40,6 +40,8 @@ public:
 
     void setInteractionEnabled(bool b);
 
+    void reset();
+
 protected:
     void keyPressEvent(QKeyEvent *event);
 
