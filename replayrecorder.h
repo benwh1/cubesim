@@ -66,6 +66,7 @@ signals:
     void frameRendered(int frame, int total);
     void finished(int returnCode);
     void stateChanged();
+    void aborted();
 
 };
 

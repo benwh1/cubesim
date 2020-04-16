@@ -28,6 +28,7 @@ ReplayRecorderWindow::ReplayRecorderWindow(ReplayRecorder *replayRecorder, QWidg
     connect(replayRecorder, SIGNAL(frameRendered(int,int)), this, SLOT(onFrameRendered(int,int)));
     connect(replayRecorder, SIGNAL(finished(int)), this, SLOT(onFinished(int)));
     connect(replayRecorder, SIGNAL(stateChanged()), this, SLOT(onStateChanged()));
+    connect(replayRecorder, SIGNAL(aborted()), this, SLOT(onAborted()));
 }
 
 ReplayRecorderWindow::~ReplayRecorderWindow()
@@ -118,4 +119,8 @@ void ReplayRecorderWindow::onStateChanged(){
 
     //resize the window
     shrinkWindow();
+}
+
+void ReplayRecorderWindow::onAborted(){
+    close();
 }
