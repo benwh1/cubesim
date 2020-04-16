@@ -13,7 +13,6 @@ CubeWidget::CubeWidget(QWidget *parent) :
     state = State::Neutral;
     swapCtrlShift = false;
     overlapStats = true;
-
     interactionEnabled = true;
 
     reconstruction = new Reconstruction();
@@ -74,6 +73,7 @@ CubeWidget::State CubeWidget::getState(){
 
 void CubeWidget::setInteractionEnabled(bool b){
     interactionEnabled = b;
+    ui->graphicsView->setInteractionEnabled(b);
 }
 
 void CubeWidget::reset(){

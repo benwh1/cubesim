@@ -22,6 +22,8 @@ public:
     void setCubeProjection(float *matrix);
     void resetCubeProjection();
 
+    void setInteractionEnabled(bool b);
+
     QJsonObject toJSON();
     void fromJSON(QJsonObject data);
 
@@ -37,6 +39,8 @@ private:
     Settings *settings;
 
     qreal zoomFactor;
+
+    bool interactionEnabled;
 
 private slots:
     void onProjectionChanged();

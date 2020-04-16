@@ -12,6 +12,7 @@ CubeGraphicsView::CubeGraphicsView(QWidget *parent) :
 
     //initialize variables
     zoomFactor = 1;
+    interactionEnabled = true;
 }
 
 void CubeGraphicsView::initialize(Cube *cube, Settings *settings){
@@ -78,6 +79,10 @@ void CubeGraphicsView::resetCubeProjection(){
     viewport()->repaint();
 }
 
+void CubeGraphicsView::setInteractionEnabled(bool b){
+    interactionEnabled = b;
+}
+
 QJsonObject CubeGraphicsView::toJSON(){
     QJsonObject data;
 
@@ -91,6 +96,10 @@ void CubeGraphicsView::fromJSON(QJsonObject data){
 }
 
 void CubeGraphicsView::keyPressEvent(QKeyEvent *event){
+    if(!interactionEnabled){
+        return;
+    }
+
     event->accept();
 
     Qt::KeyboardModifiers modifiers = event->modifiers();
