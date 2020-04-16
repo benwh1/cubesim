@@ -18,6 +18,10 @@ ReplayRecorder::ReplayRecorder(CubeWidget *cubeWidget, Reconstruction *reconstru
 }
 
 void ReplayRecorder::record(){
+    //disable interaction with the cube widget, so we can't click and do moves
+    //while we are recording the replay
+    cubeWidget->setInteractionEnabled(false);
+
     //make the videos directory if it doesn't already exist
     QDir::current().mkdir("videos");
 
@@ -202,6 +206,9 @@ void ReplayRecorder::record(){
 
     //resize the widget to the old size
     cubeWidget->resize(oldSize);
+
+    //re-enable interaction
+    cubeWidget->setInteractionEnabled(true);
 }
 
 ReplayRecorderSettings *ReplayRecorder::getSettings(){

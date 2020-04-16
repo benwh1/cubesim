@@ -14,6 +14,8 @@ CubeWidget::CubeWidget(QWidget *parent) :
     swapCtrlShift = false;
     overlapStats = true;
 
+    interactionEnabled = true;
+
     reconstruction = new Reconstruction();
     settings = new Settings(this);
     statistics = new Statistics(this);
@@ -70,7 +72,15 @@ CubeWidget::State CubeWidget::getState(){
     return state;
 }
 
+void CubeWidget::setInteractionEnabled(bool b){
+    interactionEnabled = b;
+}
+
 void CubeWidget::keyPressEvent(QKeyEvent *event){
+    if(!interactionEnabled){
+        return;
+    }
+
     if(event->isAutoRepeat()){
         event->ignore();
         return;
@@ -281,6 +291,10 @@ void CubeWidget::load(QString fileName){
 }
 
 void CubeWidget::onMoveDrag(Axis axis, int layer, bool clockwise, Qt::MouseButton button){
+    if(!interactionEnabled){
+        return;
+    }
+
     Qt::KeyboardModifiers modifiers = QGuiApplication::queryKeyboardModifiers();
 
     bool ctrl = modifiers & Qt::ControlModifier;

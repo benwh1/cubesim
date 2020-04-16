@@ -38,6 +38,8 @@ public:
     Settings *getSettings();
     State getState();
 
+    void setInteractionEnabled(bool b);
+
 protected:
     void keyPressEvent(QKeyEvent *event);
 
@@ -56,6 +58,8 @@ private:
 
     bool swapCtrlShift;
     bool overlapStats;
+
+    bool interactionEnabled;
 
     QJsonObject toJSON();
     void fromJSON(QJsonObject data);
