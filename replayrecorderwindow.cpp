@@ -36,9 +36,9 @@ ReplayRecorderWindow::~ReplayRecorderWindow()
     delete ui;
 }
 
-void ReplayRecorderWindow::open(){
+void ReplayRecorderWindow::show(){
     replayRecorder->getSettings()->reset();
-    QDialog::open();
+    QDialog::show();
 }
 
 void ReplayRecorderWindow::shrinkWindow(){

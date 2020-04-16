@@ -19,7 +19,7 @@ public:
     ~ReplayRecorderWindow();
 
 public slots:
-    void open();
+    void show();
 
 private:
     Ui::ReplayRecorderWindow *ui;
