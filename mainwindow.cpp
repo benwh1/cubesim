@@ -27,6 +27,14 @@ MainWindow::~MainWindow()
     delete settingsWindow;
 }
 
+void MainWindow::closeEvent(QCloseEvent *){
+    //quit the program when the main window is closed. we need to do this
+    //because otherwise it is possible for the program to remain alive but
+    //all of the windows to be hidden (e.g. if we close the window while we
+    //are recording a replay)
+    exit(0);
+}
+
 void MainWindow::keyPressEvent(QKeyEvent *event){
     event->accept();
 

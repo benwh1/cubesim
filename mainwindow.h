@@ -21,6 +21,7 @@ public:
     ~MainWindow();
 
 protected:
+    void closeEvent(QCloseEvent *);
     void keyPressEvent(QKeyEvent *event);
 
 private:
