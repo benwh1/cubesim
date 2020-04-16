@@ -34,6 +34,7 @@ private slots:
 
     void onFrameRendered(int frame, int total);
     void onFinished(int returnCode);
+    void onStateChanged();
 
 };
 

@@ -26,6 +26,7 @@ ReplayRecorderWindow::ReplayRecorderWindow(ReplayRecorder *replayRecorder, QWidg
     //signals from replayRecorder
     connect(replayRecorder, SIGNAL(frameRendered(int,int)), this, SLOT(onFrameRendered(int,int)));
     connect(replayRecorder, SIGNAL(finished(int)), this, SLOT(onFinished(int)));
+    connect(replayRecorder, SIGNAL(stateChanged()), this, SLOT(onStateChanged()));
 }
 
 ReplayRecorderWindow::~ReplayRecorderWindow()
@@ -51,18 +52,6 @@ void ReplayRecorderWindow::shrinkWindow(){
 }
 
 void ReplayRecorderWindow::onRenderButtonClicked(){
-    //reset the progress bar and make it visible
-    ui->progressBar->setValue(0);
-    ui->progressBar->setVisible(true);
-
-    //hide the render button and show the abort button
-    ui->renderButton->setVisible(false);
-    ui->abortButton->setVisible(true);
-
-    //resize the window
-    shrinkWindow();
-
-    //record the replay
     replayRecorder->record();
 }
 
@@ -99,4 +88,28 @@ void ReplayRecorderWindow::onFinished(int returnCode){
     else{
         QMessageBox::warning(this, "Replay Recorder", "Video rendering failed");
     }
+}
+
+void ReplayRecorderWindow::onStateChanged(){
+    ReplayRecorder::State state = replayRecorder->getState();
+
+    if(state == ReplayRecorder::State::Neutral){
+        ui->abortButton->setVisible(false);
+        ui->renderButton->setVisible(true);
+        ui->progressBar->setVisible(false);
+    }
+    else if(state == ReplayRecorder::State::Recording){
+        ui->abortButton->setVisible(true);
+        ui->renderButton->setVisible(false);
+        ui->progressBar->setVisible(true);
+        ui->progressBar->setValue(0);
+    }
+    else if(state == ReplayRecorder::State::WaitingForFFmpeg){
+        ui->abortButton->setVisible(false);
+        ui->renderButton->setVisible(false);
+        ui->progressBar->setVisible(false);
+    }
+
+    //resize the window
+    shrinkWindow();
 }

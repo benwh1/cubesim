@@ -13,11 +13,16 @@ ReplayRecorder::ReplayRecorder(CubeWidget *cubeWidget, Reconstruction *reconstru
     settings = new ReplayRecorderSettings(reconstruction, this);
     ffmpeg = new FFmpegProcess(this);
 
+    state = State::Neutral;
+
     //propogate the finished signal
     connect(ffmpeg, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(onFinished(int, QProcess::ExitStatus)));
 }
 
 void ReplayRecorder::record(){
+    //set the state to recording
+    setState(State::Recording);
+
     //disable interaction with the cube widget, so we can't click and do moves
     //while we are recording the replay
     cubeWidget->setInteractionEnabled(false);
@@ -233,10 +238,24 @@ void ReplayRecorder::record(){
 
     //re-enable interaction
     cubeWidget->setInteractionEnabled(true);
+
+    //we have finished sending all of the data to ffmpeg, but ffmpeg may not
+    //have processed all of the data yet. so we need to check if ffmpeg is
+    //still running, and if it is, then we set the state to WaitingForFFmpeg.
+    //if ffmpeg is not running, then it has already finished processing the
+    //data and has saved the video file, and the state will have been set to
+    //neutral in the onFinished slot.
+    if(ffmpeg->state() == QProcess::Running){
+        setState(WaitingForFFmpeg);
+    }
 }
 
 void ReplayRecorder::abort(){
     shouldAbort = true;
+}
+
+ReplayRecorder::State ReplayRecorder::getState(){
+    return state;
 }
 
 ReplayRecorderSettings *ReplayRecorder::getSettings(){
@@ -264,6 +283,13 @@ void ReplayRecorder::renderFrame(bool update, int numFrames){
     ffmpeg->writeFrame(image, numFrames);
 }
 
+void ReplayRecorder::setState(State s){
+    state = s;
+    emit stateChanged();
+}
+
 void ReplayRecorder::onFinished(int returnCode, QProcess::ExitStatus){
+    setState(Neutral);
+
     emit finished(returnCode);
 }
