@@ -21,6 +21,10 @@ public:
 
     void record();
 
+    //if we are currently recording, this will schedule the recording to be
+    //cancelled before the next frame is rendered
+    void abort();
+
     ReplayRecorderSettings *getSettings();
 
 private:
@@ -32,6 +36,9 @@ private:
     ReplayRecorderSettings *settings;
 
     FFmpegProcess *ffmpeg;
+
+    //we check this every frame to see whether we need to abort the render
+    bool shouldAbort;
 
     void renderFrame(bool update = true, int numFrames = 1);
 

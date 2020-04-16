@@ -30,6 +30,7 @@ private:
 
 private slots:
     void onRenderButtonClicked();
+    void onAbortButtonClicked();
 
     void onFrameRendered(int frame, int total);
     void onFinished(int returnCode);

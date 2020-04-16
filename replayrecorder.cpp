@@ -22,6 +22,9 @@ void ReplayRecorder::record(){
     //while we are recording the replay
     cubeWidget->setInteractionEnabled(false);
 
+    //reset variables
+    shouldAbort = false;
+
     //make the videos directory if it doesn't already exist
     QDir::current().mkdir("videos");
 
@@ -100,6 +103,27 @@ void ReplayRecorder::record(){
 
     //render the solving frames
     for(int frame=2; frame<=numFrames-1; frame++){
+        //before rendering each frame, check if we need to abort the render
+        if(shouldAbort){
+            //re-enable the cube signals
+            cube->blockSignals(false);
+
+            //resize the widget to the old size
+            cubeWidget->resize(oldSize);
+
+            //re-enable interaction
+            cubeWidget->setInteractionEnabled(true);
+
+            //kill ffmpeg
+            ffmpeg->kill();
+
+            //reset the cube to solved and clear the statistics
+            cube->reset();
+            statistics->reset();
+
+            return;
+        }
+
         //how much time has passed so far?
         qint64 timeElapsed = (frame-1) * msPerFrame;
 
@@ -209,6 +233,10 @@ void ReplayRecorder::record(){
 
     //re-enable interaction
     cubeWidget->setInteractionEnabled(true);
+}
+
+void ReplayRecorder::abort(){
+    shouldAbort = true;
 }
 
 ReplayRecorderSettings *ReplayRecorder::getSettings(){

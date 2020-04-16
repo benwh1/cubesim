@@ -12,12 +12,16 @@ ReplayRecorderWindow::ReplayRecorderWindow(ReplayRecorder *replayRecorder, QWidg
     //pass the ReplayRecorderSettings object to the ReplayRecorderSettingsWidget
     ui->replayRecorderSettingsWidget->initialize(replayRecorder->getSettings());
 
-    //make the progress bar invisible initially, and resize the window
+    //make the progress bar and abort button invisible initially
     ui->progressBar->setVisible(false);
+    ui->abortButton->setVisible(false);
+
+    //resize the window
     shrinkWindow();
 
-    //connect the render button
+    //connect the render and abort buttons
     connect(ui->renderButton, SIGNAL(clicked(bool)), this, SLOT(onRenderButtonClicked()));
+    connect(ui->abortButton, SIGNAL(clicked(bool)), this, SLOT(onAbortButtonClicked()));
 
     //signals from replayRecorder
     connect(replayRecorder, SIGNAL(frameRendered(int,int)), this, SLOT(onFrameRendered(int,int)));
@@ -51,11 +55,19 @@ void ReplayRecorderWindow::onRenderButtonClicked(){
     ui->progressBar->setValue(0);
     ui->progressBar->setVisible(true);
 
+    //hide the render button and show the abort button
+    ui->renderButton->setVisible(false);
+    ui->abortButton->setVisible(true);
+
     //resize the window
     shrinkWindow();
 
     //record the replay
     replayRecorder->record();
+}
+
+void ReplayRecorderWindow::onAbortButtonClicked(){
+    replayRecorder->abort();
 }
 
 void ReplayRecorderWindow::onFrameRendered(int frame, int total){
@@ -66,9 +78,14 @@ void ReplayRecorderWindow::onFrameRendered(int frame, int total){
     //process events, so the progress bar gets updated properly
     QApplication::processEvents();
 
-    //check if this was the last frame. if so, hide the progress bar
+    //check if this was the last frame
     if(frame == total){
+        //hide the progress bar
         ui->progressBar->setVisible(false);
+
+        //show the render button and hide the abort button
+        ui->renderButton->setVisible(true);
+        ui->abortButton->setVisible(false);
 
         //resize the window
         shrinkWindow();
