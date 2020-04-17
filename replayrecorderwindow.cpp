@@ -78,7 +78,9 @@ void ReplayRecorderWindow::onRenderButtonClicked(){
 }
 
 void ReplayRecorderWindow::onAbortButtonClicked(){
-    replayRecorder->abort();
+    if(QMessageBox::question(this, "Replay Recorder", "Abort render?", QMessageBox::Yes, QMessageBox::No) == QMessageBox::Yes){
+        replayRecorder->abort();
+    }
 }
 
 void ReplayRecorderWindow::onFrameRendered(int frame, int total){
