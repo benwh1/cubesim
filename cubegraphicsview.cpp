@@ -73,8 +73,7 @@ void CubeGraphicsView::resetCubeProjection(){
     //isometric projection
     float m[6] = {1/sqrt(2), 1/sqrt(2), 0, -1/sqrt(6), 1/sqrt(6), sqrt(2./3)};
 
-    cubeGraphicsObject->setProjection(m);
-    viewport()->repaint();
+    setCubeProjection(m);
 }
 
 void CubeGraphicsView::setInteractionEnabled(bool b){
