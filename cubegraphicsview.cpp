@@ -76,10 +76,6 @@ void CubeGraphicsView::resetCubeProjection(){
     setCubeProjection(m);
 }
 
-void CubeGraphicsView::setInteractionEnabled(bool b){
-    interactionEnabled = b;
-}
-
 QJsonObject CubeGraphicsView::toJSON(){
     QJsonObject data;
 

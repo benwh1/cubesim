@@ -38,8 +38,6 @@ public:
     Settings *getSettings();
     State getState();
 
-    void setInteractionEnabled(bool b);
-
     void reset();
 
 protected:

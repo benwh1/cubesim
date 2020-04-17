@@ -71,11 +71,6 @@ CubeWidget::State CubeWidget::getState(){
     return state;
 }
 
-void CubeWidget::setInteractionEnabled(bool b){
-    interactionEnabled = b;
-    ui->graphicsView->setInteractionEnabled(b);
-}
-
 void CubeWidget::reset(){
     cube->reset();
     statistics->reset();

@@ -23,10 +23,6 @@ void ReplayRecorder::record(QString fileName){
     //set the state to recording
     setState(State::Recording);
 
-    //disable interaction with the cube widget, so we can't click and do moves
-    //while we are recording the replay
-    cubeWidget->setInteractionEnabled(false);
-
     //reset variables
     shouldAbort = false;
 
@@ -116,9 +112,6 @@ void ReplayRecorder::record(QString fileName){
 
             //resize the widget to the old size
             cubeWidget->resize(oldSize);
-
-            //re-enable interaction
-            cubeWidget->setInteractionEnabled(true);
 
             //kill ffmpeg
             ffmpeg->kill();
@@ -241,9 +234,6 @@ void ReplayRecorder::record(QString fileName){
 
     //resize the widget to the old size
     cubeWidget->resize(oldSize);
-
-    //re-enable interaction
-    cubeWidget->setInteractionEnabled(true);
 
     //we have finished sending all of the data to ffmpeg, but ffmpeg may not
     //have processed all of the data yet. so we need to check if ffmpeg is
