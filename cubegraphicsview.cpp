@@ -37,8 +37,6 @@ void CubeGraphicsView::initialize(Cube *cube, Settings *settings){
 
     //reset the scene rect when the projection is changed
     connect(cubeGraphicsObject, SIGNAL(projectionChanged()), this, SLOT(onProjectionChanged()));
-
-    connect(cube, SIGNAL(moveDone(Move)), viewport(), SLOT(repaint()));
 }
 
 void CubeGraphicsView::zoom(qreal factor){
