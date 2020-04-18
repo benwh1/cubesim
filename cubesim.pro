@@ -28,6 +28,7 @@ SOURCES += \
     move.cpp \
     projection.cpp \
     reconstruction.cpp \
+    reconstructionwindow.cpp \
     replayrecorder.cpp \
     replayrecordersettings.cpp \
     replayrecordersettingswidget.cpp \
@@ -53,6 +54,7 @@ HEADERS += \
     move.h \
     projection.h \
     reconstruction.h \
+    reconstructionwindow.h \
     replayrecorder.h \
     replayrecordersettings.h \
     replayrecordersettingswidget.h \
@@ -68,6 +70,7 @@ FORMS += \
     colorsettingwidget.ui \
     cubewidget.ui \
     mainwindow.ui \
+    reconstructionwindow.ui \
     replayrecordersettingswidget.ui \
     replayrecorderwindow.ui \
     settingswindow.ui \
