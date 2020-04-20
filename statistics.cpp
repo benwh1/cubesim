@@ -1,8 +1,10 @@
 #include "statistics.h"
 
-Statistics::Statistics(QObject *parent) :
+Statistics::Statistics(Cube *cube, QObject *parent) :
     QObject(parent)
 {
+    this->cube = cube;
+
     reset();
 }
 

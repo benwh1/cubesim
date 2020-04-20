@@ -17,9 +17,8 @@ CubeWidget::CubeWidget(QWidget *parent) :
 
     reconstruction = new Reconstruction();
     settings = new Settings(this);
-    statistics = new Statistics(this);
-
     cube = new Cube(settings, this);
+    statistics = new Statistics(cube, this);
 
     ui->graphicsView->initialize(cube, settings);
     ui->statisticsWidget->initialize(statistics, settings);

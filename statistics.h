@@ -6,12 +6,13 @@
 #include <QJsonObject>
 #include <QObject>
 #include <QTime>
+#include "cube.h"
 
 class Statistics : public QObject
 {
     Q_OBJECT
 public:
-    explicit Statistics(QObject *parent = nullptr);
+    explicit Statistics(Cube *cube, QObject *parent = nullptr);
 
     qint64 getTime();
     qint64 getMoves();
@@ -39,6 +40,8 @@ private:
     QElapsedTimer timer;
     qint64 additionalTime;
     qint64 moves;
+
+    Cube *cube;
 
     //is the timer currently running?
     bool active;
