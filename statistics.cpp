@@ -23,6 +23,42 @@ int Statistics::getTPS(){
     return qRound((1000000.*moves)/time);
 }
 
+int Statistics::getCubeSize(){
+    return cube->getSize();
+}
+
+int Statistics::getNumberOfPieces(){
+    int n = getCubeSize();
+    auto c = [](int n){ return n*n*n; };
+
+    if(n%2 == 0){
+        return c(n)-c(n-2);
+    }
+    else{
+        return c(n)-c(n-2)-6;
+    }
+}
+
+qint64 Statistics::getPiecesPerSecond(){
+    return 1000000/getTimePerPiece();
+}
+
+qint64 Statistics::getTimePerPiece(){
+    int pieces = getNumberOfPieces();
+    qint64 time = getTime();
+    return time/pieces;
+}
+
+qint64 Statistics::getPiecesPerMove(){
+    return 1000000/getMovesPerPiece();
+}
+
+qint64 Statistics::getMovesPerPiece(){
+    int pieces = getNumberOfPieces();
+    qint64 moves = getMoves();
+    return 1000*moves/pieces;
+}
+
 void Statistics::setTime(qint64 time){
     additionalTime = time;
 

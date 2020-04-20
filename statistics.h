@@ -18,6 +18,15 @@ public:
     qint64 getMoves();
     int getTPS();
 
+    int getCubeSize();
+    int getNumberOfPieces();
+
+    //these functions are all under the assumption that the solve is finished
+    qint64 getPiecesPerSecond();
+    qint64 getTimePerPiece();
+    qint64 getPiecesPerMove();
+    qint64 getMovesPerPiece();
+
     void setTime(qint64 time);
     void setMoves(qint64 moves);
 
