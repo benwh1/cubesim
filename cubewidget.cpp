@@ -185,9 +185,6 @@ void CubeWidget::keyPressEvent(QKeyEvent *event){
     else if(event->key() == Qt::Key_CapsLock){
         settings->setMultislice(!settings->getMultislice());
     }
-    else if(event->key() == Qt::Key_L){
-        QMessageBox::information(this, "Reconstruction", reconstruction->toString());
-    }
     else{
         event->ignore();
     }

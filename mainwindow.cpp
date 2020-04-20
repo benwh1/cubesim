@@ -64,6 +64,11 @@ void MainWindow::keyPressEvent(QKeyEvent *event){
             }
         }
     }
+    else if(event->key() == Qt::Key_L){
+        if(ui->cubeWidget->getState() == CubeWidget::State::Finished){
+            reconstructionWindow->show();
+        }
+    }
     else{
         event->ignore();
     }
