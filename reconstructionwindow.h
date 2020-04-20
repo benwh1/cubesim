@@ -17,6 +17,9 @@ public:
     explicit ReconstructionWindow(Reconstruction *reconstruction, Statistics *statistics, QWidget *parent = nullptr);
     ~ReconstructionWindow();
 
+public slots:
+    void show();
+
 private:
     Ui::ReconstructionWindow *ui;
 

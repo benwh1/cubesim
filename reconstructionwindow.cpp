@@ -16,6 +16,11 @@ ReconstructionWindow::~ReconstructionWindow()
     delete ui;
 }
 
+void ReconstructionWindow::show(){
+    updateStatistics();
+    QDialog::show();
+}
+
 void ReconstructionWindow::updateStatistics(){
     int n = statistics->getCubeSize();
     ui->cubeLabel->setText(QString::number(n) + "x" + QString::number(n) + "x" + QString::number(n));
