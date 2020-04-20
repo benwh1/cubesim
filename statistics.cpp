@@ -121,6 +121,34 @@ QString Statistics::tpsString(){
     return Formatting::formatTPS(getTPS());
 }
 
+QString Statistics::cubeSizeString(){
+    int n = getCubeSize();
+    QString s = QString::number(n);
+    return s + "x" + s + "x" + s;
+}
+
+QString Statistics::numberOfPiecesString(){
+    return QString::number(getNumberOfPieces());
+}
+
+QString Statistics::piecesPerSecondString(){
+    return Formatting::formatTPS(getPiecesPerSecond());
+}
+
+QString Statistics::timePerPieceString(){
+    return Formatting::formatTime(getTimePerPiece());
+}
+
+QString Statistics::piecesPerMoveString(){
+    qint64 n = getPiecesPerMove();
+    return QString::number((float)n/1000, 'f', 3);
+}
+
+QString Statistics::movesPerPieceString(){
+    qint64 n = getMovesPerPiece();
+    return QString::number((float)n/1000, 'f', 3);
+}
+
 QJsonObject Statistics::toJSON(){
     QJsonObject data;
 

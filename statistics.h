@@ -42,6 +42,12 @@ public:
     QString timeString();
     QString movesString();
     QString tpsString();
+    QString cubeSizeString();
+    QString numberOfPiecesString();
+    QString piecesPerSecondString();
+    QString timePerPieceString();
+    QString piecesPerMoveString();
+    QString movesPerPieceString();
 
     QJsonObject toJSON();
     void fromJSON(QJsonObject data);
