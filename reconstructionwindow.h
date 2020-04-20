@@ -23,6 +23,8 @@ private:
     Reconstruction *reconstruction;
     Statistics *statistics;
 
+    void updateStatistics();
+
 };
 
 #endif // RECONSTRUCTIONWINDOW_H
