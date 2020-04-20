@@ -47,6 +47,7 @@ HEADERS += \
     cubewidget.h \
     enums.h \
     ffmpegprocess.h \
+    formatting.h \
     global.h \
     mainwindow.h \
     move.h \

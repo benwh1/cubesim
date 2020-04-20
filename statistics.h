@@ -7,6 +7,7 @@
 #include <QObject>
 #include <QTime>
 #include "cube.h"
+#include "formatting.h"
 
 class Statistics : public QObject
 {

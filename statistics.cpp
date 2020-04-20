@@ -110,30 +110,15 @@ bool Statistics::timerRunning(){
 }
 
 QString Statistics::timeString(){
-    qint64 time = getTime();
-
-    if(time < 0) return "-";
-
-    QString formattedTime;
-    QTime t = QTime(0,0).addMSecs(time);
-    int hours = time/3600000;
-
-    if(time < 60000) formattedTime = t.toString("s.zzz");
-    else if(hours > 0) formattedTime = QString::number(hours) + ":" + t.toString("mm:ss.zzz");
-    else formattedTime = t.toString("m:ss.zzz");
-
-    return formattedTime;
+    return Formatting::formatTime(getTime());
 }
 
 QString Statistics::movesString(){
-    return QString::number(moves);
+    return Formatting::formatMovecount(moves);
 }
 
 QString Statistics::tpsString(){
-    int tps = getTPS();
-
-    if(tps == 2147483647) return QChar(0x221E);
-    else return QString::number((float)tps/1000, 'f', 3);
+    return Formatting::formatTPS(getTPS());
 }
 
 QJsonObject Statistics::toJSON(){
