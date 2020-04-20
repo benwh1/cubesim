@@ -13,16 +13,16 @@ MainWindow::MainWindow(QWidget *parent)
     //detect when the cube size changes so we can update the window title
     connect(ui->cubeWidget->getCube(), SIGNAL(cubeSizeChanged()), this, SLOT(onCubeSizeChanged()));
 
-    //create the settings window and give it the cubeWidget's settings object
-    settingsWindow = new SettingsWindow(ui->cubeWidget->getSettings());
-
-    //create the replay recorder window
+    //create windows
+    reconstructionWindow = new ReconstructionWindow(ui->cubeWidget->getReconstruction(), ui->cubeWidget->getStatistics());
     replayRecorderWindow = new ReplayRecorderWindow(ui->cubeWidget->getReplayRecorder());
+    settingsWindow = new SettingsWindow(ui->cubeWidget->getSettings());
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+    delete reconstructionWindow;
     delete replayRecorderWindow;
     delete settingsWindow;
 }
@@ -83,4 +83,3 @@ void MainWindow::updateTitleText(){
 void MainWindow::onCubeSizeChanged(){
     updateTitleText();
 }
-

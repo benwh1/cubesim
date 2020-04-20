@@ -5,6 +5,7 @@
 #include <QMainWindow>
 #include <QStandardPaths>
 #include "cube.h"
+#include "reconstructionwindow.h"
 #include "replayrecorderwindow.h"
 #include "settingswindow.h"
 
@@ -27,6 +28,7 @@ protected:
 private:
     Ui::MainWindow *ui;
 
+    ReconstructionWindow *reconstructionWindow;
     ReplayRecorderWindow *replayRecorderWindow;
     SettingsWindow *settingsWindow;
 

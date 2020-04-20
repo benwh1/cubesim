@@ -58,6 +58,10 @@ Cube *CubeWidget::getCube(){
     return cube;
 }
 
+Reconstruction *CubeWidget::getReconstruction(){
+    return reconstruction;
+}
+
 ReplayRecorder *CubeWidget::getReplayRecorder(){
     return replayRecorder;
 }
@@ -68,6 +72,10 @@ Settings *CubeWidget::getSettings(){
 
 CubeWidget::State CubeWidget::getState(){
     return state;
+}
+
+Statistics *CubeWidget::getStatistics(){
+    return statistics;
 }
 
 void CubeWidget::reset(){

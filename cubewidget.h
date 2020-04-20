@@ -34,9 +34,11 @@ public:
     ~CubeWidget();
 
     Cube *getCube();
+    Reconstruction *getReconstruction();
     ReplayRecorder *getReplayRecorder();
     Settings *getSettings();
     State getState();
+    Statistics *getStatistics();
 
     void reset();
 
