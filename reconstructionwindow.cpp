@@ -22,8 +22,7 @@ void ReconstructionWindow::show(){
 }
 
 void ReconstructionWindow::updateStatistics(){
-    int n = statistics->getCubeSize();
-    ui->cubeLabel->setText(QString::number(n) + "x" + QString::number(n) + "x" + QString::number(n));
+    ui->cubeLabel->setText(statistics->cubeSizeString());
     ui->timeLabel->setText(statistics->timeString());
     ui->movesLabel->setText(statistics->movesString());
     ui->tpsLabel->setText(statistics->tpsString());
