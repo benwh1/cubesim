@@ -154,6 +154,7 @@ QJsonObject Statistics::toJSON(){
 
     data["time"] = getTime();
     data["moves"] = moves;
+    data["active"] = active;
 
     return data;
 }
@@ -161,4 +162,10 @@ QJsonObject Statistics::toJSON(){
 void Statistics::fromJSON(QJsonObject data){
     additionalTime = data["time"].toInt();
     moves = data["moves"].toInt();
+    active = data["active"].toBool();
+
+    //start the timer if necessary
+    if(active){
+        startTimer();
+    }
 }

@@ -204,7 +204,7 @@ public:
         }
         else if(fromVersion == "0.5"){
             /* differences:
-             * active parameter in reconstruction
+             * active parameter in reconstruction and statistics
              */
 
             toVersion = "0.6";
@@ -216,14 +216,17 @@ public:
             //get the state
             int state = data["state"].toInt();
 
-            //get the old reconstruction from the save
+            //get the old reconstruction and statistics from the save
             QJsonObject reconstruction = data["reconstruction"].toObject();
+            QJsonObject statistics = data["statistics"].toObject();
 
-            //add the active parameter
+            //add the active parameters
             reconstruction["active"] = (state == 2);
+            statistics["active"] = (state == 2);
 
-            //add the new reconstruction to the save
+            //add the new reconstruction and statistics to the save
             data["reconstruction"] = reconstruction;
+            data["statistics"] = statistics;
         }
 
         //update the version number
