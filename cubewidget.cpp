@@ -235,10 +235,6 @@ void CubeWidget::fromJSON(QJsonObject data){
     reconstruction->fromJSON(data["reconstruction"].toObject());
     state = (State)data["state"].toInt();
     ui->statisticsWidget->fromJSON(data["statisticsWidget"].toObject());
-
-    if(state == State::Solving){
-        statistics->startTimer();
-    }
 }
 
 void CubeWidget::save(){
