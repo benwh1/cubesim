@@ -20,6 +20,8 @@ public:
     int length();
     qint64 totalTime();
 
+    void start();
+    void finish();
     void reset();
 
     QString toString();

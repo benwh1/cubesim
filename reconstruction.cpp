@@ -40,8 +40,17 @@ qint64 Reconstruction::totalTime(){
     return moves.last().second;
 }
 
+void Reconstruction::start(){
+    active = true;
+}
+
+void Reconstruction::finish(){
+    active = false;
+}
+
 void Reconstruction::reset(){
     moves.clear();
+    active = false;
 }
 
 QString Reconstruction::toString(){

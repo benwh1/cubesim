@@ -372,10 +372,14 @@ void CubeWidget::onMoveDrag(Axis axis, int layer, bool clockwise, Qt::MouseButto
 }
 
 void CubeWidget::onMoveDone(Move move){
-    //if we are in inspection, start the timer
+    //if we are in inspection, start the timer and reconstruction
     if(state == State::Inspecting){
         statistics->reset();
         statistics->startTimer();
+
+        reconstruction->reset();
+        reconstruction->start();
+
         state = State::Solving;
     }
 
@@ -386,9 +390,11 @@ void CubeWidget::onMoveDone(Move move){
 }
 
 void CubeWidget::onCubeSolved(){
-    //if we were solving, stop the timer
+    //if we were solving, stop the timer and reconstruction
     if(state == State::Solving){
         statistics->stopTimer();
+        reconstruction->finish();
+
         state = State::Finished;
     }
 }
