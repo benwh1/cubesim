@@ -5,6 +5,12 @@ Reconstruction::Reconstruction(Cube *cube, Statistics *statistics, QObject *pare
 {
     this->cube = cube;
     this->statistics = statistics;
+
+    active = false;
+
+    //connect to cube signals
+    connect(cube, SIGNAL(moveDone(Move)), this, SLOT(onMoveDone(Move)));
+    connect(cube, SIGNAL(rotationDone(Move)), this, SLOT(onRotationDone(Move)));
 }
 
 void Reconstruction::addMove(Move move, qint64 time){
@@ -74,5 +80,17 @@ void Reconstruction::fromJSON(QJsonObject data){
         move.fromJSON(m[i].toObject());
         time = t[i].toInt();
         moves.append(QPair<Move, qint64>(move, time));
+    }
+}
+
+void Reconstruction::onMoveDone(Move move){
+    if(active){
+        addMove(move, statistics->getTime());
+    }
+}
+
+void Reconstruction::onRotationDone(Move move){
+    if(active){
+        addRotation(move, statistics->getTime());
     }
 }

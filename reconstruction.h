@@ -14,9 +14,6 @@ class Reconstruction : public QObject
 public:
     explicit Reconstruction(Cube *cube, Statistics *statistics, QObject *parent = nullptr);
 
-    void addMove(Move move, qint64 time);
-    void addRotation(Move move, qint64 time);
-
     Move getMove(int n);
     QPair<Move, qint64> at(int n);
 
@@ -34,8 +31,18 @@ private:
     //when moves[i].first was done
     QList<QPair<Move, qint64>> moves;
 
+    //are we currently recording moves?
+    bool active;
+
     Cube *cube;
     Statistics *statistics;
+
+    void addMove(Move move, qint64 time);
+    void addRotation(Move move, qint64 time);
+
+private slots:
+    void onMoveDone(Move move);
+    void onRotationDone(Move move);
 
 };
 

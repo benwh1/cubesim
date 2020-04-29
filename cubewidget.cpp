@@ -30,7 +30,6 @@ CubeWidget::CubeWidget(QWidget *parent) :
 
     //detect cube moves
     connect(cube, SIGNAL(moveDone(Move)), this, SLOT(onMoveDone(Move)));
-    connect(cube, SIGNAL(rotationDone(Move)), this, SLOT(onRotationDone(Move)));
 
     //detect when the cube is solved
     connect(cube, SIGNAL(cubeSolved()), this, SLOT(onCubeSolved()));
@@ -380,23 +379,9 @@ void CubeWidget::onMoveDone(Move move){
         state = State::Solving;
     }
 
-    //if we are solving, add the move to statistics and reconstruction
+    //if we are solving, add the move to statistics
     if(state == State::Solving){
-        qint64 time = statistics->getTime();
-        reconstruction->addMove(move, time);
         statistics->doMove();
-    }
-}
-
-void CubeWidget::onRotationDone(Move move){
-    //if we are solving, add the rotation to the reconstruction
-    if(state == State::Solving){
-        qint64 time = statistics->getTime();
-        reconstruction->addRotation(move, time);
-    }
-    //if we rotate during inspection, add the rotation with a time of 0
-    else if(state == State::Inspecting){
-        reconstruction->addRotation(move, 0);
     }
 }
 
