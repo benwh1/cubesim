@@ -4,13 +4,15 @@
 #include <QJsonArray>
 #include <QJsonObject>
 #include <QList>
-#include "enums.h"
-#include "move.h"
+#include <QObject>
+#include "cube.h"
+#include "statistics.h"
 
-class Reconstruction
+class Reconstruction : public QObject
 {
+    Q_OBJECT
 public:
-    Reconstruction();
+    explicit Reconstruction(Cube *cube, Statistics *statistics, QObject *parent = nullptr);
 
     void addMove(Move move, qint64 time);
     void addRotation(Move move, qint64 time);
@@ -31,6 +33,9 @@ private:
     //moves[i].second is the time in milliseconds since the start of the solve
     //when moves[i].first was done
     QList<QPair<Move, qint64>> moves;
+
+    Cube *cube;
+    Statistics *statistics;
 
 };
 

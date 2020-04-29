@@ -15,10 +15,10 @@ CubeWidget::CubeWidget(QWidget *parent) :
     overlapStats = true;
     interactionEnabled = true;
 
-    reconstruction = new Reconstruction();
     settings = new Settings(this);
     cube = new Cube(settings, this);
     statistics = new Statistics(cube, this);
+    reconstruction = new Reconstruction(cube, statistics, this);
 
     ui->graphicsView->initialize(cube, settings);
     ui->statisticsWidget->initialize(statistics, settings);
@@ -51,7 +51,6 @@ CubeWidget::CubeWidget(QWidget *parent) :
 CubeWidget::~CubeWidget()
 {
     delete ui;
-    delete reconstruction;
 }
 
 Cube *CubeWidget::getCube(){

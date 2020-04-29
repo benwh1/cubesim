@@ -1,8 +1,10 @@
 #include "reconstruction.h"
 
-Reconstruction::Reconstruction()
+Reconstruction::Reconstruction(Cube *cube, Statistics *statistics, QObject *parent) :
+    QObject(parent)
 {
-
+    this->cube = cube;
+    this->statistics = statistics;
 }
 
 void Reconstruction::addMove(Move move, qint64 time){
