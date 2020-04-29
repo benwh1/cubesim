@@ -202,6 +202,29 @@ public:
             data.remove("cubeGraphicsObject");
             data["graphicsView"] = graphicsView;
         }
+        else if(fromVersion == "0.5"){
+            /* differences:
+             * active parameter in reconstruction
+             */
+
+            toVersion = "0.6";
+
+            //if state == 2 (Solving) then active == true, otherwise false
+            //currently, we do not allow saving in state 1 (Inspecting), so
+            //we only need to check if state == 2
+
+            //get the state
+            int state = data["state"].toInt();
+
+            //get the old reconstruction from the save
+            QJsonObject reconstruction = data["reconstruction"].toObject();
+
+            //add the active parameter
+            reconstruction["active"] = (state == 2);
+
+            //add the new reconstruction to the save
+            data["reconstruction"] = reconstruction;
+        }
 
         //update the version number
         data["version"] = toVersion;
