@@ -73,6 +73,7 @@ QJsonObject Reconstruction::toJSON(){
 
     data["moves"] = m;
     data["times"] = t;
+    data["active"] = active;
 
     return data;
 }
@@ -90,6 +91,8 @@ void Reconstruction::fromJSON(QJsonObject data){
         time = t[i].toInt();
         moves.append(QPair<Move, qint64>(move, time));
     }
+
+    active = data["active"].toBool();
 }
 
 void Reconstruction::onMoveDone(Move move){
