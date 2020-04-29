@@ -227,13 +227,16 @@ void CubeWidget::fromJSON(QJsonObject data){
     //TODO: make sure that the cube graphics object is only redrawn once
     //after everything has been loaded
 
-    statistics->fromJSON(data["statistics"].toObject());
     cube->fromJSON(data["cube"].toObject());
     ui->graphicsView->fromJSON(data["graphicsView"].toObject());
     swapCtrlShift = data["swapCtrlShift"].toBool();
     settings->fromJSON(data["settings"].toObject());
     reconstruction->fromJSON(data["reconstruction"].toObject());
     state = (State)data["state"].toInt();
+
+    //load the statistics last, so the timer isn't running while the rest
+    //of the save file is being loaded
+    statistics->fromJSON(data["statistics"].toObject());
     ui->statisticsWidget->fromJSON(data["statisticsWidget"].toObject());
 }
 
