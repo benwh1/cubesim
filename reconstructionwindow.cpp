@@ -25,6 +25,7 @@ void ReconstructionWindow::updateStatistics(){
     ui->cubeLabel->setText(statistics->cubeSizeString());
     ui->timeLabel->setText(statistics->timeString());
     ui->movesLabel->setText(statistics->movesString());
+    ui->rotationsLabel->setText(Formatting::formatMovecount(reconstruction->numRotations()));
     ui->tpsLabel->setText(statistics->tpsString());
     ui->piecesLabel->setText(statistics->numberOfPiecesString());
     ui->piecesPerSecLabel->setText(statistics->piecesPerSecondString());

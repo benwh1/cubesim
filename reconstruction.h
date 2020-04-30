@@ -20,6 +20,8 @@ public:
     int length();
     qint64 totalTime();
 
+    int numRotations();
+
     void start();
     void finish();
     void reset();
