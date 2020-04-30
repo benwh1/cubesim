@@ -103,6 +103,7 @@ void CubeWidget::keyPressEvent(QKeyEvent *event){
     if(event->key() == Qt::Key_Space){
         if(state == State::Neutral || state == State::Finished){
             reconstruction->reset();
+            reconstruction->start();
             cube->scramble();
             state = State::Inspecting;
         }
@@ -375,9 +376,6 @@ void CubeWidget::onMoveDone(Move move){
     if(state == State::Inspecting){
         statistics->reset();
         statistics->startTimer();
-
-        reconstruction->reset();
-        reconstruction->start();
 
         state = State::Solving;
     }
