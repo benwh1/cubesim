@@ -225,9 +225,6 @@ void CubeWidget::fromJSON(QJsonObject data){
     //make sure the save file is compatible with the latest format
     data = SaveConverter::convert(data);
 
-    //TODO: make sure that the cube graphics object is only redrawn once
-    //after everything has been loaded
-
     cube->fromJSON(data["cube"].toObject());
     ui->graphicsView->fromJSON(data["graphicsView"].toObject());
     swapCtrlShift = data["swapCtrlShift"].toBool();
