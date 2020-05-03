@@ -406,5 +406,17 @@ void CubeWidget::onCubeSolved(){
         reconstruction->finish();
 
         state = State::Finished;
+
+        //save the solve
+        //directory to save in
+        QString s = QString::number(cube->getSize());
+        QDir d("solves/" + s + "x" + s + "x" + s);
+
+        //count how many solves we already have
+        d.setFilter(QDir::AllEntries | QDir::NoDotAndDotDot);
+        int n = d.count();
+
+        //save the solve
+        save(d.filePath(QString::number(n+1) + ".dat"));
     }
 }
