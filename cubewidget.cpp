@@ -258,6 +258,22 @@ void CubeWidget::save(){
     f.close();
 }
 
+void CubeWidget::save(QString fileName){
+    if(state != State::Solving && state != State::Finished) return;
+
+    QJsonDocument document(toJSON());
+
+    //make the directory if it doesn't already exist
+    QFile f(fileName);
+    QFileInfo fileInfo(f);
+    QDir::current().mkpath(fileInfo.path());
+
+    //write the file
+    f.open(QFile::WriteOnly);
+    f.write(document.toBinaryData());
+    f.close();
+}
+
 void CubeWidget::load(){
     //only load when we aren't doing a solve
     if(state != State::Neutral) return;

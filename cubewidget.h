@@ -67,6 +67,7 @@ private:
     void fromJSON(QJsonObject data);
 
     void save();
+    void save(QString fileName);
     void load();
     void load(QString fileName);
 
