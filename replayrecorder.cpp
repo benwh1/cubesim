@@ -262,7 +262,7 @@ void ReplayRecorder::renderFrame(bool update, int numFrames){
     //repaint the cubeWidget if necessary
     if(update){
         //temporarily unblock the cube signals so we can call cubeStateChanged
-        //which will cause the cubeGraphicsObject to run updateAll
+        //which will call CubeGraphicsObject::update()
         cube->blockSignals(false);
         cube->cubeStateChanged();
         cube->blockSignals(true);
