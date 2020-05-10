@@ -1,6 +1,12 @@
 #include "move.h"
 
-Move::Move(){}
+Move::Move()
+{
+    axis = (Axis)-1;
+    layerStart = -1;
+    layerEnd = -1;
+    amount = -1;
+}
 
 Move::Move(Axis axis, int layerStart, int layerEnd, int amount)
 {
