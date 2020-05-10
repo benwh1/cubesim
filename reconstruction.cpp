@@ -67,6 +67,64 @@ void Reconstruction::reset(){
     active = false;
 }
 
+void Reconstruction::simplify(){
+    for(int i=0; i<length()-1; i++){
+        //if length is 1, there is nothing left to do
+        if(length() == 1){
+            break;
+        }
+
+        //make sure i >= 0. it is possible that i<0 here because if the first
+        //two moves are U U', then we will remove them and go backwards a move
+        if(i<0) i=0;
+
+        //current move and the next move
+        Move m1, m2;
+        m1 = moves[i].first;
+        m2 = moves[i+1].first;
+
+        //combine the moves if possible
+        Move m3 = m1.combine(m2);
+
+        //check that the moves cancel
+        if(!(m3 == Move())){
+            //check if they fully cancel (like U U', but not U U2)
+            if(m3.getAmount() == 0){
+                //remove m1 and m2 from the reconstruction
+                moves.removeAt(i+1);
+                moves.removeAt(i);
+            }
+            //moves cancel, but not completely
+            else{
+                //replace the two original moves with the combined move
+                //by overwriting the first move and removing the second move
+                moves[i].first = m3;
+                moves.removeAt(i+1);
+            }
+
+            //go backwards one move so we don't miss any simplifications
+            //e.g. we could have R U U' R', remove the U U', then we need to
+            //go back to the R move to see that R R' simplifies.
+            //we also run i++ before the next iteration of the loop, so we
+            //need to subtract 2 from i here instead of 1
+            i -= 2;
+            continue;
+        }
+    }
+}
+
+Reconstruction *Reconstruction::simplified(){
+    //Qt doesn't allow subclasses of QObject to be copied (because it's not
+    //clear what should happen with signals and slots), so copy manually
+    Reconstruction *r = new Reconstruction(cube, statistics, parent());
+    for(int i=0; i<moves.size(); i++){
+        r->addMove(moves[i].first, moves[i].second);
+    }
+
+    r->simplify();
+    return r;
+}
+
 QString Reconstruction::toString(){
     QString str = "";
     for(int i=0; i<moves.size(); i++){

@@ -27,6 +27,12 @@ public:
     void finish();
     void reset();
 
+    //simplifies the reconstruction by modifying the current object
+    void simplify();
+
+    //creates a copy of the reconstruction and simplifies it
+    Reconstruction *simplified();
+
     QString toString();
     QJsonObject toJSON();
     void fromJSON(QJsonObject data);
