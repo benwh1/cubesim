@@ -33,7 +33,10 @@ CubeWidget::CubeWidget(QWidget *parent) :
 
     //detect when the cube is solved
     connect(cube, SIGNAL(cubeSolved()), this, SLOT(onCubeSolved()));
-    connect(cube, SIGNAL(cubeSolved()), ui->statisticsWidget, SLOT(onCubeSolved()));
+
+    //let the statistics widget know when a solve is finished so that it can
+    //make the timer label green
+    connect(this, SIGNAL(solveFinished()), ui->statisticsWidget, SLOT(onSolveFinished()));
 
     //load the settings file if it exists
     QFile f("settings.dat");
@@ -406,6 +409,11 @@ void CubeWidget::onCubeSolved(){
         reconstruction->finish();
 
         state = State::Finished;
+
+        //need to call this before saving, because some things that get saved
+        //in the save file might need to be updated after the solve finishes
+        //(currently, this is just the style sheet of the statistics widget)
+        emit solveFinished();
 
         //save the solve
         //directory to save in

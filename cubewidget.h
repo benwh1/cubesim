@@ -76,6 +76,9 @@ private slots:
     void onMoveDone(Move move);
     void onCubeSolved();
 
+signals:
+    void solveFinished();
+
 };
 
 #endif // CUBEWIDGET_H

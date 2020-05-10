@@ -106,7 +106,7 @@ void StatisticsWidget::onStatisticChanged(){
     updateStatistics();
 }
 
-void StatisticsWidget::onCubeSolved(){
+void StatisticsWidget::onSolveFinished(){
     ui->timeLabel->setStyleSheet("font: bold; color: #008800");
 }
 
