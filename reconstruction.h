@@ -20,6 +20,7 @@ public:
     int length();
     qint64 totalTime();
 
+    int numMoves();
     int numRotations();
 
     void start();

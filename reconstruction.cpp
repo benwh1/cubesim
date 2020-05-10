@@ -40,14 +40,18 @@ qint64 Reconstruction::totalTime(){
     return moves.last().second;
 }
 
-int Reconstruction::numRotations(){
+int Reconstruction::numMoves(){
     int n = 0;
     for(int i=0; i<moves.size(); i++){
-        if(moves[i].first.isRotation()){
+        if(!moves[i].first.isRotation()){
             n++;
         }
     }
     return n;
+}
+
+int Reconstruction::numRotations(){
+    return length() - numMoves();
 }
 
 void Reconstruction::start(){
