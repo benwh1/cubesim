@@ -214,15 +214,12 @@ void ReplayRecorder::record(QString fileName){
     statistics->setTime(time);
     statistics->setMoves(moves);
 
-    //update the cubeGraphicsObject and emit a cubeSolved signal, so that
-    //the statisticsWidget will update the timer labels stylesheet
-    cube->blockSignals(false);
-    cube->cubeStateChanged();
-    cube->cubeSolved();
-    cube->blockSignals(true);
+    //emit a solveFinished signal, causing the statistics widget to update
+    //the timer style sheet
+    cubeWidget->solveFinished();
 
     //render the last frame
-    renderFrame(false, numExtremeFrames);
+    renderFrame(true, numExtremeFrames);
     emit frameRendered(numFrames, numFrames);
 
     //schedule stdin to be closed once all of the data has been written.
