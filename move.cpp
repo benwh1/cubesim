@@ -34,6 +34,21 @@ Move Move::inverse(){
     return Move(axis, layerStart, layerEnd, (4-amount)%4);
 }
 
+bool Move::cancelsWith(Move m){
+    return axis == m.getAxis() &&
+            layerStart == m.getLayerStart() &&
+            layerEnd == m.getLayerEnd();
+}
+
+Move Move::combine(Move m){
+    if(cancelsWith(m)){
+        return Move(axis, layerStart, layerEnd, (amount + m.getAmount())%4);
+    }
+    else{
+        return Move();
+    }
+}
+
 bool Move::operator==(Move m){
     return m.getAxis() == axis &&
             m.getLayerStart() == layerStart &&

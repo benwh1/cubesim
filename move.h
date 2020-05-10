@@ -22,6 +22,13 @@ public:
 
     Move inverse();
 
+    //check if this move followed by m can be simplified (e.g. U U2)
+    bool cancelsWith(Move m);
+
+    //if cancelsWith(m) is true, return the simplified move
+    //otherwise return a default move Move()
+    Move combine(Move m);
+
     bool operator==(Move m);
 
     QString toString();
