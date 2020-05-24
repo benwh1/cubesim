@@ -135,11 +135,28 @@ void CubeWidget::keyPressEvent(QKeyEvent *event){
         }
     }
     else if(event->key() == Qt::Key_P){
-        bool ok;
-        QString str = QInputDialog::getText(this, "Projection", "Projection:", QLineEdit::Normal, QString(), &ok);
-        if(!ok) return;
+        //take screenshot
+        if(ctrl){
+            //render the image
+            QImage image(size(), QImage::Format_ARGB32);
+            QPainter painter(&image);
+            render(&painter);
 
-        ui->graphicsView->setCubeProjection(str);
+            //make images directory if needed
+            QDir::current().mkdir("images");
+
+            //save the image
+            QString name = QDateTime::currentDateTime().toString(Qt::ISODateWithMs);
+            image.save("images/" + name + ".png", "PNG");
+        }
+        //change projection
+        else{
+            bool ok;
+            QString str = QInputDialog::getText(this, "Projection", "Projection:", QLineEdit::Normal, QString(), &ok);
+            if(!ok) return;
+
+            ui->graphicsView->setCubeProjection(str);
+        }
     }
     else if(event->key() == Qt::Key_T){
         swapCtrlShift = !swapCtrlShift;
