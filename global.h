@@ -11,7 +11,7 @@ public:
     }
 
     static QString saveFormatVersion(){
-        return "0.6";
+        return "0.7";
     }
 
 };

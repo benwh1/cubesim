@@ -228,6 +228,50 @@ public:
             data["reconstruction"] = reconstruction;
             data["statistics"] = statistics;
         }
+        else if(fromVersion == "0.6"){
+            /* differences:
+             * none
+             * bug fix:
+             * if we do one solve, and then another, the rotations during
+             * inspection of the second solve will be given the time of the
+             * first solve, because the timer wasn't reset before inspection.
+             * the first move after inspection is also given the time of the
+             * previous solve.
+             *
+             * so we need to take the rotations at the start of the solve
+             * and the first move, and set all of the times to 0
+             */
+
+            toVersion = "0.7";
+
+            //get the lists of moves and times
+            QJsonObject reconstruction = data["reconstruction"].toObject();
+            QJsonArray moves = reconstruction["moves"].toArray();
+            QJsonArray times = reconstruction["times"].toArray();
+
+            for(int i=0; i<moves.size(); i++){
+                QJsonObject move = moves[i].toObject();
+
+                //in this version, the move is a rotation iff layerStart == 0
+                //and layerEnd == -1
+                if(move["layerStart"].toInt() == 0 &&
+                   move["layerEnd"].toInt() == -1){
+                    //if rotation, set the time to 0
+                    times[i] = 0;
+                }
+                else{
+                    //if not rotation, then we have finished inspection.
+                    //fix the time of the first move, and then break
+                    times[i] = 0;
+                    break;
+                }
+            }
+
+            //update the save file data
+            reconstruction["moves"] = moves;
+            reconstruction["times"] = times;
+            data["reconstruction"] = reconstruction;
+        }
 
         //update the version number
         data["version"] = toVersion;
