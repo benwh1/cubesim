@@ -1,6 +1,8 @@
 #ifndef CONTROLS_H
 #define CONTROLS_H
 
+#include <QJsonArray>
+#include <QJsonObject>
 #include <QObject>
 #include <QShortcut>
 
@@ -36,6 +38,9 @@ public:
     void setToggleMultisliceShortcutKeySequence(QKeySequence k);
 
     void setScreenshotShortcutKeySequence(QKeySequence k);
+
+    QJsonObject toJSON();
+    void fromJSON(QJsonObject data);
 
 private:
     QShortcut *scrambleShortcut;

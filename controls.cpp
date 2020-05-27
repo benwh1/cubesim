@@ -158,3 +158,75 @@ void Controls::setToggleMultisliceShortcutKeySequence(QKeySequence k){
 void Controls::setScreenshotShortcutKeySequence(QKeySequence k){
     screenshotShortcut->setKey(k);
 }
+
+QJsonObject Controls::toJSON(){
+    QJsonObject data;
+
+    data["scrambleShortcut"] = scrambleShortcut->key().toString();
+    data["resetShortcut"] = resetShortcut->key().toString();
+    data["increaseSizeShortcut"] = increaseSizeShortcut->key().toString();
+    data["decreaseSizeShortcut"] = decreaseSizeShortcut->key().toString();
+    data["changeSizeShortcut"] = changeSizeShortcut->key().toString();
+
+    QJsonArray arr;
+    for(int i=0; i<10; i++){
+        arr.append(loadProjectionShortcuts[i]->key().toString());
+    }
+    data["loadProjectionShortcuts"] = arr;
+    data["resetProjectionShortcut"] = resetProjectionShortcut->key().toString();
+    data["changeProjectionShortcut"] = changeProjectionShortcut->key().toString();
+
+    data["resetZoomShortcut"] = resetZoomShortcut->key().toString();
+    data["zoomInShortcut"] = zoomInShortcut->key().toString();
+    data["zoomInSmallShortcut"] = zoomInSmallShortcut->key().toString();
+    data["zoomInLargeShortcut"] = zoomInLargeShortcut->key().toString();
+    data["zoomOutShortcut"] = zoomOutShortcut->key().toString();
+    data["zoomOutSmallShortcut"] = zoomOutSmallShortcut->key().toString();
+    data["zoomOutLargeShortcut"] = zoomOutLargeShortcut->key().toString();
+
+    data["saveShortcut"] = saveShortcut->key().toString();
+    data["loadShortcut"] = loadShortcut->key().toString();
+
+    data["toggleStatsShortcut"] = toggleStatsShortcut->key().toString();
+
+    data["toggleMultisliceShortcut"] = toggleMultisliceShortcut->key().toString();
+
+    data["screenshotShortcut"] = screenshotShortcut->key().toString();
+
+    return data;
+}
+
+void Controls::fromJSON(QJsonObject data){
+    scrambleShortcut->setKey(QKeySequence::fromString(data["scrambleShortcut"].toString()));
+    resetShortcut->setKey(QKeySequence::fromString(data["resetShortcut"].toString()));
+    increaseSizeShortcut->setKey(QKeySequence::fromString(data["increaseSizeShortcut"].toString()));
+    decreaseSizeShortcut->setKey(QKeySequence::fromString(data["decreaseSizeShortcut"].toString()));
+    changeSizeShortcut->setKey(QKeySequence::fromString(data["changeSizeShortcut"].toString()));
+
+    QJsonArray arr = data["loadProjectionShortcuts"].toArray();
+    //if arr.size() is not 10 for some reason, then arr[i] will not crash,
+    //it will just return QJsonValue(undefined) and the shortcuts will
+    //be set to the blank string, i.e. no shortcut defined
+    for(int i=0; i<10; i++){
+        loadProjectionShortcuts[i]->setKey(QKeySequence::fromString(arr[i].toString()));
+    }
+    resetProjectionShortcut->setKey(QKeySequence::fromString(data["resetProjectionShortcut"].toString()));
+    changeProjectionShortcut->setKey(QKeySequence::fromString(data["changeProjectionShortcut"].toString()));
+
+    resetZoomShortcut->setKey(QKeySequence::fromString(data["resetZoomShortcut"].toString()));
+    zoomInShortcut->setKey(QKeySequence::fromString(data["zoomInShortcut"].toString()));
+    zoomInSmallShortcut->setKey(QKeySequence::fromString(data["zoomInSmallShortcut"].toString()));
+    zoomInLargeShortcut->setKey(QKeySequence::fromString(data["zoomInLargeShortcut"].toString()));
+    zoomOutShortcut->setKey(QKeySequence::fromString(data["zoomOutShortcut"].toString()));
+    zoomOutSmallShortcut->setKey(QKeySequence::fromString(data["zoomOutSmallShortcut"].toString()));
+    zoomOutLargeShortcut->setKey(QKeySequence::fromString(data["zoomOutLargeShortcut"].toString()));
+
+    saveShortcut->setKey(QKeySequence::fromString(data["saveShortcut"].toString()));
+    loadShortcut->setKey(QKeySequence::fromString(data["loadShortcut"].toString()));
+
+    toggleStatsShortcut->setKey(QKeySequence::fromString(data["toggleStatsShortcut"].toString()));
+
+    toggleMultisliceShortcut->setKey(QKeySequence::fromString(data["toggleMultisliceShortcut"].toString()));
+
+    screenshotShortcut->setKey(QKeySequence::fromString(data["screenshotShortcut"].toString()));
+}

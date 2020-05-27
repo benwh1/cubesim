@@ -219,6 +219,8 @@ QJsonObject Settings::toJSON(){
     data["pochmannBarThickness"] = pochmannBarThickness;
     data["pochmannCage"] = pochmannCage;
 
+    data["controls"] = controls->toJSON();
+
     return data;
 }
 
@@ -245,4 +247,6 @@ void Settings::fromJSON(QJsonObject data){
     setSupercubeStickers(data["supercubeStickers"].toString());
     setPochmannBarThickness(data["pochmannBarThickness"].toDouble());
     setPochmannCage(data["pochmannCage"].toBool());
+
+    controls->fromJSON(data["controls"].toObject());
 }
