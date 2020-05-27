@@ -35,7 +35,6 @@ private slots:
     void onFaceBColourChanged();
     void onFaceLColourChanged();
     void onFaceDColourChanged();
-    void onMultisliceCheckBoxChanged();
     void onGuideLinesCrossCheckBoxChanged();
     void onGuideLinesPlusCheckBoxChanged();
     void onGuideLinesBoxCheckBoxChanged();

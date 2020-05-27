@@ -19,7 +19,6 @@ SettingsWindow::SettingsWindow(Settings *settings, QDialog *parent) :
     connect(ui->faceBColourWidget, SIGNAL(colorChanged()), this, SLOT(onFaceBColourChanged()));
     connect(ui->faceLColourWidget, SIGNAL(colorChanged()), this, SLOT(onFaceLColourChanged()));
     connect(ui->faceDColourWidget, SIGNAL(colorChanged()), this, SLOT(onFaceDColourChanged()));
-    connect(ui->multisliceCheckBox, SIGNAL(toggled(bool)), this, SLOT(onMultisliceCheckBoxChanged()));
     connect(ui->guideLinesCrossCheckBox, SIGNAL(toggled(bool)), this, SLOT(onGuideLinesCrossCheckBoxChanged()));
     connect(ui->guideLinesPlusCheckBox, SIGNAL(toggled(bool)), this, SLOT(onGuideLinesPlusCheckBoxChanged()));
     connect(ui->guideLinesBoxCheckBox, SIGNAL(toggled(bool)), this, SLOT(onGuideLinesBoxCheckBoxChanged()));
@@ -56,7 +55,6 @@ void SettingsWindow::synchronizeFromSettings(){
                               ui->faceBColourWidget,
                               ui->faceLColourWidget,
                               ui->faceDColourWidget,
-                              ui->multisliceCheckBox,
                               ui->guideLinesCrossCheckBox,
                               ui->guideLinesPlusCheckBox,
                               ui->guideLinesBoxCheckBox,
@@ -81,7 +79,6 @@ void SettingsWindow::synchronizeFromSettings(){
     ui->faceBColourWidget->setColor(settings->getColour(Face::B));
     ui->faceLColourWidget->setColor(settings->getColour(Face::L));
     ui->faceDColourWidget->setColor(settings->getColour(Face::D));
-    ui->multisliceCheckBox->setChecked(settings->getMultislice());
     ui->guideLinesCrossCheckBox->setChecked(settings->getGuideLinesCross());
     ui->guideLinesPlusCheckBox->setChecked(settings->getGuideLinesPlus());
     ui->guideLinesBoxCheckBox->setChecked(settings->getGuideLinesBox());
@@ -135,10 +132,6 @@ void SettingsWindow::onFaceLColourChanged(){
 
 void SettingsWindow::onFaceDColourChanged(){
     settings->setColour(Face::D, ui->faceDColourWidget->getColor());
-}
-
-void SettingsWindow::onMultisliceCheckBoxChanged(){
-    settings->setMultislice(ui->multisliceCheckBox->isChecked());
 }
 
 void SettingsWindow::onGuideLinesCrossCheckBoxChanged(){
