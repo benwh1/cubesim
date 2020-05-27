@@ -90,8 +90,8 @@ void Controls::setChangeSizeShortcutKeySequence(QKeySequence k){
 }
 
 void Controls::setLoadProjectionShortcutKeySequence(int i, QKeySequence k){
-    assert(0 <= i && i < 10);
-    loadProjectionShortcuts[i]->setKey(k);
+    assert(1 <= i && i <= 10);
+    loadProjectionShortcuts[i-1]->setKey(k);
 }
 
 void Controls::setResetProjectionShortcutKeySequence(QKeySequence k){
