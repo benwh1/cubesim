@@ -27,7 +27,6 @@ public:
     void fromJSON(QJsonObject data);
 
 protected:
-    void keyPressEvent(QKeyEvent *event);
     void paintEvent(QPaintEvent *event);
 
 private:

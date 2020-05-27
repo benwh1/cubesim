@@ -92,29 +92,6 @@ void CubeGraphicsView::fromJSON(QJsonObject data){
     cubeGraphicsObject->fromJSON(data["cubeGraphicsObject"].toObject());
 }
 
-void CubeGraphicsView::keyPressEvent(QKeyEvent *event){
-    if(!interactionEnabled){
-        return;
-    }
-
-    event->accept();
-
-    Qt::KeyboardModifiers modifiers = event->modifiers();
-    bool ctrl = modifiers & Qt::ControlModifier;
-
-    if(event->key() == Qt::Key_Home){
-        //reset zoom
-        zoom(1/zoomFactor);
-    }
-    else{
-        event->ignore();
-    }
-
-    if(!event->isAccepted()){
-        QGraphicsView::keyPressEvent(event);
-    }
-}
-
 void CubeGraphicsView::paintEvent(QPaintEvent *event){
     //tell the cubeGraphicsObject which part of the scene is visible
     QRectF r = mapToScene(viewport()->rect()).boundingRect();
