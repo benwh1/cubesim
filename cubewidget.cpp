@@ -458,24 +458,20 @@ void CubeWidget::onChangeProjectionShortcutActivated(){
     ui->graphicsView->setCubeProjection(str);
 }
 
-void CubeWidget::onZoomInShortcutActivated()
-{
-
+void CubeWidget::onZoomInShortcutActivated(){
+    ui->graphicsView->zoom(1.05);
 }
 
-void CubeWidget::onZoomInSmallShortcutActivated()
-{
-
+void CubeWidget::onZoomInSmallShortcutActivated(){
+    ui->graphicsView->zoom(1.01);
 }
 
-void CubeWidget::onZoomOutShortcutActivated()
-{
-
+void CubeWidget::onZoomOutShortcutActivated(){
+    ui->graphicsView->zoom(1/1.05);
 }
 
-void CubeWidget::onZoomOutSmallShortcutActivated()
-{
-
+void CubeWidget::onZoomOutSmallShortcutActivated(){
+    ui->graphicsView->zoom(1/1.01);
 }
 
 void CubeWidget::onSaveShortcutActivated(){

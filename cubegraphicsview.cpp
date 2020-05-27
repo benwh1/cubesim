@@ -98,15 +98,7 @@ void CubeGraphicsView::keyPressEvent(QKeyEvent *event){
     Qt::KeyboardModifiers modifiers = event->modifiers();
     bool ctrl = modifiers & Qt::ControlModifier;
 
-    if(event->key() == Qt::Key_PageUp){
-        if(ctrl) zoom(1.01);
-        else zoom(1.05);
-    }
-    else if(event->key() == Qt::Key_PageDown){
-        if(ctrl) zoom(1/1.01);
-        else zoom(1/1.05);
-    }
-    else if(event->key() == Qt::Key_Home){
+    if(event->key() == Qt::Key_Home){
         //reset zoom
         zoom(1/zoomFactor);
     }
