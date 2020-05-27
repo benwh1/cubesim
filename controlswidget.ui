@@ -29,7 +29,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>3</number>
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="title">
@@ -45,12 +45,18 @@
            </property>
           </widget>
          </item>
+         <item row="0" column="1">
+          <widget class="QKeySequenceEdit" name="scrambleKeySequenceEdit"/>
+         </item>
          <item row="1" column="0">
           <widget class="QLabel" name="label_2">
            <property name="text">
             <string>Reset:</string>
            </property>
           </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QKeySequenceEdit" name="resetKeySequenceEdit"/>
          </item>
          <item row="2" column="0">
           <widget class="QLabel" name="label_3">
@@ -59,6 +65,9 @@
            </property>
           </widget>
          </item>
+         <item row="2" column="1">
+          <widget class="QKeySequenceEdit" name="increaseSizeKeySequenceEdit"/>
+         </item>
          <item row="3" column="0">
           <widget class="QLabel" name="label_4">
            <property name="text">
@@ -66,24 +75,15 @@
            </property>
           </widget>
          </item>
+         <item row="3" column="1">
+          <widget class="QKeySequenceEdit" name="decreaseSizeKeySequenceEdit"/>
+         </item>
          <item row="4" column="0">
           <widget class="QLabel" name="label_5">
            <property name="text">
             <string>Change size:</string>
            </property>
           </widget>
-         </item>
-         <item row="0" column="1">
-          <widget class="QKeySequenceEdit" name="scrambleKeySequenceEdit"/>
-         </item>
-         <item row="1" column="1">
-          <widget class="QKeySequenceEdit" name="resetKeySequenceEdit"/>
-         </item>
-         <item row="2" column="1">
-          <widget class="QKeySequenceEdit" name="increaseSizeKeySequenceEdit"/>
-         </item>
-         <item row="3" column="1">
-          <widget class="QKeySequenceEdit" name="decreaseSizeKeySequenceEdit"/>
          </item>
          <item row="4" column="1">
           <widget class="QKeySequenceEdit" name="changeSizeKeySequenceEdit"/>
@@ -97,26 +97,6 @@
          </item>
          <item row="5" column="1">
           <widget class="QKeySequenceEdit" name="toggleMultisliceKeySequenceEdit"/>
-         </item>
-         <item row="6" column="0">
-          <widget class="QLabel" name="label_24">
-           <property name="text">
-            <string>Save:</string>
-           </property>
-          </widget>
-         </item>
-         <item row="7" column="0">
-          <widget class="QLabel" name="label_25">
-           <property name="text">
-            <string>Load:</string>
-           </property>
-          </widget>
-         </item>
-         <item row="6" column="1">
-          <widget class="QKeySequenceEdit" name="saveKeySequenceEdit"/>
-         </item>
-         <item row="7" column="1">
-          <widget class="QKeySequenceEdit" name="loadKeySequenceEdit"/>
          </item>
         </layout>
        </item>
@@ -339,6 +319,37 @@
          </item>
          <item row="11" column="1">
           <widget class="QKeySequenceEdit" name="loadProjection10KeySequenceEdit"/>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_4">
+      <attribute name="title">
+       <string>Misc</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_5">
+       <item>
+        <layout class="QFormLayout" name="formLayout">
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_24">
+           <property name="text">
+            <string>Save:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QKeySequenceEdit" name="saveKeySequenceEdit"/>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_25">
+           <property name="text">
+            <string>Load:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QKeySequenceEdit" name="loadKeySequenceEdit"/>
          </item>
         </layout>
        </item>
