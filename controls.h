@@ -35,6 +35,8 @@ public:
 
     void setToggleMultisliceShortcutKeySequence(QKeySequence k);
 
+    void setScreenshotShortcutKeySequence(QKeySequence k);
+
 private:
     QShortcut *scrambleShortcut;
     QShortcut *resetShortcut;
@@ -61,6 +63,8 @@ private:
     QShortcut *toggleStatsShortcut;
 
     QShortcut *toggleMultisliceShortcut;
+
+    QShortcut *screenshotShortcut;
 
 private slots:
     void onLoadProjectionShortcutActivated();
@@ -90,6 +94,8 @@ signals:
     void toggleStatsShortcutActivated();
 
     void toggleMultisliceShortcutActivated();
+
+    void screenshotShortcutActivated();
 
 };
 

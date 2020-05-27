@@ -29,6 +29,8 @@ Controls::Controls(QWidget *parent) : QObject(parent)
 
     toggleMultisliceShortcut = new QShortcut(parent);
 
+    screenshotShortcut = new QShortcut(parent);
+
     connect(scrambleShortcut, SIGNAL(activated()), this, SIGNAL(scrambleShortcutActivated()));
     connect(resetShortcut, SIGNAL(activated()), this, SIGNAL(resetShortcutActivated()));
     connect(increaseSizeShortcut, SIGNAL(activated()), this, SIGNAL(increaseSizeShortcutActivated()));
@@ -55,6 +57,7 @@ Controls::Controls(QWidget *parent) : QObject(parent)
     connect(toggleStatsShortcut, SIGNAL(activated()), this, SIGNAL(toggleStatsShortcutActivated()));
 
     connect(toggleMultisliceShortcut, SIGNAL(activated()), this, SIGNAL(toggleMultisliceShortcutActivated()));
+    connect(screenshotShortcut, SIGNAL(activated()), this, SIGNAL(screenshotShortcutActivated()));
 }
 
 void Controls::onLoadProjectionShortcutActivated(){
@@ -150,4 +153,8 @@ void Controls::setToggleStatsShortcutKeySequence(QKeySequence k){
 
 void Controls::setToggleMultisliceShortcutKeySequence(QKeySequence k){
     toggleMultisliceShortcut->setKey(k);
+}
+
+void Controls::setScreenshotShortcutKeySequence(QKeySequence k){
+    screenshotShortcut->setKey(k);
 }

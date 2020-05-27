@@ -102,6 +102,8 @@ private slots:
 
     void onToggleMultisliceShortcutActivated();
 
+    void onScreenshotShortcutActivated();
+
 signals:
     void solveFinished();
 

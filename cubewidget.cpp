@@ -74,6 +74,8 @@ CubeWidget::CubeWidget(QWidget *parent) :
     connect(settings->getControls(), SIGNAL(toggleStatsShortcutActivated()), this, SLOT(onToggleStatsShortcutActivated()));
 
     connect(settings->getControls(), SIGNAL(toggleMultisliceShortcutActivated()), this, SLOT(onToggleMultisliceShortcutActivated()));
+
+    connect(settings->getControls(), SIGNAL(screenshotShortcutActivated()), this, SLOT(onScreenshotShortcutActivated()));
 }
 
 CubeWidget::~CubeWidget()
@@ -129,23 +131,7 @@ void CubeWidget::keyPressEvent(QKeyEvent *event){
     bool ctrl = modifiers & Qt::ControlModifier;
     bool shift = modifiers & Qt::ShiftModifier;
 
-    if(event->key() == Qt::Key_P){
-        //take screenshot
-        if(ctrl){
-            //render the image
-            QImage image(size(), QImage::Format_ARGB32);
-            QPainter painter(&image);
-            render(&painter);
-
-            //make images directory if needed
-            QDir::current().mkdir("images");
-
-            //save the image
-            QString name = QDateTime::currentDateTime().toString(Qt::ISODateWithMs);
-            image.save("images/" + name + ".png", "PNG");
-        }
-    }
-    else if(event->key() == Qt::Key_T){
+    if(event->key() == Qt::Key_T){
         swapCtrlShift = !swapCtrlShift;
     }
     else if(event->key() == Qt::Key_Y){
@@ -503,4 +489,18 @@ void CubeWidget::onToggleStatsShortcutActivated(){
 
 void CubeWidget::onToggleMultisliceShortcutActivated(){
     settings->setMultislice(!settings->getMultislice());
+}
+
+void CubeWidget::onScreenshotShortcutActivated(){
+    //render the image
+    QImage image(size(), QImage::Format_ARGB32);
+    QPainter painter(&image);
+    render(&painter);
+
+    //make images directory if needed
+    QDir::current().mkdir("images");
+
+    //save the image
+    QString name = QDateTime::currentDateTime().toString(Qt::ISODateWithMs);
+    image.save("images/" + name + ".png", "PNG");
 }

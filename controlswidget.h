@@ -60,6 +60,8 @@ private slots:
 
     void onToggleMultisliceKeySequenceChanged();
 
+    void onScreenshotKeySequenceChanged();
+
 };
 
 #endif // CONTROLSWIDGET_H

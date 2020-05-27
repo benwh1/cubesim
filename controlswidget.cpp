@@ -52,6 +52,8 @@ void ControlsWidget::initialize(Controls *controls){
 
     connect(ui->toggleMultisliceKeySequenceEdit, SIGNAL(keySequenceChanged(QKeySequence)), this, SLOT(onToggleMultisliceKeySequenceChanged()));
 
+    connect(ui->screenshotKeySequenceEdit, SIGNAL(keySequenceChanged(QKeySequence)), this, SLOT(onScreenshotKeySequenceChanged()));
+
     initialized = true;
 }
 
@@ -165,4 +167,8 @@ void ControlsWidget::onToggleStatsKeySequenceChanged(){
 
 void ControlsWidget::onToggleMultisliceKeySequenceChanged(){
     controls->setToggleMultisliceShortcutKeySequence(ui->toggleMultisliceKeySequenceEdit->keySequence());
+}
+
+void ControlsWidget::onScreenshotKeySequenceChanged(){
+    controls->setScreenshotShortcutKeySequence(ui->screenshotKeySequenceEdit->keySequence());
 }

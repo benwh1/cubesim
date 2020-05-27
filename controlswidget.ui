@@ -351,6 +351,16 @@
          <item row="1" column="1">
           <widget class="QKeySequenceEdit" name="loadKeySequenceEdit"/>
          </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="label_29">
+           <property name="text">
+            <string>Take screenshot:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QKeySequenceEdit" name="screenshotKeySequenceEdit"/>
+         </item>
         </layout>
        </item>
       </layout>
