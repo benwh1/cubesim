@@ -5,6 +5,7 @@
 #include <QJsonArray>
 #include <QJsonObject>
 #include <QObject>
+#include "controls.h"
 #include "enums.h"
 
 class Settings : public QObject
@@ -29,6 +30,7 @@ public:
     QString getSupercubeStickers();
     qreal getPochmannBarThickness();
     bool getPochmannCage();
+    Controls *getControls();
 
     void setAntialiasing(bool b);
     void setBackgroundColour(QColor c);
@@ -66,6 +68,8 @@ private:
     QString supercubeStickers;
     qreal pochmannBarThickness;
     bool pochmannCage;
+
+    Controls *controls;
 
 signals:
     void antialiasingChanged();

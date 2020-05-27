@@ -31,6 +31,9 @@ SettingsWindow::SettingsWindow(Settings *settings, QDialog *parent) :
 
     connect(settings, SIGNAL(settingChanged()), this, SLOT(onSettingChanged()));
 
+    //pass the settings' Controls object to the ControlsWidget
+    ui->controlsWidget->initialize(settings->getControls());
+
     synchronizeFromSettings();
 }
 

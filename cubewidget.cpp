@@ -48,6 +48,29 @@ CubeWidget::CubeWidget(QWidget *parent) :
         QJsonObject data = document.object();
         settings->fromJSON(data);
     }
+
+    //connect to controls signals
+    connect(settings->getControls(), SIGNAL(scrambleShortcutActivated()), this, SLOT(onScrambleShortcutActivated()));
+    connect(settings->getControls(), SIGNAL(resetShortcutActivated()), this, SLOT(onResetShortcutActivated()));
+    connect(settings->getControls(), SIGNAL(increaseSizeShortcutActivated()), this, SLOT(onIncreaseSizeShortcutActivated()));
+    connect(settings->getControls(), SIGNAL(decreaseSizeShortcutActivated()), this, SLOT(onDecreaseSizeShortcutActivated()));
+    connect(settings->getControls(), SIGNAL(changeSizeShortcutActivated()), this, SLOT(onChangeSizeShortcutActivated()));
+
+    connect(settings->getControls(), SIGNAL(loadProjectionShortcutActivated(int)), this, SLOT(onLoadProjectionShortcutActivated(int)));
+    connect(settings->getControls(), SIGNAL(resetProjectionShortcutActivated()), this, SLOT(onResetProjectionShortcutActivated()));
+    connect(settings->getControls(), SIGNAL(changeProjectionShortcutActivated()), this, SLOT(onChangeProjectionShortcutActivated()));
+
+    connect(settings->getControls(), SIGNAL(zoomInShortcutActivated()), this, SLOT(onZoomInShortcutActivated()));
+    connect(settings->getControls(), SIGNAL(zoomInSmallShortcutActivated()), this, SLOT(onZoomInSmallShortcutActivated()));
+    connect(settings->getControls(), SIGNAL(zoomOutShortcutActivated()), this, SLOT(onZoomOutShortcutActivated()));
+    connect(settings->getControls(), SIGNAL(zoomOutSmallShortcutActivated()), this, SLOT(onZoomOutSmallShortcutActivated()));
+
+    connect(settings->getControls(), SIGNAL(saveShortcutActivated()), this, SLOT(onSaveShortcutActivated()));
+    connect(settings->getControls(), SIGNAL(loadShortcutActivated()), this, SLOT(onLoadShortcutActivated()));
+
+    connect(settings->getControls(), SIGNAL(toggleStatsShortcutActivated()), this, SLOT(onToggleStatsShortcutActivated()));
+
+    connect(settings->getControls(), SIGNAL(toggleMultisliceShortcutActivated()), this, SLOT(onToggleMultisliceShortcutActivated()));
 }
 
 CubeWidget::~CubeWidget()
@@ -103,39 +126,7 @@ void CubeWidget::keyPressEvent(QKeyEvent *event){
     bool ctrl = modifiers & Qt::ControlModifier;
     bool shift = modifiers & Qt::ShiftModifier;
 
-    if(event->key() == Qt::Key_Space){
-        if(state == State::Neutral || state == State::Finished){
-            statistics->reset();
-            reconstruction->reset();
-            reconstruction->start();
-            cube->scramble();
-            state = State::Inspecting;
-        }
-    }
-    else if(event->key() == Qt::Key_Escape){
-        cube->reset();
-        statistics->reset();
-        state = State::Neutral;
-    }
-    else if(Qt::Key_0 <= event->key() && event->key() <= Qt::Key_9){
-        QFile f("projections.txt");
-        f.open(QFile::ReadOnly);
-        QList<QByteArray> arr = f.readAll().split('\n');
-        f.close();
-
-        int n = event->key() - Qt::Key_0;
-        if(arr.length() <= n) return;
-        ui->graphicsView->setCubeProjection(arr[n]);
-    }
-    else if(event->key() == Qt::Key_D){
-        ui->graphicsView->resetCubeProjection();
-    }
-    else if(event->key() == Qt::Key_O){
-        if(ctrl){
-            load();
-        }
-    }
-    else if(event->key() == Qt::Key_P){
+    if(event->key() == Qt::Key_P){
         //take screenshot
         if(ctrl){
             //render the image
@@ -150,22 +141,9 @@ void CubeWidget::keyPressEvent(QKeyEvent *event){
             QString name = QDateTime::currentDateTime().toString(Qt::ISODateWithMs);
             image.save("images/" + name + ".png", "PNG");
         }
-        //change projection
-        else{
-            bool ok;
-            QString str = QInputDialog::getText(this, "Projection", "Projection:", QLineEdit::Normal, QString(), &ok);
-            if(!ok) return;
-
-            ui->graphicsView->setCubeProjection(str);
-        }
     }
     else if(event->key() == Qt::Key_T){
         swapCtrlShift = !swapCtrlShift;
-    }
-    else if(event->key() == Qt::Key_S){
-        if(ctrl){
-            save();
-        }
     }
     else if(event->key() == Qt::Key_Y){
         overlapStats = !overlapStats;
@@ -173,37 +151,6 @@ void CubeWidget::keyPressEvent(QKeyEvent *event){
         //send a resize event to the widget
         QResizeEvent *r = new QResizeEvent(size(), size());
         QApplication::sendEvent(this, r);
-    }
-    else if(event->key() == Qt::Key_V){
-        //toggle visibility of stats box
-        ui->statisticsWidget->setVisible(!ui->statisticsWidget->isVisible());
-    }
-    else if(event->key() == Qt::Key_Equal){
-        if(state == State::Neutral){
-            cube->setSize(cube->getSize()+1);
-        }
-    }
-    else if(event->key() == Qt::Key_Plus){ //+ is shift and =
-        if(shift){
-            if(state == State::Neutral){
-                bool ok;
-                QString str = QInputDialog::getText(this, "Cube size", "New cube size:", QLineEdit::Normal, QString(), &ok);
-                if(!ok) return;
-
-                int newSize = str.toInt(&ok);
-                if(!ok) return;
-
-                cube->setSize(newSize);
-            }
-        }
-    }
-    else if(event->key() == Qt::Key_Minus){
-        if(state == State::Neutral){
-            cube->setSize(cube->getSize()-1);
-        }
-    }
-    else if(event->key() == Qt::Key_CapsLock){
-        settings->setMultislice(!settings->getMultislice());
     }
     else{
         event->ignore();
@@ -445,4 +392,104 @@ void CubeWidget::onCubeSolved(){
         //save the solve
         save(d.filePath(QString::number(n+1) + ".dat"));
     }
+}
+
+void CubeWidget::onScrambleShortcutActivated(){
+    if(state == State::Neutral || state == State::Finished){
+        statistics->reset();
+        reconstruction->reset();
+        reconstruction->start();
+        cube->scramble();
+        state = State::Inspecting;
+    }
+}
+
+void CubeWidget::onResetShortcutActivated(){
+    reset();
+}
+
+void CubeWidget::onIncreaseSizeShortcutActivated(){
+    if(state == State::Neutral){
+        cube->setSize(cube->getSize()+1);
+    }
+}
+
+void CubeWidget::onDecreaseSizeShortcutActivated(){
+    if(state == State::Neutral){
+        cube->setSize(cube->getSize()-1);
+    }
+}
+
+void CubeWidget::onChangeSizeShortcutActivated(){
+    if(state == State::Neutral){
+        bool ok;
+        QString str = QInputDialog::getText(this, "Cube size", "New cube size:", QLineEdit::Normal, QString(), &ok);
+        if(!ok) return;
+
+        int newSize = str.toInt(&ok);
+        if(!ok) return;
+
+        cube->setSize(newSize);
+    }
+}
+
+void CubeWidget::onLoadProjectionShortcutActivated(int i){
+    QFile f("projections.txt");
+    f.open(QFile::ReadOnly);
+    QList<QByteArray> arr = f.readAll().split('\n');
+    f.close();
+
+    assert(1 <= i && i <= 10);
+
+    if(i-1 < arr.length()){
+        ui->graphicsView->setCubeProjection(arr[i-1]);
+    }
+}
+
+void CubeWidget::onResetProjectionShortcutActivated(){
+    ui->graphicsView->resetCubeProjection();
+}
+
+void CubeWidget::onChangeProjectionShortcutActivated(){
+    bool ok;
+    QString str = QInputDialog::getText(this, "Projection", "Projection:", QLineEdit::Normal, QString(), &ok);
+    if(!ok) return;
+
+    ui->graphicsView->setCubeProjection(str);
+}
+
+void CubeWidget::onZoomInShortcutActivated()
+{
+
+}
+
+void CubeWidget::onZoomInSmallShortcutActivated()
+{
+
+}
+
+void CubeWidget::onZoomOutShortcutActivated()
+{
+
+}
+
+void CubeWidget::onZoomOutSmallShortcutActivated()
+{
+
+}
+
+void CubeWidget::onSaveShortcutActivated(){
+    save();
+}
+
+void CubeWidget::onLoadShortcutActivated(){
+    load();
+}
+
+void CubeWidget::onToggleStatsShortcutActivated(){
+    ui->statisticsWidget->setVisible(!ui->statisticsWidget->isVisible());
+}
+
+void CubeWidget::onToggleMultisliceShortcutActivated(){
+    settings->setMultislice(!settings->getMultislice());
 }

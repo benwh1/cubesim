@@ -76,6 +76,29 @@ private slots:
     void onMoveDone(Move move);
     void onCubeSolved();
 
+    //controls
+    void onScrambleShortcutActivated();
+    void onResetShortcutActivated();
+    void onIncreaseSizeShortcutActivated();
+    void onDecreaseSizeShortcutActivated();
+    void onChangeSizeShortcutActivated();
+
+    void onLoadProjectionShortcutActivated(int i);
+    void onResetProjectionShortcutActivated();
+    void onChangeProjectionShortcutActivated();
+
+    void onZoomInShortcutActivated();
+    void onZoomInSmallShortcutActivated();
+    void onZoomOutShortcutActivated();
+    void onZoomOutSmallShortcutActivated();
+
+    void onSaveShortcutActivated();
+    void onLoadShortcutActivated();
+
+    void onToggleStatsShortcutActivated();
+
+    void onToggleMultisliceShortcutActivated();
+
 signals:
     void solveFinished();
 

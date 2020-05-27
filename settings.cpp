@@ -23,6 +23,11 @@ Settings::Settings(QObject *parent) :
     supercubeStickers = "Arrows";
     pochmannBarThickness = 0.2;
     pochmannCage = true;
+
+    //parent should be the cube widget, so try and cast to QWidget
+    //if it fails for whatever reason, then p will be nullptr
+    QWidget *p = qobject_cast<QWidget*>(parent);
+    controls = new Controls(p);
 }
 
 bool Settings::getAntialiasing(){
@@ -87,6 +92,10 @@ qreal Settings::getPochmannBarThickness(){
 
 bool Settings::getPochmannCage(){
     return pochmannCage;
+}
+
+Controls *Settings::getControls(){
+    return controls;
 }
 
 void Settings::setAntialiasing(bool b){
