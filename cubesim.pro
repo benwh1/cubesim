@@ -17,6 +17,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     colorsettingwidget.cpp \
+    controls.cpp \
     cube.cpp \
     cubegraphicsobject.cpp \
     cubegraphicsview.cpp \
@@ -41,6 +42,7 @@ SOURCES += \
 
 HEADERS += \
     colorsettingwidget.h \
+    controls.h \
     cube.h \
     cubegraphicsobject.h \
     cubegraphicsview.h \
