@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ControlsWidget</class>
+ <widget class="QWidget" name="ControlsWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>419</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
+   <item>
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <widget class="QWidget" name="tab">
+      <attribute name="title">
+       <string>Cube</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <layout class="QFormLayout" name="formLayout_4">
+         <item row="0" column="0">
+          <widget class="QLabel" name="label">
+           <property name="text">
+            <string>Scramble:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_2">
+           <property name="text">
+            <string>Reset:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="label_3">
+           <property name="text">
+            <string>Increase size:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0">
+          <widget class="QLabel" name="label_4">
+           <property name="text">
+            <string>Decrease size:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="0">
+          <widget class="QLabel" name="label_5">
+           <property name="text">
+            <string>Change size:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QKeySequenceEdit" name="scrambleKeySequenceEdit"/>
+         </item>
+         <item row="1" column="1">
+          <widget class="QKeySequenceEdit" name="resetKeySequenceEdit"/>
+         </item>
+         <item row="2" column="1">
+          <widget class="QKeySequenceEdit" name="increaseSizeKeySequenceEdit"/>
+         </item>
+         <item row="3" column="1">
+          <widget class="QKeySequenceEdit" name="decreaseSizeKeySequenceEdit"/>
+         </item>
+         <item row="4" column="1">
+          <widget class="QKeySequenceEdit" name="changeSizeKeySequenceEdit"/>
+         </item>
+         <item row="5" column="0">
+          <widget class="QLabel" name="label_6">
+           <property name="text">
+            <string>Toggle multislice:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="1">
+          <widget class="QKeySequenceEdit" name="toggleMultisliceKeySequenceEdit"/>
+         </item>
+         <item row="6" column="0">
+          <widget class="QLabel" name="label_24">
+           <property name="text">
+            <string>Save:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="7" column="0">
+          <widget class="QLabel" name="label_25">
+           <property name="text">
+            <string>Load:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="6" column="1">
+          <widget class="QKeySequenceEdit" name="saveKeySequenceEdit"/>
+         </item>
+         <item row="7" column="1">
+          <widget class="QKeySequenceEdit" name="loadKeySequenceEdit"/>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_2">
+      <attribute name="title">
+       <string>Graphics</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <item>
+        <layout class="QFormLayout" name="formLayout_5">
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_7">
+           <property name="text">
+            <string>Zoom in:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QKeySequenceEdit" name="zoomInKeySequenceEdit"/>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_8">
+           <property name="text">
+            <string>Zoom out:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QKeySequenceEdit" name="zoomOutKeySequenceEdit"/>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="label_9">
+           <property name="text">
+            <string>Zoom in (small):</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QKeySequenceEdit" name="zoomInSmallKeySequenceEdit"/>
+         </item>
+         <item row="3" column="0">
+          <widget class="QLabel" name="label_10">
+           <property name="text">
+            <string>Zoom out (small):</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="QKeySequenceEdit" name="zoomOutSmallKeySequenceEdit"/>
+         </item>
+         <item row="4" column="0">
+          <widget class="QLabel" name="label_11">
+           <property name="text">
+            <string>Toggle statistics:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="1">
+          <widget class="QKeySequenceEdit" name="toggleStatsKeySequenceEdit"/>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_3">
+      <attribute name="title">
+       <string>Projections</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_4">
+       <item>
+        <layout class="QFormLayout" name="formLayout_6">
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_12">
+           <property name="text">
+            <string>Reset projection:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_13">
+           <property name="text">
+            <string>Change projection:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="label_14">
+           <property name="text">
+            <string>Load projection 1:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0">
+          <widget class="QLabel" name="label_15">
+           <property name="text">
+            <string>Load projection 2:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="0">
+          <widget class="QLabel" name="label_16">
+           <property name="text">
+            <string>Load projection 3:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="0">
+          <widget class="QLabel" name="label_17">
+           <property name="text">
+            <string>Load projection 4:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="6" column="0">
+          <widget class="QLabel" name="label_18">
+           <property name="text">
+            <string>Load projection 5:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="7" column="0">
+          <widget class="QLabel" name="label_19">
+           <property name="text">
+            <string>Load projection 6:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="8" column="0">
+          <widget class="QLabel" name="label_20">
+           <property name="text">
+            <string>Load projection 7:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="9" column="0">
+          <widget class="QLabel" name="label_21">
+           <property name="text">
+            <string>Load projection 8:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="10" column="0">
+          <widget class="QLabel" name="label_22">
+           <property name="text">
+            <string>Load projection 9:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="11" column="0">
+          <widget class="QLabel" name="label_23">
+           <property name="text">
+            <string>Load projection 10:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QKeySequenceEdit" name="resetProjectionKeySequenceEdit"/>
+         </item>
+         <item row="1" column="1">
+          <widget class="QKeySequenceEdit" name="changeProjectionKeySequenceEdit"/>
+         </item>
+         <item row="2" column="1">
+          <widget class="QKeySequenceEdit" name="loadProjection1KeySequenceEdit"/>
+         </item>
+         <item row="3" column="1">
+          <widget class="QKeySequenceEdit" name="loadProjection2KeySequenceEdit"/>
+         </item>
+         <item row="4" column="1">
+          <widget class="QKeySequenceEdit" name="loadProjection3KeySequenceEdit"/>
+         </item>
+         <item row="5" column="1">
+          <widget class="QKeySequenceEdit" name="loadProjection4KeySequenceEdit"/>
+         </item>
+         <item row="6" column="1">
+          <widget class="QKeySequenceEdit" name="loadProjection5KeySequenceEdit"/>
+         </item>
+         <item row="7" column="1">
+          <widget class="QKeySequenceEdit" name="loadProjection6KeySequenceEdit"/>
+         </item>
+         <item row="8" column="1">
+          <widget class="QKeySequenceEdit" name="loadProjection7KeySequenceEdit"/>
+         </item>
+         <item row="9" column="1">
+          <widget class="QKeySequenceEdit" name="loadProjection8KeySequenceEdit"/>
+         </item>
+         <item row="10" column="1">
+          <widget class="QKeySequenceEdit" name="loadProjection9KeySequenceEdit"/>
+         </item>
+         <item row="11" column="1">
+          <widget class="QKeySequenceEdit" name="loadProjection10KeySequenceEdit"/>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

@@ -18,6 +18,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     colorsettingwidget.cpp \
     controls.cpp \
+    controlswidget.cpp \
     cube.cpp \
     cubegraphicsobject.cpp \
     cubegraphicsview.cpp \
@@ -43,6 +44,7 @@ SOURCES += \
 HEADERS += \
     colorsettingwidget.h \
     controls.h \
+    controlswidget.h \
     cube.h \
     cubegraphicsobject.h \
     cubegraphicsview.h \
@@ -70,6 +72,7 @@ HEADERS += \
 
 FORMS += \
     colorsettingwidget.ui \
+    controlswidget.ui \
     cubewidget.ui \
     mainwindow.ui \
     reconstructionwindow.ui \

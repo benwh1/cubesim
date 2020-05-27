@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>240</width>
+    <width>350</width>
     <height>446</height>
    </rect>
   </property>
@@ -26,7 +26,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="title">
@@ -195,7 +195,11 @@
       <attribute name="title">
        <string>Controls</string>
       </attribute>
-      <layout class="QVBoxLayout" name="verticalLayout_2"/>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="ControlsWidget" name="controlsWidget" native="true"/>
+       </item>
+      </layout>
      </widget>
      <widget class="QWidget" name="tab_3">
       <attribute name="title">
@@ -290,6 +294,12 @@ thickness:</string>
    <class>ColorSettingWidget</class>
    <extends>QWidget</extends>
    <header>colorsettingwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ControlsWidget</class>
+   <extends>QWidget</extends>
+   <header>controlswidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
