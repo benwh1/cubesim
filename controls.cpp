@@ -33,7 +33,7 @@ Controls::Controls(QWidget *parent) : QObject(parent)
     connect(changeSizeShortcut, SIGNAL(activated()), this, SIGNAL(changeSizeShortcutActivated()));
 
     for(int i=0; i<10; i++){
-        connect(loadProjectionShortcuts[i], SIGNAL(activated()), this, SIGNAL(onLoadProjectionShortcutActivated()));
+        connect(loadProjectionShortcuts[i], SIGNAL(activated()), this, SLOT(onLoadProjectionShortcutActivated()));
     }
     connect(resetProjectionShortcut, SIGNAL(activated()), this, SIGNAL(resetProjectionShortcutActivated()));
     connect(changeProjectionShortcut, SIGNAL(activated()), this, SIGNAL(changeProjectionShortcutActivated()));
@@ -66,7 +66,7 @@ void Controls::onLoadProjectionShortcutActivated(){
         return;
     }
 
-    emit loadProjectionShortcutActivated(i);
+    emit loadProjectionShortcutActivated(i+1);
 }
 
 void Controls::setScrambleShortcutKeySequence(QKeySequence k){
