@@ -37,10 +37,13 @@ void ControlsWidget::initialize(Controls *controls){
     connect(ui->resetProjectionKeySequenceEdit, SIGNAL(keySequenceChanged(QKeySequence)), this, SLOT(onResetProjectionKeySequenceChanged()));
     connect(ui->changeProjectionKeySequenceEdit, SIGNAL(keySequenceChanged(QKeySequence)), this, SLOT(onChangeProjectionKeySequenceChanged()));
 
+    connect(ui->resetZoomKeySequenceEdit, SIGNAL(keySequenceChanged(QKeySequence)), this, SLOT(onResetZoomKeySequenceChanged()));
     connect(ui->zoomInKeySequenceEdit, SIGNAL(keySequenceChanged(QKeySequence)), this, SLOT(onZoomInKeySequenceChanged()));
     connect(ui->zoomInSmallKeySequenceEdit, SIGNAL(keySequenceChanged(QKeySequence)), this, SLOT(onZoomInSmallKeySequenceChanged()));
+    connect(ui->zoomInLargeKeySequenceEdit, SIGNAL(keySequenceChanged(QKeySequence)), this, SLOT(onZoomInLargeKeySequenceChanged()));
     connect(ui->zoomOutKeySequenceEdit, SIGNAL(keySequenceChanged(QKeySequence)), this, SLOT(onZoomOutKeySequenceChanged()));
     connect(ui->zoomOutSmallKeySequenceEdit, SIGNAL(keySequenceChanged(QKeySequence)), this, SLOT(onZoomOutSmallKeySequenceChanged()));
+    connect(ui->zoomOutLargeKeySequenceEdit, SIGNAL(keySequenceChanged(QKeySequence)), this, SLOT(onZoomOutLargeKeySequenceChanged()));
 
     connect(ui->saveKeySequenceEdit, SIGNAL(keySequenceChanged(QKeySequence)), this, SLOT(onSaveKeySequenceChanged()));
     connect(ui->loadKeySequenceEdit, SIGNAL(keySequenceChanged(QKeySequence)), this, SLOT(onLoadKeySequenceChanged()));
@@ -120,6 +123,10 @@ void ControlsWidget::onChangeProjectionKeySequenceChanged(){
     controls->setChangeProjectionShortcutKeySequence(ui->changeProjectionKeySequenceEdit->keySequence());
 }
 
+void ControlsWidget::onResetZoomKeySequenceChanged(){
+    controls->setResetZoomShortcutKeySequence(ui->resetZoomKeySequenceEdit->keySequence());
+}
+
 void ControlsWidget::onZoomInKeySequenceChanged(){
     controls->setZoomInShortcutKeySequence(ui->zoomInKeySequenceEdit->keySequence());
 }
@@ -128,12 +135,20 @@ void ControlsWidget::onZoomInSmallKeySequenceChanged(){
     controls->setZoomInSmallShortcutKeySequence(ui->zoomInSmallKeySequenceEdit->keySequence());
 }
 
+void ControlsWidget::onZoomInLargeKeySequenceChanged(){
+    controls->setZoomInLargeShortcutKeySequence(ui->zoomInLargeKeySequenceEdit->keySequence());
+}
+
 void ControlsWidget::onZoomOutKeySequenceChanged(){
     controls->setZoomOutShortcutKeySequence(ui->zoomOutKeySequenceEdit->keySequence());
 }
 
 void ControlsWidget::onZoomOutSmallKeySequenceChanged(){
     controls->setZoomOutSmallShortcutKeySequence(ui->zoomOutSmallKeySequenceEdit->keySequence());
+}
+
+void ControlsWidget::onZoomOutLargeKeySequenceChanged(){
+    controls->setZoomOutLargeShortcutKeySequence(ui->zoomOutLargeKeySequenceEdit->keySequence());
 }
 
 void ControlsWidget::onSaveKeySequenceChanged(){

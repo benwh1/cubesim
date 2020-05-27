@@ -87,10 +87,13 @@ private slots:
     void onResetProjectionShortcutActivated();
     void onChangeProjectionShortcutActivated();
 
+    void onResetZoomShortcutActivated();
     void onZoomInShortcutActivated();
     void onZoomInSmallShortcutActivated();
+    void onZoomInLargeShortcutActivated();
     void onZoomOutShortcutActivated();
     void onZoomOutSmallShortcutActivated();
+    void onZoomOutLargeShortcutActivated();
 
     void onSaveShortcutActivated();
     void onLoadShortcutActivated();

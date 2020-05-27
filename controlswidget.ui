@@ -129,55 +129,85 @@
       <layout class="QVBoxLayout" name="verticalLayout_3">
        <item>
         <layout class="QFormLayout" name="formLayout_5">
-         <item row="0" column="0">
+         <item row="1" column="0">
           <widget class="QLabel" name="label_7">
            <property name="text">
             <string>Zoom in:</string>
            </property>
           </widget>
          </item>
-         <item row="0" column="1">
+         <item row="1" column="1">
           <widget class="QKeySequenceEdit" name="zoomInKeySequenceEdit"/>
          </item>
-         <item row="1" column="0">
+         <item row="2" column="0">
           <widget class="QLabel" name="label_8">
            <property name="text">
             <string>Zoom out:</string>
            </property>
           </widget>
          </item>
-         <item row="1" column="1">
+         <item row="2" column="1">
           <widget class="QKeySequenceEdit" name="zoomOutKeySequenceEdit"/>
          </item>
-         <item row="2" column="0">
+         <item row="3" column="0">
           <widget class="QLabel" name="label_9">
            <property name="text">
             <string>Zoom in (small):</string>
            </property>
           </widget>
          </item>
-         <item row="2" column="1">
+         <item row="3" column="1">
           <widget class="QKeySequenceEdit" name="zoomInSmallKeySequenceEdit"/>
          </item>
-         <item row="3" column="0">
+         <item row="4" column="0">
           <widget class="QLabel" name="label_10">
            <property name="text">
             <string>Zoom out (small):</string>
            </property>
           </widget>
          </item>
-         <item row="3" column="1">
+         <item row="4" column="1">
           <widget class="QKeySequenceEdit" name="zoomOutSmallKeySequenceEdit"/>
          </item>
-         <item row="4" column="0">
+         <item row="7" column="0">
           <widget class="QLabel" name="label_11">
            <property name="text">
             <string>Toggle statistics:</string>
            </property>
           </widget>
          </item>
-         <item row="4" column="1">
+         <item row="7" column="1">
           <widget class="QKeySequenceEdit" name="toggleStatsKeySequenceEdit"/>
+         </item>
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_26">
+           <property name="text">
+            <string>Reset zoom:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QKeySequenceEdit" name="resetZoomKeySequenceEdit"/>
+         </item>
+         <item row="5" column="0">
+          <widget class="QLabel" name="label_27">
+           <property name="text">
+            <string>Zoom in (large):</string>
+           </property>
+          </widget>
+         </item>
+         <item row="6" column="0">
+          <widget class="QLabel" name="label_28">
+           <property name="text">
+            <string>Zoom out (large):</string>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="1">
+          <widget class="QKeySequenceEdit" name="zoomInLargeKeySequenceEdit"/>
+         </item>
+         <item row="6" column="1">
+          <widget class="QKeySequenceEdit" name="zoomOutLargeKeySequenceEdit"/>
          </item>
         </layout>
        </item>

@@ -20,10 +20,13 @@ public:
     void setResetProjectionShortcutKeySequence(QKeySequence k);
     void setChangeProjectionShortcutKeySequence(QKeySequence k);
 
+    void setResetZoomShortcutKeySequence(QKeySequence k);
     void setZoomInShortcutKeySequence(QKeySequence k);
     void setZoomInSmallShortcutKeySequence(QKeySequence k);
+    void setZoomInLargeShortcutKeySequence(QKeySequence k);
     void setZoomOutShortcutKeySequence(QKeySequence k);
     void setZoomOutSmallShortcutKeySequence(QKeySequence k);
+    void setZoomOutLargeShortcutKeySequence(QKeySequence k);
 
     void setSaveShortcutKeySequence(QKeySequence k);
     void setLoadShortcutKeySequence(QKeySequence k);
@@ -44,10 +47,13 @@ private:
     QShortcut *resetProjectionShortcut;
     QShortcut *changeProjectionShortcut;
 
+    QShortcut *resetZoomShortcut;
     QShortcut *zoomInShortcut;
     QShortcut *zoomInSmallShortcut;
+    QShortcut *zoomInLargeShortcut;
     QShortcut *zoomOutShortcut;
     QShortcut *zoomOutSmallShortcut;
+    QShortcut *zoomOutLargeShortcut;
 
     QShortcut *saveShortcut;
     QShortcut *loadShortcut;
@@ -70,10 +76,13 @@ signals:
     void resetProjectionShortcutActivated();
     void changeProjectionShortcutActivated();
 
+    void resetZoomShortcutActivated();
     void zoomInShortcutActivated();
     void zoomInSmallShortcutActivated();
+    void zoomInLargeShortcutActivated();
     void zoomOutShortcutActivated();
     void zoomOutSmallShortcutActivated();
+    void zoomOutLargeShortcutActivated();
 
     void saveShortcutActivated();
     void loadShortcutActivated();

@@ -60,10 +60,13 @@ CubeWidget::CubeWidget(QWidget *parent) :
     connect(settings->getControls(), SIGNAL(resetProjectionShortcutActivated()), this, SLOT(onResetProjectionShortcutActivated()));
     connect(settings->getControls(), SIGNAL(changeProjectionShortcutActivated()), this, SLOT(onChangeProjectionShortcutActivated()));
 
+    connect(settings->getControls(), SIGNAL(resetZoomShortcutActivated()), this, SLOT(onResetZoomShortcutActivated()));
     connect(settings->getControls(), SIGNAL(zoomInShortcutActivated()), this, SLOT(onZoomInShortcutActivated()));
     connect(settings->getControls(), SIGNAL(zoomInSmallShortcutActivated()), this, SLOT(onZoomInSmallShortcutActivated()));
+    connect(settings->getControls(), SIGNAL(zoomInLargeShortcutActivated()), this, SLOT(onZoomInLargeShortcutActivated()));
     connect(settings->getControls(), SIGNAL(zoomOutShortcutActivated()), this, SLOT(onZoomOutShortcutActivated()));
     connect(settings->getControls(), SIGNAL(zoomOutSmallShortcutActivated()), this, SLOT(onZoomOutSmallShortcutActivated()));
+    connect(settings->getControls(), SIGNAL(zoomOutLargeShortcutActivated()), this, SLOT(onZoomOutLargeShortcutActivated()));
 
     connect(settings->getControls(), SIGNAL(saveShortcutActivated()), this, SLOT(onSaveShortcutActivated()));
     connect(settings->getControls(), SIGNAL(loadShortcutActivated()), this, SLOT(onLoadShortcutActivated()));
@@ -458,6 +461,10 @@ void CubeWidget::onChangeProjectionShortcutActivated(){
     ui->graphicsView->setCubeProjection(str);
 }
 
+void CubeWidget::onResetZoomShortcutActivated(){
+    ui->graphicsView->resetZoom();
+}
+
 void CubeWidget::onZoomInShortcutActivated(){
     ui->graphicsView->zoom(1.05);
 }
@@ -466,12 +473,20 @@ void CubeWidget::onZoomInSmallShortcutActivated(){
     ui->graphicsView->zoom(1.01);
 }
 
+void CubeWidget::onZoomInLargeShortcutActivated(){
+    ui->graphicsView->zoom(1.25);
+}
+
 void CubeWidget::onZoomOutShortcutActivated(){
     ui->graphicsView->zoom(1/1.05);
 }
 
 void CubeWidget::onZoomOutSmallShortcutActivated(){
     ui->graphicsView->zoom(1/1.01);
+}
+
+void CubeWidget::onZoomOutLargeShortcutActivated(){
+    ui->graphicsView->zoom(1/1.25);
 }
 
 void CubeWidget::onSaveShortcutActivated(){

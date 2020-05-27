@@ -45,10 +45,13 @@ private slots:
     void onResetProjectionKeySequenceChanged();
     void onChangeProjectionKeySequenceChanged();
 
+    void onResetZoomKeySequenceChanged();
     void onZoomInKeySequenceChanged();
     void onZoomInSmallKeySequenceChanged();
+    void onZoomInLargeKeySequenceChanged();
     void onZoomOutKeySequenceChanged();
     void onZoomOutSmallKeySequenceChanged();
+    void onZoomOutLargeKeySequenceChanged();
 
     void onSaveKeySequenceChanged();
     void onLoadKeySequenceChanged();

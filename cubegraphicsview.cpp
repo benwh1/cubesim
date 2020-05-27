@@ -44,6 +44,10 @@ void CubeGraphicsView::zoom(qreal factor){
     scale(factor, factor);
 }
 
+void CubeGraphicsView::resetZoom(){
+    zoom(1/zoomFactor);
+}
+
 void CubeGraphicsView::setCubeProjection(QString matrix){
     QStringList list = matrix.split(",");
     if(list.length() != 6) return;

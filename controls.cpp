@@ -14,10 +14,13 @@ Controls::Controls(QWidget *parent) : QObject(parent)
     resetProjectionShortcut = new QShortcut(parent);
     changeProjectionShortcut = new QShortcut(parent);
 
+    resetZoomShortcut = new QShortcut(parent);
     zoomInShortcut = new QShortcut(parent);
     zoomInSmallShortcut = new QShortcut(parent);
+    zoomInLargeShortcut = new QShortcut(parent);
     zoomOutShortcut = new QShortcut(parent);
     zoomOutSmallShortcut = new QShortcut(parent);
+    zoomOutLargeShortcut = new QShortcut(parent);
 
     saveShortcut = new QShortcut(parent);
     loadShortcut = new QShortcut(parent);
@@ -38,10 +41,13 @@ Controls::Controls(QWidget *parent) : QObject(parent)
     connect(resetProjectionShortcut, SIGNAL(activated()), this, SIGNAL(resetProjectionShortcutActivated()));
     connect(changeProjectionShortcut, SIGNAL(activated()), this, SIGNAL(changeProjectionShortcutActivated()));
 
+    connect(resetZoomShortcut, SIGNAL(activated()), this, SIGNAL(resetZoomShortcutActivated()));
     connect(zoomInShortcut, SIGNAL(activated()), this, SIGNAL(zoomInShortcutActivated()));
     connect(zoomInSmallShortcut, SIGNAL(activated()), this, SIGNAL(zoomInSmallShortcutActivated()));
+    connect(zoomInLargeShortcut, SIGNAL(activated()), this, SIGNAL(zoomInLargeShortcutActivated()));
     connect(zoomOutShortcut, SIGNAL(activated()), this, SIGNAL(zoomOutShortcutActivated()));
     connect(zoomOutSmallShortcut, SIGNAL(activated()), this, SIGNAL(zoomOutSmallShortcutActivated()));
+    connect(zoomOutLargeShortcut, SIGNAL(activated()), this, SIGNAL(zoomOutLargeShortcutActivated()));
 
     connect(saveShortcut, SIGNAL(activated()), this, SIGNAL(saveShortcutActivated()));
     connect(loadShortcut, SIGNAL(activated()), this, SIGNAL(loadShortcutActivated()));
@@ -102,6 +108,10 @@ void Controls::setChangeProjectionShortcutKeySequence(QKeySequence k){
     changeProjectionShortcut->setKey(k);
 }
 
+void Controls::setResetZoomShortcutKeySequence(QKeySequence k){
+    resetZoomShortcut->setKey(k);
+}
+
 void Controls::setZoomInShortcutKeySequence(QKeySequence k){
     zoomInShortcut->setKey(k);
 }
@@ -110,12 +120,20 @@ void Controls::setZoomInSmallShortcutKeySequence(QKeySequence k){
     zoomInSmallShortcut->setKey(k);
 }
 
+void Controls::setZoomInLargeShortcutKeySequence(QKeySequence k){
+    zoomInLargeShortcut->setKey(k);
+}
+
 void Controls::setZoomOutShortcutKeySequence(QKeySequence k){
     zoomOutShortcut->setKey(k);
 }
 
 void Controls::setZoomOutSmallShortcutKeySequence(QKeySequence k){
     zoomOutSmallShortcut->setKey(k);
+}
+
+void Controls::setZoomOutLargeShortcutKeySequence(QKeySequence k){
+    zoomOutLargeShortcut->setKey(k);
 }
 
 void Controls::setSaveShortcutKeySequence(QKeySequence k){

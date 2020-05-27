@@ -17,6 +17,7 @@ public:
     void initialize(Cube *cube, Settings *settings);
 
     void zoom(qreal factor);
+    void resetZoom();
 
     void setCubeProjection(QString matrix);
     void setCubeProjection(float *matrix);
