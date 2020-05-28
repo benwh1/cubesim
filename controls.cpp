@@ -16,16 +16,16 @@ Controls::Controls(QWidget *parent) : QObject(parent)
 
     resetZoomShortcut = new QShortcut(QKeySequence("Home"), parent);
     zoomInShortcut = new QShortcut(QKeySequence("PgUp"), parent);
-    zoomInSmallShortcut = new QShortcut(parent);
-    zoomInLargeShortcut = new QShortcut(parent);
+    zoomInSmallShortcut = new QShortcut(QKeySequence("Ctrl+PgUp"), parent);
+    zoomInLargeShortcut = new QShortcut(QKeySequence("Shift+PgUp"), parent);
     zoomOutShortcut = new QShortcut(QKeySequence("PgDown"), parent);
-    zoomOutSmallShortcut = new QShortcut(parent);
-    zoomOutLargeShortcut = new QShortcut(parent);
+    zoomOutSmallShortcut = new QShortcut(QKeySequence("Ctrl+PgDown"), parent);
+    zoomOutLargeShortcut = new QShortcut(QKeySequence("Shift+PgDown"), parent);
 
     saveShortcut = new QShortcut(QKeySequence("Ctrl+S"), parent);
     loadShortcut = new QShortcut(QKeySequence("Ctrl+O"), parent);
 
-    toggleStatsShortcut = new QShortcut(parent);
+    toggleStatsShortcut = new QShortcut(QKeySequence("V"), parent);
 
     toggleMultisliceShortcut = new QShortcut(QKeySequence("CapsLock"), parent);
 
