@@ -41,40 +41,6 @@ void MainWindow::closeEvent(QCloseEvent *){
     exit(0);
 }
 
-void MainWindow::keyPressEvent(QKeyEvent *event){
-    event->accept();
-
-    if(event->key() == Qt::Key_W){
-        if(ui->cubeWidget->getState() == CubeWidget::State::Neutral ||
-           ui->cubeWidget->getState() == CubeWidget::State::Finished){
-            settingsWindow->show();
-        }
-    }
-    else if(event->key() == Qt::Key_R){
-        if(ui->cubeWidget->getState() == CubeWidget::State::Finished){
-            //check whether ffmpeg is installed
-            if(QStandardPaths::findExecutable("ffmpeg") == ""){
-                QMessageBox::warning(this, "Error", "FFmpeg is not installed");
-            }
-            else{
-                replayRecorderWindow->show();
-            }
-        }
-    }
-    else if(event->key() == Qt::Key_L){
-        if(ui->cubeWidget->getState() == CubeWidget::State::Finished){
-            reconstructionWindow->show();
-        }
-    }
-    else{
-        event->ignore();
-    }
-
-    if(!event->isAccepted()){
-        QMainWindow::keyPressEvent(event);
-    }
-}
-
 void MainWindow::updateTitleText(){
     QString size = QString::number(ui->cubeWidget->getCube()->getSize());
     QString str = "cubesim v" + Global::version() + " (" + size + "x" + size + "x" + size + ")";

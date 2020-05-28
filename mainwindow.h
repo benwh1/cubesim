@@ -23,7 +23,6 @@ public:
 
 protected:
     void closeEvent(QCloseEvent *);
-    void keyPressEvent(QKeyEvent *event);
 
 private:
     Ui::MainWindow *ui;
