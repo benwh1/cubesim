@@ -272,6 +272,73 @@ public:
             reconstruction["times"] = times;
             data["reconstruction"] = reconstruction;
         }
+        else if(fromVersion == "0.7"){
+            /* differences:
+             * added Controls
+             * removed swapCtrlShift
+             */
+
+            toVersion = "0.8";
+
+            //build what would have been the default Controls object for
+            //save version 0.7
+            QJsonObject controls;
+            controls["scrambleShortcut"] = "Space";
+            controls["resetShortcut"] = "Esc";
+            controls["increaseSizeShortcut"] = "=";
+            controls["decreaseSizeShortcut"] = "-";
+            controls["changeSizeShortcut"] = "+";
+
+            QJsonArray arr;
+            for(int i=0; i<10; i++){
+                arr.append(QString::number(i));
+            }
+            controls["loadProjectionShortcuts"] = arr;
+            controls["resetProjectionShortcut"] = "D";
+            controls["changeProjectionShortcut"] = "P";
+
+            controls["resetZoomShortcut"] = "Home";
+            controls["zoomInShortcut"] = "PgUp";
+            controls["zoomInSmallShortcut"] = "Ctrl+PgUp";
+            controls["zoomInLargeShortcut"] = "";
+            controls["zoomOutShortcut"] = "PgDown";
+            controls["zoomOutSmallShortcut"] = "Ctrl+PgDown";
+            controls["zoomOutLargeShortcut"] = "";
+
+            controls["saveShortcut"] = "Ctrl+S";
+            controls["loadShortcut"] = "Ctrl+O";
+
+            controls["toggleStatsShortcut"] = "V";
+
+            controls["toggleMultisliceShortcut"] = "CapsLock";
+
+            controls["screenshotShortcut"] = "Ctrl+P";
+
+            controls["settingsWindowShortcut"] = "W";
+            controls["replayRecorderWindowShortcut"] = "R";
+            controls["reconstructionWindowShortcut"] = "L";
+
+            controls["leftClickAction"] = 1;
+            controls["ctrlClickAction"] = 3;
+            controls["shiftClickAction"] = 2;
+            controls["rightClickAction"] = 2;
+            controls["middleClickAction"] = 3;
+
+            //if swapCtrlShift was true, swap ctrlClick and shiftClick
+            bool swapCtrlShift = data["swapCtrlShift"].toBool();
+            if(swapCtrlShift){
+                controls["ctrlClickAction"] = 2;
+                controls["shiftClickAction"] = 3;
+            }
+
+            //add the controls to the settings
+            QJsonObject settings = data["settings"].toObject();
+            settings["controls"] = controls;
+            data["settings"] = settings;
+
+            //remove swapCtrlShift from the save file
+            data.remove("swapCtrlShift");
+        }
 
         //update the version number
         data["version"] = toVersion;
