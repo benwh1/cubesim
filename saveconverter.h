@@ -278,7 +278,7 @@ public:
              * removed swapCtrlShift
              */
 
-            toVersion = "0.8";
+            toVersion = "1.0";
 
             //build what would have been the default Controls object for
             //save version 0.7
