@@ -102,6 +102,9 @@ void ControlsWidget::synchronizeFromControls(){
         ui->toggleStatsKeySequenceEdit,
         ui->toggleMultisliceKeySequenceEdit,
         ui->screenshotKeySequenceEdit,
+        ui->settingsWindowKeySequenceEdit,
+        ui->replayRecorderWindowKeySequenceEdit,
+        ui->reconstructionWindowKeySequenceEdit,
         ui->leftClickComboBox,
         ui->ctrlClickComboBox,
         ui->shiftClickComboBox,
@@ -148,6 +151,10 @@ void ControlsWidget::synchronizeFromControls(){
     ui->toggleMultisliceKeySequenceEdit->setKeySequence(controls->getToggleMultisliceShortcutKeySequence());
 
     ui->screenshotKeySequenceEdit->setKeySequence(controls->getScreenshotShortcutKeySequence());
+
+    ui->settingsWindowKeySequenceEdit->setKeySequence(controls->getSettingsWindowShortcutKeySequence());
+    ui->replayRecorderWindowKeySequenceEdit->setKeySequence(controls->getReplayRecorderWindowShortcutKeySequence());
+    ui->reconstructionWindowKeySequenceEdit->setKeySequence(controls->getReconstructionWindowShortcutKeySequence());
 
     ui->leftClickComboBox->setCurrentIndex((int)controls->getLeftClickAction());
     ui->ctrlClickComboBox->setCurrentIndex((int)controls->getCtrlClickAction());
