@@ -38,8 +38,6 @@ private:
 
     qreal zoomFactor;
 
-    bool interactionEnabled;
-
 private slots:
     void onProjectionChanged();
 

@@ -12,7 +12,6 @@ CubeGraphicsView::CubeGraphicsView(QWidget *parent) :
 
     //initialize variables
     zoomFactor = 1;
-    interactionEnabled = true;
 }
 
 void CubeGraphicsView::initialize(Cube *cube, Settings *settings){
