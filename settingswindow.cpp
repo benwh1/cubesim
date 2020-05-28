@@ -92,6 +92,8 @@ void SettingsWindow::synchronizeFromSettings(){
     ui->pochmannBarThicknessSpinBox->setValue(settings->getPochmannBarThickness());
     ui->pochmannCageCheckBox->setChecked(settings->getPochmannCage());
 
+    ui->controlsWidget->synchronizeFromControls();
+
     foreach(QWidget *w, widgets){
         w->blockSignals(false);
     }

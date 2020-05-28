@@ -18,6 +18,9 @@ public:
 
     void initialize(Controls *controls);
 
+    //make the UI match the controls in the controls object
+    void synchronizeFromControls();
+
 private:
     Ui::ControlsWidget *ui;
 

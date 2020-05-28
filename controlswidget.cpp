@@ -54,7 +54,89 @@ void ControlsWidget::initialize(Controls *controls){
 
     connect(ui->screenshotKeySequenceEdit, SIGNAL(keySequenceChanged(QKeySequence)), this, SLOT(onScreenshotKeySequenceChanged()));
 
+    synchronizeFromControls();
+
     initialized = true;
+}
+
+void ControlsWidget::synchronizeFromControls(){
+    //see SettingsWindow::synchronizeFromSettings
+
+    QList<QWidget*> widgets = {
+        ui->scrambleKeySequenceEdit,
+        ui->resetKeySequenceEdit,
+        ui->increaseSizeKeySequenceEdit,
+        ui->decreaseSizeKeySequenceEdit,
+        ui->changeSizeKeySequenceEdit,
+        ui->loadProjection1KeySequenceEdit,
+        ui->loadProjection2KeySequenceEdit,
+        ui->loadProjection3KeySequenceEdit,
+        ui->loadProjection4KeySequenceEdit,
+        ui->loadProjection5KeySequenceEdit,
+        ui->loadProjection6KeySequenceEdit,
+        ui->loadProjection7KeySequenceEdit,
+        ui->loadProjection8KeySequenceEdit,
+        ui->loadProjection9KeySequenceEdit,
+        ui->loadProjection10KeySequenceEdit,
+        ui->resetProjectionKeySequenceEdit,
+        ui->changeProjectionKeySequenceEdit,
+        ui->resetZoomKeySequenceEdit,
+        ui->zoomInKeySequenceEdit,
+        ui->zoomInSmallKeySequenceEdit,
+        ui->zoomInLargeKeySequenceEdit,
+        ui->zoomOutKeySequenceEdit,
+        ui->zoomOutSmallKeySequenceEdit,
+        ui->zoomOutLargeKeySequenceEdit,
+        ui->saveKeySequenceEdit,
+        ui->loadKeySequenceEdit,
+        ui->toggleStatsKeySequenceEdit,
+        ui->toggleMultisliceKeySequenceEdit,
+        ui->screenshotKeySequenceEdit
+    };
+
+    foreach(QWidget *w, widgets){
+        w->blockSignals(true);
+    }
+
+    ui->scrambleKeySequenceEdit->setKeySequence(controls->getScrambleShortcutKeySequence());
+    ui->resetKeySequenceEdit->setKeySequence(controls->getResetShortcutKeySequence());
+    ui->increaseSizeKeySequenceEdit->setKeySequence(controls->getIncreaseSizeShortcutKeySequence());
+    ui->decreaseSizeKeySequenceEdit->setKeySequence(controls->getDecreaseSizeShortcutKeySequence());
+    ui->changeSizeKeySequenceEdit->setKeySequence(controls->getChangeSizeShortcutKeySequence());
+
+    ui->loadProjection1KeySequenceEdit->setKeySequence(controls->getLoadProjectionShortcutKeySequence(1));
+    ui->loadProjection2KeySequenceEdit->setKeySequence(controls->getLoadProjectionShortcutKeySequence(2));
+    ui->loadProjection3KeySequenceEdit->setKeySequence(controls->getLoadProjectionShortcutKeySequence(3));
+    ui->loadProjection4KeySequenceEdit->setKeySequence(controls->getLoadProjectionShortcutKeySequence(4));
+    ui->loadProjection5KeySequenceEdit->setKeySequence(controls->getLoadProjectionShortcutKeySequence(5));
+    ui->loadProjection6KeySequenceEdit->setKeySequence(controls->getLoadProjectionShortcutKeySequence(6));
+    ui->loadProjection7KeySequenceEdit->setKeySequence(controls->getLoadProjectionShortcutKeySequence(7));
+    ui->loadProjection8KeySequenceEdit->setKeySequence(controls->getLoadProjectionShortcutKeySequence(8));
+    ui->loadProjection9KeySequenceEdit->setKeySequence(controls->getLoadProjectionShortcutKeySequence(9));
+    ui->loadProjection10KeySequenceEdit->setKeySequence(controls->getLoadProjectionShortcutKeySequence(10));
+    ui->resetProjectionKeySequenceEdit->setKeySequence(controls->getResetProjectionShortcutKeySequence());
+    ui->changeProjectionKeySequenceEdit->setKeySequence(controls->getChangeProjectionShortcutKeySequence());
+
+    ui->resetZoomKeySequenceEdit->setKeySequence(controls->getResetZoomShortcutKeySequence());
+    ui->zoomInKeySequenceEdit->setKeySequence(controls->getZoomInShortcutKeySequence());
+    ui->zoomInSmallKeySequenceEdit->setKeySequence(controls->getZoomInSmallShortcutKeySequence());
+    ui->zoomInLargeKeySequenceEdit->setKeySequence(controls->getZoomInLargeShortcutKeySequence());
+    ui->zoomOutKeySequenceEdit->setKeySequence(controls->getZoomOutShortcutKeySequence());
+    ui->zoomOutSmallKeySequenceEdit->setKeySequence(controls->getZoomOutSmallShortcutKeySequence());
+    ui->zoomOutLargeKeySequenceEdit->setKeySequence(controls->getZoomOutLargeShortcutKeySequence());
+
+    ui->saveKeySequenceEdit->setKeySequence(controls->getSaveShortcutKeySequence());
+    ui->loadKeySequenceEdit->setKeySequence(controls->getLoadShortcutKeySequence());
+
+    ui->toggleStatsKeySequenceEdit->setKeySequence(controls->getToggleStatsShortcutKeySequence());
+
+    ui->toggleMultisliceKeySequenceEdit->setKeySequence(controls->getToggleMultisliceShortcutKeySequence());
+
+    ui->screenshotKeySequenceEdit->setKeySequence(controls->getScreenshotShortcutKeySequence());
+
+    foreach(QWidget *w, widgets){
+        w->blockSignals(false);
+    }
 }
 
 void ControlsWidget::onScrambleKeySequenceChanged(){
