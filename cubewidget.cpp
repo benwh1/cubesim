@@ -262,32 +262,59 @@ void CubeWidget::onMoveDrag(Axis axis, int layer, bool clockwise, Qt::MouseButto
         return;
     }
 
-    Qt::KeyboardModifiers modifiers = QGuiApplication::queryKeyboardModifiers();
+    /* there are five different types of click:
+     * - left click
+     * - ctrl click
+     * - shift click
+     * - right click
+     * - middle click
+     * which can apply any of the three possible modifiers:
+     * - quarter turn
+     * - half turn
+     * - rotation
+     * we want to be able to combine them. e.g. if the quarter turn and
+     * half turn modifiers are both active, then we should do a half turn.
+     * half turn and rotation can be combined, but we want half turn and
+     * rotation to each (separately) override quarter turn.
+     */
 
-    bool ctrl = modifiers & Qt::ControlModifier;
-    bool shift = modifiers & Qt::ShiftModifier;
+    //check which move modifiers are being used
+    Qt::KeyboardModifiers keyboardModifiers = QGuiApplication::queryKeyboardModifiers();
+    bool ctrl = keyboardModifiers & Qt::ControlModifier;
+    bool shift = keyboardModifiers & Qt::ShiftModifier;
 
-    //check whether the move is a half turn or a rotation
-    bool isHalfTurn, isRotation;
-    if(swapCtrlShift){
-        isHalfTurn = ctrl;
-        isRotation = shift;
-    }
-    else{
-        isHalfTurn = shift;
-        isRotation = ctrl;
-    }
+    QHash<MoveType, bool> moveModifiers;
+    Controls *c = settings->getControls();
 
-    //use middle mouse button for rotations
-    if(button == Qt::MiddleButton) isRotation = true;
+    moveModifiers[c->getLeftClickAction()] |= (button == Qt::LeftButton);
+    moveModifiers[c->getCtrlClickAction()] |= ctrl;
+    moveModifiers[c->getShiftClickAction()] |= shift;
+    moveModifiers[c->getRightClickAction()] |= (button == Qt::RightButton);
+    moveModifiers[c->getMiddleClickAction()] |= (button == Qt::MiddleButton);
 
     //compute the amount (cw = 1, half = 2, ccw = 3)
     int amount;
 
-    //use right mouse button for half turns
-    if(isHalfTurn || button == Qt::RightButton) amount = 2;
-    else if(clockwise) amount = 1;
-    else amount = 3;
+    //if half turn modifier, always do a half turn
+    if(moveModifiers[MoveType::HalfTurn]){
+        amount = 2;
+    }
+    //otherwise, check if quarter turn modifier or rotation is used.
+    //rotation overrides quarter turn, so even if quarter turn is not used,
+    //we should still do a quarter rotation
+    else if(moveModifiers[MoveType::QuarterTurn] ||
+            moveModifiers[MoveType::Rotation]){
+        //check if cw or ccw
+        if(clockwise){
+            amount = 1;
+        }
+        else{
+            amount = 3;
+        }
+    }
+
+    //check if the move is a rotation
+    bool isRotation = moveModifiers[MoveType::Rotation];
 
     //make the Move object
     Move move;
