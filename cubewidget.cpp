@@ -267,6 +267,10 @@ void CubeWidget::onMoveDrag(Axis axis, int layer, bool clockwise, Qt::MouseButto
             amount = 3;
         }
     }
+    //no move modifiers used, so we don't need to do anything
+    else{
+        return;
+    }
 
     //check if the move is a rotation
     bool isRotation = moveModifiers[MoveType::Rotation];
