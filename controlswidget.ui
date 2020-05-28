@@ -98,6 +98,168 @@
          <item row="5" column="1">
           <widget class="QKeySequenceEdit" name="toggleMultisliceKeySequenceEdit"/>
          </item>
+         <item row="6" column="0" colspan="2">
+          <widget class="Line" name="line">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+          </widget>
+         </item>
+         <item row="7" column="0">
+          <widget class="QLabel" name="label_35">
+           <property name="text">
+            <string>Left click:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="8" column="0">
+          <widget class="QLabel" name="label_33">
+           <property name="text">
+            <string>Ctrl click:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="9" column="0">
+          <widget class="QLabel" name="label_34">
+           <property name="text">
+            <string>Shift click:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="10" column="0">
+          <widget class="QLabel" name="label_36">
+           <property name="text">
+            <string>Right click:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="11" column="0">
+          <widget class="QLabel" name="label_37">
+           <property name="text">
+            <string>Middle click:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="7" column="1">
+          <widget class="QComboBox" name="leftClickComboBox">
+           <item>
+            <property name="text">
+             <string>None</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Quarter turn</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Half turn</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Rotation</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item row="8" column="1">
+          <widget class="QComboBox" name="ctrlClickComboBox">
+           <item>
+            <property name="text">
+             <string>None</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Quarter turn</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Half turn</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Rotation</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item row="9" column="1">
+          <widget class="QComboBox" name="shiftClickComboBox">
+           <item>
+            <property name="text">
+             <string>None</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Quarter turn</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Half turn</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Rotation</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item row="10" column="1">
+          <widget class="QComboBox" name="rightClickComboBox">
+           <item>
+            <property name="text">
+             <string>None</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Quarter turn</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Half turn</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Rotation</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item row="11" column="1">
+          <widget class="QComboBox" name="middleClickComboBox">
+           <item>
+            <property name="text">
+             <string>None</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Quarter turn</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Half turn</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Rotation</string>
+            </property>
+           </item>
+          </widget>
+         </item>
         </layout>
        </item>
       </layout>

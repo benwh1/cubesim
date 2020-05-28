@@ -13,4 +13,8 @@ enum Direction{
     Up, Left, Down, Right
 };
 
+enum MoveType{
+    None, QuarterTurn, HalfTurn, Rotation
+};
+
 #endif // ENUMS_H

@@ -5,6 +5,7 @@
 #include <QJsonObject>
 #include <QObject>
 #include <QShortcut>
+#include "enums.h"
 
 class Controls : public QObject
 {
@@ -43,6 +44,12 @@ public:
     QKeySequence getReplayRecorderWindowShortcutKeySequence();
     QKeySequence getReconstructionWindowShortcutKeySequence();
 
+    MoveType getLeftClickAction();
+    MoveType getCtrlClickAction();
+    MoveType getShiftClickAction();
+    MoveType getRightClickAction();
+    MoveType getMiddleClickAction();
+
     void setScrambleShortcutKeySequence(QKeySequence k);
     void setResetShortcutKeySequence(QKeySequence k);
     void setIncreaseSizeShortcutKeySequence(QKeySequence k);
@@ -73,6 +80,12 @@ public:
     void setSettingsWindowShortcutKeySequence(QKeySequence k);
     void setReplayRecorderWindowShortcutKeySequence(QKeySequence k);
     void setReconstructionWindowShortcutKeySequence(QKeySequence k);
+
+    void setLeftClickAction(MoveType m);
+    void setCtrlClickAction(MoveType m);
+    void setShiftClickAction(MoveType m);
+    void setRightClickAction(MoveType m);
+    void setMiddleClickAction(MoveType m);
 
     QJsonObject toJSON();
     void fromJSON(QJsonObject data);
@@ -109,6 +122,12 @@ private:
     QShortcut *settingsWindowShortcut;
     QShortcut *replayRecorderWindowShortcut;
     QShortcut *reconstructionWindowShortcut;
+
+    MoveType leftClickAction;
+    MoveType ctrlClickAction;
+    MoveType shiftClickAction;
+    MoveType rightClickAction;
+    MoveType middleClickAction;
 
 private slots:
     void onLoadProjectionShortcutActivated();

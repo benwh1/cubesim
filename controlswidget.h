@@ -69,6 +69,12 @@ private slots:
     void onReplayRecorderWindowKeySequenceChanged();
     void onReconstructionWindowKeySequenceChanged();
 
+    void onLeftClickComboBoxChanged();
+    void onCtrlClickComboBoxChanged();
+    void onShiftClickComboBoxChanged();
+    void onRightClickComboBoxChanged();
+    void onMiddleClickComboBoxChanged();
+
 };
 
 #endif // CONTROLSWIDGET_H

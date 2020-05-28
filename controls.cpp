@@ -35,6 +35,12 @@ Controls::Controls(QWidget *parent) : QObject(parent)
     replayRecorderWindowShortcut = new QShortcut(QKeySequence("R"), parent);
     reconstructionWindowShortcut = new QShortcut(QKeySequence("L"), parent);
 
+    leftClickAction = MoveType::QuarterTurn;
+    ctrlClickAction = MoveType::Rotation;
+    shiftClickAction = MoveType::HalfTurn;
+    rightClickAction = MoveType::HalfTurn;
+    middleClickAction = MoveType::Rotation;
+
     connect(scrambleShortcut, SIGNAL(activated()), this, SIGNAL(scrambleShortcutActivated()));
     connect(resetShortcut, SIGNAL(activated()), this, SIGNAL(resetShortcutActivated()));
     connect(increaseSizeShortcut, SIGNAL(activated()), this, SIGNAL(increaseSizeShortcutActivated()));
@@ -162,6 +168,26 @@ QKeySequence Controls::getReconstructionWindowShortcutKeySequence(){
     return reconstructionWindowShortcut->key();
 }
 
+MoveType Controls::getLeftClickAction(){
+    return leftClickAction;
+}
+
+MoveType Controls::getCtrlClickAction(){
+    return ctrlClickAction;
+}
+
+MoveType Controls::getShiftClickAction(){
+    return shiftClickAction;
+}
+
+MoveType Controls::getRightClickAction(){
+    return rightClickAction;
+}
+
+MoveType Controls::getMiddleClickAction(){
+    return middleClickAction;
+}
+
 void Controls::onLoadProjectionShortcutActivated(){
     QShortcut *shortcut = qobject_cast<QShortcut*>(QObject::sender());
 
@@ -273,6 +299,26 @@ void Controls::setReconstructionWindowShortcutKeySequence(QKeySequence k){
     reconstructionWindowShortcut->setKey(k);
 }
 
+void Controls::setLeftClickAction(MoveType m){
+    leftClickAction = m;
+}
+
+void Controls::setCtrlClickAction(MoveType m){
+    ctrlClickAction = m;
+}
+
+void Controls::setShiftClickAction(MoveType m){
+    shiftClickAction = m;
+}
+
+void Controls::setRightClickAction(MoveType m){
+    rightClickAction = m;
+}
+
+void Controls::setMiddleClickAction(MoveType m){
+    middleClickAction = m;
+}
+
 QJsonObject Controls::toJSON(){
     QJsonObject data;
 
@@ -310,6 +356,12 @@ QJsonObject Controls::toJSON(){
     data["settingsWindowShortcut"] = settingsWindowShortcut->key().toString();
     data["replayRecorderWindowShortcut"] = replayRecorderWindowShortcut->key().toString();
     data["reconstructionWindowShortcut"] = reconstructionWindowShortcut->key().toString();
+
+    data["leftClickAction"] = (int)leftClickAction;
+    data["ctrlClickAction"] = (int)ctrlClickAction;
+    data["shiftClickAction"] = (int)shiftClickAction;
+    data["rightClickAction"] = (int)rightClickAction;
+    data["middleClickAction"] = (int)middleClickAction;
 
     return data;
 }
@@ -351,4 +403,10 @@ void Controls::fromJSON(QJsonObject data){
     settingsWindowShortcut->setKey(QKeySequence::fromString(data["settingsWindowShortcut"].toString()));
     replayRecorderWindowShortcut->setKey(QKeySequence::fromString(data["replayRecorderWindowShortcut"].toString()));
     reconstructionWindowShortcut->setKey(QKeySequence::fromString(data["reconstructionWindowShortcut"].toString()));
+
+    leftClickAction = (MoveType)data["leftClickAction"].toInt();
+    ctrlClickAction = (MoveType)data["ctrlClickAction"].toInt();
+    shiftClickAction = (MoveType)data["shiftClickAction"].toInt();
+    rightClickAction = (MoveType)data["rightClickAction"].toInt();
+    middleClickAction = (MoveType)data["middleClickAction"].toInt();
 }

@@ -58,6 +58,12 @@ void ControlsWidget::initialize(Controls *controls){
     connect(ui->replayRecorderWindowKeySequenceEdit, SIGNAL(keySequenceChanged(QKeySequence)), this, SLOT(onReplayRecorderWindowKeySequenceChanged()));
     connect(ui->reconstructionWindowKeySequenceEdit, SIGNAL(keySequenceChanged(QKeySequence)), this, SLOT(onReconstructionWindowKeySequenceChanged()));
 
+    connect(ui->leftClickComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(onLeftClickComboBoxChanged()));
+    connect(ui->ctrlClickComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(onCtrlClickComboBoxChanged()));
+    connect(ui->shiftClickComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(onShiftClickComboBoxChanged()));
+    connect(ui->rightClickComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(onRightClickComboBoxChanged()));
+    connect(ui->middleClickComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(onMiddleClickComboBoxChanged()));
+
     synchronizeFromControls();
 
     initialized = true;
@@ -95,7 +101,12 @@ void ControlsWidget::synchronizeFromControls(){
         ui->loadKeySequenceEdit,
         ui->toggleStatsKeySequenceEdit,
         ui->toggleMultisliceKeySequenceEdit,
-        ui->screenshotKeySequenceEdit
+        ui->screenshotKeySequenceEdit,
+        ui->leftClickComboBox,
+        ui->ctrlClickComboBox,
+        ui->shiftClickComboBox,
+        ui->rightClickComboBox,
+        ui->middleClickComboBox
     };
 
     foreach(QWidget *w, widgets){
@@ -137,6 +148,12 @@ void ControlsWidget::synchronizeFromControls(){
     ui->toggleMultisliceKeySequenceEdit->setKeySequence(controls->getToggleMultisliceShortcutKeySequence());
 
     ui->screenshotKeySequenceEdit->setKeySequence(controls->getScreenshotShortcutKeySequence());
+
+    ui->leftClickComboBox->setCurrentIndex((int)controls->getLeftClickAction());
+    ui->ctrlClickComboBox->setCurrentIndex((int)controls->getCtrlClickAction());
+    ui->shiftClickComboBox->setCurrentIndex((int)controls->getShiftClickAction());
+    ui->rightClickComboBox->setCurrentIndex((int)controls->getRightClickAction());
+    ui->middleClickComboBox->setCurrentIndex((int)controls->getMiddleClickAction());
 
     foreach(QWidget *w, widgets){
         w->blockSignals(false);
@@ -269,4 +286,24 @@ void ControlsWidget::onReplayRecorderWindowKeySequenceChanged(){
 
 void ControlsWidget::onReconstructionWindowKeySequenceChanged(){
     controls->setReconstructionWindowShortcutKeySequence(ui->reconstructionWindowKeySequenceEdit->keySequence());
+}
+
+void ControlsWidget::onLeftClickComboBoxChanged(){
+    controls->setLeftClickAction((MoveType)ui->leftClickComboBox->currentIndex());
+}
+
+void ControlsWidget::onCtrlClickComboBoxChanged(){
+    controls->setCtrlClickAction((MoveType)ui->ctrlClickComboBox->currentIndex());
+}
+
+void ControlsWidget::onShiftClickComboBoxChanged(){
+    controls->setShiftClickAction((MoveType)ui->shiftClickComboBox->currentIndex());
+}
+
+void ControlsWidget::onRightClickComboBoxChanged(){
+    controls->setRightClickAction((MoveType)ui->rightClickComboBox->currentIndex());
+}
+
+void ControlsWidget::onMiddleClickComboBoxChanged(){
+    controls->setMiddleClickAction((MoveType)ui->middleClickComboBox->currentIndex());
 }
