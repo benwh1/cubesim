@@ -11,9 +11,6 @@ CubeWidget::CubeWidget(QWidget *parent) :
 
     //initialize variables
     state = State::Neutral;
-    swapCtrlShift = false;
-    overlapStats = true;
-    interactionEnabled = true;
 
     settings = new Settings(this);
     cube = new Cube(settings, this);
@@ -107,45 +104,9 @@ void CubeWidget::reset(){
     state = State::Neutral;
 }
 
-void CubeWidget::keyPressEvent(QKeyEvent *event){
-    if(!interactionEnabled){
-        return;
-    }
-
-    if(event->isAutoRepeat()){
-        event->ignore();
-        return;
-    }
-
-    event->accept();
-
-    Qt::KeyboardModifiers modifiers = event->modifiers();
-    bool ctrl = modifiers & Qt::ControlModifier;
-    bool shift = modifiers & Qt::ShiftModifier;
-
-    if(event->key() == Qt::Key_T){
-        swapCtrlShift = !swapCtrlShift;
-    }
-    else if(event->key() == Qt::Key_Y){
-        overlapStats = !overlapStats;
-
-        //send a resize event to the widget
-        QResizeEvent *r = new QResizeEvent(size(), size());
-        QApplication::sendEvent(this, r);
-    }
-    else{
-        event->ignore();
-    }
-
-    if(!event->isAccepted()){
-        QWidget::keyPressEvent(event);
-    }
-}
-
 void CubeWidget::resizeEvent(QResizeEvent *event){
     int size = 220;
-    int n = overlapStats ? 0 : size;
-    ui->graphicsView->setGeometry(n, 0, event->size().width()-n, event->size().height());
+    ui->graphicsView->setGeometry(0, 0, event->size().width(), event->size().height());
 
     //the statistics widget is not in a layout, which means the sizePolicy is
     //ignored. we want the widget to be the minimum height, so we set it here
@@ -161,7 +122,6 @@ QJsonObject CubeWidget::toJSON(){
     data["statistics"] = statistics->toJSON();
     data["cube"] = cube->toJSON();
     data["graphicsView"] = ui->graphicsView->toJSON();
-    data["swapCtrlShift"] = swapCtrlShift;
     data["settings"] = settings->toJSON();
     data["reconstruction"] = reconstruction->toJSON();
     data["state"] = state;
@@ -176,7 +136,6 @@ void CubeWidget::fromJSON(QJsonObject data){
 
     cube->fromJSON(data["cube"].toObject());
     ui->graphicsView->fromJSON(data["graphicsView"].toObject());
-    swapCtrlShift = data["swapCtrlShift"].toBool();
     settings->fromJSON(data["settings"].toObject());
     reconstruction->fromJSON(data["reconstruction"].toObject());
     state = (State)data["state"].toInt();
@@ -258,10 +217,6 @@ void CubeWidget::load(QString fileName){
 }
 
 void CubeWidget::onMoveDrag(Axis axis, int layer, bool clockwise, Qt::MouseButton button){
-    if(!interactionEnabled){
-        return;
-    }
-
     /* there are five different types of click:
      * - left click
      * - ctrl click

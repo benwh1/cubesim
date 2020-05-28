@@ -43,8 +43,6 @@ public:
     void reset();
 
 protected:
-    void keyPressEvent(QKeyEvent *event);
-
     void resizeEvent(QResizeEvent *event);
 
 private:
@@ -57,11 +55,6 @@ private:
     Statistics *statistics;
 
     State state;
-
-    bool swapCtrlShift;
-    bool overlapStats;
-
-    bool interactionEnabled;
 
     QJsonObject toJSON();
     void fromJSON(QJsonObject data);
