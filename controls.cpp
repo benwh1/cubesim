@@ -2,38 +2,38 @@
 
 Controls::Controls(QWidget *parent) : QObject(parent)
 {
-    scrambleShortcut = new QShortcut(parent);
-    resetShortcut = new QShortcut(parent);
-    increaseSizeShortcut = new QShortcut(parent);
-    decreaseSizeShortcut = new QShortcut(parent);
-    changeSizeShortcut = new QShortcut(parent);
+    scrambleShortcut = new QShortcut(QKeySequence("Space"), parent);
+    resetShortcut = new QShortcut(QKeySequence("Esc"), parent);
+    increaseSizeShortcut = new QShortcut(QKeySequence("="), parent);
+    decreaseSizeShortcut = new QShortcut(QKeySequence("-"), parent);
+    changeSizeShortcut = new QShortcut(QKeySequence("+"), parent);
 
-    for(int i=0; i<10; i++){
-        loadProjectionShortcuts.append(new QShortcut(parent));
+    for(int i=1; i<=10; i++){
+        loadProjectionShortcuts.append(new QShortcut(QKeySequence(QString::number(i%10)), parent));
     }
-    resetProjectionShortcut = new QShortcut(parent);
-    changeProjectionShortcut = new QShortcut(parent);
+    resetProjectionShortcut = new QShortcut(QKeySequence("D"), parent);
+    changeProjectionShortcut = new QShortcut(QKeySequence("P"), parent);
 
-    resetZoomShortcut = new QShortcut(parent);
-    zoomInShortcut = new QShortcut(parent);
+    resetZoomShortcut = new QShortcut(QKeySequence("Home"), parent);
+    zoomInShortcut = new QShortcut(QKeySequence("PgUp"), parent);
     zoomInSmallShortcut = new QShortcut(parent);
     zoomInLargeShortcut = new QShortcut(parent);
-    zoomOutShortcut = new QShortcut(parent);
+    zoomOutShortcut = new QShortcut(QKeySequence("PgDown"), parent);
     zoomOutSmallShortcut = new QShortcut(parent);
     zoomOutLargeShortcut = new QShortcut(parent);
 
-    saveShortcut = new QShortcut(parent);
-    loadShortcut = new QShortcut(parent);
+    saveShortcut = new QShortcut(QKeySequence("Ctrl+S"), parent);
+    loadShortcut = new QShortcut(QKeySequence("Ctrl+O"), parent);
 
     toggleStatsShortcut = new QShortcut(parent);
 
-    toggleMultisliceShortcut = new QShortcut(parent);
+    toggleMultisliceShortcut = new QShortcut(QKeySequence("CapsLock"), parent);
 
-    screenshotShortcut = new QShortcut(parent);
+    screenshotShortcut = new QShortcut(QKeySequence("Ctrl+P"), parent);
 
-    settingsWindowShortcut = new QShortcut(parent);
-    replayRecorderWindowShortcut = new QShortcut(parent);
-    reconstructionWindowShortcut = new QShortcut(parent);
+    settingsWindowShortcut = new QShortcut(QKeySequence("W"), parent);
+    replayRecorderWindowShortcut = new QShortcut(QKeySequence("R"), parent);
+    reconstructionWindowShortcut = new QShortcut(QKeySequence("L"), parent);
 
     connect(scrambleShortcut, SIGNAL(activated()), this, SIGNAL(scrambleShortcutActivated()));
     connect(resetShortcut, SIGNAL(activated()), this, SIGNAL(resetShortcutActivated()));
