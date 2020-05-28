@@ -164,6 +164,9 @@ signals:
     void replayRecorderWindowShortcutActivated();
     void reconstructionWindowShortcutActivated();
 
+    //emitted when any setting is changed
+    void settingChanged();
+
 };
 
 #endif // CONTROLS_H

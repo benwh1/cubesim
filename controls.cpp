@@ -208,115 +208,143 @@ void Controls::onLoadProjectionShortcutActivated(){
 
 void Controls::setScrambleShortcutKeySequence(QKeySequence k){
     scrambleShortcut->setKey(k);
+    emit settingChanged();
 }
 
 void Controls::setResetShortcutKeySequence(QKeySequence k){
     resetShortcut->setKey(k);
+    emit settingChanged();
 }
 
 void Controls::setIncreaseSizeShortcutKeySequence(QKeySequence k){
     increaseSizeShortcut->setKey(k);
+    emit settingChanged();
 }
 
 void Controls::setDecreaseSizeShortcutKeySequence(QKeySequence k){
     decreaseSizeShortcut->setKey(k);
+    emit settingChanged();
 }
 
 void Controls::setChangeSizeShortcutKeySequence(QKeySequence k){
     changeSizeShortcut->setKey(k);
+    emit settingChanged();
 }
 
 void Controls::setLoadProjectionShortcutKeySequence(int i, QKeySequence k){
     assert(1 <= i && i <= 10);
     loadProjectionShortcuts[i-1]->setKey(k);
+    emit settingChanged();
 }
 
 void Controls::setResetProjectionShortcutKeySequence(QKeySequence k){
     resetProjectionShortcut->setKey(k);
+    emit settingChanged();
 }
 
 void Controls::setChangeProjectionShortcutKeySequence(QKeySequence k){
     changeProjectionShortcut->setKey(k);
+    emit settingChanged();
 }
 
 void Controls::setResetZoomShortcutKeySequence(QKeySequence k){
     resetZoomShortcut->setKey(k);
+    emit settingChanged();
 }
 
 void Controls::setZoomInShortcutKeySequence(QKeySequence k){
     zoomInShortcut->setKey(k);
+    emit settingChanged();
 }
 
 void Controls::setZoomInSmallShortcutKeySequence(QKeySequence k){
     zoomInSmallShortcut->setKey(k);
+    emit settingChanged();
 }
 
 void Controls::setZoomInLargeShortcutKeySequence(QKeySequence k){
     zoomInLargeShortcut->setKey(k);
+    emit settingChanged();
 }
 
 void Controls::setZoomOutShortcutKeySequence(QKeySequence k){
     zoomOutShortcut->setKey(k);
+    emit settingChanged();
 }
 
 void Controls::setZoomOutSmallShortcutKeySequence(QKeySequence k){
     zoomOutSmallShortcut->setKey(k);
+    emit settingChanged();
 }
 
 void Controls::setZoomOutLargeShortcutKeySequence(QKeySequence k){
     zoomOutLargeShortcut->setKey(k);
+    emit settingChanged();
 }
 
 void Controls::setSaveShortcutKeySequence(QKeySequence k){
     saveShortcut->setKey(k);
+    emit settingChanged();
 }
 
 void Controls::setLoadShortcutKeySequence(QKeySequence k){
     loadShortcut->setKey(k);
+    emit settingChanged();
 }
 
 void Controls::setToggleStatsShortcutKeySequence(QKeySequence k){
     toggleStatsShortcut->setKey(k);
+    emit settingChanged();
 }
 
 void Controls::setToggleMultisliceShortcutKeySequence(QKeySequence k){
     toggleMultisliceShortcut->setKey(k);
+    emit settingChanged();
 }
 
 void Controls::setScreenshotShortcutKeySequence(QKeySequence k){
     screenshotShortcut->setKey(k);
+    emit settingChanged();
 }
 
 void Controls::setSettingsWindowShortcutKeySequence(QKeySequence k){
     settingsWindowShortcut->setKey(k);
+    emit settingChanged();
 }
 
 void Controls::setReplayRecorderWindowShortcutKeySequence(QKeySequence k){
     replayRecorderWindowShortcut->setKey(k);
+    emit settingChanged();
 }
 
 void Controls::setReconstructionWindowShortcutKeySequence(QKeySequence k){
     reconstructionWindowShortcut->setKey(k);
+    emit settingChanged();
 }
 
 void Controls::setLeftClickAction(MoveType m){
     leftClickAction = m;
+    emit settingChanged();
 }
 
 void Controls::setCtrlClickAction(MoveType m){
     ctrlClickAction = m;
+    emit settingChanged();
 }
 
 void Controls::setShiftClickAction(MoveType m){
     shiftClickAction = m;
+    emit settingChanged();
 }
 
 void Controls::setRightClickAction(MoveType m){
     rightClickAction = m;
+    emit settingChanged();
 }
 
 void Controls::setMiddleClickAction(MoveType m){
     middleClickAction = m;
+    emit settingChanged();
 }
 
 QJsonObject Controls::toJSON(){
@@ -409,4 +437,6 @@ void Controls::fromJSON(QJsonObject data){
     shiftClickAction = (MoveType)data["shiftClickAction"].toInt();
     rightClickAction = (MoveType)data["rightClickAction"].toInt();
     middleClickAction = (MoveType)data["middleClickAction"].toInt();
+
+    emit settingChanged();
 }

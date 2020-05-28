@@ -28,6 +28,9 @@ Settings::Settings(QObject *parent) :
     //if it fails for whatever reason, then p will be nullptr
     QWidget *p = qobject_cast<QWidget*>(parent);
     controls = new Controls(p);
+
+    //propogate Controls::settingChanged signal
+    connect(controls, SIGNAL(settingChanged()), this, SIGNAL(settingChanged()));
 }
 
 bool Settings::getAntialiasing(){
@@ -225,6 +228,9 @@ QJsonObject Settings::toJSON(){
 }
 
 void Settings::fromJSON(QJsonObject data){
+    //TODO: only emit settingChanged after everything is loaded, rather than
+    //emitting it repeatedly after each setting is updated
+
     setAntialiasing(data["antialiasing"].toBool());
     setBackgroundColour(QColor(data["backgroundColour"].toString()));
     setLineColour(QColor(data["lineColour"].toString()));
