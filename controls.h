@@ -12,6 +12,33 @@ class Controls : public QObject
 public:
     explicit Controls(QWidget *parent = nullptr);
 
+    QKeySequence getScrambleShortcutKeySequence();
+    QKeySequence getResetShortcutKeySequence();
+    QKeySequence getIncreaseSizeShortcutKeySequence();
+    QKeySequence getDecreaseSizeShortcutKeySequence();
+    QKeySequence getChangeSizeShortcutKeySequence();
+
+    QKeySequence getLoadProjectionShortcutKeySequence(int i);
+    QKeySequence getResetProjectionShortcutKeySequence();
+    QKeySequence getChangeProjectionShortcutKeySequence();
+
+    QKeySequence getResetZoomShortcutKeySequence();
+    QKeySequence getZoomInShortcutKeySequence();
+    QKeySequence getZoomInSmallShortcutKeySequence();
+    QKeySequence getZoomInLargeShortcutKeySequence();
+    QKeySequence getZoomOutShortcutKeySequence();
+    QKeySequence getZoomOutSmallShortcutKeySequence();
+    QKeySequence getZoomOutLargeShortcutKeySequence();
+
+    QKeySequence getSaveShortcutKeySequence();
+    QKeySequence getLoadShortcutKeySequence();
+
+    QKeySequence getToggleStatsShortcutKeySequence();
+
+    QKeySequence getToggleMultisliceShortcutKeySequence();
+
+    QKeySequence getScreenshotShortcutKeySequence();
+
     void setScrambleShortcutKeySequence(QKeySequence k);
     void setResetShortcutKeySequence(QKeySequence k);
     void setIncreaseSizeShortcutKeySequence(QKeySequence k);

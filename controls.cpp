@@ -60,6 +60,87 @@ Controls::Controls(QWidget *parent) : QObject(parent)
     connect(screenshotShortcut, SIGNAL(activated()), this, SIGNAL(screenshotShortcutActivated()));
 }
 
+QKeySequence Controls::getScrambleShortcutKeySequence(){
+    return scrambleShortcut->key();
+}
+
+QKeySequence Controls::getResetShortcutKeySequence(){
+    return resetShortcut->key();
+}
+
+QKeySequence Controls::getIncreaseSizeShortcutKeySequence(){
+    return increaseSizeShortcut->key();
+}
+
+QKeySequence Controls::getDecreaseSizeShortcutKeySequence(){
+    return decreaseSizeShortcut->key();
+}
+
+QKeySequence Controls::getChangeSizeShortcutKeySequence(){
+    return changeSizeShortcut->key();
+}
+
+QKeySequence Controls::getLoadProjectionShortcutKeySequence(int i){
+    assert(1 <= i && i <= 10);
+    return loadProjectionShortcuts[i-1]->key();
+}
+
+QKeySequence Controls::getResetProjectionShortcutKeySequence(){
+    return resetProjectionShortcut->key();
+}
+
+QKeySequence Controls::getChangeProjectionShortcutKeySequence(){
+    return changeProjectionShortcut->key();
+}
+
+QKeySequence Controls::getResetZoomShortcutKeySequence(){
+    return resetZoomShortcut->key();
+}
+
+QKeySequence Controls::getZoomInShortcutKeySequence(){
+    return zoomInShortcut->key();
+}
+
+QKeySequence Controls::getZoomInSmallShortcutKeySequence(){
+    return zoomInSmallShortcut->key();
+}
+
+QKeySequence Controls::getZoomInLargeShortcutKeySequence(){
+    return zoomInLargeShortcut->key();
+}
+
+QKeySequence Controls::getZoomOutShortcutKeySequence(){
+    return zoomOutShortcut->key();
+}
+
+QKeySequence Controls::getZoomOutSmallShortcutKeySequence(){
+    return zoomOutSmallShortcut->key();
+}
+
+QKeySequence Controls::getZoomOutLargeShortcutKeySequence(){
+    return zoomOutLargeShortcut->key();
+}
+
+QKeySequence Controls::getSaveShortcutKeySequence(){
+    return saveShortcut->key();
+}
+
+QKeySequence Controls::getLoadShortcutKeySequence(){
+    return loadShortcut->key();
+}
+
+QKeySequence Controls::getToggleStatsShortcutKeySequence(){
+    return toggleStatsShortcut->key();
+}
+
+QKeySequence Controls::getToggleMultisliceShortcutKeySequence(){
+    return toggleMultisliceShortcut->key();
+}
+
+QKeySequence Controls::getScreenshotShortcutKeySequence(){
+    return screenshotShortcut->key();
+}
+
 void Controls::onLoadProjectionShortcutActivated(){
     QShortcut *shortcut = qobject_cast<QShortcut*>(QObject::sender());
 
