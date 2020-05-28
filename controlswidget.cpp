@@ -54,6 +54,10 @@ void ControlsWidget::initialize(Controls *controls){
 
     connect(ui->screenshotKeySequenceEdit, SIGNAL(keySequenceChanged(QKeySequence)), this, SLOT(onScreenshotKeySequenceChanged()));
 
+    connect(ui->settingsWindowKeySequenceEdit, SIGNAL(keySequenceChanged(QKeySequence)), this, SLOT(onSettingsWindowKeySequenceChanged()));
+    connect(ui->replayRecorderWindowKeySequenceEdit, SIGNAL(keySequenceChanged(QKeySequence)), this, SLOT(onReplayRecorderWindowKeySequenceChanged()));
+    connect(ui->reconstructionWindowKeySequenceEdit, SIGNAL(keySequenceChanged(QKeySequence)), this, SLOT(onReconstructionWindowKeySequenceChanged()));
+
     synchronizeFromControls();
 
     initialized = true;
@@ -253,4 +257,16 @@ void ControlsWidget::onToggleMultisliceKeySequenceChanged(){
 
 void ControlsWidget::onScreenshotKeySequenceChanged(){
     controls->setScreenshotShortcutKeySequence(ui->screenshotKeySequenceEdit->keySequence());
+}
+
+void ControlsWidget::onSettingsWindowKeySequenceChanged(){
+    controls->setSettingsWindowShortcutKeySequence(ui->settingsWindowKeySequenceEdit->keySequence());
+}
+
+void ControlsWidget::onReplayRecorderWindowKeySequenceChanged(){
+    controls->setReplayRecorderWindowShortcutKeySequence(ui->replayRecorderWindowKeySequenceEdit->keySequence());
+}
+
+void ControlsWidget::onReconstructionWindowKeySequenceChanged(){
+    controls->setReconstructionWindowShortcutKeySequence(ui->reconstructionWindowKeySequenceEdit->keySequence());
 }

@@ -37,5 +37,9 @@ private:
 private slots:
     void onCubeSizeChanged();
 
+    void onSettingsWindowShortcutActivated();
+    void onReplayRecorderWindowShortcutActivated();
+    void onReconstructionWindowShortcutActivated();
+
 };
 #endif // MAINWINDOW_H

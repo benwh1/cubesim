@@ -31,6 +31,10 @@ Controls::Controls(QWidget *parent) : QObject(parent)
 
     screenshotShortcut = new QShortcut(parent);
 
+    settingsWindowShortcut = new QShortcut(parent);
+    replayRecorderWindowShortcut = new QShortcut(parent);
+    reconstructionWindowShortcut = new QShortcut(parent);
+
     connect(scrambleShortcut, SIGNAL(activated()), this, SIGNAL(scrambleShortcutActivated()));
     connect(resetShortcut, SIGNAL(activated()), this, SIGNAL(resetShortcutActivated()));
     connect(increaseSizeShortcut, SIGNAL(activated()), this, SIGNAL(increaseSizeShortcutActivated()));
@@ -57,7 +61,12 @@ Controls::Controls(QWidget *parent) : QObject(parent)
     connect(toggleStatsShortcut, SIGNAL(activated()), this, SIGNAL(toggleStatsShortcutActivated()));
 
     connect(toggleMultisliceShortcut, SIGNAL(activated()), this, SIGNAL(toggleMultisliceShortcutActivated()));
+
     connect(screenshotShortcut, SIGNAL(activated()), this, SIGNAL(screenshotShortcutActivated()));
+
+    connect(settingsWindowShortcut, SIGNAL(activated()), this, SIGNAL(settingsWindowShortcutActivated()));
+    connect(replayRecorderWindowShortcut, SIGNAL(activated()), this, SIGNAL(replayRecorderWindowShortcutActivated()));
+    connect(reconstructionWindowShortcut, SIGNAL(activated()), this, SIGNAL(reconstructionWindowShortcutActivated()));
 }
 
 QKeySequence Controls::getScrambleShortcutKeySequence(){
@@ -139,6 +148,18 @@ QKeySequence Controls::getToggleMultisliceShortcutKeySequence(){
 
 QKeySequence Controls::getScreenshotShortcutKeySequence(){
     return screenshotShortcut->key();
+}
+
+QKeySequence Controls::getSettingsWindowShortcutKeySequence(){
+    return settingsWindowShortcut->key();
+}
+
+QKeySequence Controls::getReplayRecorderWindowShortcutKeySequence(){
+    return replayRecorderWindowShortcut->key();
+}
+
+QKeySequence Controls::getReconstructionWindowShortcutKeySequence(){
+    return reconstructionWindowShortcut->key();
 }
 
 void Controls::onLoadProjectionShortcutActivated(){
@@ -240,6 +261,18 @@ void Controls::setScreenshotShortcutKeySequence(QKeySequence k){
     screenshotShortcut->setKey(k);
 }
 
+void Controls::setSettingsWindowShortcutKeySequence(QKeySequence k){
+    settingsWindowShortcut->setKey(k);
+}
+
+void Controls::setReplayRecorderWindowShortcutKeySequence(QKeySequence k){
+    replayRecorderWindowShortcut->setKey(k);
+}
+
+void Controls::setReconstructionWindowShortcutKeySequence(QKeySequence k){
+    reconstructionWindowShortcut->setKey(k);
+}
+
 QJsonObject Controls::toJSON(){
     QJsonObject data;
 
@@ -273,6 +306,10 @@ QJsonObject Controls::toJSON(){
     data["toggleMultisliceShortcut"] = toggleMultisliceShortcut->key().toString();
 
     data["screenshotShortcut"] = screenshotShortcut->key().toString();
+
+    data["settingsWindowShortcut"] = settingsWindowShortcut->key().toString();
+    data["replayRecorderWindowShortcut"] = replayRecorderWindowShortcut->key().toString();
+    data["reconstructionWindowShortcut"] = reconstructionWindowShortcut->key().toString();
 
     return data;
 }
@@ -310,4 +347,8 @@ void Controls::fromJSON(QJsonObject data){
     toggleMultisliceShortcut->setKey(QKeySequence::fromString(data["toggleMultisliceShortcut"].toString()));
 
     screenshotShortcut->setKey(QKeySequence::fromString(data["screenshotShortcut"].toString()));
+
+    settingsWindowShortcut->setKey(QKeySequence::fromString(data["settingsWindowShortcut"].toString()));
+    replayRecorderWindowShortcut->setKey(QKeySequence::fromString(data["replayRecorderWindowShortcut"].toString()));
+    reconstructionWindowShortcut->setKey(QKeySequence::fromString(data["reconstructionWindowShortcut"].toString()));
 }

@@ -17,6 +17,12 @@ MainWindow::MainWindow(QWidget *parent)
     reconstructionWindow = new ReconstructionWindow(ui->cubeWidget->getReconstruction(), ui->cubeWidget->getStatistics());
     replayRecorderWindow = new ReplayRecorderWindow(ui->cubeWidget->getReplayRecorder());
     settingsWindow = new SettingsWindow(ui->cubeWidget->getSettings());
+
+    //connect to controls signals
+    Controls *c = ui->cubeWidget->getSettings()->getControls();
+    connect(c, SIGNAL(settingsWindowShortcutActivated()), this, SLOT(onSettingsWindowShortcutActivated()));
+    connect(c, SIGNAL(replayRecorderWindowShortcutActivated()), this, SLOT(onReplayRecorderWindowShortcutActivated()));
+    connect(c, SIGNAL(reconstructionWindowShortcutActivated()), this, SLOT(onReconstructionWindowShortcutActivated()));
 }
 
 MainWindow::~MainWindow()
@@ -78,4 +84,29 @@ void MainWindow::updateTitleText(){
 
 void MainWindow::onCubeSizeChanged(){
     updateTitleText();
+}
+
+void MainWindow::onSettingsWindowShortcutActivated(){
+    if(ui->cubeWidget->getState() == CubeWidget::State::Neutral ||
+       ui->cubeWidget->getState() == CubeWidget::State::Finished){
+        settingsWindow->show();
+    }
+}
+
+void MainWindow::onReplayRecorderWindowShortcutActivated(){
+    if(ui->cubeWidget->getState() == CubeWidget::State::Finished){
+        //check whether ffmpeg is installed
+        if(QStandardPaths::findExecutable("ffmpeg") == ""){
+            QMessageBox::warning(this, "Error", "FFmpeg is not installed");
+        }
+        else{
+            replayRecorderWindow->show();
+        }
+    }
+}
+
+void MainWindow::onReconstructionWindowShortcutActivated(){
+    if(ui->cubeWidget->getState() == CubeWidget::State::Finished){
+        reconstructionWindow->show();
+    }
 }

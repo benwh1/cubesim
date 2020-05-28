@@ -39,6 +39,10 @@ public:
 
     QKeySequence getScreenshotShortcutKeySequence();
 
+    QKeySequence getSettingsWindowShortcutKeySequence();
+    QKeySequence getReplayRecorderWindowShortcutKeySequence();
+    QKeySequence getReconstructionWindowShortcutKeySequence();
+
     void setScrambleShortcutKeySequence(QKeySequence k);
     void setResetShortcutKeySequence(QKeySequence k);
     void setIncreaseSizeShortcutKeySequence(QKeySequence k);
@@ -65,6 +69,10 @@ public:
     void setToggleMultisliceShortcutKeySequence(QKeySequence k);
 
     void setScreenshotShortcutKeySequence(QKeySequence k);
+
+    void setSettingsWindowShortcutKeySequence(QKeySequence k);
+    void setReplayRecorderWindowShortcutKeySequence(QKeySequence k);
+    void setReconstructionWindowShortcutKeySequence(QKeySequence k);
 
     QJsonObject toJSON();
     void fromJSON(QJsonObject data);
@@ -98,6 +106,10 @@ private:
 
     QShortcut *screenshotShortcut;
 
+    QShortcut *settingsWindowShortcut;
+    QShortcut *replayRecorderWindowShortcut;
+    QShortcut *reconstructionWindowShortcut;
+
 private slots:
     void onLoadProjectionShortcutActivated();
 
@@ -128,6 +140,10 @@ signals:
     void toggleMultisliceShortcutActivated();
 
     void screenshotShortcutActivated();
+
+    void settingsWindowShortcutActivated();
+    void replayRecorderWindowShortcutActivated();
+    void reconstructionWindowShortcutActivated();
 
 };
 

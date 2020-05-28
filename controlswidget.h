@@ -65,6 +65,10 @@ private slots:
 
     void onScreenshotKeySequenceChanged();
 
+    void onSettingsWindowKeySequenceChanged();
+    void onReplayRecorderWindowKeySequenceChanged();
+    void onReconstructionWindowKeySequenceChanged();
+
 };
 
 #endif // CONTROLSWIDGET_H
