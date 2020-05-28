@@ -47,6 +47,8 @@ private slots:
 
     void onSettingChanged();
 
+    void onFinished();
+
 };
 
 #endif // SETTINGSWINDOW_H

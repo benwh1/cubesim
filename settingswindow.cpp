@@ -31,6 +31,8 @@ SettingsWindow::SettingsWindow(Settings *settings, QDialog *parent) :
 
     connect(settings, SIGNAL(settingChanged()), this, SLOT(onSettingChanged()));
 
+    connect(this, SIGNAL(finished(int)), this, SLOT(onFinished()));
+
     //pass the settings' Controls object to the ControlsWidget
     ui->controlsWidget->initialize(settings->getControls());
 
@@ -177,4 +179,8 @@ void SettingsWindow::onPochmannCageChanged(){
 
 void SettingsWindow::onSettingChanged(){
     synchronizeFromSettings();
+}
+
+void SettingsWindow::onFinished(){
+    settings->save("settings.dat");
 }

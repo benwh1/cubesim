@@ -42,15 +42,6 @@ void MainWindow::keyPressEvent(QKeyEvent *event){
         if(ui->cubeWidget->getState() == CubeWidget::State::Neutral ||
            ui->cubeWidget->getState() == CubeWidget::State::Finished){
             settingsWindow->show();
-
-            //save the settings to a file
-            QJsonObject data = ui->cubeWidget->getSettings()->toJSON();
-            QJsonDocument document(data);
-
-            QFile f("settings.dat");
-            f.open(QFile::WriteOnly);
-            f.write(document.toBinaryData());
-            f.close();
         }
     }
     else if(event->key() == Qt::Key_R){

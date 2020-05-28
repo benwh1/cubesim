@@ -250,3 +250,25 @@ void Settings::fromJSON(QJsonObject data){
 
     controls->fromJSON(data["controls"].toObject());
 }
+
+void Settings::save(QString filename){
+    QJsonObject data = toJSON();
+    QJsonDocument document(data);
+
+    QFile f(filename);
+    f.open(QFile::WriteOnly);
+    f.write(document.toBinaryData());
+    f.close();
+}
+
+void Settings::load(QString filename){
+    QFile f(filename);
+    if(f.exists()){
+        f.open(QFile::ReadOnly);
+        QJsonDocument document = QJsonDocument::fromBinaryData(f.readAll());
+        f.close();
+
+        QJsonObject data = document.object();
+        fromJSON(data);
+    }
+}

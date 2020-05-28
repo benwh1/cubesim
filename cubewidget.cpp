@@ -39,15 +39,7 @@ CubeWidget::CubeWidget(QWidget *parent) :
     connect(this, SIGNAL(solveFinished()), ui->statisticsWidget, SLOT(onSolveFinished()));
 
     //load the settings file if it exists
-    QFile f("settings.dat");
-    if(f.exists()){
-        f.open(QFile::ReadOnly);
-        QJsonDocument document = QJsonDocument::fromBinaryData(f.readAll());
-        f.close();
-
-        QJsonObject data = document.object();
-        settings->fromJSON(data);
-    }
+    settings->load("settings.dat");
 
     //connect to controls signals
     connect(settings->getControls(), SIGNAL(scrambleShortcutActivated()), this, SLOT(onScrambleShortcutActivated()));

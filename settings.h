@@ -2,7 +2,9 @@
 #define SETTINGS_H
 
 #include <QColor>
+#include <QFile>
 #include <QJsonArray>
+#include <QJsonDocument>
 #include <QJsonObject>
 #include <QObject>
 #include "controls.h"
@@ -51,6 +53,9 @@ public:
 
     QJsonObject toJSON();
     void fromJSON(QJsonObject data);
+
+    void save(QString filename);
+    void load(QString filename);
 
 private:
     QColor backgroundColour;
