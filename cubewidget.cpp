@@ -26,7 +26,7 @@ CubeWidget::CubeWidget(QWidget *parent) :
     connect(ui->graphicsView, SIGNAL(moveDrag(Axis,int,bool,Qt::MouseButton)), this, SLOT(onMoveDrag(Axis,int,bool,Qt::MouseButton)));
 
     //detect cube moves
-    connect(cube, SIGNAL(moveDone(Move)), this, SLOT(onMoveDone(Move)));
+    connect(cube, SIGNAL(moveDone(Move)), this, SLOT(onMoveDone()));
 
     //detect when the cube is solved
     connect(cube, SIGNAL(cubeSolved()), this, SLOT(onCubeSolved()));
@@ -304,7 +304,7 @@ void CubeWidget::onMoveDrag(Axis axis, int layer, bool clockwise, Qt::MouseButto
     cube->move(move);
 }
 
-void CubeWidget::onMoveDone(Move move){
+void CubeWidget::onMoveDone(){
     //if we are in inspection, start the timer and reconstruction
     if(state == State::Inspecting){
         statistics->reset();
