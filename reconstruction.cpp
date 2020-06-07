@@ -36,8 +36,12 @@ int Reconstruction::length(){
 }
 
 qint64 Reconstruction::totalTime(){
-    if(moves.length() == 0) return 0;
-    return moves.last().second;
+    if(moves.length() == 0){
+        return 0;
+    }
+    else{
+        return moves.last().second;
+    }
 }
 
 int Reconstruction::numMoves(){

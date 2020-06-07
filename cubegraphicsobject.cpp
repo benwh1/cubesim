@@ -242,7 +242,7 @@ void CubeGraphicsObject::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
         facePosRelease.setX(vReleased.x());
         facePosRelease.setY(vReleased.z());
     }
-    else if(vPressed.x() == 1){ //R face
+    else{ //R face, vPressed.x() == 1
         clickedFace = Face::R;
         facePosPress.setX(vPressed.y());
         facePosPress.setY(vPressed.z());
@@ -258,10 +258,18 @@ void CubeGraphicsObject::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
                         facePosRelease.x() - facePosPress.x());
 
     Direction dragDirection;
-    if(-pi/4 < angle && angle <= pi/4) dragDirection = Direction::Right;
-    else if(pi/4 < angle && angle <= 3*pi/4) dragDirection = Direction::Up;
-    else if(3*pi/4 < angle || angle <= -3*pi/4) dragDirection = Direction::Left;
-    else if(-3*pi/4 < angle && angle <= -pi/4) dragDirection = Direction::Down;
+    if(-pi/4 < angle && angle <= pi/4){
+        dragDirection = Direction::Right;
+    }
+    else if(pi/4 < angle && angle <= 3*pi/4){
+        dragDirection = Direction::Up;
+    }
+    else if(3*pi/4 < angle || angle <= -3*pi/4){
+        dragDirection = Direction::Left;
+    }
+    else{ //-3*pi/4 < angle && angle <= -pi/4
+        dragDirection = Direction::Down;
+    }
 
     //compute the sticker that was clicked
     int s = cube->getSize();
@@ -273,8 +281,8 @@ void CubeGraphicsObject::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
     //rarely, we click right on the edge of a face, due to floating point
     //errors, the stickerPos coordinates can be -1 (or potentially s although
     //I haven't actually seen that happen yet), so we need to deal with that
-    if(stickerPos.x() < 0) stickerPos.setX(0);
-    if(stickerPos.y() < 0) stickerPos.setY(0);
+    if(stickerPos.x() <   0) stickerPos.setX(0);
+    if(stickerPos.y() <   0) stickerPos.setY(0);
     if(stickerPos.x() > s-1) stickerPos.setX(s-1);
     if(stickerPos.y() > s-1) stickerPos.setY(s-1);
 

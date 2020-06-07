@@ -29,9 +29,10 @@ void ColorSettingWidget::setColor(QColor c){
     emit colorChanged();
 }
 
-void ColorSettingWidget::mousePressEvent(QMouseEvent *event){
+void ColorSettingWidget::mousePressEvent(QMouseEvent *){
     QColor c = QColorDialog::getColor(color, this, "Select colour", QColorDialog::ShowAlphaChannel | QColorDialog::DontUseNativeDialog);
-    if(!c.isValid()) return;
 
-    setColor(c);
+    if(c.isValid()){
+        setColor(c);
+    }
 }

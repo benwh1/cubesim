@@ -9,8 +9,12 @@ Statistics::Statistics(Cube *cube, QObject *parent) :
 }
 
 qint64 Statistics::getTime(){
-    if(active) return timer.elapsed() + additionalTime;
-    else return additionalTime;
+    if(active){
+        return timer.elapsed() + additionalTime;
+    }
+    else{
+        return additionalTime;
+    }
 }
 
 qint64 Statistics::getMoves(){

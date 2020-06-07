@@ -78,7 +78,7 @@ QString Move::toString(){
     }
 
     QString suffix;
-    if(amount == 1) suffix = "";
+         if(amount == 1) suffix = "";
     else if(amount == 2) suffix = "2";
     else if(amount == 3) suffix = "'";
 
