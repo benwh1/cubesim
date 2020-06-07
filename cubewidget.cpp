@@ -199,14 +199,6 @@ void CubeWidget::load(QString fileName){
     //load the save data
     QJsonDocument document = QJsonDocument::fromBinaryData(data);
     fromJSON(document.object());
-
-    if(cube->isSolved()){
-        state = State::Finished;
-    }
-    else{
-        //set the state to solving
-        state = State::Solving;
-    }
 }
 
 void CubeWidget::onMoveDrag(Axis axis, int layer, bool clockwise, Qt::MouseButton button){
