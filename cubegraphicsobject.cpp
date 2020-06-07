@@ -197,12 +197,10 @@ void CubeGraphicsObject::fromJSON(QJsonObject data){
 
 void CubeGraphicsObject::mousePressEvent(QGraphicsSceneMouseEvent *event){
     lastMousePress = event->pos();
-    event->accept();
 }
 
 void CubeGraphicsObject::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
     lastMouseRelease = event->pos();
-    event->accept();
 
     //scale the point back to project([-1,1]^3), and unproject it
     bool ok;

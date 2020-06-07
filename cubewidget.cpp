@@ -111,8 +111,6 @@ void CubeWidget::resizeEvent(QResizeEvent *event){
     //the statistics widget is not in a layout, which means the sizePolicy is
     //ignored. we want the widget to be the minimum height, so we set it here
     ui->statisticsWidget->setGeometry(0, 0, size, ui->statisticsWidget->sizeHint().height());
-
-    event->accept();
 }
 
 QJsonObject CubeWidget::toJSON(){
