@@ -142,6 +142,13 @@ void CubeWidget::fromJSON(QJsonObject data){
     //of the save file is being loaded
     statistics->fromJSON(data["statistics"].toObject());
     ui->statisticsWidget->fromJSON(data["statisticsWidget"].toObject());
+
+    //ugly hack to make statisticsWidget be blank if we load a save file in
+    //the neutral or inspecting state
+    //TODO: fix this. maybe statisticsWidget should save the current text?
+    if(state == State::Neutral || state == State::Inspecting){
+        ui->statisticsWidget->clear();
+    }
 }
 
 void CubeWidget::save(){
@@ -437,10 +444,7 @@ void CubeWidget::onZoomOutLargeShortcutActivated(){
 }
 
 void CubeWidget::onSaveShortcutActivated(){
-    //only save when we are doing a solve, or when a solve has finished
-    if(state == State::Solving || state == State::Finished){
-        save();
-    }
+    save();
 }
 
 void CubeWidget::onLoadShortcutActivated(){
