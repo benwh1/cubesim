@@ -22,7 +22,7 @@ public:
     void setColor(QColor c);
 
 protected:
-    void mousePressEvent(QMouseEvent *event);
+    void mousePressEvent(QMouseEvent *);
 
 private:
     Ui::ColorSettingWidget *ui;
