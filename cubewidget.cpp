@@ -147,8 +147,6 @@ void CubeWidget::fromJSON(QJsonObject data){
 }
 
 void CubeWidget::save(){
-    if(state != State::Solving && state != State::Finished) return;
-
     QJsonDocument document(toJSON());
 
     //make save directory if it doesn't already exist
@@ -167,8 +165,6 @@ void CubeWidget::save(){
 }
 
 void CubeWidget::save(QString fileName){
-    if(state != State::Solving && state != State::Finished) return;
-
     QJsonDocument document(toJSON());
 
     //make the directory if it doesn't already exist
@@ -183,9 +179,6 @@ void CubeWidget::save(QString fileName){
 }
 
 void CubeWidget::load(){
-    //only load when we aren't doing a solve
-    if(state != State::Neutral) return;
-
     //get the save file name
     QDir dir("save");
     QString path = dir.absolutePath();
@@ -454,11 +447,17 @@ void CubeWidget::onZoomOutLargeShortcutActivated(){
 }
 
 void CubeWidget::onSaveShortcutActivated(){
-    save();
+    //only save when we are doing a solve, or when a solve has finished
+    if(state == State::Solving || state == State::Finished){
+        save();
+    }
 }
 
 void CubeWidget::onLoadShortcutActivated(){
-    load();
+    //only load when we aren't doing a solve
+    if(state == State::Neutral){
+        load();
+    }
 }
 
 void CubeWidget::onToggleStatsShortcutActivated(){
