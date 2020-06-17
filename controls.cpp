@@ -2,77 +2,79 @@
 
 Controls::Controls(QWidget *parent) : QObject(parent)
 {
-    scrambleShortcut = new QShortcut(QKeySequence("Space"), parent);
-    resetShortcut = new QShortcut(QKeySequence("Esc"), parent);
-    increaseSizeShortcut = new QShortcut(QKeySequence("="), parent);
-    decreaseSizeShortcut = new QShortcut(QKeySequence("-"), parent);
-    changeSizeShortcut = new QShortcut(QKeySequence("+"), parent);
+    //define a temporary macro to make the shortcut creation more readable
+
+#define F(keys) new QShortcut(QKeySequence(keys), parent)
+
+    scrambleShortcut             = F("Space");
+    resetShortcut                = F("Esc");
+    increaseSizeShortcut         = F("=");
+    decreaseSizeShortcut         = F("-");
+    changeSizeShortcut           = F("+");
+    resetProjectionShortcut      = F("D");
+    changeProjectionShortcut     = F("P");
+    resetZoomShortcut            = F("Home");
+    zoomInShortcut               = F("PgUp");
+    zoomInSmallShortcut          = F("Ctrl+PgUp");
+    zoomInLargeShortcut          = F("Shift+PgUp");
+    zoomOutShortcut              = F("PgDown");
+    zoomOutSmallShortcut         = F("Ctrl+PgDown");
+    zoomOutLargeShortcut         = F("Shift+PgDown");
+    saveShortcut                 = F("Ctrl+S");
+    loadShortcut                 = F("Ctrl+O");
+    toggleStatsShortcut          = F("V");
+    toggleMultisliceShortcut     = F("CapsLock");
+    screenshotShortcut           = F("Ctrl+P");
+    settingsWindowShortcut       = F("W");
+    replayRecorderWindowShortcut = F("R");
+    reconstructionWindowShortcut = F("L");
 
     for(int i=1; i<=10; i++){
-        loadProjectionShortcuts.append(new QShortcut(QKeySequence(QString::number(i%10)), parent));
+        QShortcut *s = F(QString::number(i%10));
+        loadProjectionShortcuts.append(s);
     }
-    resetProjectionShortcut = new QShortcut(QKeySequence("D"), parent);
-    changeProjectionShortcut = new QShortcut(QKeySequence("P"), parent);
 
-    resetZoomShortcut = new QShortcut(QKeySequence("Home"), parent);
-    zoomInShortcut = new QShortcut(QKeySequence("PgUp"), parent);
-    zoomInSmallShortcut = new QShortcut(QKeySequence("Ctrl+PgUp"), parent);
-    zoomInLargeShortcut = new QShortcut(QKeySequence("Shift+PgUp"), parent);
-    zoomOutShortcut = new QShortcut(QKeySequence("PgDown"), parent);
-    zoomOutSmallShortcut = new QShortcut(QKeySequence("Ctrl+PgDown"), parent);
-    zoomOutLargeShortcut = new QShortcut(QKeySequence("Shift+PgDown"), parent);
+#undef F
 
-    saveShortcut = new QShortcut(QKeySequence("Ctrl+S"), parent);
-    loadShortcut = new QShortcut(QKeySequence("Ctrl+O"), parent);
-
-    toggleStatsShortcut = new QShortcut(QKeySequence("V"), parent);
-
-    toggleMultisliceShortcut = new QShortcut(QKeySequence("CapsLock"), parent);
-
-    screenshotShortcut = new QShortcut(QKeySequence("Ctrl+P"), parent);
-
-    settingsWindowShortcut = new QShortcut(QKeySequence("W"), parent);
-    replayRecorderWindowShortcut = new QShortcut(QKeySequence("R"), parent);
-    reconstructionWindowShortcut = new QShortcut(QKeySequence("L"), parent);
-
-    leftClickAction = MoveType::QuarterTurn;
-    ctrlClickAction = MoveType::Rotation;
-    shiftClickAction = MoveType::HalfTurn;
-    rightClickAction = MoveType::HalfTurn;
+    leftClickAction   = MoveType::QuarterTurn;
+    ctrlClickAction   = MoveType::Rotation;
+    shiftClickAction  = MoveType::HalfTurn;
+    rightClickAction  = MoveType::HalfTurn;
     middleClickAction = MoveType::Rotation;
 
-    connect(scrambleShortcut, SIGNAL(activated()), this, SIGNAL(scrambleShortcutActivated()));
-    connect(resetShortcut, SIGNAL(activated()), this, SIGNAL(resetShortcutActivated()));
-    connect(increaseSizeShortcut, SIGNAL(activated()), this, SIGNAL(increaseSizeShortcutActivated()));
-    connect(decreaseSizeShortcut, SIGNAL(activated()), this, SIGNAL(decreaseSizeShortcutActivated()));
-    connect(changeSizeShortcut, SIGNAL(activated()), this, SIGNAL(changeSizeShortcutActivated()));
+    //define a macro to make the signal-slot connections more readable
+
+#define F(shortcut) connect(shortcut, SIGNAL(activated()), this, SIGNAL(shortcutActivated()))
+
+    F(scrambleShortcut);
+    F(resetShortcut);
+    F(increaseSizeShortcut);
+    F(decreaseSizeShortcut);
+    F(changeSizeShortcut);
+    F(resetProjectionShortcut);
+    F(changeProjectionShortcut);
+    F(resetZoomShortcut);
+    F(zoomInShortcut);
+    F(zoomInSmallShortcut);
+    F(zoomInLargeShortcut);
+    F(zoomOutShortcut);
+    F(zoomOutSmallShortcut);
+    F(zoomOutLargeShortcut);
+    F(saveShortcut);
+    F(loadShortcut);
+    F(toggleStatsShortcut);
+    F(toggleMultisliceShortcut);
+    F(screenshotShortcut);
+    F(settingsWindowShortcut);
+    F(replayRecorderWindowShortcut);
+    F(reconstructionWindowShortcut);
 
     for(int i=0; i<10; i++){
-        connect(loadProjectionShortcuts[i], SIGNAL(activated()), this, SLOT(onLoadProjectionShortcutActivated()));
+        F(loadProjectionShortcuts[i]);
     }
-    connect(resetProjectionShortcut, SIGNAL(activated()), this, SIGNAL(resetProjectionShortcutActivated()));
-    connect(changeProjectionShortcut, SIGNAL(activated()), this, SIGNAL(changeProjectionShortcutActivated()));
 
-    connect(resetZoomShortcut, SIGNAL(activated()), this, SIGNAL(resetZoomShortcutActivated()));
-    connect(zoomInShortcut, SIGNAL(activated()), this, SIGNAL(zoomInShortcutActivated()));
-    connect(zoomInSmallShortcut, SIGNAL(activated()), this, SIGNAL(zoomInSmallShortcutActivated()));
-    connect(zoomInLargeShortcut, SIGNAL(activated()), this, SIGNAL(zoomInLargeShortcutActivated()));
-    connect(zoomOutShortcut, SIGNAL(activated()), this, SIGNAL(zoomOutShortcutActivated()));
-    connect(zoomOutSmallShortcut, SIGNAL(activated()), this, SIGNAL(zoomOutSmallShortcutActivated()));
-    connect(zoomOutLargeShortcut, SIGNAL(activated()), this, SIGNAL(zoomOutLargeShortcutActivated()));
+#undef F
 
-    connect(saveShortcut, SIGNAL(activated()), this, SIGNAL(saveShortcutActivated()));
-    connect(loadShortcut, SIGNAL(activated()), this, SIGNAL(loadShortcutActivated()));
-
-    connect(toggleStatsShortcut, SIGNAL(activated()), this, SIGNAL(toggleStatsShortcutActivated()));
-
-    connect(toggleMultisliceShortcut, SIGNAL(activated()), this, SIGNAL(toggleMultisliceShortcutActivated()));
-
-    connect(screenshotShortcut, SIGNAL(activated()), this, SIGNAL(screenshotShortcutActivated()));
-
-    connect(settingsWindowShortcut, SIGNAL(activated()), this, SIGNAL(settingsWindowShortcutActivated()));
-    connect(replayRecorderWindowShortcut, SIGNAL(activated()), this, SIGNAL(replayRecorderWindowShortcutActivated()));
-    connect(reconstructionWindowShortcut, SIGNAL(activated()), this, SIGNAL(reconstructionWindowShortcutActivated()));
 }
 
 QKeySequence Controls::getScrambleShortcutKeySequence(){
