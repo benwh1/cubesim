@@ -44,7 +44,7 @@ Controls::Controls(QWidget *parent) : QObject(parent)
 
     //define a macro to make the signal-slot connections more readable
 
-#define F(shortcut) connect(shortcut, SIGNAL(activated()), this, SIGNAL(shortcutActivated()))
+#define F(shortcut) connect(shortcut, SIGNAL(activated()), this, SIGNAL(shortcut##Activated()))
 
     F(scrambleShortcut);
     F(resetShortcut);
@@ -70,7 +70,7 @@ Controls::Controls(QWidget *parent) : QObject(parent)
     F(reconstructionWindowShortcut);
 
     for(int i=0; i<10; i++){
-        F(loadProjectionShortcuts[i]);
+        connect(loadProjectionShortcuts[i], SIGNAL(activated()), this, SLOT(onLoadProjectionShortcutActivated()));
     }
 
 #undef F
