@@ -20,6 +20,9 @@ StatisticsWidget::~StatisticsWidget()
 void StatisticsWidget::initialize(Statistics *statistics, Settings *settings){
     this->statistics = statistics;
 
+    //show the initial cube size
+    onCubeSizeChanged();
+
     connect(statistics, SIGNAL(timerStarted()), this, SLOT(onTimerStarted()));
 
     //when the timer is stopped, we need to make sure that the displayed time
@@ -30,6 +33,9 @@ void StatisticsWidget::initialize(Statistics *statistics, Settings *settings){
 
     //update the UI whenever a statistic is changed
     connect(statistics, SIGNAL(statisticChanged()), this, SLOT(onStatisticChanged()));
+
+    //update the cube size when it changes
+    connect(statistics, SIGNAL(cubeSizeChanged()), this, SLOT(onCubeSizeChanged()));
 
     this->settings = settings;
 
@@ -104,6 +110,10 @@ void StatisticsWidget::onTimerReset(){
 
 void StatisticsWidget::onStatisticChanged(){
     updateStatistics();
+}
+
+void StatisticsWidget::onCubeSizeChanged(){
+    ui->cubeLabel->setText(statistics->cubeSizeString());
 }
 
 void StatisticsWidget::onSolveFinished(){

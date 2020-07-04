@@ -6,6 +6,9 @@ Statistics::Statistics(Cube *cube, QObject *parent) :
     this->cube = cube;
 
     reset();
+
+    //propogate the cubeSizeChanged signal
+    connect(cube, SIGNAL(cubeSizeChanged()), this, SIGNAL(cubeSizeChanged()));
 }
 
 qint64 Statistics::getTime(){

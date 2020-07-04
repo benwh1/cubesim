@@ -72,6 +72,8 @@ signals:
     //changes continuously
     void statisticChanged();
 
+    void cubeSizeChanged();
+
 };
 
 #endif // STATISTICS_H
