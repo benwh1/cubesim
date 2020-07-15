@@ -20,6 +20,7 @@ public:
     QColor getBackgroundColour();
     QColor getLineColour();
     int getLineWidth();
+    int getBorderPadding();
     QList<QColor> getColours();
     QColor getColour(Face face);
     bool getMultislice();
@@ -38,6 +39,7 @@ public:
     void setBackgroundColour(QColor c);
     void setLineColour(QColor c);
     void setLineWidth(int n);
+    void setBorderPadding(int n);
     void setColours(QList<QColor> c);
     void setColour(Face face, QColor c);
     void setMultislice(bool b);
@@ -62,6 +64,7 @@ private:
     QColor lineColour;
     bool antialiasing;
     int lineWidth;
+    int borderPadding;
     QList<QColor> colours;
     bool multislice;
     bool guideLinesCross;
@@ -81,6 +84,7 @@ signals:
     void backgroundColourChanged();
     void lineColourChanged();
     void lineWidthChanged();
+    void borderPaddingChanged();
     void coloursChanged();
     void multisliceChanged();
     void guideLinesCrossChanged();

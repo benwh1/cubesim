@@ -29,6 +29,7 @@ private slots:
     void onBackgroundColourWidgetChanged();
     void onLineColourWidgetChanged();
     void onLineWidthSpinBoxChanged();
+    void onBorderPaddingSpinBoxChanged();
     void onFaceUColourChanged();
     void onFaceFColourChanged();
     void onFaceRColourChanged();

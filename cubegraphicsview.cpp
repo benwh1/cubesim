@@ -29,6 +29,7 @@ void CubeGraphicsView::initialize(Cube *cube, Settings *settings){
 
     //connect to signals that are emitted from settings being changed
     connect(settings, SIGNAL(backgroundColourChanged()), this, SLOT(onBackgroundColourSettingChanged()));
+    connect(settings, SIGNAL(borderPaddingChanged()), this, SLOT(onBorderPaddingSettingChanged()));
     connect(settings, SIGNAL(antialiasingChanged()), this, SLOT(onAntialiasingSettingChanged()));
 
     //propogate the moveDrag signal
@@ -99,9 +100,20 @@ void CubeGraphicsView::paintEvent(QPaintEvent *event){
     QGraphicsView::paintEvent(event);
 }
 
+void CubeGraphicsView::recalculateSceneRect(){
+    //smallest rect that contains everything
+    QRectF r = scene->itemsBoundingRect();
+
+    //padding
+    int n = settings->getBorderPadding();
+    r.adjust(-n, -n, n, n);
+
+    //set the scene rect
+    scene->setSceneRect(r);
+}
+
 void CubeGraphicsView::onProjectionChanged(){
-    //set the scene rect to the smallest rect that contains everything
-    scene->setSceneRect(scene->itemsBoundingRect());
+    recalculateSceneRect();
 }
 
 void CubeGraphicsView::onAntialiasingSettingChanged(){
@@ -110,4 +122,8 @@ void CubeGraphicsView::onAntialiasingSettingChanged(){
 
 void CubeGraphicsView::onBackgroundColourSettingChanged(){
     setBackgroundBrush(QBrush(settings->getBackgroundColour()));
+}
+
+void CubeGraphicsView::onBorderPaddingSettingChanged(){
+    recalculateSceneRect();
 }

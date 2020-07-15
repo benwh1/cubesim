@@ -13,6 +13,7 @@ SettingsWindow::SettingsWindow(Settings *settings, QDialog *parent) :
     connect(ui->backgroundColourWidget, SIGNAL(colorChanged()), this, SLOT(onBackgroundColourWidgetChanged()));
     connect(ui->lineColourWidget, SIGNAL(colorChanged()), this, SLOT(onLineColourWidgetChanged()));
     connect(ui->lineWidthSpinBox, SIGNAL(valueChanged(int)), this, SLOT(onLineWidthSpinBoxChanged()));
+    connect(ui->borderPaddingSpinBox, SIGNAL(valueChanged(int)), this, SLOT(onBorderPaddingSpinBoxChanged()));
     connect(ui->faceUColourWidget, SIGNAL(colorChanged()), this, SLOT(onFaceUColourChanged()));
     connect(ui->faceFColourWidget, SIGNAL(colorChanged()), this, SLOT(onFaceFColourChanged()));
     connect(ui->faceRColourWidget, SIGNAL(colorChanged()), this, SLOT(onFaceRColourChanged()));
@@ -54,6 +55,7 @@ void SettingsWindow::synchronizeFromSettings(){
                               ui->backgroundColourWidget,
                               ui->lineColourWidget,
                               ui->lineWidthSpinBox,
+                              ui->borderPaddingSpinBox,
                               ui->faceUColourWidget,
                               ui->faceFColourWidget,
                               ui->faceRColourWidget,
@@ -78,6 +80,7 @@ void SettingsWindow::synchronizeFromSettings(){
     ui->backgroundColourWidget->setColor(settings->getBackgroundColour());
     ui->lineColourWidget->setColor(settings->getLineColour());
     ui->lineWidthSpinBox->setValue(settings->getLineWidth());
+    ui->borderPaddingSpinBox->setValue(settings->getBorderPadding());
     ui->faceUColourWidget->setColor(settings->getColour(Face::U));
     ui->faceFColourWidget->setColor(settings->getColour(Face::F));
     ui->faceRColourWidget->setColor(settings->getColour(Face::R));
@@ -115,6 +118,10 @@ void SettingsWindow::onLineColourWidgetChanged(){
 
 void SettingsWindow::onLineWidthSpinBoxChanged(){
     settings->setLineWidth(ui->lineWidthSpinBox->value());
+}
+
+void SettingsWindow::onBorderPaddingSpinBoxChanged(){
+    settings->setBorderPadding(ui->borderPaddingSpinBox->value());
 }
 
 void SettingsWindow::onFaceUColourChanged(){

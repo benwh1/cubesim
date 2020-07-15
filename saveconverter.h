@@ -339,6 +339,18 @@ public:
             //remove swapCtrlShift from the save file
             data.remove("swapCtrlShift");
         }
+        else if(fromVersion == "1.0"){
+            /* differences:
+             * added borderPadding setting
+             */
+
+            toVersion = "1.1";
+
+            QJsonObject settings = data["settings"].toObject();
+            settings["borderPadding"] = 0;
+
+            data["settings"] = settings;
+        }
 
         //update the version number
         data["version"] = toVersion;

@@ -38,11 +38,14 @@ private:
 
     qreal zoomFactor;
 
+    void recalculateSceneRect();
+
 private slots:
     void onProjectionChanged();
 
     //slots from settings being changed
     void onBackgroundColourSettingChanged();
+    void onBorderPaddingSettingChanged();
     void onAntialiasingSettingChanged();
 
 signals:

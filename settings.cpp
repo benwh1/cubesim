@@ -7,6 +7,7 @@ Settings::Settings(QObject *parent) :
     backgroundColour = QColor(255, 228, 196);
     lineColour = Qt::black;
     lineWidth = 0;
+    borderPadding = 0;
     colours << QColor(Qt::white)
             << QColor(Qt::green)
             << QColor(Qt::red)
@@ -47,6 +48,10 @@ QColor Settings::getLineColour(){
 
 int Settings::getLineWidth(){
     return lineWidth;
+}
+
+int Settings::getBorderPadding(){
+    return borderPadding;
 }
 
 QList<QColor> Settings::getColours(){
@@ -122,6 +127,12 @@ void Settings::setLineColour(QColor c){
 void Settings::setLineWidth(int n){
     lineWidth = n;
     emit lineWidthChanged();
+    emit settingChanged();
+}
+
+void Settings::setBorderPadding(int n){
+    borderPadding = n;
+    emit borderPaddingChanged();
     emit settingChanged();
 }
 
@@ -204,6 +215,7 @@ QJsonObject Settings::toJSON(){
     data["backgroundColour"] = backgroundColour.name(QColor::HexArgb);
     data["lineColour"] = lineColour.name(QColor::HexArgb);
     data["lineWidth"] = lineWidth;
+    data["borderPadding"] = borderPadding;
 
     QJsonArray coloursArray;
     for(int i=0; i<6; i++){
@@ -235,6 +247,7 @@ void Settings::fromJSON(QJsonObject data){
     setBackgroundColour(QColor(data["backgroundColour"].toString()));
     setLineColour(QColor(data["lineColour"].toString()));
     setLineWidth(data["lineWidth"].toInt());
+    setBorderPadding(data["borderPadding"].toInt());
 
     QJsonArray coloursArray = data["colours"].toArray();
     QList<QColor> c;
