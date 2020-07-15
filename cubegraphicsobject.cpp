@@ -191,7 +191,9 @@ void CubeGraphicsObject::fromJSON(QJsonObject data){
     edgeLength = data["edgeLength"].toInt();
     gapSize = data["gapSize"].toInt();
     proj.fromJSON(data["projection"].toObject());
+    emit projectionChanged();
 
+    //redraw the guide lines
     reset();
 }
 
