@@ -101,7 +101,7 @@ void StatisticsWidget::onTimerStarted(){
 
 void StatisticsWidget::onTimerStopped(){
     updateTimer.stop();
-    updateStatistics(false);
+    updateStatistics();
 }
 
 void StatisticsWidget::onTimerReset(){
