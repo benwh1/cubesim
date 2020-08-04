@@ -22,6 +22,7 @@ public:
     int getVideoWidth();
     int getVideoHeight();
     QSize getVideoSize();
+    bool getReEncode();
 
     /* list of dependencies A -> B where changing A will cause B to be
      * recomputed directly:
@@ -46,6 +47,7 @@ public:
     void setVideoLength(qreal r);
     void setVideoWidth(int n);
     void setVideoHeight(int n);
+    void setReEncode(bool b);
 
 private:
     Reconstruction *reconstruction;
@@ -57,6 +59,7 @@ private:
     qreal extremeFrameDuration;
     qreal videoLength;
     QSize videoSize;
+    bool reEncode;
 
 signals:
     void settingChanged();

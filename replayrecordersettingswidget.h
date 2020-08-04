@@ -35,6 +35,7 @@ private slots:
     void onVideoLengthSpinBoxChanged();
     void onVideoWidthSpinBoxChanged();
     void onVideoHeightSpinBoxChanged();
+    void onReEncodeCheckBoxChanged();
 
     void onSettingChanged();
 

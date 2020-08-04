@@ -18,6 +18,7 @@ void ReplayRecorderSettings::reset(){
     videoSize = QSize(800, 600);
     //this will also compute numberOfFrames, timePerFrame, videoLength
     setSpeed(1);
+    reEncode = false;
 
     blockSignals(false);
 
@@ -58,6 +59,10 @@ int ReplayRecorderSettings::getVideoHeight(){
 
 QSize ReplayRecorderSettings::getVideoSize(){
     return videoSize;
+}
+
+bool ReplayRecorderSettings::getReEncode(){
+    return reEncode;
 }
 
 void ReplayRecorderSettings::setPlaybackFrameRate(int n){
@@ -122,6 +127,12 @@ void ReplayRecorderSettings::setVideoWidth(int n){
 
 void ReplayRecorderSettings::setVideoHeight(int n){
     videoSize.setHeight(n);
+
+    emit settingChanged();
+}
+
+void ReplayRecorderSettings::setReEncode(bool b){
+    reEncode = b;
 
     emit settingChanged();
 }

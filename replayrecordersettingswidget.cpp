@@ -15,6 +15,7 @@ ReplayRecorderSettingsWidget::ReplayRecorderSettingsWidget(QWidget *parent) :
     connect(ui->videoLengthSpinBox, SIGNAL(valueChanged(double)), this, SLOT(onVideoLengthSpinBoxChanged()));
     connect(ui->videoWidthSpinBox, SIGNAL(valueChanged(int)), this, SLOT(onVideoWidthSpinBoxChanged()));
     connect(ui->videoHeightSpinBox, SIGNAL(valueChanged(int)), this, SLOT(onVideoHeightSpinBoxChanged()));
+    connect(ui->reEncodeCheckBox, SIGNAL(toggled(bool)), this, SLOT(onReEncodeCheckBoxChanged()));
 }
 
 ReplayRecorderSettingsWidget::~ReplayRecorderSettingsWidget()
@@ -45,7 +46,8 @@ void ReplayRecorderSettingsWidget::synchronizeFromSettings(){
                                ui->extremeFrameDurationSpinBox,
                                ui->videoLengthSpinBox,
                                ui->videoWidthSpinBox,
-                               ui->videoHeightSpinBox};
+                               ui->videoHeightSpinBox,
+                               ui->reEncodeCheckBox};
 
     //block signals
     foreach(QWidget *w, widgets){
@@ -61,6 +63,7 @@ void ReplayRecorderSettingsWidget::synchronizeFromSettings(){
     ui->videoLengthSpinBox->setValue(replayRecorderSettings->getVideoLength());
     ui->videoWidthSpinBox->setValue(replayRecorderSettings->getVideoWidth());
     ui->videoHeightSpinBox->setValue(replayRecorderSettings->getVideoHeight());
+    ui->reEncodeCheckBox->setChecked(replayRecorderSettings->getReEncode());
 
     //unblock signals
     foreach(QWidget *w, widgets){
@@ -106,6 +109,11 @@ void ReplayRecorderSettingsWidget::onVideoWidthSpinBoxChanged(){
 void ReplayRecorderSettingsWidget::onVideoHeightSpinBoxChanged(){
     int videoHeight = ui->videoHeightSpinBox->value();
     replayRecorderSettings->setVideoHeight(videoHeight);
+}
+
+void ReplayRecorderSettingsWidget::onReEncodeCheckBoxChanged(){
+    bool reEncode = ui->reEncodeCheckBox->isChecked();
+    replayRecorderSettings->setReEncode(reEncode);
 }
 
 void ReplayRecorderSettingsWidget::onSettingChanged(){

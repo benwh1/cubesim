@@ -30,16 +30,22 @@ void ReplayRecorder::record(QString fileName){
     //- overwrite output file if it already exists
     //- set the playback framerate
     //- tell ffmpeg that the data comes from a pipe, not a file
-    //- use the "copy" codec, so we don't re-encode the video
+    //- use the "copy" codec, if we don't want to re-encode the video
     //- use the matroska muxer
     //- set the output file
     QStringList args;
-    args << "-y"
-         << "-framerate" << QString::number(settings->getPlaybackFrameRate())
-         << "-i" << "-"
-         << "-c" << "copy"
-         << "-f" << "matroska"
-         << fileName;
+
+    args << "-y";
+    args << "-framerate" << QString::number(settings->getPlaybackFrameRate());
+    args << "-i" << "-";
+
+    if(!settings->getReEncode()){
+        args << "-c" << "copy";
+    }
+
+    args << "-f" << "matroska";
+    args << fileName;
+
     ffmpeg->setArguments(args);
 
     //start ffmpeg
