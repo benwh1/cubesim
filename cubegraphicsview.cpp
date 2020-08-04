@@ -10,6 +10,10 @@ CubeGraphicsView::CubeGraphicsView(QWidget *parent) :
     //flip the graphicsview vertically so that upwards = positive instead of negative
     scale(1, -1);
 
+    //by default, a 1px white border is drawn around the widget which would
+    //be clearly visible with a dark background colour. we don't want a border
+    setFrameShape(QFrame::NoFrame);
+
     //initialize variables
     zoomFactor = 1;
 }
