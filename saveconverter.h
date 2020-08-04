@@ -351,6 +351,18 @@ public:
 
             data["settings"] = settings;
         }
+        else if(fromVersion == "1.1"){
+            /* differences:
+             * added textAntialiasing setting
+             */
+
+            toVersion = "1.2";
+
+            QJsonObject settings = data["settings"].toObject();
+            settings["textAntialiasing"] = true;
+
+            data["settings"] = settings;
+        }
 
         //update the version number
         data["version"] = toVersion;
