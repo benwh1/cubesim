@@ -41,6 +41,10 @@ void StatisticsWidget::initialize(Statistics *statistics, Settings *settings){
 
     //connect to signals that are emitted from settings being changed
     connect(settings, SIGNAL(backgroundColourChanged()), this, SLOT(onBackgroundColourSettingChanged()));
+    connect(settings, SIGNAL(textAntialiasingChanged()), this, SLOT(onTextAntialiasingSettingChanged()));
+
+    //read the current antialiasing setting
+    onTextAntialiasingSettingChanged();
 
     initialized = true;
 }
@@ -123,4 +127,18 @@ void StatisticsWidget::onSolveFinished(){
 void StatisticsWidget::onBackgroundColourSettingChanged(){
     //generate a paintEvent to repaint the widget with the new background colour
     update();
+}
+
+void StatisticsWidget::onTextAntialiasingSettingChanged(){
+    QFont f = font();
+
+    bool antialias = settings->getTextAntialiasing();
+    if(antialias){
+        f.setStyleStrategy(QFont::PreferAntialias);
+    }
+    else{
+        f.setStyleStrategy(QFont::NoAntialias);
+    }
+
+    setFont(f);
 }

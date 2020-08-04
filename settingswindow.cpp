@@ -10,6 +10,7 @@ SettingsWindow::SettingsWindow(Settings *settings, QDialog *parent) :
     this->settings = settings;
 
     connect(ui->antialiasingCheckBox, SIGNAL(toggled(bool)), this, SLOT(onAntialiasingCheckBoxChanged()));
+    connect(ui->textAntialiasingCheckBox, SIGNAL(toggled(bool)), this, SLOT(onTextAntialiasingCheckBoxChanged()));
     connect(ui->backgroundColourWidget, SIGNAL(colorChanged()), this, SLOT(onBackgroundColourWidgetChanged()));
     connect(ui->lineColourWidget, SIGNAL(colorChanged()), this, SLOT(onLineColourWidgetChanged()));
     connect(ui->lineWidthSpinBox, SIGNAL(valueChanged(int)), this, SLOT(onLineWidthSpinBoxChanged()));
@@ -52,6 +53,7 @@ void SettingsWindow::synchronizeFromSettings(){
     //synchronizeFromSettings to be called, and creating an infinite loop
 
     QList<QWidget*> widgets = {ui->antialiasingCheckBox,
+                              ui->textAntialiasingCheckBox,
                               ui->backgroundColourWidget,
                               ui->lineColourWidget,
                               ui->lineWidthSpinBox,
@@ -76,6 +78,7 @@ void SettingsWindow::synchronizeFromSettings(){
         w->blockSignals(true);
     }
 
+    ui->textAntialiasingCheckBox->setChecked(settings->getTextAntialiasing());
     ui->antialiasingCheckBox->setChecked(settings->getAntialiasing());
     ui->backgroundColourWidget->setColor(settings->getBackgroundColour());
     ui->lineColourWidget->setColor(settings->getLineColour());
@@ -106,6 +109,10 @@ void SettingsWindow::synchronizeFromSettings(){
 
 void SettingsWindow::onAntialiasingCheckBoxChanged(){
     settings->setAntialiasing(ui->antialiasingCheckBox->isChecked());
+}
+
+void SettingsWindow::onTextAntialiasingCheckBoxChanged(){
+    settings->setTextAntialiasing(ui->textAntialiasingCheckBox->isChecked());
 }
 
 void SettingsWindow::onBackgroundColourWidgetChanged(){

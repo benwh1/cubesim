@@ -17,6 +17,7 @@ public:
     explicit Settings(QObject *parent = nullptr);
 
     bool getAntialiasing();
+    bool getTextAntialiasing();
     QColor getBackgroundColour();
     QColor getLineColour();
     int getLineWidth();
@@ -36,6 +37,7 @@ public:
     Controls *getControls();
 
     void setAntialiasing(bool b);
+    void setTextAntialiasing(bool b);
     void setBackgroundColour(QColor c);
     void setLineColour(QColor c);
     void setLineWidth(int n);
@@ -63,6 +65,7 @@ private:
     QColor backgroundColour;
     QColor lineColour;
     bool antialiasing;
+    bool textAntialiasing;
     int lineWidth;
     int borderPadding;
     QList<QColor> colours;
@@ -81,6 +84,7 @@ private:
 
 signals:
     void antialiasingChanged();
+    void textAntialiasingChanged();
     void backgroundColourChanged();
     void lineColourChanged();
     void lineWidthChanged();

@@ -56,6 +56,7 @@ private slots:
 
     //slots from settings being changed
     void onBackgroundColourSettingChanged();
+    void onTextAntialiasingSettingChanged();
 
 };
 

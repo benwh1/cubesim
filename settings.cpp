@@ -4,6 +4,7 @@ Settings::Settings(QObject *parent) :
     QObject(parent)
 {
     antialiasing = false;
+    textAntialiasing = true;
     backgroundColour = QColor(255, 228, 196);
     lineColour = Qt::black;
     lineWidth = 0;
@@ -36,6 +37,10 @@ Settings::Settings(QObject *parent) :
 
 bool Settings::getAntialiasing(){
     return antialiasing;
+}
+
+bool Settings::getTextAntialiasing(){
+    return textAntialiasing;
 }
 
 QColor Settings::getBackgroundColour(){
@@ -109,6 +114,12 @@ Controls *Settings::getControls(){
 void Settings::setAntialiasing(bool b){
     antialiasing = b;
     emit antialiasingChanged();
+    emit settingChanged();
+}
+
+void Settings::setTextAntialiasing(bool b){
+    textAntialiasing = b;
+    emit textAntialiasingChanged();
     emit settingChanged();
 }
 
@@ -212,6 +223,7 @@ QJsonObject Settings::toJSON(){
     QJsonObject data;
 
     data["antialiasing"] = antialiasing;
+    data["textAntialiasing"] = textAntialiasing;
     data["backgroundColour"] = backgroundColour.name(QColor::HexArgb);
     data["lineColour"] = lineColour.name(QColor::HexArgb);
     data["lineWidth"] = lineWidth;
@@ -244,6 +256,7 @@ void Settings::fromJSON(QJsonObject data){
     //emitting it repeatedly after each setting is updated
 
     setAntialiasing(data["antialiasing"].toBool());
+    setTextAntialiasing(data["textAntialiasing"].toBool());
     setBackgroundColour(QColor(data["backgroundColour"].toString()));
     setLineColour(QColor(data["lineColour"].toString()));
     setLineWidth(data["lineWidth"].toInt());
