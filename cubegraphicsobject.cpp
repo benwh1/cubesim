@@ -396,6 +396,7 @@ void CubeGraphicsObject::reset(){
         QPen p;
         p.setColor(settings->getGuideLineColour());
         p.setWidth(settings->getGuideLineWidth());
+        p.setCosmetic(true);
         p.setCapStyle(Qt::FlatCap);
         l->setPen(p);
 
@@ -431,6 +432,7 @@ void CubeGraphicsObject::reset(){
         QPen p;
         p.setColor(settings->getGuideLineColour());
         p.setWidth(settings->getGuideLineWidth());
+        p.setCosmetic(true);
         p.setCapStyle(Qt::FlatCap);
         l->setPen(p);
 
@@ -474,6 +476,7 @@ void CubeGraphicsObject::reset(){
         QPen p;
         p.setColor(settings->getGuideLineColour());
         p.setWidth(settings->getGuideLineWidth());
+        p.setCosmetic(true);
         p.setJoinStyle(Qt::MiterJoin);
         b->setPen(p);
 
