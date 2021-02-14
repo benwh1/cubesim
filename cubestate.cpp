@@ -475,7 +475,7 @@ void CubeState::copyFrom(CubeState *c){
 }
 
 void CubeState::scramble(){
-    int moves = 1000 + 10*size*size + qrand()%size;
+    int moves = 1000 + 9*size*size/log(size)+ qrand()%size;
 
     for(int i=0; i<moves; i++){
         move((Axis)(qrand()%3), qrand()%size, 1+qrand()%3);

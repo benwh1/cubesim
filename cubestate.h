@@ -6,6 +6,7 @@
 #include <QJsonObject>
 #include <QObject>
 #include <QSize>
+#include <cmath>
 #include "enums.h"
 #include "move.h"
 
