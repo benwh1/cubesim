@@ -23,6 +23,9 @@ MainWindow::MainWindow(QWidget *parent)
     connect(c, SIGNAL(settingsWindowShortcutActivated()), this, SLOT(onSettingsWindowShortcutActivated()));
     connect(c, SIGNAL(replayRecorderWindowShortcutActivated()), this, SLOT(onReplayRecorderWindowShortcutActivated()));
     connect(c, SIGNAL(reconstructionWindowShortcutActivated()), this, SLOT(onReconstructionWindowShortcutActivated()));
+
+    //windows closing
+    connect(replayRecorderWindow, SIGNAL(finished(int)), this, SLOT(onReplayRecorderWindowClosed()));
 }
 
 MainWindow::~MainWindow()
@@ -75,4 +78,9 @@ void MainWindow::onReconstructionWindowShortcutActivated(){
     if(ui->cubeWidget->getState() == CubeWidget::State::Finished){
         reconstructionWindow->show();
     }
+}
+
+void MainWindow::onReplayRecorderWindowClosed(){
+    //resize the CubeWidget back to the original size, because it may have been resized
+    ui->cubeWidget->resize(size());
 }

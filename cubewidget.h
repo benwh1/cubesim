@@ -97,6 +97,9 @@ private slots:
 
     void onScreenshotShortcutActivated();
 
+    //replay recorder
+    void onReplayRecorderSettingChanged();
+
 signals:
     void solveFinished();
 

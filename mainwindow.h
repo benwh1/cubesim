@@ -40,5 +40,8 @@ private slots:
     void onReplayRecorderWindowShortcutActivated();
     void onReconstructionWindowShortcutActivated();
 
+    //windows closed
+    void onReplayRecorderWindowClosed();
+
 };
 #endif // MAINWINDOW_H

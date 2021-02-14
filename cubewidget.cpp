@@ -22,6 +22,9 @@ CubeWidget::CubeWidget(QWidget *parent) :
 
     replayRecorder = new ReplayRecorder(this, reconstruction, cube, statistics);
 
+    //resize the window when the replay recorder setting is changed
+    connect(replayRecorder->getSettings(), SIGNAL(settingChanged()), this, SLOT(onReplayRecorderSettingChanged()));
+
     //detect drags so we can pass the move to the cube
     connect(ui->graphicsView, SIGNAL(moveDrag(Axis,int,bool,Qt::MouseButton)), this, SLOT(onMoveDrag(Axis,int,bool,Qt::MouseButton)));
 
@@ -474,4 +477,9 @@ void CubeWidget::onScreenshotShortcutActivated(){
     //save the image
     QString name = QDateTime::currentDateTime().toString(Qt::ISODateWithMs);
     image.save("images/" + name + ".png", "PNG");
+}
+
+void CubeWidget::onReplayRecorderSettingChanged(){
+    //resize the CubeWidget to the size in the replay recorder settings
+    resize(replayRecorder->getSettings()->getVideoSize());
 }
