@@ -1,5 +1,5 @@
 #!/bin/bash
 mkdir build
 cd build
-qmake ../cubesim.pro
+qmake ../src/cubesim.pro
 make -j4
