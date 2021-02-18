@@ -489,55 +489,40 @@ QJsonObject CubeState::toJSON(){
 
     data["size"] = size;
 
-    QJsonArray stickerArray;
-    for(int face=0; face<6; face++){
-        for(int y=0; y<size; y++){
-            for(int x=0; x<size; x++){
-                stickerArray.append(stickers[face][y][x]);
-            }
-        }
-    }
-    data["stickers"] = stickerArray;
+    QByteArray stickerArr;
+    QByteArray orientationArr;
 
-    QJsonArray orientationsArray;
+    stickerArr.resize(6*size*size);
+    orientationArr.resize(6*size*size);
+
     for(int face=0; face<6; face++){
         for(int y=0; y<size; y++){
             for(int x=0; x<size; x++){
-                orientationsArray.append(orientations[face][y][x]);
+                int index = (face*size+y)*size+x;
+                stickerArr[index] = stickers[face][y][x];
+                orientationArr[index] = orientations[face][y][x];
             }
         }
     }
-    data["orientations"] = orientationsArray;
+
+    data["stickers"] = QString(qCompress(stickerArr).toBase64());
+    data["orientations"] = QString(qCompress(orientationArr).toBase64());
 
     return data;
 }
 
 void CubeState::fromJSON(QJsonObject data){
-    QJsonArray stickerArray, orientationsArray;
-
     setSize(data["size"].toInt());
-    stickerArray = data["stickers"].toArray();
 
+    QByteArray stickerArr = qUncompress(QByteArray::fromBase64(data["stickers"].toString().toUtf8()));
+    QByteArray orientationArr = qUncompress(QByteArray::fromBase64(data["orientations"].toString().toUtf8()));
     for(int face=0; face<6; face++){
         for(int y=0; y<size; y++){
             for(int x=0; x<size; x++){
                 int index = (face*size+y)*size+x;
-                int sticker = stickerArray[index].toInt(-1);
-                if(sticker == -1) return;
-                stickers[face][y][x] = sticker;
-            }
-        }
-    }
 
-    orientationsArray = data["orientations"].toArray();
-
-    for(int face=0; face<6; face++){
-        for(int y=0; y<size; y++){
-            for(int x=0; x<size; x++){
-                int index = (face*size+y)*size+x;
-                int orientation = orientationsArray[index].toInt(-1);
-                if(orientation == -1) return;
-                orientations[face][y][x] = orientation;
+                stickers[face][y][x] = stickerArr[index];
+                orientations[face][y][x] = orientationArr[index];
             }
         }
     }
