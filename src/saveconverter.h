@@ -363,6 +363,45 @@ public:
 
             data["settings"] = settings;
         }
+        else if(fromVersion == "1.2"){
+            /* differences:
+             * new format for CubeState
+             */
+
+            toVersion = "1.3";
+
+            QJsonObject cube = data["cube"].toObject();
+            QJsonObject state = cube["state"].toObject();
+            QJsonObject scramble = cube["lastScramble"].toObject();
+
+            auto fix = [](QJsonObject &state){
+                //read the old json arrays
+                QJsonArray stickerJsonArr = state["stickers"].toArray();
+                QJsonArray orientationJsonArr = state["orientations"].toArray();
+                int size = state["size"].toInt();
+
+                //convert to new byte arrays
+                QByteArray stickerByteArr;
+                QByteArray orientationByteArr;
+                stickerByteArr.resize(6*size*size);
+                orientationByteArr.resize(6*size*size);
+                for(int i=0; i<6*size*size; i++){
+                    stickerByteArr[i] = stickerJsonArr[i].toInt();
+                    orientationByteArr[i] = orientationJsonArr[i].toInt();
+                }
+
+                //replace the old arrays
+                state["stickers"] = QString(qCompress(stickerByteArr).toBase64());
+                state["orientations"] = QString(qCompress(orientationByteArr).toBase64());
+            };
+
+            fix(state);
+            fix(scramble);
+
+            cube["state"] = state;
+            cube["lastScramble"] = scramble;
+            data["cube"] = cube;
+        }
 
         //update the version number
         data["version"] = toVersion;
