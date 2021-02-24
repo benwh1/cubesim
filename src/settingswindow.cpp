@@ -196,11 +196,11 @@ void SettingsWindow::onSettingChanged(){
 }
 
 void SettingsWindow::onSolveStarting(){
-    ui->tab_3->setEnabled(false);
+    ui->puzzleTab->setEnabled(false);
 }
 
 void SettingsWindow::onSolveEnding(){
-    ui->tab_3->setEnabled(true);
+    ui->puzzleTab->setEnabled(true);
 }
 
 void SettingsWindow::onFinished(){
