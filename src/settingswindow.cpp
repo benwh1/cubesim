@@ -195,6 +195,14 @@ void SettingsWindow::onSettingChanged(){
     synchronizeFromSettings();
 }
 
+void SettingsWindow::onSolveStarting(){
+    ui->tab_3->setEnabled(false);
+}
+
+void SettingsWindow::onSolveEnding(){
+    ui->tab_3->setEnabled(true);
+}
+
 void SettingsWindow::onFinished(){
     settings->save("settings.dat");
 }

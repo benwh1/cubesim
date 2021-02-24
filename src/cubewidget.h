@@ -64,6 +64,8 @@ private:
     void load();
     void load(QString fileName);
 
+    void setState(State s);
+
 private slots:
     void onMoveDrag(Axis axis, int layer, bool clockwise, Qt::MouseButton button);
     void onMoveDone();
@@ -102,6 +104,7 @@ private slots:
 
 signals:
     void solveFinished();
+    void stateChanged();
 
 };
 

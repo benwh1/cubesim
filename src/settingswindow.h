@@ -16,6 +16,10 @@ public:
     explicit SettingsWindow(Settings *settings, QDialog *parent = nullptr);
     ~SettingsWindow();
 
+    //state of CubeWidget changing - need to disable/enable parts of the UI
+    void onSolveStarting();
+    void onSolveEnding();
+
 private:
     Ui::SettingsWindow *ui;
 

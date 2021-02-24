@@ -26,6 +26,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     //windows closing
     connect(replayRecorderWindow, SIGNAL(finished(int)), this, SLOT(onReplayRecorderWindowClosed()));
+
+    //detect start/end of solves so we can enable/disable parts of the settings window
+    connect(ui->cubeWidget, SIGNAL(stateChanged()), this, SLOT(onCubeWidgetStateChanged()));
 }
 
 MainWindow::~MainWindow()
@@ -56,10 +59,7 @@ void MainWindow::onCubeSizeChanged(){
 }
 
 void MainWindow::onSettingsWindowShortcutActivated(){
-    if(ui->cubeWidget->getState() == CubeWidget::State::Neutral ||
-       ui->cubeWidget->getState() == CubeWidget::State::Finished){
-        settingsWindow->show();
-    }
+    settingsWindow->show();
 }
 
 void MainWindow::onReplayRecorderWindowShortcutActivated(){
@@ -83,4 +83,17 @@ void MainWindow::onReconstructionWindowShortcutActivated(){
 void MainWindow::onReplayRecorderWindowClosed(){
     //resize the CubeWidget back to the original size, because it may have been resized
     ui->cubeWidget->resize(size());
+}
+
+void MainWindow::onCubeWidgetStateChanged(){
+    CubeWidget::State s = ui->cubeWidget->getState();
+
+    //starting a solve
+    if(s == CubeWidget::State::Inspecting ||
+       s == CubeWidget::State::Solving){
+        settingsWindow->onSolveStarting();
+    }
+    else{
+        settingsWindow->onSolveEnding();
+    }
 }

@@ -43,5 +43,7 @@ private slots:
     //windows closed
     void onReplayRecorderWindowClosed();
 
+    void onCubeWidgetStateChanged();
+
 };
 #endif // MAINWINDOW_H

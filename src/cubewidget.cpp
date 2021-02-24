@@ -9,8 +9,7 @@ CubeWidget::CubeWidget(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    //initialize variables
-    state = State::Neutral;
+    setState(State::Neutral);
 
     settings = new Settings(this);
     cube = new Cube(settings, this);
@@ -104,7 +103,7 @@ void CubeWidget::reset(){
     statistics->reset();
     reconstruction->reset();
 
-    state = State::Neutral;
+    setState(State::Neutral);
 }
 
 void CubeWidget::resizeEvent(QResizeEvent *event){
@@ -216,6 +215,11 @@ void CubeWidget::load(QString fileName){
     fromJSON(document.object());
 }
 
+void CubeWidget::setState(State s){
+    state = s;
+    emit stateChanged();
+}
+
 void CubeWidget::onMoveDrag(Axis axis, int layer, bool clockwise, Qt::MouseButton button){
     /* there are five different types of click:
      * - left click
@@ -325,7 +329,7 @@ void CubeWidget::onMoveDone(){
         statistics->reset();
         statistics->startTimer();
 
-        state = State::Solving;
+        setState(State::Solving);
     }
 
     //if we are solving, add the move to statistics
@@ -340,7 +344,7 @@ void CubeWidget::onCubeSolved(){
         statistics->stopTimer();
         reconstruction->finish();
 
-        state = State::Finished;
+        setState(State::Finished);
 
         //need to call this before saving, because some things that get saved
         //in the save file might need to be updated after the solve finishes
@@ -367,7 +371,8 @@ void CubeWidget::onScrambleShortcutActivated(){
         reconstruction->reset();
         reconstruction->start();
         cube->scramble();
-        state = State::Inspecting;
+
+        setState(State::Inspecting);
     }
 }
 
