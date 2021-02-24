@@ -53,7 +53,6 @@ HEADERS += \
     enums.h \
     ffmpegprocess.h \
     formatting.h \
-    global.h \
     mainwindow.h \
     move.h \
     projection.h \
@@ -68,7 +67,8 @@ HEADERS += \
     settingswindow.h \
     statistics.h \
     statisticswidget.h \
-    sticker.h
+    sticker.h \
+    version.h
 
 FORMS += \
     colorsettingwidget.ui \

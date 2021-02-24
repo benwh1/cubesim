@@ -3,7 +3,7 @@
 
 #include <QJsonArray>
 #include <QJsonObject>
-#include "global.h"
+#include "version.h"
 
 class SaveConverter
 {
@@ -14,7 +14,7 @@ public:
 
         //if we're already using the latest version, then we don't need
         //to change anything
-        if(fromVersion == Global::saveFormatVersion){
+        if(fromVersion == Version::saveFormatVersion){
             return data;
         }
 
@@ -407,7 +407,7 @@ public:
         data["version"] = toVersion.toString();
 
         //keep converting the data forward one version at a time until
-        //fromVersion == Global::saveFormatVersion is true and the save is
+        //fromVersion == Version::saveFormatVersion is true and the save is
         //fully updated
         return convert(data);
     }

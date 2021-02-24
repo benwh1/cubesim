@@ -119,7 +119,7 @@ void CubeWidget::resizeEvent(QResizeEvent *event){
 QJsonObject CubeWidget::toJSON(){
     QJsonObject data;
 
-    data["version"] = Global::saveFormatVersion.toString();
+    data["version"] = Version::saveFormatVersion.toString();
     data["statistics"] = statistics->toJSON();
     data["cube"] = cube->toJSON();
     data["graphicsView"] = ui->graphicsView->toJSON();
@@ -134,7 +134,7 @@ QJsonObject CubeWidget::toJSON(){
 void CubeWidget::fromJSON(QJsonObject data){
     //can't load save files from newer versions
     QVersionNumber saveVersion = QVersionNumber::fromString(data["version"].toString());
-    if(saveVersion > Global::saveFormatVersion){
+    if(saveVersion > Version::saveFormatVersion){
         QMessageBox::warning(this, "Error", "Can't load save format version v" + saveVersion.toString());
         return;
     }

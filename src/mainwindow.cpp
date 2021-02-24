@@ -46,7 +46,7 @@ void MainWindow::closeEvent(QCloseEvent *){
 
 void MainWindow::updateTitleText(){
     QString size = QString::number(ui->cubeWidget->getCube()->getSize());
-    QString str = "cubesim v" + Global::version.toString() + " (" + size + "x" + size + "x" + size + ")";
+    QString str = "cubesim v" + Version::version.toString() + " (" + size + "x" + size + "x" + size + ")";
 
     setWindowTitle(str);
 }

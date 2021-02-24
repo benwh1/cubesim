@@ -1,11 +1,11 @@
-#ifndef GLOBAL_H
-#define GLOBAL_H
+#ifndef VERSION_H
+#define VERSION_H
 
 #include <QVersionNumber>
 
-namespace Global{
+namespace Version{
     const QVersionNumber version(1, 3);
     const QVersionNumber saveFormatVersion(1, 3);
 }
 
-#endif // GLOBAL_H
+#endif // VERSION_H

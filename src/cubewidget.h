@@ -6,7 +6,7 @@
 #include <QMessageBox>
 #include <QWidget>
 #include "cube.h"
-#include "global.h"
+#include "version.h"
 #include "reconstruction.h"
 #include "saveconverter.h"
 #include "settings.h"
