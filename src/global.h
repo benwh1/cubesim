@@ -3,17 +3,9 @@
 
 #include <QVersionNumber>
 
-class Global
-{
-public:
-    static QVersionNumber version(){
-        return QVersionNumber(1, 3);
-    }
-
-    static QVersionNumber saveFormatVersion(){
-        return QVersionNumber(1, 3);
-    }
-
-};
+namespace Global{
+    const QVersionNumber version(1, 3);
+    const QVersionNumber saveFormatVersion(1, 3);
+}
 
 #endif // GLOBAL_H
