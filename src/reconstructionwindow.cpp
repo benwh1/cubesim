@@ -39,7 +39,6 @@ void ReconstructionWindow::updateStatistics(){
     ui->piecesLabel->setText(statistics->numberOfPiecesString());
     ui->piecesPerSecLabel->setText(statistics->piecesPerSecondString());
     ui->timePerPieceLabel->setText(statistics->timePerPieceString());
-    ui->piecesPerMoveLabel->setText(statistics->piecesPerMoveString());
     ui->movesPerPieceLabel->setText(statistics->movesPerPieceString());
 
     ui->reconstructionTextEdit->setText(reconstruction->toString());
