@@ -9,8 +9,8 @@ class SaveConverter
 {
 public:
     static QJsonObject convert(QJsonObject data){
-        QString fromVersion = data["version"].toString();
-        QString toVersion;
+        QVersionNumber fromVersion = QVersionNumber::fromString(data["version"].toString());
+        QVersionNumber toVersion;
 
         //if we're already using the latest version, then we don't need
         //to change anything
@@ -18,13 +18,13 @@ public:
             return data;
         }
 
-        if(fromVersion == "0.0"){
+        if(fromVersion == QVersionNumber(0, 0)){
             /* differences:
              * added settings object containing:
              * antialiasing, backgroundColour, lineColour, lineWidth
              */
 
-            toVersion = "0.1";
+            toVersion = QVersionNumber(0, 1);
 
             //create the settings json object with the default values
             //that were used in save format version 0.1
@@ -37,13 +37,13 @@ public:
             //add it to the save file
             data["settings"] = settings;
         }
-        else if(fromVersion == "0.1"){
+        else if(fromVersion == QVersionNumber(0, 1)){
             /* differences:
              * multislice moved into the Settings object
              * added guide lines to Settings
              */
 
-            toVersion = "0.2";
+            toVersion = QVersionNumber(0, 2);
 
             //get the multislice variable and remove it
             bool multislice = data["multislice"].toBool();
@@ -61,14 +61,14 @@ public:
             //add the new settings to the save file
             data["settings"] = settings;
         }
-        else if(fromVersion == "0.2"){
+        else if(fromVersion == QVersionNumber(0, 2)){
             /* differences:
              * added colour scheme to Settings
              * added supercube settings
              * added supercube orientations to Cube
              */
 
-            toVersion = "0.3";
+            toVersion = QVersionNumber(0, 3);
 
             //create the default colour scheme array
             QJsonArray colourArray;
@@ -112,19 +112,19 @@ public:
             //add the new cube to the save file
             data["cube"] = cube;
         }
-        else if(fromVersion == "0.3"){
+        else if(fromVersion == QVersionNumber(0, 3)){
             /* differences:
              * added pochmann cage setting
              */
 
-            toVersion = "0.3.1";
+            toVersion = QVersionNumber(0, 3, 1);
 
             //add pochmannCage to settings and update the save data
             QJsonObject settings = data["settings"].toObject();
             settings["pochmannCage"] = true;
             data["settings"] = settings;
         }
-        else if(fromVersion == "0.3.1"){
+        else if(fromVersion == QVersionNumber(0, 3, 1)){
             /* differences:
              * added reconstructions
              * added state
@@ -132,7 +132,7 @@ public:
              * cube contains state and lastScramble
              */
 
-            toVersion = "0.4";
+            toVersion = QVersionNumber(0, 4);
 
             QJsonObject reconstruction;
 
@@ -189,12 +189,12 @@ public:
             //finally, add the new cube to the save file
             data["cube"] = cube;
         }
-        else if(fromVersion == "0.4"){
+        else if(fromVersion == QVersionNumber(0, 4)){
             /* differences:
              * cubeGraphicsObject is stored in graphicsView
              */
 
-            toVersion = "0.5";
+            toVersion = QVersionNumber(0, 5);
 
             //move cubeGraphicsObject into graphicsView
             QJsonObject graphicsView;
@@ -202,12 +202,12 @@ public:
             data.remove("cubeGraphicsObject");
             data["graphicsView"] = graphicsView;
         }
-        else if(fromVersion == "0.5"){
+        else if(fromVersion == QVersionNumber(0, 5)){
             /* differences:
              * active parameter in reconstruction and statistics
              */
 
-            toVersion = "0.6";
+            toVersion = QVersionNumber(0, 6);
 
             //if state == 2 (Solving) then active == true, otherwise false
             //currently, we do not allow saving in state 1 (Inspecting), so
@@ -228,7 +228,7 @@ public:
             data["reconstruction"] = reconstruction;
             data["statistics"] = statistics;
         }
-        else if(fromVersion == "0.6"){
+        else if(fromVersion == QVersionNumber(0, 6)){
             /* differences:
              * none
              * bug fix:
@@ -242,7 +242,7 @@ public:
              * and the first move, and set all of the times to 0
              */
 
-            toVersion = "0.7";
+            toVersion = QVersionNumber(0, 7);
 
             //get the lists of moves and times
             QJsonObject reconstruction = data["reconstruction"].toObject();
@@ -272,13 +272,13 @@ public:
             reconstruction["times"] = times;
             data["reconstruction"] = reconstruction;
         }
-        else if(fromVersion == "0.7"){
+        else if(fromVersion == QVersionNumber(0, 7)){
             /* differences:
              * added Controls
              * removed swapCtrlShift
              */
 
-            toVersion = "1.0";
+            toVersion = QVersionNumber(1, 0);
 
             //build what would have been the default Controls object for
             //save version 0.7
@@ -339,36 +339,36 @@ public:
             //remove swapCtrlShift from the save file
             data.remove("swapCtrlShift");
         }
-        else if(fromVersion == "1.0"){
+        else if(fromVersion == QVersionNumber(1, 0)){
             /* differences:
              * added borderPadding setting
              */
 
-            toVersion = "1.1";
+            toVersion = QVersionNumber(1, 1);
 
             QJsonObject settings = data["settings"].toObject();
             settings["borderPadding"] = 0;
 
             data["settings"] = settings;
         }
-        else if(fromVersion == "1.1"){
+        else if(fromVersion == QVersionNumber(1, 1)){
             /* differences:
              * added textAntialiasing setting
              */
 
-            toVersion = "1.2";
+            toVersion = QVersionNumber(1, 2);
 
             QJsonObject settings = data["settings"].toObject();
             settings["textAntialiasing"] = true;
 
             data["settings"] = settings;
         }
-        else if(fromVersion == "1.2"){
+        else if(fromVersion == QVersionNumber(1, 2)){
             /* differences:
              * new format for CubeState
              */
 
-            toVersion = "1.3";
+            toVersion = QVersionNumber(1, 3);
 
             QJsonObject cube = data["cube"].toObject();
             QJsonObject state = cube["state"].toObject();
@@ -404,7 +404,7 @@ public:
         }
 
         //update the version number
-        data["version"] = toVersion;
+        data["version"] = toVersion.toString();
 
         //keep converting the data forward one version at a time until
         //fromVersion == Global::saveFormatVersion() is true and the save is

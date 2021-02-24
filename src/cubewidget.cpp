@@ -119,7 +119,7 @@ void CubeWidget::resizeEvent(QResizeEvent *event){
 QJsonObject CubeWidget::toJSON(){
     QJsonObject data;
 
-    data["version"] = Global::saveFormatVersion();
+    data["version"] = Global::saveFormatVersion().toString();
     data["statistics"] = statistics->toJSON();
     data["cube"] = cube->toJSON();
     data["graphicsView"] = ui->graphicsView->toJSON();

@@ -1,17 +1,17 @@
 #ifndef GLOBAL_H
 #define GLOBAL_H
 
-#include <QString>
+#include <QVersionNumber>
 
 class Global
 {
 public:
-    static QString version(){
-        return "1.3";
+    static QVersionNumber version(){
+        return QVersionNumber(1, 3);
     }
 
-    static QString saveFormatVersion(){
-        return "1.3";
+    static QVersionNumber saveFormatVersion(){
+        return QVersionNumber(1, 3);
     }
 
 };
