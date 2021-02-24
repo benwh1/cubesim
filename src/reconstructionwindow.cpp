@@ -36,6 +36,14 @@ void ReconstructionWindow::updateStatistics(){
 
     ui->rotationsLabel->setText(Formatting::formatMovecount(reconstruction->numRotations()));
     ui->tpsLabel->setText(statistics->tpsString());
+
+    qint64 cps = [&](){
+        qint64 time = statistics->getTime();
+        int clicks = reconstruction->length();
+        if(time == 0) return 2147483647;
+        return qRound((1000000.*clicks)/time);
+    }();
+    ui->cpsLabel->setText(Formatting::formatTPS(cps));
     ui->piecesLabel->setText(statistics->numberOfPiecesString());
     ui->piecesPerSecLabel->setText(statistics->piecesPerSecondString());
     ui->timePerPieceLabel->setText(statistics->timePerPieceString());
