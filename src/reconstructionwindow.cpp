@@ -27,7 +27,11 @@ void ReconstructionWindow::updateStatistics(){
     ui->movesLabel->setText(statistics->movesString());
 
     Reconstruction *r = reconstruction->simplified();
-    ui->movesNoMistakesLabel->setText(Formatting::formatMovecount(r->numMoves()));
+    int moves = reconstruction->numMoves();
+    int movesNoMistakes = r->numMoves();
+    qreal mistakesFrac = 1 - (qreal)movesNoMistakes/moves;
+    ui->movesNoMistakesLabel->setText(Formatting::formatMovecount(movesNoMistakes));
+    ui->mistakesLabel->setText(QString::number(mistakesFrac*100, 'f', 2) + "%");
     delete r;
 
     ui->rotationsLabel->setText(Formatting::formatMovecount(reconstruction->numRotations()));
