@@ -132,7 +132,14 @@ QJsonObject CubeWidget::toJSON(){
 }
 
 void CubeWidget::fromJSON(QJsonObject data){
-    //make sure the save file is compatible with the latest format
+    //can't load save files from newer versions
+    QVersionNumber saveVersion = QVersionNumber::fromString(data["version"].toString());
+    if(saveVersion > Global::saveFormatVersion()){
+        QMessageBox::warning(this, "Error", "Can't load save format version v" + saveVersion.toString());
+        return;
+    }
+
+    //backwards compatibility
     data = SaveConverter::convert(data);
 
     cube->fromJSON(data["cube"].toObject());
