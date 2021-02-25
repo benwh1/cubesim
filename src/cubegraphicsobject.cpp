@@ -96,11 +96,17 @@ void CubeGraphicsObject::paint(QPainter *painter, const QStyleOptionGraphicsItem
         QPointF point = edgeLength/2 * proj.project(v);
         sticker.setPos(point);
 
-        //set the stickers colour
+        //sticker brush
         int piece = cube->sticker(f, x, s-1-y);
         QColor colour = settings->getColour((Face)piece);
         sticker.setBrush(QBrush(colour));
-        sticker.setPen(QPen(settings->getLineColour(), settings->getLineWidth()));
+
+        //sticker pen
+        QPen p;
+        p.setColor(settings->getLineColour());
+        p.setWidth(settings->getLineWidth());
+        p.setCosmetic(true);
+        sticker.setPen(p);
 
         //draw the sticker
         painter->setTransform(t);
