@@ -419,19 +419,18 @@ void CubeGraphicsObject::drawGuideLines(){
     float stickerSize = (edgeLength+gapSize)/s - gapSize;
 
     foreach(Face f, faces){
-        QGraphicsRectItem *b;
+        QRectF r;
 
         //if odd cube, draw a box around the center sticker
         if(s%2 == 1){
-            QRectF r(-stickerSize/2, -stickerSize/2, stickerSize, stickerSize);
-            b = new QGraphicsRectItem(r, this);
+            r = QRectF(-stickerSize/2, -stickerSize/2, stickerSize, stickerSize);
         }
         //if even cube except 2x2, draw a box around the center 4 stickers
         else if(s != 2){
-            QRectF r(-stickerSize, -stickerSize, 2*stickerSize, 2*stickerSize);
-            b = new QGraphicsRectItem(r, this);
+            r = QRectF(-stickerSize, -stickerSize, 2*stickerSize, 2*stickerSize);
         }
 
+        QGraphicsRectItem *b = new QGraphicsRectItem(r, this);
         b->setTransform(proj.toTransform(f));
         b->setPos(edgeLength/2 * proj.project(faceCenter(f)));
         guideLinesBox.append(b);
