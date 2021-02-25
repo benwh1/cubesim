@@ -165,6 +165,35 @@ QTransform Projection::toTransform(Face face){
     return QTransform();
 }
 
+bool Projection::isFaceVisible(Face face){
+    float *m = matrix.data();
+
+    //matrix is {{a,b,c},{d,e,f}}
+    qreal a = m[0];
+    qreal b = m[2];
+    qreal c = m[4];
+    qreal d = m[1];
+    qreal e = m[3];
+    qreal f = m[5];
+
+    auto zero = [](qreal a){
+        qreal epsilon = 1e-6;
+        return qAbs(a) < epsilon;
+    };
+
+    if(face == Face::U){
+        return !zero(a*e-b*d);
+    }
+    else if(face == Face::F){
+        return !zero(a*f-c*d);
+    }
+    else if(face == Face::R){
+        return !zero(b*f-c*e);
+    }
+
+    return false;
+}
+
 QJsonObject Projection::toJSON(){
     QJsonObject data;
 

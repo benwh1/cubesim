@@ -58,6 +58,8 @@ public:
     //because QTransform doesn't handle 3d -> 2d transformations.
     QTransform toTransform(Face face);
 
+    bool isFaceVisible(Face face);
+
     QJsonObject toJSON();
     void fromJSON(QJsonObject data);
 
