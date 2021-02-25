@@ -525,26 +525,17 @@ void CubeGraphicsObject::onColoursSettingChanged(){
 }
 
 void CubeGraphicsObject::onGuideLinesCrossSettingChanged(){
-    foreach(QGraphicsLineItem *l, guideLinesCross){
-        l->setVisible(settings->getGuideLinesCross());
-    }
-
+    reset();
     update();
 }
 
 void CubeGraphicsObject::onGuideLinesPlusSettingChanged(){
-    foreach(QGraphicsLineItem *l, guideLinesPlus){
-        l->setVisible(settings->getGuideLinesPlus());
-    }
-
+    reset();
     update();
 }
 
 void CubeGraphicsObject::onGuideLinesBoxSettingChanged(){
-    foreach(QGraphicsRectItem *b, guideLinesBox){
-        b->setVisible(settings->getGuideLinesBox());
-    }
-
+    reset();
     update();
 }
 
