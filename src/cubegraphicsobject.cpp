@@ -16,11 +16,11 @@ CubeGraphicsObject::CubeGraphicsObject(Cube *c, Settings *s, QGraphicsObject *pa
     connect(settings, SIGNAL(lineColourChanged()), this, SLOT(onLineColourSettingChanged()));
     connect(settings, SIGNAL(lineWidthChanged()), this, SLOT(onLineWidthSettingChanged()));
     connect(settings, SIGNAL(coloursChanged()), this, SLOT(onColoursSettingChanged()));
-    connect(settings, SIGNAL(guideLinesCrossChanged()), this, SLOT(onGuideLinesCrossSettingChanged()));
-    connect(settings, SIGNAL(guideLinesPlusChanged()), this, SLOT(onGuideLinesPlusSettingChanged()));
-    connect(settings, SIGNAL(guideLinesBoxChanged()), this, SLOT(onGuideLinesBoxSettingChanged()));
-    connect(settings, SIGNAL(guideLineColourChanged()), this, SLOT(onGuideLineColourSettingChanged()));
-    connect(settings, SIGNAL(guideLineWidthChanged()), this, SLOT(onGuideLineWidthSettingChanged()));
+    connect(settings, SIGNAL(guideLinesCrossChanged()), this, SLOT(onGuideLinesSettingChanged()));
+    connect(settings, SIGNAL(guideLinesPlusChanged()), this, SLOT(onGuideLinesSettingChanged()));
+    connect(settings, SIGNAL(guideLinesBoxChanged()), this, SLOT(onGuideLinesSettingChanged()));
+    connect(settings, SIGNAL(guideLineColourChanged()), this, SLOT(onGuideLinesSettingChanged()));
+    connect(settings, SIGNAL(guideLineWidthChanged()), this, SLOT(onGuideLinesSettingChanged()));
     connect(settings, SIGNAL(supercubeChanged()), this, SLOT(onSupercubeSettingChanged()));
     connect(settings, SIGNAL(supercubeStickersChanged()), this, SLOT(onSupercubeStickersSettingChanged()));
     connect(settings, SIGNAL(pochmannBarThicknessChanged()), this, SLOT(onPochmannBarThicknessSettingChanged()));
@@ -523,27 +523,7 @@ void CubeGraphicsObject::onColoursSettingChanged(){
     update();
 }
 
-void CubeGraphicsObject::onGuideLinesCrossSettingChanged(){
-    drawGuideLines();
-    update();
-}
-
-void CubeGraphicsObject::onGuideLinesPlusSettingChanged(){
-    drawGuideLines();
-    update();
-}
-
-void CubeGraphicsObject::onGuideLinesBoxSettingChanged(){
-    drawGuideLines();
-    update();
-}
-
-void CubeGraphicsObject::onGuideLineColourSettingChanged(){
-    drawGuideLines();
-    update();
-}
-
-void CubeGraphicsObject::onGuideLineWidthSettingChanged(){
+void CubeGraphicsObject::onGuideLinesSettingChanged(){
     drawGuideLines();
     update();
 }

@@ -82,11 +82,7 @@ private slots:
     void onLineColourSettingChanged();
     void onLineWidthSettingChanged();
     void onColoursSettingChanged();
-    void onGuideLinesCrossSettingChanged();
-    void onGuideLinesPlusSettingChanged();
-    void onGuideLinesBoxSettingChanged();
-    void onGuideLineColourSettingChanged();
-    void onGuideLineWidthSettingChanged();
+    void onGuideLinesSettingChanged();
     void onSupercubeSettingChanged();
     void onSupercubeStickersSettingChanged();
     void onPochmannBarThicknessSettingChanged();
