@@ -364,114 +364,78 @@ void CubeGraphicsObject::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
 }
 
 void CubeGraphicsObject::reset(){
-    //guide lines
-    QGraphicsLineItem *line;
-    QPointF p1, p2;
+    auto makeLine = [this](QPointF p1, QPointF p2, Face face, bool enabled){
+        QPointF pt1 = edgeLength/2 * p1;
+        QPointF pt2 = edgeLength/2 * p2;
+        QGraphicsLineItem *line = new QGraphicsLineItem(QLineF(pt1, pt2), this);
+        line->setTransform(proj.toTransform(face));
+        line->setPos(edgeLength/2 * proj.project(faceCenter(face)));
 
-    //X
-    for(int i=0; i<guideLinesCross.size(); i++){
-        delete guideLinesCross[i];
-    }
-
-    guideLinesCross.clear();
-
-    for(int face=0; face<3; face++){
-        p1 = edgeLength/2 * QPointF(-1, -1);
-        p2 = edgeLength/2 * QPointF(1, 1);
-        line = new QGraphicsLineItem(QLineF(p1, p2), this);
-        line->setTransform(proj.toTransform((Face)face));
-        line->setPos(edgeLength/2 * proj.project(faceCenter((Face)face)));
-        guideLinesCross.append(line);
-
-        p1 = edgeLength/2 * QPointF(-1, 1);
-        p2 = edgeLength/2 * QPointF(1, -1);
-        line = new QGraphicsLineItem(QLineF(p1, p2), this);
-        line->setTransform(proj.toTransform((Face)face));
-        line->setPos(edgeLength/2 * proj.project(faceCenter((Face)face)));
-        guideLinesCross.append(line);
-    }
-
-    foreach(QGraphicsLineItem *l, guideLinesCross){
-        //set the pen
         QPen p;
         p.setColor(settings->getGuideLineColour());
         p.setWidth(settings->getGuideLineWidth());
         p.setCosmetic(true);
         p.setCapStyle(Qt::FlatCap);
-        l->setPen(p);
+        line->setPen(p);
 
-        //make the guide lines invisible if they are disabled in settings
-        l->setVisible(settings->getGuideLinesCross());
+        line->setVisible(enabled && proj.isFaceVisible(face));
+
+        return line;
+    };
+
+    QList<Face> faces = {U, F, R};
+
+    //X
+    for(int i=0; i<guideLinesCross.size(); i++){
+        delete guideLinesCross[i];
+    }
+    guideLinesCross.clear();
+
+    foreach(Face f, faces){
+        bool enabled = settings->getGuideLinesCross();
+        guideLinesCross.append(makeLine(QPointF(-1, -1), QPointF(1, 1), f, enabled));
+        guideLinesCross.append(makeLine(QPointF(-1, 1), QPointF(1, -1), f, enabled));
     }
 
     //+
     for(int i=0; i<guideLinesPlus.size(); i++){
         delete guideLinesPlus[i];
     }
-
     guideLinesPlus.clear();
 
-    for(int face=0; face<3; face++){
-        p1 = edgeLength/2 * QPointF(-1, 0);
-        p2 = edgeLength/2 * QPointF(1, 0);
-        line = new QGraphicsLineItem(QLineF(p1, p2), this);
-        line->setTransform(proj.toTransform((Face)face));
-        line->setPos(edgeLength/2 * proj.project(faceCenter((Face)face)));
-        guideLinesPlus.append(line);
-
-        p1 = edgeLength/2 * QPointF(0, -1);
-        p2 = edgeLength/2 * QPointF(0, 1);
-        line = new QGraphicsLineItem(QLineF(p1, p2), this);
-        line->setTransform(proj.toTransform((Face)face));
-        line->setPos(edgeLength/2 * proj.project(faceCenter((Face)face)));
-        guideLinesPlus.append(line);
-    }
-
-    foreach(QGraphicsLineItem *l, guideLinesPlus){
-        //set the pen
-        QPen p;
-        p.setColor(settings->getGuideLineColour());
-        p.setWidth(settings->getGuideLineWidth());
-        p.setCosmetic(true);
-        p.setCapStyle(Qt::FlatCap);
-        l->setPen(p);
-
-        //make the guide lines invisible if they are disabled in settings
-        l->setVisible(settings->getGuideLinesPlus());
+    foreach(Face f, faces){
+        bool enabled = settings->getGuideLinesPlus();
+        guideLinesPlus.append(makeLine(QPointF(-1, 0), QPointF(1, 0), f, enabled));
+        guideLinesPlus.append(makeLine(QPointF(0, -1), QPointF(0, 1), f, enabled));
     }
 
     //box
     for(int i=0; i<guideLinesBox.size(); i++){
         delete guideLinesBox[i];
     }
-
     guideLinesBox.clear();
 
     int s = cube->getSize();
     float stickerSize = (edgeLength+gapSize)/s - gapSize;
 
-    //if odd cube, draw a box around the center sticker
-    if(s%2 == 1){
-        for(int face=0; face<3; face++){
-            QRectF r(-stickerSize/2, -stickerSize/2, stickerSize, stickerSize);
-            QGraphicsRectItem *b = new QGraphicsRectItem(r, this);
-            b->setTransform(proj.toTransform((Face)face));
-            b->setPos(edgeLength/2 * proj.project(faceCenter((Face)face)));
-            guideLinesBox.append(b);
-        }
-    }
-    //if even cube except 2x2, draw a box around the center 4 stickers
-    else if(s != 2){
-        for(int face=0; face<3; face++){
-            QRectF r(-stickerSize, -stickerSize, 2*stickerSize, 2*stickerSize);
-            QGraphicsRectItem *b = new QGraphicsRectItem(r, this);
-            b->setTransform(proj.toTransform((Face)face));
-            b->setPos(edgeLength/2 * proj.project(faceCenter((Face)face)));
-            guideLinesBox.append(b);
-        }
-    }
+    foreach(Face f, faces){
+        QGraphicsRectItem *b;
 
-    foreach(QGraphicsRectItem *b, guideLinesBox){
+        //if odd cube, draw a box around the center sticker
+        if(s%2 == 1){
+            QRectF r(-stickerSize/2, -stickerSize/2, stickerSize, stickerSize);
+            b = new QGraphicsRectItem(r, this);
+        }
+        //if even cube except 2x2, draw a box around the center 4 stickers
+        else if(s != 2){
+            QRectF r(-stickerSize, -stickerSize, 2*stickerSize, 2*stickerSize);
+            b = new QGraphicsRectItem(r, this);
+        }
+
+        b->setTransform(proj.toTransform(f));
+        b->setPos(edgeLength/2 * proj.project(faceCenter(f)));
+        guideLinesBox.append(b);
+
         //set the pen
         QPen p;
         p.setColor(settings->getGuideLineColour());
@@ -484,7 +448,7 @@ void CubeGraphicsObject::reset(){
         b->setBrush(QBrush(Qt::transparent));
 
         //make the guide lines invisible if they are disabled in settings
-        b->setVisible(settings->getGuideLinesBox());
+        b->setVisible(settings->getGuideLinesBox() && proj.isFaceVisible(f));
     }
 }
 
