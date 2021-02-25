@@ -539,42 +539,12 @@ void CubeGraphicsObject::onGuideLinesBoxSettingChanged(){
 }
 
 void CubeGraphicsObject::onGuideLineColourSettingChanged(){
-    foreach(QGraphicsLineItem *l, guideLinesCross){
-        QPen pen = l->pen();
-        pen.setColor(settings->getGuideLineColour());
-        l->setPen(pen);
-    }
-    foreach(QGraphicsLineItem *l, guideLinesPlus){
-        QPen pen = l->pen();
-        pen.setColor(settings->getGuideLineColour());
-        l->setPen(pen);
-    }
-    foreach(QGraphicsRectItem *b, guideLinesBox){
-        QPen pen = b->pen();
-        pen.setColor(settings->getGuideLineColour());
-        b->setPen(pen);
-    }
-
+    drawGuideLines();
     update();
 }
 
 void CubeGraphicsObject::onGuideLineWidthSettingChanged(){
-    foreach(QGraphicsLineItem *l, guideLinesCross){
-        QPen pen = l->pen();
-        pen.setWidth(settings->getGuideLineWidth());
-        l->setPen(pen);
-    }
-    foreach(QGraphicsLineItem *l, guideLinesPlus){
-        QPen pen = l->pen();
-        pen.setWidth(settings->getGuideLineWidth());
-        l->setPen(pen);
-    }
-    foreach(QGraphicsRectItem *b, guideLinesBox){
-        QPen pen = b->pen();
-        pen.setWidth(settings->getGuideLineWidth());
-        b->setPen(pen);
-    }
-
+    drawGuideLines();
     update();
 }
 
