@@ -85,75 +85,45 @@ void CubeGraphicsObject::paint(QPainter *painter, const QStyleOptionGraphicsItem
 
 #undef F
 
-    float stickerSize = (edgeLength+gapSize)/s - gapSize;
-
     QTransform t = painter->transform();
+
+    auto drawSticker = [&](Face f, int x, int y){
+        float stickerSize = (edgeLength+gapSize)/s - gapSize;
+        Sticker sticker(f, QPoint(x, s-1-y), cube, settings, &proj, stickerSize);
+
+        //compute the position
+        QVector3D v = getStickerPos(f, x, s-1-y);
+        QPointF point = edgeLength/2 * proj.project(v);
+        sticker.setPos(point);
+
+        //set the stickers colour
+        int piece = cube->sticker(f, x, s-1-y);
+        QColor colour = settings->getColour((Face)piece);
+        sticker.setBrush(QBrush(colour));
+        sticker.setPen(QPen(settings->getLineColour(), settings->getLineWidth()));
+
+        //draw the sticker
+        painter->setTransform(t);
+        painter->translate(sticker.pos());
+        painter->setTransform(sticker.transform(), true);
+        sticker.paint(painter, option, widget);
+    };
+
     for(int y=startUy; y<=endUy; y++){
         for(int x=startUx; x<=endUx; x++){
-            Sticker sticker(Face::U, QPoint(x, s-1-y), cube, settings, &proj, stickerSize);
-
-            //compute the position
-            QVector3D v = getStickerPos(Face::U, x, s-1-y);
-            QPointF point = edgeLength/2 * proj.project(v);
-            sticker.setPos(point);
-
-            //set the stickers colour
-            int piece = cube->sticker(Face::U, x, s-1-y);
-            QColor colour = settings->getColour((Face)piece);
-            sticker.setBrush(QBrush(colour));
-            sticker.setPen(QPen(settings->getLineColour(), settings->getLineWidth()));
-
-            //draw the sticker
-            painter->setTransform(t);
-            painter->translate(sticker.pos());
-            painter->setTransform(sticker.transform(), true);
-            sticker.paint(painter, option, widget);
+            drawSticker(Face::U, x, y);
         }
     }
 
     for(int y=startFy; y<=endFy; y++){
         for(int x=startFx; x<=endFx; x++){
-            Sticker sticker(Face::F, QPoint(x, s-1-y), cube, settings, &proj, stickerSize);
-
-            //compute the position
-            QVector3D v = getStickerPos(Face::F, x, s-1-y);
-            QPointF point = edgeLength/2 * proj.project(v);
-            sticker.setPos(point);
-
-            //set the stickers colour
-            int piece = cube->sticker(Face::F, x, s-1-y);
-            QColor colour = settings->getColour((Face)piece);
-            sticker.setBrush(QBrush(colour));
-            sticker.setPen(QPen(settings->getLineColour(), settings->getLineWidth()));
-
-            //draw the sticker
-            painter->setTransform(t);
-            painter->translate(sticker.pos());
-            painter->setTransform(sticker.transform(), true);
-            sticker.paint(painter, option, widget);
+            drawSticker(Face::F, x, y);
         }
     }
 
     for(int y=startRy; y<=endRy; y++){
         for(int x=startRx; x<=endRx; x++){
-            Sticker sticker(Face::R, QPoint(x, s-1-y), cube, settings, &proj, stickerSize);
-
-            //compute the position
-            QVector3D v = getStickerPos(Face::R, x, s-1-y);
-            QPointF point = edgeLength/2 * proj.project(v);
-            sticker.setPos(point);
-
-            //set the stickers colour
-            int piece = cube->sticker(Face::R, x, s-1-y);
-            QColor colour = settings->getColour((Face)piece);
-            sticker.setBrush(QBrush(colour));
-            sticker.setPen(QPen(settings->getLineColour(), settings->getLineWidth()));
-
-            //draw the sticker
-            painter->setTransform(t);
-            painter->translate(sticker.pos());
-            painter->setTransform(sticker.transform(), true);
-            sticker.paint(painter, option, widget);
+            drawSticker(Face::R, x, y);
         }
     }
 }
