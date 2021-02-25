@@ -61,7 +61,7 @@ private:
     //that is displaying the scene containing this item
     QRectF visibleRect;
 
-    void reset();
+    void drawGuideLines();
 
     //compute the position (on the cube [-1,1]^3) of the sticker at a position
     //(in cube coordinates) on a given face

@@ -32,7 +32,7 @@ CubeGraphicsObject::CubeGraphicsObject(Cube *c, Settings *s, QGraphicsObject *pa
     setEdgeLength(350);
     setGapSize(0);
 
-    reset();
+    drawGuideLines();
 }
 
 QRectF CubeGraphicsObject::boundingRect() const{
@@ -168,7 +168,7 @@ void CubeGraphicsObject::setGapSize(qreal gapSize){
 
 void CubeGraphicsObject::setProjection(float *mat){
     proj = Projection(QMatrix3x2(mat));
-    reset();
+    drawGuideLines();
 
     emit projectionChanged();
 }
@@ -194,7 +194,7 @@ void CubeGraphicsObject::fromJSON(QJsonObject data){
     emit projectionChanged();
 
     //redraw the guide lines
-    reset();
+    drawGuideLines();
 }
 
 void CubeGraphicsObject::mousePressEvent(QGraphicsSceneMouseEvent *event){
@@ -363,7 +363,7 @@ void CubeGraphicsObject::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
     emit moveDrag(axis, layer, clockwise, event->button());
 }
 
-void CubeGraphicsObject::reset(){
+void CubeGraphicsObject::drawGuideLines(){
     auto makeLine = [this](QPointF p1, QPointF p2, Face face, bool enabled){
         QPointF pt1 = edgeLength/2 * p1;
         QPointF pt2 = edgeLength/2 * p2;
@@ -508,7 +508,7 @@ void CubeGraphicsObject::onCubeStateChanged(){
 }
 
 void CubeGraphicsObject::onCubeSizeChanged(){
-    reset();
+    drawGuideLines();
     update();
 }
 
@@ -525,17 +525,17 @@ void CubeGraphicsObject::onColoursSettingChanged(){
 }
 
 void CubeGraphicsObject::onGuideLinesCrossSettingChanged(){
-    reset();
+    drawGuideLines();
     update();
 }
 
 void CubeGraphicsObject::onGuideLinesPlusSettingChanged(){
-    reset();
+    drawGuideLines();
     update();
 }
 
 void CubeGraphicsObject::onGuideLinesBoxSettingChanged(){
-    reset();
+    drawGuideLines();
     update();
 }
 
