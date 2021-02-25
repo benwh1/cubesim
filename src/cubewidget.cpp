@@ -145,7 +145,7 @@ void CubeWidget::fromJSON(QJsonObject data){
     ui->graphicsView->fromJSON(data["graphicsView"].toObject());
     settings->fromJSON(data["settings"].toObject());
     reconstruction->fromJSON(data["reconstruction"].toObject());
-    state = (State)data["state"].toInt();
+    setState((State)data["state"].toInt());
 
     //load the statistics last, so the timer isn't running while the rest
     //of the save file is being loaded
