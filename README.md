@@ -1,5 +1,7 @@
 # cubesim
 
+![](resources/images/cubesim.png)
+
 A Rubik's Cube simulator inspired by Michael Gottlieb's [isocubesim](https://mzrg.com/rubik/iso/).
 
 ## Requirements
