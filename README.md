@@ -11,3 +11,13 @@ A Rubik's Cube simulator inspired by Michael Gottlieb's [isocubesim](https://mzr
 ## Build
 
     ./build.sh
+
+## Features
+
+  - Arbitrarily large cubes
+  - Supercubes
+  - Save files
+  - Solve statistics and reconstructions
+  - Customisable controls
+  - Customisable cube projection
+  - Video replays of finished solves (requires FFmpeg)
