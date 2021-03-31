@@ -34,12 +34,12 @@ void ReconstructionWindow::updateStatistics(){
     ui->mistakesLabel->setText(QString::number(mistakesFrac*100, 'f', 2) + "%");
     delete r;
 
-    ui->rotationsLabel->setText(Formatting::formatMovecount(reconstruction->numRotations()));
+    ui->rotationsLabel->setText(Formatting::formatMovecount(reconstruction->numRotations() - reconstruction->numRotationsDuringInspection()));
     ui->tpsLabel->setText(statistics->tpsString());
 
     qint64 cps = [&](){
         qint64 time = statistics->getTime();
-        int clicks = reconstruction->length();
+        int clicks = reconstruction->length() - reconstruction->numRotationsDuringInspection();
         if(time == 0) return 2147483647;
         return qRound((1000000.*clicks)/time);
     }();

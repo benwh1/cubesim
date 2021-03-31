@@ -22,6 +22,7 @@ public:
 
     int numMoves();
     int numRotations();
+    int numRotationsDuringInspection();
 
     void start();
     void finish();

@@ -58,6 +58,21 @@ int Reconstruction::numRotations(){
     return length() - numMoves();
 }
 
+int Reconstruction::numRotationsDuringInspection(){
+    int n = 0;
+    for(auto &p : moves){
+        auto &move = p.first;
+        auto time = p.second;
+        if(move.isRotation() && time == 0){
+            n++;
+        }
+        else{
+            break;
+        }
+    }
+    return n;
+}
+
 void Reconstruction::start(){
     active = true;
 }
