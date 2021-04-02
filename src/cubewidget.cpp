@@ -237,13 +237,21 @@ void CubeWidget::onMoveDrag(Axis axis, int layer, bool clockwise, Qt::MouseButto
      * rotation to each (separately) override quarter turn.
      */
 
+    Controls *c = settings->getControls();
+
+    //if the mouse button we used is set to do nothing, return immediately
+    if((button == Qt::LeftButton && c->getLeftClickAction() == MoveType::None) ||
+       (button == Qt::RightButton && c->getRightClickAction() == MoveType::None) ||
+       (button == Qt::MiddleButton && c->getMiddleClickAction() == MoveType::None)){
+        return;
+    }
+
     //check which move modifiers are being used
     Qt::KeyboardModifiers keyboardModifiers = QGuiApplication::queryKeyboardModifiers();
     bool ctrl = keyboardModifiers & Qt::ControlModifier;
     bool shift = keyboardModifiers & Qt::ShiftModifier;
 
     QHash<MoveType, bool> moveModifiers;
-    Controls *c = settings->getControls();
 
     moveModifiers[c->getLeftClickAction()] |= (button == Qt::LeftButton);
     moveModifiers[c->getCtrlClickAction()] |= ctrl;
