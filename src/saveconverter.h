@@ -402,6 +402,20 @@ public:
             cube["lastScramble"] = scramble;
             data["cube"] = cube;
         }
+        else if(fromVersion == QVersionNumber(1, 3)){
+            /* differences:
+             * minMoveDuration setting
+             */
+
+            toVersion = QVersionNumber(1, 4);
+
+            QJsonObject settings = data["settings"].toObject();
+            QJsonObject controls = settings["controls"].toObject();
+
+            controls["minMoveDuration"] = 60;
+            settings["controls"] = controls;
+            data["settings"] = settings;
+        }
 
         //update the version number
         data["version"] = toVersion.toString();

@@ -42,7 +42,7 @@ Controls::Controls(QWidget *parent) : QObject(parent)
     rightClickAction  = MoveType::HalfTurn;
     middleClickAction = MoveType::Rotation;
 
-    minMoveDuration = 100;
+    minMoveDuration = 60;
 
     //define a macro to make the signal-slot connections more readable
 
@@ -454,7 +454,7 @@ void Controls::fromJSON(QJsonObject data){
     rightClickAction = (MoveType)data["rightClickAction"].toInt();
     middleClickAction = (MoveType)data["middleClickAction"].toInt();
 
-    minMoveDuration = data["minMoveDuration"].toInt();
+    setMinMoveDuration(data["minMoveDuration"].toInt());
 
     emit settingChanged();
 }
