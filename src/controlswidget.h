@@ -75,6 +75,8 @@ private slots:
     void onRightClickComboBoxChanged();
     void onMiddleClickComboBoxChanged();
 
+    void onMinMoveDurationSpinBoxChanged();
+
 };
 
 #endif // CONTROLSWIDGET_H

@@ -42,6 +42,8 @@ Controls::Controls(QWidget *parent) : QObject(parent)
     rightClickAction  = MoveType::HalfTurn;
     middleClickAction = MoveType::Rotation;
 
+    minMoveDuration = 100;
+
     //define a macro to make the signal-slot connections more readable
 
 #define F(shortcut) connect(shortcut, SIGNAL(activated()), this, SIGNAL(shortcut##Activated()))
@@ -188,6 +190,10 @@ MoveType Controls::getRightClickAction(){
 
 MoveType Controls::getMiddleClickAction(){
     return middleClickAction;
+}
+
+int Controls::getMinMoveDuration(){
+    return minMoveDuration;
 }
 
 void Controls::onLoadProjectionShortcutActivated(){
@@ -349,6 +355,12 @@ void Controls::setMiddleClickAction(MoveType m){
     emit settingChanged();
 }
 
+void Controls::setMinMoveDuration(int n){
+    minMoveDuration = n;
+    emit minMoveDurationChanged();
+    emit settingChanged();
+}
+
 QJsonObject Controls::toJSON(){
     QJsonObject data;
 
@@ -392,6 +404,8 @@ QJsonObject Controls::toJSON(){
     data["shiftClickAction"] = (int)shiftClickAction;
     data["rightClickAction"] = (int)rightClickAction;
     data["middleClickAction"] = (int)middleClickAction;
+
+    data["minMoveDuration"] = minMoveDuration;
 
     return data;
 }
@@ -439,6 +453,8 @@ void Controls::fromJSON(QJsonObject data){
     shiftClickAction = (MoveType)data["shiftClickAction"].toInt();
     rightClickAction = (MoveType)data["rightClickAction"].toInt();
     middleClickAction = (MoveType)data["middleClickAction"].toInt();
+
+    minMoveDuration = data["minMoveDuration"].toInt();
 
     emit settingChanged();
 }

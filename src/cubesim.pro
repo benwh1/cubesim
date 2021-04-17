@@ -39,7 +39,8 @@ SOURCES += \
     settingswindow.cpp \
     statistics.cpp \
     statisticswidget.cpp \
-    sticker.cpp
+    sticker.cpp \
+    timedbool.cpp
 
 HEADERS += \
     colorsettingwidget.h \
@@ -68,6 +69,7 @@ HEADERS += \
     statistics.h \
     statisticswidget.h \
     sticker.h \
+    timedbool.h \
     version.h
 
 FORMS += \

@@ -5,7 +5,8 @@
 
 CubeWidget::CubeWidget(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::CubeWidget)
+    ui(new Ui::CubeWidget),
+    canDoMove(true)
 {
     ui->setupUi(this);
 
@@ -20,6 +21,8 @@ CubeWidget::CubeWidget(QWidget *parent) :
     ui->statisticsWidget->initialize(statistics, settings);
 
     replayRecorder = new ReplayRecorder(this, reconstruction, cube, statistics);
+
+    canDoMove.setDuration(settings->getControls()->getMinMoveDuration());
 
     //resize the window when the replay recorder setting is changed
     connect(replayRecorder->getSettings(), SIGNAL(settingChanged()), this, SLOT(onReplayRecorderSettingChanged()));
@@ -67,6 +70,8 @@ CubeWidget::CubeWidget(QWidget *parent) :
     connect(settings->getControls(), SIGNAL(toggleMultisliceShortcutActivated()), this, SLOT(onToggleMultisliceShortcutActivated()));
 
     connect(settings->getControls(), SIGNAL(screenshotShortcutActivated()), this, SLOT(onScreenshotShortcutActivated()));
+
+    connect(settings->getControls(), SIGNAL(minMoveDurationChanged()), this, SLOT(onMinMoveDurationChanged()));
 }
 
 CubeWidget::~CubeWidget()
@@ -237,6 +242,10 @@ void CubeWidget::onMoveDrag(Axis axis, int layer, bool clockwise, Qt::MouseButto
      * rotation to each (separately) override quarter turn.
      */
 
+    if(!canDoMove){
+        return;
+    }
+
     Controls *c = settings->getControls();
 
     //if the mouse button we used is set to do nothing, return immediately
@@ -344,6 +353,9 @@ void CubeWidget::onMoveDone(){
     if(state == State::Solving){
         statistics->doMove();
     }
+
+    //don't allow another move until a certain amount of time has passed
+    canDoMove = false;
 }
 
 void CubeWidget::onCubeSolved(){
@@ -497,6 +509,11 @@ void CubeWidget::onScreenshotShortcutActivated(){
     //save the image
     QString name = QDateTime::currentDateTime().toString(Qt::ISODateWithMs);
     image.save("images/" + name + ".png", "PNG");
+}
+
+void CubeWidget::onMinMoveDurationChanged(){
+    int d = settings->getControls()->getMinMoveDuration();
+    canDoMove.setDuration(d);
 }
 
 void CubeWidget::onReplayRecorderSettingChanged(){

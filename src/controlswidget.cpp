@@ -64,6 +64,8 @@ void ControlsWidget::initialize(Controls *controls){
     connect(ui->rightClickComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(onRightClickComboBoxChanged()));
     connect(ui->middleClickComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(onMiddleClickComboBoxChanged()));
 
+    connect(ui->minMoveDurationSpinBox, SIGNAL(valueChanged(double)), this, SLOT(onMinMoveDurationSpinBoxChanged()));
+
     synchronizeFromControls();
 
     initialized = true;
@@ -109,7 +111,8 @@ void ControlsWidget::synchronizeFromControls(){
         ui->ctrlClickComboBox,
         ui->shiftClickComboBox,
         ui->rightClickComboBox,
-        ui->middleClickComboBox
+        ui->middleClickComboBox,
+        ui->minMoveDurationSpinBox
     };
 
     foreach(QWidget *w, widgets){
@@ -161,6 +164,8 @@ void ControlsWidget::synchronizeFromControls(){
     ui->shiftClickComboBox->setCurrentIndex((int)controls->getShiftClickAction());
     ui->rightClickComboBox->setCurrentIndex((int)controls->getRightClickAction());
     ui->middleClickComboBox->setCurrentIndex((int)controls->getMiddleClickAction());
+
+    ui->minMoveDurationSpinBox->setValue((double)controls->getMinMoveDuration()/1000);
 
     foreach(QWidget *w, widgets){
         w->blockSignals(false);
@@ -313,4 +318,8 @@ void ControlsWidget::onRightClickComboBoxChanged(){
 
 void ControlsWidget::onMiddleClickComboBoxChanged(){
     controls->setMiddleClickAction((MoveType)ui->middleClickComboBox->currentIndex());
+}
+
+void ControlsWidget::onMinMoveDurationSpinBoxChanged(){
+    controls->setMinMoveDuration(qRound(1000*ui->minMoveDurationSpinBox->value()));
 }

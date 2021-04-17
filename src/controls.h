@@ -50,6 +50,8 @@ public:
     MoveType getRightClickAction();
     MoveType getMiddleClickAction();
 
+    int getMinMoveDuration();
+
     void setScrambleShortcutKeySequence(QKeySequence k);
     void setResetShortcutKeySequence(QKeySequence k);
     void setIncreaseSizeShortcutKeySequence(QKeySequence k);
@@ -86,6 +88,8 @@ public:
     void setShiftClickAction(MoveType m);
     void setRightClickAction(MoveType m);
     void setMiddleClickAction(MoveType m);
+
+    void setMinMoveDuration(int n);
 
     QJsonObject toJSON();
     void fromJSON(QJsonObject data);
@@ -129,6 +133,9 @@ private:
     MoveType rightClickAction;
     MoveType middleClickAction;
 
+    //duration in milliseconds
+    int minMoveDuration;
+
 private slots:
     void onLoadProjectionShortcutActivated();
 
@@ -163,6 +170,8 @@ signals:
     void settingsWindowShortcutActivated();
     void replayRecorderWindowShortcutActivated();
     void reconstructionWindowShortcutActivated();
+
+    void minMoveDurationChanged();
 
     //emitted when any setting is changed
     void settingChanged();

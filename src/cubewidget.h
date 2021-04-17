@@ -11,6 +11,7 @@
 #include "saveconverter.h"
 #include "settings.h"
 #include "statistics.h"
+#include "timedbool.h"
 
 class ReplayRecorder;
 
@@ -56,6 +57,8 @@ private:
 
     State state;
 
+    TimedBool canDoMove;
+
     QJsonObject toJSON();
     void fromJSON(QJsonObject data);
 
@@ -98,6 +101,8 @@ private slots:
     void onToggleMultisliceShortcutActivated();
 
     void onScreenshotShortcutActivated();
+
+    void onMinMoveDurationChanged();
 
     //replay recorder
     void onReplayRecorderSettingChanged();
