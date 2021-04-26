@@ -13,6 +13,7 @@ class FFmpegProcess : public QProcess
 public:
     explicit FFmpegProcess(QObject *parent = nullptr);
 
+    void flush();
     void writeFrame(QImage image, int numFrames);
 
 };

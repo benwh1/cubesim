@@ -6,6 +6,12 @@ FFmpegProcess::FFmpegProcess(QObject *parent) :
     setProgram("ffmpeg");
 }
 
+void FFmpegProcess::flush(){
+    while(bytesToWrite() > 0){
+        waitForBytesWritten();
+    }
+}
+
 void FFmpegProcess::writeFrame(QImage image, int numFrames){
     //use QBuffer to convert the image to PNG data
     QByteArray data;

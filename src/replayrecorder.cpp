@@ -111,6 +111,10 @@ void ReplayRecorder::record(QString fileName){
 
     //render the solving frames
     for(int frame=2; frame<=numFrames-1; frame++){
+        if(ffmpeg->bytesToWrite() > 10000000){
+            ffmpeg->flush();
+        }
+
         //before rendering each frame, check if we need to abort the render
         if(shouldAbort){
             //re-enable the cube signals
