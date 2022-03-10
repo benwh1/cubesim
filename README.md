@@ -10,7 +10,7 @@ A Rubik's Cube simulator inspired by Michael Gottlieb's [isocubesim](https://mzr
 
 ## Download
 
-[Here](http://benwh.000webhostapp.com/software/cubesim/).
+v1.4: [Windows](https://www.mediafire.com/file/sgjrreomune1jhz/cubesim_v1.4.zip/file), [Linux](https://www.mediafire.com/file/ilalrebsdj0l83c/cubesim_v1.4.zip/file)
 
 ## Build
 
